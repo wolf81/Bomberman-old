@@ -97,7 +97,48 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         if self.previousUpdateTime < 0 {
             self.previousUpdateTime = currentTime
         }
+
+        // Add new entities (e.g. dropped bombs) and remove destroyed entities (e.g. killed monsters)
+        updateEntities()
+
+        let deltaTime = currentTime - self.previousUpdateTime;
+        self.timeRemaining -= deltaTime
+        self.previousUpdateTime = currentTime;
         
+        // Update player movement, monster movement, state machines ...
+        updateComponentSystems(deltaTime)
+        
+        // when all players are dead or monsters are dead, finish game appropriately.
+        if levelFinished() {
+            self.removeAllEntities()
+            self.gameScene!.levelFinished(self.level!)
+        }
+        
+        if self.timeRemaining > 0 {
+            self.gameScene?.updateTimeRemaining(self.timeRemaining)
+        } else if !self.timerFinished {
+            self.timerFinished = true
+            accelerateMonsters()
+        }
+    }
+    
+    private func accelerateMonsters() {
+        for creature in self.creatures {
+            if creature is Monster {
+                if let visualComponent = creature.componentForClass(VisualComponent) {
+                    visualComponent.spriteNode.speed *= 1.6
+                }
+            }
+        }
+    }
+    
+    private func updateComponentSystems(deltaTime: NSTimeInterval) {
+        self.cpuControlSystem.updateWithDeltaTime(deltaTime)
+        self.playerControlSystem.updateWithDeltaTime(deltaTime)
+        self.stateMachineSystem.updateWithDeltaTime(deltaTime)
+    }
+    
+    private func updateEntities() {
         for entity in self.entitiesToRemove {
             switch entity {
             case is Explosion: self.explosions.remove(entity as! Explosion)
@@ -108,7 +149,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             case is Prop: self.props.remove(entity as! Prop)
             default: print("unhandled entity type for instance: \(entity)")
             }
-
+            
             if let visualComponent = entity.componentForClass(VisualComponent) {
                 visualComponent.spriteNode.removeFromParent()
             }
@@ -142,41 +183,32 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             self.stateMachineSystem.addComponentWithEntity(entity)
         }
         self.entitiesToAdd.removeAll()
-
-        let deltaTime = currentTime - self.previousUpdateTime;
-        self.timeRemaining -= deltaTime
-        self.previousUpdateTime = currentTime;
+    }
+    
+    private func levelFinished() -> Bool {
+        var levelFinished = true
         
-        self.cpuControlSystem.updateWithDeltaTime(deltaTime)
-        self.playerControlSystem.updateWithDeltaTime(deltaTime)
-        self.stateMachineSystem.updateWithDeltaTime(deltaTime)
+        let isPlayerAlive = !self.player1!.isDestroyed || !self.player2!.isDestroyed
         
-        // TODO: probably killing for performance - perhaps put players in different array from monsters? 
-        //  Destroy check would be easier.
-        var monsterCount = 0
-        for creature in self.creatures {
-            if creature.isKindOfClass(Monster) {
-                monsterCount += 1
-            }
-        }
-        if monsterCount == 0 {
-            self.tiles.removeAll()
-            self.gameScene!.levelFinished(self.level!)
-        }
-        
-        if self.timeRemaining > 0 {
-            self.gameScene?.updateTimeRemaining(self.timeRemaining)
-        } else if !self.timerFinished {
-            self.timerFinished = true
-            
+        if isPlayerAlive {
             for creature in self.creatures {
-                if creature is Monster {
-                    if let visualComponent = creature.componentForClass(VisualComponent) {
-                        visualComponent.spriteNode.speed *= 1.6
-                    }
+                if creature.isKindOfClass(Monster) {
+                    levelFinished = false
+                    break
                 }
             }
         }
+        
+        return levelFinished
+    }
+    
+    private func removeAllEntities() {
+        self.creatures.removeAll()
+        self.props.removeAll()
+        self.bombs.removeAll()
+        self.explosions.removeAll()
+        self.tiles.removeAll()
+        self.projectiles.removeAll()
     }
     
     func tileAtGridPosition(gridPosition: Point) -> Tile? {
