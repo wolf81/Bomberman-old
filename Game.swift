@@ -99,7 +99,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         }
 
         // Add new entities (e.g. dropped bombs) and remove destroyed entities (e.g. killed monsters)
-        updateEntities()
+        updateEntityLists()
 
         let deltaTime = currentTime - self.previousUpdateTime;
         self.timeRemaining -= deltaTime
@@ -138,7 +138,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.stateMachineSystem.updateWithDeltaTime(deltaTime)
     }
     
-    private func updateEntities() {
+    private func updateEntityLists() {
         for entity in self.entitiesToRemove {
             switch entity {
             case is Explosion: self.explosions.remove(entity as! Explosion)
@@ -247,12 +247,6 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
                     let gridPosition = Point(x: x, y: y)
                     if let tile = level.tileAtGridPosition(gridPosition) {
                         addEntity(tile)
-                        
-                        // HACK, because tile loading uses different path compared to entity loading
-                        if tile.tileType == .DestructableBlock {
-                            let stateMachineComponent = StateMachineComponent(game: self, entity: tile, states: [SpawnState(), DestroyState()])
-                            tile.addComponent(stateMachineComponent)
-                        }
                     }
                     
                     if let prop = level.propAtGridPosition(gridPosition) {
@@ -261,16 +255,6 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
                     
                     if let creature = level.creatureAtGridPosition(gridPosition) {
                         addEntity(creature)
-                        
-                        if let player = creature as? Player {
-                            switch player.index {
-                            case .Player1: self.player1 = player
-                            case .Player2: self.player2 = player
-                            }
-                            
-                            self.gameScene?.updatePlayer(player.index, setLives: player.lives)
-                            self.gameScene?.updatePlayer(player.index, setHealth: player.health)
-                        }                        
                     }
                 }
             }
@@ -380,6 +364,24 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     
     func addEntity(entity: Entity) {
         self.entitiesToAdd.append(entity)
+        
+        if let tile = entity as? Tile {
+            // HACK, because tile loading uses different path compared to entity loading
+            if tile.tileType == .DestructableBlock {
+                let stateMachineComponent = StateMachineComponent(game: self, entity: tile, states: [SpawnState(), DestroyState()])
+                tile.addComponent(stateMachineComponent)
+            }
+        } else if let player = entity as? Player {
+            switch player.index {
+            case .Player1: self.player1 = player
+            case .Player2: self.player2 = player
+            }
+            
+            if let gameScene = self.gameScene {
+                gameScene.updatePlayer(player.index, setLives: player.lives)
+                gameScene.updatePlayer(player.index, setHealth: player.health)
+            }
+        }
     }
     
     func removeEntity(entity: Entity) {
