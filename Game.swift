@@ -349,14 +349,11 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         default: break
         }
         
-        var idx = 0
-        for gridPosition in gridPositions {
+        for (index, gridPosition) in gridPositions.enumerate() {
             if tileAtGridPosition(gridPosition) != nil {
-                gridPositions.removeRange(idx ..< gridPositions.count)
+                gridPositions.removeRange(index ..< gridPositions.count)
                 break
             }
-            
-            idx += 1
         }
         
         return gridPositions
@@ -366,7 +363,8 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.entitiesToAdd.append(entity)
         
         if let tile = entity as? Tile {
-            // HACK, because tile loading uses different path compared to entity loading
+            // TODO (workaround): because tile loading uses different path compared to entity 
+            //  loading and we still need to add a state machine.
             if tile.tileType == .DestructableBlock {
                 let stateMachineComponent = StateMachineComponent(game: self, entity: tile, states: [SpawnState(), DestroyState()])
                 tile.addComponent(stateMachineComponent)

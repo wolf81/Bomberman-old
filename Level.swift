@@ -139,9 +139,8 @@ extension Level {
 
             var rowIndex = 0
             var colIndex = 0
-            var index = 0
             
-            for jsonObject in jsonArray {
+            for (index, jsonObject) in jsonArray.enumerate() {
                 colIndex = index % self.width
                 rowIndex = (self.height - 1) - (index / self.width)
                 
@@ -163,8 +162,6 @@ extension Level {
                     self.creatures.append(nil)
                     self.props.append(nil)
                 }
-                
-                index += 1
             }
         }
     }
