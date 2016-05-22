@@ -40,13 +40,8 @@ class CreatureLoader: DataLoader {
         let subDirectory = "Creatures/\(name)"
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            if let jsonData = fileManager.contentsAtPath(path) {
-                let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
-                print(json)
-                
-                let configComponent = ConfigComponent(json: json as! [String: AnyObject])
-                entity = Player(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, playerIndex: index)
-            }
+            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath: path))
+            entity = Player(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, playerIndex: index)
         } else {
             // TODO: make error
             print("could not load entity config file: \(name)/\(configFile)")
