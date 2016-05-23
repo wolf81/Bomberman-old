@@ -25,7 +25,7 @@ class VisualComponent: GKComponent {
             sprite.physicsBody = SKPhysicsBody(texture: texture, alphaThreshold: 0.0, size: size)
         } else {
             sprite = SpriteNode(color: SKColor.redColor(), size: size)
-            sprite.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
+            sprite.physicsBody = SKPhysicsBody(rectangleOfSize: size)
         }
 
         sprite.zPosition = 1

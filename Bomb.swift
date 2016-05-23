@@ -17,8 +17,8 @@ class Bomb: Entity {
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = propCategory
-                physicsBody.contactTestBitMask = 0
-                physicsBody.collisionBitMask = 0
+                physicsBody.contactTestBitMask = nothingCategory
+                physicsBody.collisionBitMask = nothingCategory
             }
         }
     }

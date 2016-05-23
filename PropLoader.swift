@@ -16,15 +16,8 @@ class PropLoader: DataLoader {
         let subDirectory = "Props/\(name)"
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            if let jsonData = fileManager.contentsAtPath(path) {
-                let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
-                print(json)
-                
-                let configComponent = ConfigComponent(json: json as! [String: AnyObject])
-                entity = Tile(gridPosition: gridPosition, configComponent: configComponent)
-                
-                // Creature(forGame: self.game, configComponent: configComponent)
-            }
+            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+            entity = Tile(gridPosition: gridPosition, configComponent: configComponent)
         } else {
             // TODO: make error
             print("could not load entity config file: \(name)/\(configFile)")
@@ -40,27 +33,22 @@ class PropLoader: DataLoader {
         let subDirectory = "Props/Explosion"
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            if let jsonData = fileManager.contentsAtPath(path) {
-                let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
-                
-                let configComponent = ConfigComponent(json: json as! [String: AnyObject])
-                
-                switch direction {
-                case .North: configComponent.updateDestroyAnimRange(configComponent.explodeVerticalAnimRange)
-                case .South: configComponent.updateDestroyAnimRange(configComponent.explodeVerticalAnimRange)
-                case .East: configComponent.updateDestroyAnimRange(configComponent.explodeHorizontalAnimRange)
-                case .West: configComponent.updateDestroyAnimRange(configComponent.explodeHorizontalAnimRange)
-                default: configComponent.updateDestroyAnimRange(configComponent.explodeCenterAnimRange)
-                }
-                
-                explosion = Explosion(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
+            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+            
+            switch direction {
+            case .North: configComponent.updateDestroyAnimRange(configComponent.explodeVerticalAnimRange)
+            case .South: configComponent.updateDestroyAnimRange(configComponent.explodeVerticalAnimRange)
+            case .East: configComponent.updateDestroyAnimRange(configComponent.explodeHorizontalAnimRange)
+            case .West: configComponent.updateDestroyAnimRange(configComponent.explodeHorizontalAnimRange)
+            default: configComponent.updateDestroyAnimRange(configComponent.explodeCenterAnimRange)
             }
+            
+            explosion = Explosion(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
             // TODO: make error
             print("could not load entity config file: Bomb\(configFile)")
         }
 
-        
         return explosion
     }
     
@@ -71,12 +59,8 @@ class PropLoader: DataLoader {
         let subDirectory = "Props/Bomb"
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            if let jsonData = fileManager.contentsAtPath(path) {
-                let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
-                
-                let configComponent = ConfigComponent(json: json as! [String: AnyObject])
-                bomb = Bomb(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
-            }
+            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+            bomb = Bomb(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
             // TODO: make error
             print("could not load entity config file: Bomb\(configFile)")
@@ -92,12 +76,8 @@ class PropLoader: DataLoader {
         let subDirectory = "Props/\(name)"
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            if let jsonData = fileManager.contentsAtPath(path) {
-                let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
-                
-                let configComponent = ConfigComponent(json: json as! [String: AnyObject])
-                projectile = Projectile(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
-            }
+            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+            projectile = Projectile(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
             // TODO: make error
             print("could not load entity config file: Bomb\(configFile)")
@@ -113,12 +93,8 @@ class PropLoader: DataLoader {
         let subDirectory = "Props/\(propName)"
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            if let jsonData = fileManager.contentsAtPath(path) {
-                let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
-                
-                let configComponent = ConfigComponent(json: json as! [String: AnyObject])
-                prop = Prop(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
-            }
+            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+            prop = Prop(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
             // TODO: make error
             print("could not load entity config file: \(propName)/\(configFile)")

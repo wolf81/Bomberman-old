@@ -22,7 +22,7 @@ class Player: Creature {
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = playerCategory
                 physicsBody.contactTestBitMask = playerCategory
-                physicsBody.collisionBitMask = 0
+                physicsBody.collisionBitMask = nothingCategory
             }
         }
         

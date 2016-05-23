@@ -13,6 +13,7 @@ let playerCategory      : UInt32 = 0x1 << 1
 let tileCategory        : UInt32 = 0x1 << 2
 let projectileCategory  : UInt32 = 0x1 << 3
 let propCategory        : UInt32 = 0x1 << 4
+let nothingCategory     : UInt32 = 0x1 << 5
 
 @objc public enum PlayerAction: Int {
     case None

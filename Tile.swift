@@ -13,25 +13,30 @@ class Tile: Entity {
     var tileType = TileType.None
     
     convenience init(gridPosition: Point, configComponent: ConfigComponent) {
-        let texture = SKTexture(imageNamed: configComponent.textureFile)
-        let sprites = SpriteLoader.spritesFromTexture(texture, withSpriteSize: configComponent.spriteSize)
-        let visualComponent = VisualComponent(sprites: sprites)
+        // TODO: make more safe, currently will crash if no config exists.
+        let basePath = configComponent.configFilePath!
+        let filePath = basePath.stringByAppendingPathComponent(configComponent.textureFile)
+        let imageData = NSData(contentsOfFile: filePath)
+        let image = Image(data: imageData!)
+        let texture = SKTexture(image: image!)
         
-        visualComponent.spriteNode.zPosition = 20
+        let sprites = SpriteLoader.spritesFromTexture(texture, withSpriteSize: configComponent.spriteSize)
+        let visualComponent = VisualComponent(sprites: sprites)        
         
         self.init(gridPosition: gridPosition, visualComponent: visualComponent)
         
         addComponent(configComponent)
-                        
-        self.gridPosition = gridPosition
     }
     
     init(gridPosition: Point, visualComponent: VisualComponent) {        
         super.init(visualComponent: visualComponent)
-        
+
+        visualComponent.spriteNode.zPosition = 20
+
         if let physicsBody = visualComponent.spriteNode.physicsBody {
             physicsBody.categoryBitMask = tileCategory
-            physicsBody.collisionBitMask = 0
+            physicsBody.collisionBitMask = nothingCategory
+            physicsBody.contactTestBitMask = nothingCategory
         }
         
         self.gridPosition = gridPosition

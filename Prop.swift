@@ -17,7 +17,7 @@ class Prop: Entity {
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = propCategory
-                physicsBody.collisionBitMask = 0
+                physicsBody.collisionBitMask = nothingCategory
                 physicsBody.contactTestBitMask = playerCategory
             }
         }

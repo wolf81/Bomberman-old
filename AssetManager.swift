@@ -30,7 +30,7 @@ class AssetManager: NSObject {
         request.HTTPMethod = "HEAD"
 
         let sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        sessionConfiguration.timeoutIntervalForResource = 2
+        sessionConfiguration.timeoutIntervalForResource = 5
         let session = NSURLSession(configuration: sessionConfiguration)
         
         let (data, response, error) = session.synchronousDataTaskWithRequest(request)

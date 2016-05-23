@@ -20,8 +20,8 @@ class Monster: Creature {
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = monsterCategory
-                physicsBody.collisionBitMask = 0
-                physicsBody.contactTestBitMask = 0
+                physicsBody.collisionBitMask = nothingCategory
+                physicsBody.contactTestBitMask = nothingCategory
             }
         }
     }
