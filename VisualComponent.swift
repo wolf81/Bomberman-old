@@ -23,11 +23,18 @@ class VisualComponent: GKComponent {
         if let texture = sprites.first {
             sprite = SpriteNode(texture: texture, size: size)
             sprite.physicsBody = SKPhysicsBody(texture: texture, alphaThreshold: 0.0, size: size)
+
+            // TODO: For images with a lot of alpha, the resulting physics body might be to small
+            //  to notice contact. In that situation, create a custom body. Perhaps this should be 
+            //  done from config file instead.
+            if sprite.physicsBody?.area < 0.1 {
+                sprite.physicsBody = SKPhysicsBody(circleOfRadius: 0.6)
+            }
         } else {
             sprite = SpriteNode(color: SKColor.redColor(), size: size)
             sprite.physicsBody = SKPhysicsBody(rectangleOfSize: size)
         }
-
+        
         sprite.zPosition = 1
         
         self.spriteNode = sprite
