@@ -10,7 +10,7 @@ import GameplayKit
 import SpriteKit
 
 class Tile: Entity {
-    var tileType = TileType.None
+    let tileType: TileType
     
     convenience init(gridPosition: Point, configComponent: ConfigComponent, tileType: TileType) {
         // TODO: make more safe, currently will crash if no config exists.
@@ -29,6 +29,8 @@ class Tile: Entity {
     }
     
     init(gridPosition: Point, visualComponent: VisualComponent, tileType: TileType) {
+        self.tileType = tileType
+
         super.init(visualComponent: visualComponent)
 
         visualComponent.spriteNode.zPosition = 20
@@ -40,6 +42,5 @@ class Tile: Entity {
         }
         
         self.gridPosition = gridPosition
-        self.tileType = tileType
     }
 }
