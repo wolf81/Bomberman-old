@@ -64,7 +64,7 @@ class AssetManager: NSObject {
         defaults.synchronize()
     }
     
-    func loadAssets(assetsSourceURL: NSURL, completion: (succes: Bool, error: NSError) -> Void) throws {
+    func loadAssets(assetsSourceURL: NSURL, completion: (succes: Bool, error: NSError?) -> Void) throws {
         let fileManager = NSFileManager.defaultManager()
        
         // Create the bundle support directory path if needed.
@@ -75,7 +75,7 @@ class AssetManager: NSObject {
         // Create the destination download URL for the assets zip file.
         let assetsDestinationURL = NSURL(fileURLWithPath: destinationDirectoryPath.stringByAppendingPathComponent(self.filename))
 
-        NSURLSession.sharedSession().dataTaskWithURL(assetsSourceURL) { (data, response, error) in
+        let task = NSURLSession.sharedSession().dataTaskWithURL(assetsSourceURL) { (data, response, error) in
             guard
                 let httpResponse = response as? NSHTTPURLResponse where httpResponse.statusCode == 200,
                 let data = data where error == nil
@@ -92,6 +92,9 @@ class AssetManager: NSObject {
             } catch let error {
                 print("error: \(error)")
             }
+            
+            completion(succes: true, error: nil)
         }
+        task.resume()
     }
 }

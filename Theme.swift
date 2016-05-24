@@ -9,42 +9,53 @@
 import SpriteKit
 
 class Theme {
-    private(set) var floorTile: SKTexture
-    
-    private(set) var topWallTile: SKTexture
-    private(set) var bottomWallTile: SKTexture
-    private(set) var leftWallTile: SKTexture
-    private(set) var rightWallTile: SKTexture
+    private(set) var configFilePath: String?
 
-    private(set) var topLeftCornerTile: SKTexture
-    private(set) var topRightCornerTile: SKTexture
-    private(set) var bottomLeftCornerTile: SKTexture
-    private(set) var bottomRightCornerTile: SKTexture
+    private(set) var floorTile: String?
+    
+    private(set) var topWallTile: SKTexture?
+    private(set) var bottomWallTile: SKTexture?
+    private(set) var leftWallTile: SKTexture?
+    private(set) var rightWallTile: SKTexture?
+
+    private(set) var topLeftCornerTile: SKTexture?
+    private(set) var topRightCornerTile: SKTexture?
+    private(set) var bottomLeftCornerTile: SKTexture?
+    private(set) var bottomRightCornerTile: SKTexture?
     
     private(set) var breakableBlockPropName: String?
     private(set) var unbreakableBlockPropName: String?
     
+    convenience init(configFileUrl: NSURL) throws {
+        let fileManager = NSFileManager.defaultManager()
+        
+        var json = [String: AnyObject]()
+        
+        if let jsonData = fileManager.contentsAtPath(configFileUrl.path!) {
+            do {
+                json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: []) as! [String: AnyObject]
+            } catch let error as  NSError {
+                print("error: \(error)")
+            }
+        }
+        
+        self.init(json: json)
+        
+        self.configFilePath = configFileUrl.URLByDeletingLastPathComponent?.path
+    }
+
     init(json: [String: AnyObject]) {
         // floorTiles.sprite.atlas / width / height
-
-        var floorTile: SKTexture?
+        var floorTile: String?
         
         if let floorTilesDict = json["floorTiles"] as! [String: AnyObject]? {
             if let spriteDict = floorTilesDict["sprite"] as! [String: AnyObject]? {
-                if let atlasName = spriteDict["atlas"] as! String? {
-                    floorTile = SKTexture(imageNamed: atlasName)
-                }
+                floorTile = spriteDict["atlas"] as! String?
             }
-        }
-
-        if floorTile == nil {
-            let image = Image.imageWithColor(SKColor.blueColor(), size: CGSizeMake(32, 32))
-            floorTile = SKTexture(CGImage: image.CGImage!)
         }
         
         self.floorTile = floorTile!
 
-        
         var borderTexture: SKTexture?
         
         if let borderTilesDict = json["borderTiles"] as! [String: AnyObject]? {
@@ -68,21 +79,6 @@ class Theme {
             self.topRightCornerTile = borderSprites[6]
             self.bottomRightCornerTile = borderSprites[5]
             self.bottomLeftCornerTile = borderSprites[4]
-        } else {
-            let image = Image.imageWithColor(SKColor.blueColor(), size: CGSizeMake(32, 32))
-            let texture = SKTexture(CGImage: image.CGImage!)
-            
-            self.floorTile = texture
-            
-            self.leftWallTile = texture
-            self.rightWallTile = texture
-            self.topWallTile = texture
-            self.bottomWallTile = texture
-            
-            self.topLeftCornerTile = texture
-            self.topRightCornerTile = texture
-            self.bottomRightCornerTile = texture
-            self.bottomLeftCornerTile = texture
         }
         
         if let blockEntitiesJson = json["blockEntities"] as! [String: AnyObject]? {

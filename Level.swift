@@ -186,21 +186,21 @@ extension Level {
         var visualComponent: VisualComponent?
         
         if colIndex == 0 && rowIndex == 0 {
-            visualComponent = VisualComponent(sprites: [self.theme.bottomLeftCornerTile])
+            visualComponent = VisualComponent(sprites: [self.theme.bottomLeftCornerTile!])
         } else if colIndex == (self.width - 1) && rowIndex == 0 {
-            visualComponent = VisualComponent(sprites: [self.theme.bottomRightCornerTile])
+            visualComponent = VisualComponent(sprites: [self.theme.bottomRightCornerTile!])
         } else if colIndex == 0 && rowIndex == (self.height - 1) {
-            visualComponent = VisualComponent(sprites: [self.theme.topLeftCornerTile])
+            visualComponent = VisualComponent(sprites: [self.theme.topLeftCornerTile!])
         } else if colIndex == (self.width - 1) && rowIndex == (self.height - 1) {
-            visualComponent = VisualComponent(sprites: [self.theme.topRightCornerTile])
+            visualComponent = VisualComponent(sprites: [self.theme.topRightCornerTile!])
         } else if colIndex == 0 && (0 ..< self.height ~= rowIndex) {
-            visualComponent = VisualComponent(sprites: [self.theme.leftWallTile])
+            visualComponent = VisualComponent(sprites: [self.theme.leftWallTile!])
         } else if colIndex == (self.width - 1) && (0 ..< self.height ~= rowIndex) {
-            visualComponent = VisualComponent(sprites: [self.theme.rightWallTile])
+            visualComponent = VisualComponent(sprites: [self.theme.rightWallTile!])
         } else if rowIndex == 0 && (1 ..< (self.width - 1) ~= colIndex) {
-            visualComponent = VisualComponent(sprites: [self.theme.bottomWallTile])
+            visualComponent = VisualComponent(sprites: [self.theme.bottomWallTile!])
         } else if rowIndex == (self.height - 1) && (1 ..< (self.width - 1) ~= colIndex) {
-            visualComponent = VisualComponent(sprites: [self.theme.topWallTile])
+            visualComponent = VisualComponent(sprites: [self.theme.topWallTile!])
         }
         
         let gridPosition = Point(x: colIndex, y: rowIndex)

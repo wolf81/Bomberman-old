@@ -16,12 +16,7 @@ class ThemeLoader: DataLoader {
         let subDirectory = "Themes/\(name)"
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            if let jsonData = fileManager.contentsAtPath(path) {
-                let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
-                print(json)
-                
-                theme = Theme(json: json as! [String: AnyObject])
-            }
+            theme = try Theme(configFileUrl: NSURL(fileURLWithPath: path))
         } else {
             // TODO: make error
             print("could not load entity config file: \(name)/\(configFile)")
