@@ -49,11 +49,7 @@ class Level : NSObject {
         super.init()
 
         if let layoutJson = json["layout"] {
-            do {
-                try parseLayout(layoutJson)
-            } catch let error {
-                print("error: \(error)")
-            }
+            try parseLayout(layoutJson)
         }
         
         if let timerJson = json["timer"] as? NSTimeInterval {
@@ -61,27 +57,15 @@ class Level : NSObject {
         }
         
         if let monstersJson = json["monsters"] as? [String: AnyObject] {
-            do {
-                try parseMonsters(forGame: game, json: monstersJson)
-            } catch let error {
-                print("error: \(error)")
-            }
+            try parseMonsters(forGame: game, json: monstersJson)
         }
         
         if let propsJson = json["props"] as? [String: AnyObject] {
-            do {
-                try parseProps(forGame: game, json: propsJson)
-            } catch let error {
-                print("error: \(error)")
-            }
+            try parseProps(forGame: game, json: propsJson)
         }
         
         if let playersJson = json["players"] as? [String: AnyObject] {
-            do {
-                try parsePlayers(forGame: game, json: playersJson)
-            } catch let error {
-                print("error: \(error)")
-            }
+            try parsePlayers(forGame: game, json: playersJson)
         }
     }
     
