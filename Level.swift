@@ -149,7 +149,7 @@ extension Level {
                     if let tileType = TileType(rawValue: jsonNumber.integerValue) {
                         switch tileType {
                         case .Border:
-                            tile = tileForBorderAtRow(rowIndex, column: colIndex)
+                            tile = try tileForBorderAtRow(rowIndex, column: colIndex)
                         case .DestructableBlock: fallthrough
                         case .IndestructableBlock:
                             tile = try tileForBlockAtRow(rowIndex, column: colIndex, withType: tileType)
@@ -179,45 +179,34 @@ extension Level {
         return tile
     }
     
-    private func tileForBorderAtRow(rowIndex: Int, column colIndex: Int) -> Tile? {
+    private func tileForBorderAtRow(rowIndex: Int, column colIndex: Int) throws -> Tile? {
         let textureLoader = ThemeTextureLoader(forGame: self.game)
         
-        var tile: Tile?
-
-        var visualComponent: VisualComponent?
+        var wallTextureType = WallTextureType.TopLeft
         
         if colIndex == 0 && rowIndex == 0 {
-            let texture = try! textureLoader.wallTextureForTheme(self.theme, type: .BottomLeft)
-            visualComponent = VisualComponent(sprites: [texture])
+            wallTextureType = .BottomLeft
         } else if colIndex == (self.width - 1) && rowIndex == 0 {
-            let texture = try! textureLoader.wallTextureForTheme(self.theme, type: .BottomRight)
-            visualComponent = VisualComponent(sprites: [texture])
+            wallTextureType = .BottomRight
         } else if colIndex == 0 && rowIndex == (self.height - 1) {
-            let texture = try! textureLoader.wallTextureForTheme(self.theme, type: .TopLeft)
-            visualComponent = VisualComponent(sprites: [texture])
+            wallTextureType = .TopLeft
         } else if colIndex == (self.width - 1) && rowIndex == (self.height - 1) {
-            let texture = try! textureLoader.wallTextureForTheme(self.theme, type: .TopRight)
-            visualComponent = VisualComponent(sprites: [texture])
+            wallTextureType = .TopRight
         } else if colIndex == 0 && (0 ..< self.height ~= rowIndex) {
-            let texture = try! textureLoader.wallTextureForTheme(self.theme, type: .Left)
-            visualComponent = VisualComponent(sprites: [texture])
+            wallTextureType = .Left
         } else if colIndex == (self.width - 1) && (0 ..< self.height ~= rowIndex) {
-            let texture = try! textureLoader.wallTextureForTheme(self.theme, type: .Right)
-            visualComponent = VisualComponent(sprites: [texture])
+            wallTextureType = .Right
         } else if rowIndex == 0 && (1 ..< (self.width - 1) ~= colIndex) {
-            let texture = try! textureLoader.wallTextureForTheme(self.theme, type: .Bottom)
-            visualComponent = VisualComponent(sprites: [texture])
+            wallTextureType = .Bottom
         } else if rowIndex == (self.height - 1) && (1 ..< (self.width - 1) ~= colIndex) {
-            let texture = try! textureLoader.wallTextureForTheme(self.theme, type: .Top)
-            visualComponent = VisualComponent(sprites: [texture])
+            wallTextureType = .Top
         }
-        
-        let gridPosition = Point(x: colIndex, y: rowIndex)
-        
-        if visualComponent != nil {        
-            tile = Tile(gridPosition: gridPosition, visualComponent: visualComponent!)
-            tile!.tileType = .Border
-        }
+               
+        let texture = try textureLoader.wallTextureForTheme(self.theme, type: wallTextureType)
+        let visualComponent = VisualComponent(sprites: [texture])
+        let gridPosition = Point(x: colIndex, y: rowIndex)        
+        let tile = Tile(gridPosition: gridPosition, visualComponent: visualComponent)
+        tile.tileType = .Border
         
         return tile
     }
