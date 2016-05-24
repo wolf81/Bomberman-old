@@ -81,8 +81,6 @@
 		794ADDF51CD09699000AF170 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADDE61CD076CA000AF170 /* Entity.swift */; };
 		794ADDFE1CD0A66E000AF170 /* SpriteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADDFD1CD0A66E000AF170 /* SpriteLoader.swift */; };
 		794ADDFF1CD0A66E000AF170 /* SpriteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADDFD1CD0A66E000AF170 /* SpriteLoader.swift */; };
-		794ADE0D1CD1CD9F000AF170 /* borders.png in Resources */ = {isa = PBXBuildFile; fileRef = 794ADE0A1CD1CD9F000AF170 /* borders.png */; };
-		794ADE0E1CD1CD9F000AF170 /* borders.png in Resources */ = {isa = PBXBuildFile; fileRef = 794ADE0A1CD1CD9F000AF170 /* borders.png */; };
 		794ADE131CD1D2EA000AF170 /* ThemeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADE121CD1D2EA000AF170 /* ThemeLoader.swift */; };
 		794ADE141CD1D2EA000AF170 /* ThemeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADE121CD1D2EA000AF170 /* ThemeLoader.swift */; };
 		794ADE171CD1D315000AF170 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADE161CD1D315000AF170 /* Theme.swift */; };
@@ -177,7 +175,6 @@
 		794ADDEF1CD08912000AF170 /* CreatureLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatureLoader.swift; sourceTree = "<group>"; };
 		794ADDF21CD09026000AF170 /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		794ADDFD1CD0A66E000AF170 /* SpriteLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteLoader.swift; sourceTree = "<group>"; };
-		794ADE0A1CD1CD9F000AF170 /* borders.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = borders.png; sourceTree = "<group>"; };
 		794ADE121CD1D2EA000AF170 /* ThemeLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeLoader.swift; sourceTree = "<group>"; };
 		794ADE161CD1D315000AF170 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		794ADE1A1CD1E4A5000AF170 /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
@@ -372,7 +369,6 @@
 				7902B0AE1CDC82B500298CAC /* Player 2 Head.png */,
 				7902B0AA1CDC828700298CAC /* Heart Icons.png */,
 				7902B0A71CDB43DC00298CAC /* Panel.png */,
-				794ADE0A1CD1CD9F000AF170 /* borders.png */,
 				7947BC221CCB5BCA00DE7C8A /* GameController.framework */,
 				79FC6BB21CCA47C300DF7476 /* Bomberman */,
 				79FC6B851CCA2B9000DF7476 /* Bomberman-OSX */,
@@ -530,7 +526,6 @@
 				79FC6B8D1CCA2B9100DF7476 /* Assets.xcassets in Resources */,
 				7902B0B11CDC82B500298CAC /* Player 2 Head.png in Resources */,
 				7902B0B41CDC82CB00298CAC /* Shield.png in Resources */,
-				794ADE0D1CD1CD9F000AF170 /* borders.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,7 +542,6 @@
 				79FC6BA91CCA2B9C00DF7476 /* Assets.xcassets in Resources */,
 				7902B0B21CDC82B500298CAC /* Player 2 Head.png in Resources */,
 				7902B0B51CDC82CB00298CAC /* Shield.png in Resources */,
-				794ADE0E1CD1CD9F000AF170 /* borders.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

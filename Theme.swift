@@ -11,7 +11,8 @@ import SpriteKit
 class Theme {
     private(set) var configFilePath: String?
 
-    private(set) var floorTile: String?
+    private(set) var floorTilePath: String?
+    private(set) var wallTilesPath: String?
     
     private(set) var topWallTile: SKTexture?
     private(set) var bottomWallTile: SKTexture?
@@ -54,13 +55,14 @@ class Theme {
             }
         }
         
-        self.floorTile = floorTile!
+        self.floorTilePath = floorTile!
 
         var borderTexture: SKTexture?
         
         if let borderTilesDict = json["borderTiles"] as! [String: AnyObject]? {
             if let spriteDict = borderTilesDict["sprite"] as! [String: AnyObject]? {
                 if let atlasName = spriteDict["atlas"] as! String? {
+                    wallTilesPath = atlasName
                     borderTexture = SKTexture(imageNamed: atlasName)
                 }
             }
