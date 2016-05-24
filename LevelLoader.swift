@@ -15,13 +15,9 @@ class LevelLoader: DataLoader {
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: "Levels") {
             if let jsonData = fileManager.contentsAtPath(path) {
-                do {
-                    let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
-                    levelData = Level(game: game, levelIndex: levelIndex, json: json as! NSDictionary)
-                    print("\(json)")
-                } catch let error as  NSError {
-                    print("error: \(error)")
-                }
+                let json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
+                levelData = try Level(game: game, levelIndex: levelIndex, json: json as! NSDictionary)
+                print("\(json)")
             }
         } else {
             // TODO: make error

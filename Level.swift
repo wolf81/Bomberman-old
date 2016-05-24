@@ -11,6 +11,10 @@ import GameplayKit
 import CoreGraphics
 import SpriteKit
 
+enum LevelError: ErrorType {
+    case FailedLoadingTheme(fromJson: NSDictionary)
+}
+
 class Level : NSObject {
     let index: Int
 
@@ -29,23 +33,18 @@ class Level : NSObject {
     private(set) var player2: Player?
     private(set) var game: Game
     
-    init(game: Game, levelIndex: Int, json: NSDictionary) {
+    init(game: Game, levelIndex: Int, json: NSDictionary) throws {
         self.game = game
         self.index = levelIndex
         
-        var theme: Theme?
+        let themeParser = ThemeLoader(forGame: game)
         
-        if let themeName = json.valueForKey("theme") as? String {
-            let themeParser = ThemeLoader(forGame: game)
-            
-            do {
-                theme = try themeParser.themeWithName(themeName)!
-            } catch let error {
-                print("error: \(error)")
-            }
+        guard let themeName = json.valueForKey("theme") as? String,
+            let theme = try themeParser.themeWithName(themeName) else {
+                throw LevelError.FailedLoadingTheme(fromJson: json)
         }
         
-        self.theme = theme ?? Theme(json: [String: AnyObject]())
+        self.theme = theme
         
         super.init()
 
@@ -181,7 +180,7 @@ extension Level {
     }
     
     private func tileForBorderAtRow(rowIndex: Int, column colIndex: Int) -> Tile? {
-        let textureLoader = TextureLoader(forGame: self.game)
+        let textureLoader = ThemeTextureLoader(forGame: self.game)
         
         var tile: Tile?
 

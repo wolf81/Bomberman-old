@@ -8,28 +8,47 @@
 
 import SpriteKit
 
+enum ThemeTextureLoaderError: ErrorType {
+    case UndefinedWallTileForTheme(theme: Theme)
+    case InvalidTextureCountError(expectedCount: Int, textureCount: Int)
+    case FailedLoadingDataAtURL(fileUrl: NSURL)
+}
+
+// We use the rawType as the index to the texture.
 enum WallTextureType: Int {
     case Left = 0
     case Right = 1
     case Top = 2
     case Bottom = 3
-    case TopLeft = 4
-    case TopRight = 5
-    case BottomRight = 6
-    case BottomLeft = 7
+    case BottomLeft = 4
+    case BottomRight = 5
+    case TopRight = 6
+    case TopLeft = 7
 }
 
-class TextureLoader: DataLoader {
+class ThemeTextureLoader: DataLoader {
     func wallTextureForTheme(theme: Theme, type: WallTextureType) throws -> SKTexture {
         var sprites: [SKTexture] = [SKTexture]()
         
-        if let textureName = theme.wallTilesPath {
-            let path = theme.configFilePath!.stringByAppendingPathComponent(textureName);
-            let fileUrl = NSURL(fileURLWithPath: path)
-            let data = NSData(contentsOfURL: fileUrl)!
-            let image = Image(data: data)?.CGImage
-            let texture = SKTexture(CGImage: image!)
-            sprites = SpriteLoader.spritesFromTexture(texture, withSpriteSize: CGSize(width: 32, height: 32))
+        guard let textureName = theme.wallTilesPath else {
+            throw ThemeTextureLoaderError.UndefinedWallTileForTheme(theme: theme)
+        }
+        
+        let path = theme.configFilePath.stringByAppendingPathComponent(textureName)
+        let fileUrl = NSURL(fileURLWithPath: path)
+            
+        guard let data = NSData(contentsOfURL: fileUrl),
+            let image = Image(data: data)?.CGImage else {
+            throw ThemeTextureLoaderError.FailedLoadingDataAtURL(fileUrl: fileUrl)
+        }
+            
+        let texture = SKTexture(CGImage: image)
+        sprites = SpriteLoader.spritesFromTexture(texture, withSpriteSize: theme.wallTileSize!)
+        
+        let expectedTextureCount = 8        
+        guard sprites.count == expectedTextureCount else {
+            throw ThemeTextureLoaderError.InvalidTextureCountError(expectedCount: expectedTextureCount,
+                                                                   textureCount: sprites.count)
         }
         
         return sprites[type.rawValue]
@@ -39,7 +58,7 @@ class TextureLoader: DataLoader {
         var texture: SKTexture = SKTexture()
 
         if let textureName = theme.floorTilePath {
-            let path = theme.configFilePath!.stringByAppendingPathComponent(textureName);
+            let path = theme.configFilePath.stringByAppendingPathComponent(textureName);
             let fileUrl = NSURL(fileURLWithPath: path)
             let data = NSData(contentsOfURL: fileUrl)!
             let image = Image(data: data)?.CGImage
