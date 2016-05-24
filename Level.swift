@@ -172,8 +172,7 @@ extension Level {
         
         if let tileName = self.theme.tileNameForTileType(type) {
             let gridPosition = Point(x: colIndex, y: rowIndex)
-            tile = try propLoader.tileWithName(tileName, gridPosition: gridPosition)
-            tile?.tileType = type
+            tile = try propLoader.tileWithName(tileName, gridPosition: gridPosition, tileType: type)
         }
         
         return tile
@@ -201,12 +200,11 @@ extension Level {
         } else if rowIndex == (self.height - 1) && (1 ..< (self.width - 1) ~= colIndex) {
             wallTextureType = .Top
         }
-               
+        
         let texture = try textureLoader.wallTextureForTheme(self.theme, type: wallTextureType)
         let visualComponent = VisualComponent(sprites: [texture])
-        let gridPosition = Point(x: colIndex, y: rowIndex)        
-        let tile = Tile(gridPosition: gridPosition, visualComponent: visualComponent)
-        tile.tileType = .Border
+        let gridPosition = Point(x: colIndex, y: rowIndex)
+        let tile = Tile(gridPosition: gridPosition, visualComponent: visualComponent, tileType: .Border)
         
         return tile
     }

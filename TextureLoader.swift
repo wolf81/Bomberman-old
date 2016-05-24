@@ -68,7 +68,7 @@ class ThemeTextureLoader: DataLoader {
         return texture
     }
     
-    func tileWithName(name: String, gridPosition: Point) throws -> Tile? {
+    func tileWithName(name: String, gridPosition: Point, tileType: TileType) throws -> Tile? {
         var entity: Tile?
         
         let configFile = "config.json"
@@ -76,7 +76,7 @@ class ThemeTextureLoader: DataLoader {
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
             let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
-            entity = Tile(gridPosition: gridPosition, configComponent: configComponent)
+            entity = Tile(gridPosition: gridPosition, configComponent: configComponent, tileType: tileType)
         } else {
             // TODO: make error
             print("could not load entity config file: \(name)/\(configFile)")

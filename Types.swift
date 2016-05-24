@@ -38,10 +38,10 @@ let nothingCategory     : UInt32 = 0x1 << 5
 }
 
 public enum TileType: Int {
-    case None = 0
-    case Border
-    case DestructableBlock
-    case IndestructableBlock
+    case None                   = 0
+    case Border                 = 1
+    case DestructableBlock      = 2
+    case IndestructableBlock    = 3
 }
 
 public struct Size {

@@ -9,15 +9,16 @@
 import Foundation
 
 class PropLoader: DataLoader {
-    func tileWithName(name: String, gridPosition: Point) throws -> Tile? {
+    func tileWithName(name: String, gridPosition: Point, tileType: TileType) throws -> Tile? {
         var entity: Tile? = nil
         
         let configFile = "config.json"
         let subDirectory = "Props/\(name)"
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
-            entity = Tile(gridPosition: gridPosition, configComponent: configComponent)
+            let fileUrl = NSURL(fileURLWithPath:path)
+            let configComponent = try ConfigComponent(configFileUrl: fileUrl)
+            entity = Tile(gridPosition: gridPosition, configComponent: configComponent, tileType: tileType)
         } else {
             // TODO: make error
             print("could not load entity config file: \(name)/\(configFile)")

@@ -12,7 +12,7 @@ import SpriteKit
 class Tile: Entity {
     var tileType = TileType.None
     
-    convenience init(gridPosition: Point, configComponent: ConfigComponent) {
+    convenience init(gridPosition: Point, configComponent: ConfigComponent, tileType: TileType) {
         // TODO: make more safe, currently will crash if no config exists.
         let basePath = configComponent.configFilePath!
         let filePath = basePath.stringByAppendingPathComponent(configComponent.textureFile)
@@ -23,12 +23,12 @@ class Tile: Entity {
         let sprites = SpriteLoader.spritesFromTexture(texture, withSpriteSize: configComponent.spriteSize)
         let visualComponent = VisualComponent(sprites: sprites)        
         
-        self.init(gridPosition: gridPosition, visualComponent: visualComponent)
+        self.init(gridPosition: gridPosition, visualComponent: visualComponent, tileType: tileType)
         
         addComponent(configComponent)
     }
     
-    init(gridPosition: Point, visualComponent: VisualComponent) {        
+    init(gridPosition: Point, visualComponent: VisualComponent, tileType: TileType) {
         super.init(visualComponent: visualComponent)
 
         visualComponent.spriteNode.zPosition = 20
@@ -40,5 +40,6 @@ class Tile: Entity {
         }
         
         self.gridPosition = gridPosition
+        self.tileType = tileType
     }
 }

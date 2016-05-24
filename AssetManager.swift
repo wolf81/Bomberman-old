@@ -10,12 +10,7 @@ import Foundation
 import Zip
 
 enum AssetManagerError: ErrorType {
-    case ConnectionFailed(error: NSError)
-    
-    case RemoveItemAtURLFailed(url: NSURL)
     case FailedToCreateBundleSupportDirectoryPath
-    case InvalidPathForURL(url: NSURL)
-    case FailedToExtractAssetsArchive
 }
 
 class AssetManager: NSObject {
