@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum PointsType: Int {
+    case Ten = 10
+    case Fifty = 50
+    case Hundred = 100
+}
+
 class PropLoader: DataLoader {
     func tileWithName(name: String, gridPosition: Point, tileType: TileType) throws -> Tile? {
         var entity: Tile? = nil
@@ -85,6 +91,23 @@ class PropLoader: DataLoader {
         }
         
         return projectile
+    }
+    
+    func pointsWithType(pointsType: PointsType, gridPosition: Point) throws -> Points? {
+        var points: Points? = nil
+        
+        let configFile = "config.json"
+        let subDirectory = "Props/Points 10-1K.png"
+        
+        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
+            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+            points = Points(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, type: pointsType)
+        } else {
+            // TODO: make error
+            print("could not load entity config file: \(subDirectory)\\\(configFile)")
+        }
+        
+        return points
     }
     
     func propWithName(propName: String, gridPosition: Point) throws -> Prop? {

@@ -387,32 +387,36 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     }
     
     func entityDidDestroy(entity: Entity) {
-        if let bomb = entity as? Bomb {
+        switch entity {
+        case is Bomb:
+            let bomb = entity as! Bomb
             do {
                 try bomb.explodeAtGridPosition(entity.gridPosition)
             } catch let error {
                 print("error: \(error)")
             }
-
+            
             let shake = SKAction.shake(self.gameScene!.world.position, duration: 0.5)
             self.gameScene?.world.runAction(shake)
-        }
-        
-        if let creature = entity as? Creature {
+            
+            removeEntity(entity)            
+        case is Creature: fallthrough
+        case is Player:
+            let creature = entity as! Creature
             if creature.lives < 0 {
                 removeEntity(entity)
             }
-        } else {
-            removeEntity(entity)
-        }
-        
-        if let player = entity as? Player {
-            if let controlComponent = player.componentForClass(PlayerControlComponent) {
-                controlComponent.removeAllActions()
-            }
             
-            self.gameScene?.updatePlayer(player.index, setLives: player.lives)
-            player.spawn(afterDelay: 1)
+            if let player = creature as? Player {
+                if let controlComponent = player.componentForClass(PlayerControlComponent) {
+                    controlComponent.removeAllActions()
+                }
+                
+                self.gameScene?.updatePlayer(player.index, setLives: player.lives)
+                player.spawn(afterDelay: 1)
+            }
+        default:
+            removeEntity(entity)
         }
     }
     
