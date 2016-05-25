@@ -23,6 +23,7 @@ class SpawnState: State {
         case is Explosion: isValidNextState = (stateClass is DestroyState.Type)
         case is Tile: isValidNextState = (stateClass is DestroyState.Type)
         case is Prop: isValidNextState = (stateClass is DestroyState.Type)
+        case is Points: isValidNextState = (stateClass is FloatState.Type)
         default: isValidNextState = false
         }
         

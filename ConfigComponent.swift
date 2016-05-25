@@ -41,11 +41,14 @@ class ConfigComponent: GKComponent {
     private(set) var destroyDelay: NSTimeInterval?
     private(set) var spawnDelay: NSTimeInterval?
     
+    private(set) var floatDuration: NSTimeInterval = 1.0
     private(set) var destroyDuration: NSTimeInterval = 1.0
     
     private(set) var projectile: String?
     
     private(set) var states: [State]?
+    
+    // MARK: - Initialization
     
     convenience init(configFileUrl: NSURL) throws {
         let fileManager = NSFileManager.defaultManager()
@@ -53,11 +56,7 @@ class ConfigComponent: GKComponent {
         var json = [String: AnyObject]()
         
         if let jsonData = fileManager.contentsAtPath(configFileUrl.path!) {
-            do {
-                json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: []) as! [String: AnyObject]
-            } catch let error as  NSError {
-                print("error: \(error)")
-            }
+            json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: []) as! [String: AnyObject]
         }
 
         self.init(json: json)
@@ -88,47 +87,36 @@ class ConfigComponent: GKComponent {
             parseCreatureJson(creatureJson)
         }
         
-        if let projectileJson = json["projectile"] as? String {
-            self.projectile = projectileJson
+        if let spawnJson = json["spawn"] as? [String: AnyObject] {
+            parseSpawnJson(spawnJson)
         }
         
-        if let spawnJson = json["spawn"] as? [String: AnyObject] {
-            self.spawnAnimRange = animRangeFromJson(spawnJson)
-            
-            if let spawnDelayJson = spawnJson["delay"] as? NSTimeInterval {
-                self.spawnDelay = spawnDelayJson
-            }
+        if let floatJson = json["float"] as? [String: AnyObject] {
+            parseFloatJson(floatJson)
         }
         
         if let hitJson = json["hit"] as? [String: AnyObject] {
-            self.hitAnimRange = animRangeFromJson(hitJson)
+            parseHitJson(hitJson)
         }
         
-        if let explodeJson = json["explode"] as? [String: AnyObject] {
-            if let centerJson = explodeJson["center"] as? [String: AnyObject] {
-                self.explodeCenterAnimRange = animRangeFromJson(centerJson)
-            }
-            if let horizontalJson = explodeJson["horizontal"] as? [String: AnyObject] {
-                self.explodeHorizontalAnimRange = animRangeFromJson(horizontalJson)
-            }
-            if let verticalJson = explodeJson["vertical"] as? [String: AnyObject] {
-                self.explodeVerticalAnimRange = animRangeFromJson(verticalJson)
-            }
+        if let json = json["explode"] as? [String: AnyObject] {
+            parseExplodeJson(json)
         }
         
         if let destroyJson = json["destroy"] as? [String: AnyObject] {
-            self.destroyAnimRange = animRangeFromJson(destroyJson)
-            
-            if let destroyDelayJson = destroyJson["delay"] as? NSTimeInterval {
-                self.destroyDelay = destroyDelayJson
-            }
-            
-            if let destroyDurationJson = destroyJson["duration"] as? NSTimeInterval {
-                self.destroyDuration = destroyDurationJson
-            }
+            parseDestroyJson(destroyJson)
         }
     }
     
+    // MARK: - Public
+    
+    // WORKAROUND: for explosions to change animRange depending on explosion direction
+    func updateDestroyAnimRange(animRange: Range<Int>) {
+        self.destroyAnimRange = animRange
+    }
+    
+    // MARK: - Private
+
     func parseStatesJson(json: [String]) {
         var states = [State]()
         
@@ -141,6 +129,7 @@ class ConfigComponent: GKComponent {
             case "hit": states.append(HitState())
             case "control": states.append(ControlState())
             case "propel": states.append(PropelState())
+            case "float": states.append(FloatState())
             default: print("unknown state: \(stateJson)")
             }
         }
@@ -150,7 +139,49 @@ class ConfigComponent: GKComponent {
         }
     }
     
-    func parseCreatureJson(json: [String: AnyObject]) {
+    private func parseExplodeJson(json: [String: AnyObject]) {
+        if let centerJson = json["center"] as? [String: AnyObject] {
+            self.explodeCenterAnimRange = animRangeFromJson(centerJson)
+        }
+        if let horizontalJson = json["horizontal"] as? [String: AnyObject] {
+            self.explodeHorizontalAnimRange = animRangeFromJson(horizontalJson)
+        }
+        if let verticalJson = json["vertical"] as? [String: AnyObject] {
+            self.explodeVerticalAnimRange = animRangeFromJson(verticalJson)
+        }
+    }
+
+    private func parseDestroyJson(json: [String: AnyObject]) {
+        self.destroyAnimRange = animRangeFromJson(json)
+        
+        if let delayJson = json["delay"] as? NSTimeInterval {
+            self.destroyDelay = delayJson
+        }
+        
+        if let durationJson = json["duration"] as? NSTimeInterval {
+            self.destroyDuration = durationJson
+        }
+    }
+    
+    private func parseHitJson(json: [String: AnyObject]) {
+        self.hitAnimRange = animRangeFromJson(json)
+    }
+    
+    private func parseFloatJson(json: [String: AnyObject]) {
+        if let durationJson = json["duration"] as? NSTimeInterval {
+            self.floatDuration = durationJson
+        }
+    }
+
+    private func parseSpawnJson(json: [String: AnyObject]) {
+        self.spawnAnimRange = animRangeFromJson(json)
+        
+        if let delayJson = json["delay"] as? NSTimeInterval {
+            self.spawnDelay = delayJson
+        }
+    }
+    
+    private func parseCreatureJson(json: [String: AnyObject]) {
         if let livesJson = json["lives"] as? Int {
             self.lives = max(livesJson - 1, 0) // 3 lives => life 0, life 1, life 2
         }
@@ -160,7 +191,7 @@ class ConfigComponent: GKComponent {
         }
     }
     
-    func parseSpriteJson(json: [String: AnyObject]) {
+    private func parseSpriteJson(json: [String: AnyObject]) {
         if let atlasJson = json["atlas"] as? String {
             self.textureFile = atlasJson
         }
@@ -176,7 +207,7 @@ class ConfigComponent: GKComponent {
         }
     }
     
-    func parseAttackJson(json: [String: AnyObject]) {
+    private func parseAttackJson(json: [String: AnyObject]) {
         if let attackUpJson = json["attackUp"] as? [String: AnyObject] {
             self.attackUpAnimRange = animRangeFromJson(attackUpJson)
         }
@@ -192,9 +223,13 @@ class ConfigComponent: GKComponent {
         if let attackRightJson = json["attackRight"] as? [String: AnyObject] {
             self.attackRightAnimRange = animRangeFromJson(attackRightJson)
         }
+        
+        if let projectileJson = json["projectile"] as? String {
+            self.projectile = projectileJson
+        }
     }
     
-    func parseMovementJson(json: [String: AnyObject]) {
+    private func parseMovementJson(json: [String: AnyObject]) {
         if let moveUpJson = json["moveUp"] as? [String: AnyObject] {
             self.moveUpAnimRange = animRangeFromJson(moveUpJson)
         }
@@ -212,7 +247,7 @@ class ConfigComponent: GKComponent {
         }
     }
     
-    func animRangeFromJson(json: [String: AnyObject]) -> Range<Int> {
+    private func animRangeFromJson(json: [String: AnyObject]) -> Range<Int> {
         var range = Range(0 ..< 0)
         
         if let animJson = json["anim"] as? [Int] {
@@ -224,10 +259,5 @@ class ConfigComponent: GKComponent {
         }
         
         return range
-    }
-    
-    // HACK
-    func updateDestroyAnimRange(animRange: Range<Int>) {
-        self.destroyAnimRange = animRange
     }
 }

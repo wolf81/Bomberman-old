@@ -97,7 +97,7 @@ class PropLoader: DataLoader {
         var points: Points? = nil
         
         let configFile = "config.json"
-        let subDirectory = "Props/Points 10-1K.png"
+        let subDirectory = "Props/Points10"
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
             let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))

@@ -9,7 +9,7 @@
 import Foundation
 
 class Explosion: Entity {
-    override init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
+    init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
         if let visualComponent = componentForClass(VisualComponent) {

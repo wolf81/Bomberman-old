@@ -59,6 +59,12 @@ class StateMachineComponent: GKComponent {
         }
     }
     
+    func enterFloatState() {
+        if (self.stateMachine.currentState is FloatState) == false {
+            self.stateMachine.enterState(FloatState)
+        }
+    }
+    
     func enterDestroyState() {
         if (self.stateMachine.currentState is DestroyState) == false {
             if let creature = self.entity as? Creature {

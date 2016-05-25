@@ -27,7 +27,7 @@ class Creature: Entity {
         return isMoving
     }
     
-    override init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
+    init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
         self.lives = configComponent.lives
         self.health = configComponent.health
         

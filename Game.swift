@@ -35,6 +35,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     private(set) var explosions = [Explosion]()
     private(set) var tiles = [Tile]()
     private(set) var projectiles = [Projectile]()
+    private(set) var points = [Points]()
     
     private(set) weak var player1: Player?
     private(set) weak var player2: Player?
@@ -147,6 +148,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             case is Creature: self.creatures.remove(entity as! Creature)
             case is Projectile: self.projectiles.remove(entity as! Projectile)
             case is Prop: self.props.remove(entity as! Prop)
+            case is Points: self.points.remove(entity as! Points)
             default: print("unhandled entity type for instance: \(entity)")
             }
             
@@ -170,6 +172,8 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             case is Creature: self.creatures.append(entity as! Creature)
             case is Projectile: self.projectiles.append(entity as! Projectile)
             case is Prop: self.props.append(entity as! Prop)
+            case is Points:
+                self.points.append(entity as! Points)
             default: print("unhandled entity type for instance: \(entity)")
             }
             
@@ -209,6 +213,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.explosions.removeAll()
         self.tiles.removeAll()
         self.projectiles.removeAll()
+        self.points.removeAll()
     }
     
     func tileAtGridPosition(gridPosition: Point) -> Tile? {
@@ -399,7 +404,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             let shake = SKAction.shake(self.gameScene!.world.position, duration: 0.5)
             self.gameScene?.world.runAction(shake)
             
-            removeEntity(entity)            
+            removeEntity(entity)
         case is Creature: fallthrough
         case is Player:
             let creature = entity as! Creature
@@ -415,6 +420,13 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
                 self.gameScene?.updatePlayer(player.index, setLives: player.lives)
                 player.spawn(afterDelay: 1)
             }
+        case is Tile:
+            let propLoader = PropLoader(forGame: self)
+            if let points = try! propLoader.pointsWithType(PointsType.Fifty, gridPosition: entity.gridPosition) {
+                addEntity(points)
+            }
+            
+            removeEntity(entity)
         default:
             removeEntity(entity)
         }
@@ -430,6 +442,13 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         }
     }
     
+    func entityDidFloat(entity: Entity) {
+        switch entity {
+        case is Points: entity.destroy()
+        default: break
+        }
+    }
+    
     func entityDidSpawn(entity: Entity) {
         switch entity {
         case is Explosion: entity.destroy()
@@ -439,6 +458,8 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
                 player.control()
                 self.gameScene?.updatePlayer(player.index, setHealth: player.health)
             }
+        case is Points:
+            entity.float()
         default: break
         }
     }

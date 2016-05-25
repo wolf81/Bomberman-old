@@ -10,7 +10,7 @@ import SpriteKit
 
 class Points: Entity {
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, type: PointsType) {
-        super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
+        super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition, createPhysicsBody: false)
         
         var texture: SKTexture
         
@@ -28,8 +28,10 @@ class Points: Entity {
         let sprites = SpriteLoader.spritesFromTexture(texture, withSpriteSize: configComponent.spriteSize)
         let index = spriteIndex(forPointsType: type)
         let sprite = sprites[index]
-        let visualComponent = VisualComponent(sprites: [sprite])
+        let visualComponent = VisualComponent(sprites: [sprite], createPhysicsBody: false)
         visualComponent.spriteNode.speed = configComponent.speed
+        
+        visualComponent.spriteNode.zPosition = 80
         
         addComponent(visualComponent)
     }

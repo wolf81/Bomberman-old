@@ -10,7 +10,7 @@ import Foundation
 
 class Player: Creature {
     let index: PlayerIndex
-        
+    
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, playerIndex: PlayerIndex) {
         self.index = playerIndex
         

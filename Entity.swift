@@ -12,6 +12,7 @@ import SpriteKit
 protocol EntityDelegate: class {
     func entityDidSpawn(entity: Entity)
     func entityDidDestroy(entity: Entity)
+    func entityDidFloat(entity: Entity)
     func entityDidHit(entity: Entity)
     func entityDidAttack(entity: Entity)
 }
@@ -81,7 +82,10 @@ class Entity: GKEntity {
         visualComponent.spriteNode.entity = self
     }
     
-    init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point = Point(x: 0, y: 0)) {
+    init(forGame game: Game,
+                 configComponent: ConfigComponent,
+                 gridPosition: Point = Point(x: 0, y: 0),
+                 createPhysicsBody: Bool = true) {
         super.init()
         
         self.gridPosition = gridPosition
@@ -103,7 +107,7 @@ class Entity: GKEntity {
         }
         
         let sprites = SpriteLoader.spritesFromTexture(texture, withSpriteSize: configComponent.spriteSize)
-        let visualComponent = VisualComponent(sprites: sprites)
+        let visualComponent = VisualComponent(sprites: sprites, createPhysicsBody: createPhysicsBody)
         visualComponent.spriteNode.speed = configComponent.speed
         addComponent(visualComponent)
         
@@ -130,6 +134,12 @@ class Entity: GKEntity {
     func propel() {
         if let stateMachineComponent = componentForClass(StateMachineComponent) {
             stateMachineComponent.enterPropelState()
+        }
+    }
+    
+    func float() {
+        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+            stateMachineComponent.enterFloatState()
         }
     }
     
