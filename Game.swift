@@ -109,7 +109,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         updateComponentSystems(deltaTime)
         
         // when all players are dead or monsters are dead, finish game appropriately.
-        if levelFinished() {
+        if isLevelFinished() {
             self.removeAllEntities()
             self.gameScene!.levelFinished(self.level!)
         }
@@ -185,7 +185,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.entitiesToAdd.removeAll()
     }
     
-    private func levelFinished() -> Bool {
+    private func isLevelFinished() -> Bool {
         var levelFinished = true
         
         let isPlayerAlive = !self.player1!.isDestroyed || !self.player2!.isDestroyed

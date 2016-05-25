@@ -13,10 +13,13 @@ import SpriteKit
     func loadingSceneDidFinishLoading()
 }
 
-class LoadingScene: SKScene {
+class LoadingScene: SKScene, AssetManagerDelegate {
+    let assetManager = AssetManager()
     let titleNode = SKLabelNode()
     let messageNode = SKLabelNode()
     let percentageNode = SKLabelNode()
+    
+    var remoteEtag: String?
     
     // Work around to set the subclass delegate.
     var loadingSceneDelegate: LoadingSceneDelegate? {
@@ -29,9 +32,11 @@ class LoadingScene: SKScene {
         
         self.loadingSceneDelegate = loadingSceneDelegate
         
+        self.assetManager.delegate = self
+        
         let yOffset = (size.height / 4)
         
-        self.titleNode.text = "Loading Assets"
+        self.titleNode.text = "Loading"
         self.titleNode.position = CGPoint(x: size.width / 2, y: yOffset * 3)
         addChild(self.titleNode)
         
@@ -39,9 +44,10 @@ class LoadingScene: SKScene {
         self.messageNode.position = CGPoint(x: size.width / 2, y: yOffset * 2)
         addChild(self.messageNode)
         
-        self.percentageNode.text = "0 %"
         self.percentageNode.position = CGPoint(x: size.width / 2, y: yOffset * 1)
         addChild(self.percentageNode)
+        
+        updateProgress(0)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,33 +55,50 @@ class LoadingScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        if let delegate = self.loadingSceneDelegate {
-            delegate.loadingSceneDidMoveToView(self, view: view)
-        }
+        self.loadingSceneDelegate?.loadingSceneDidMoveToView(self, view: view)
     }
     
     func updateAssetsIfNeeded() throws {
         let url = NSURL(string: "https://dl.dropboxusercontent.com/s/s1mere2vjgcbu0t/assets.zip")!
         
-        if let remoteEtag = try AssetManager.sharedInstance.etagForRemoteAssetsArchive(url) {
-            let localEtag = AssetManager.sharedInstance.etagForLocalAssetsArchive()
-            if remoteEtag != localEtag {
-                try AssetManager.sharedInstance.loadAssets(url, completion: { (success, error) in
-                    if success {
-                        AssetManager.sharedInstance.storeEtagForLocalAssetsArchive(remoteEtag)
-                    } else {
-                        print("error: \(error)")
-                    }
-                    
-                    if let delegate = self.loadingSceneDelegate {
-                        delegate.loadingSceneDidFinishLoading()
-                    }
-                })
-            } else {
-                if let delegate = self.loadingSceneDelegate {
-                    delegate.loadingSceneDidFinishLoading()
-                }            
-            }
+        self.messageNode.text = "Checking for updated assets ..."
+        
+        self.remoteEtag = try assetManager.etagForRemoteAssetsArchive(url)
+        let localEtag = assetManager.etagForLocalAssetsArchive()
+        
+        if self.remoteEtag != localEtag {
+            self.messageNode.text = "Loading updated assets ..."
+            
+            self.assetManager.loadAssets(url)
+        } else {
+            self.loadingSceneDelegate?.loadingSceneDidFinishLoading()
         }
+    }
+    
+    func assetManagerLoadAssetsProgress(assetManager: AssetManager, progress: Float) {
+        updateProgress(progress)
+    }
+    
+    func assetManagerLoadAssetsFailure(assetManager: AssetManager, error: ErrorType) {
+        self.loadingSceneDelegate?.loadingSceneDidFinishLoading()
+    }
+
+    func assetManagerLoadAssetsSuccess(assetManager: AssetManager) {
+        updateProgress(1.0)
+
+        if let remoteEtag = self.remoteEtag {
+            self.assetManager.storeEtagForLocalAssetsArchive(remoteEtag)
+        }
+
+        delay(0.5) {
+            self.loadingSceneDelegate?.loadingSceneDidFinishLoading()
+        }
+    }
+    
+    // MARK: - Private
+    
+    func updateProgress(progress: Float) {
+        let percentageString = String(format: "%.0f", progress * 100)
+        self.percentageNode.text = String("\(percentageString) %")
     }
 }

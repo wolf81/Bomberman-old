@@ -58,8 +58,10 @@ class GameViewController: NSViewController, LoadingSceneDelegate, GameSceneDeleg
         if let level = Game.sharedInstance.loadLevel(0) {
             let gameScene = GameScene(level: level, gameSceneDelegate: self)
             Game.sharedInstance.configureScene(gameScene)
+
+            let transition = SKTransition.fadeWithDuration(0.5)
             
-            self.gameView.presentScene(gameScene)
+            self.gameView.presentScene(gameScene, transition: transition)
         }
     }
     
@@ -82,7 +84,9 @@ class GameViewController: NSViewController, LoadingSceneDelegate, GameSceneDeleg
             let gameScene = GameScene(level: level, gameSceneDelegate: self)
             Game.sharedInstance.configureScene(gameScene)
             
-            self.gameView.presentScene(gameScene)
+            let transition = SKTransition.fadeWithDuration(0.5)
+
+            self.gameView.presentScene(gameScene, transition: transition)
         }
     }
     

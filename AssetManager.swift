@@ -9,14 +9,28 @@
 import Foundation
 import Zip
 
-enum AssetManagerError: ErrorType {
-    case FailedToCreateBundleSupportDirectoryPath
+protocol AssetManagerDelegate: class {
+    func assetManagerLoadAssetsSuccess(assetManager: AssetManager)
+    func assetManagerLoadAssetsFailure(assetManager: AssetManager, error: ErrorType)
+    func assetManagerLoadAssetsProgress(assetManager: AssetManager, progress: Float)
 }
 
-class AssetManager: NSObject {
-    static let sharedInstance = AssetManager()
+class AssetManager: NSObject, NSURLSessionDataDelegate {
+    private let etagKey = "etag"
+    
+    private let fileManager = NSFileManager.defaultManager()
+    private let userDefaults = NSUserDefaults.standardUserDefaults()
 
+    private var buffer = NSMutableData()
+    private var session: NSURLSession?
+    private var dataTask: NSURLSessionDataTask?
+    private var expectedContentLength = 0
+    
     private let filename = "assets.zip"
+    
+    weak var delegate: AssetManagerDelegate?
+    
+    // MARK: - Public
     
     func etagForRemoteAssetsArchive(assetsSourceURL: NSURL) throws -> String? {
         var etag: String?
@@ -41,12 +55,10 @@ class AssetManager: NSObject {
     func etagForLocalAssetsArchive() -> String? {
         var etag: String?
 
-        let fileManager = NSFileManager.defaultManager()
         if let destinationDirectoryPath = fileManager.bundleSupportDirectoryPath() {
             let assetsDestinationPath = destinationDirectoryPath.stringByAppendingPathComponent(self.filename)
             if fileManager.fileExistsAtPath(assetsDestinationPath) {
-                let defaults = NSUserDefaults.standardUserDefaults()
-                etag = defaults.valueForKey("etag") as? String            
+                etag = userDefaults.valueForKey(etagKey) as? String
             }
        }
 
@@ -54,42 +66,85 @@ class AssetManager: NSObject {
     }
     
     func storeEtagForLocalAssetsArchive(etag: String?) {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setValue(etag, forKey: "etag")
-        defaults.synchronize()
+        userDefaults.setValue(etag, forKey: etagKey)
+        userDefaults.synchronize()
     }
     
-    func loadAssets(assetsSourceURL: NSURL, completion: (succes: Bool, error: NSError?) -> Void) throws {
-        let fileManager = NSFileManager.defaultManager()
-       
-        // Create the bundle support directory path if needed.
-        guard let destinationDirectoryPath = fileManager.bundleSupportDirectoryPath() else {
-            throw AssetManagerError.FailedToCreateBundleSupportDirectoryPath
+    func loadAssets(assetsSourceURL: NSURL) {
+        prepareForAssetsLoading()
+        
+        let identifier = "net.wolftrail.Bomberman.assetLoader"
+        let configuration = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier(identifier)
+        let delegateQueue = NSOperationQueue.mainQueue()
+        let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: delegateQueue)
+        
+        let dataTask = session.dataTaskWithURL(assetsSourceURL)
+        dataTask.resume()
+    }
+    
+    // MARK: - NSURLSessionDelegate
+    
+    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
+        print("response received: \(response)")
+        
+        var responseDisposition = NSURLSessionResponseDisposition.Cancel
+        
+        if let httpResponse = response as? NSHTTPURLResponse where httpResponse.statusCode == 200 {
+            self.expectedContentLength = Int(response.expectedContentLength)
+            responseDisposition = NSURLSessionResponseDisposition.Allow
         }
         
-        // Create the destination download URL for the assets zip file.
-        let assetsDestinationURL = NSURL(fileURLWithPath: destinationDirectoryPath.stringByAppendingPathComponent(self.filename))
-
-        let task = NSURLSession.sharedSession().dataTaskWithURL(assetsSourceURL) { (data, response, error) in
-            guard
-                let httpResponse = response as? NSHTTPURLResponse where httpResponse.statusCode == 200,
-                let data = data where error == nil
-                else { return }
+        completionHandler(responseDisposition)
+    }
+    
+    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
+        self.buffer.appendData(data)
+        
+        let progress = Float(buffer.length) / Float(expectedContentLength)
+        self.delegate?.assetManagerLoadAssetsProgress(self, progress: progress)
+    }
+    
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+        print("completed task: \(task), error: \(error)")
+        
+        if error != nil {
+            self.delegate?.assetManagerLoadAssetsFailure(self, error: error!)
+        } else {
+            // Create the bundle support directory path if needed.
+            let destinationDirectoryPath = (fileManager.bundleSupportDirectoryPath())!
+            
+            // Create the destination download URL for the assets zip file.
+            let assetsDestinationUrl = NSURL(fileURLWithPath: destinationDirectoryPath.stringByAppendingPathComponent(self.filename))
             
             do {
-                try data.writeToURL(assetsDestinationURL, options: .AtomicWrite)
+                try unzipAssets(fromData: self.buffer, assetsDestinationURL: assetsDestinationUrl)
 
-                // Finally we can unzip the archive in the destination directory.
-                let destinationDirectoryURL = NSURL(fileURLWithPath: destinationDirectoryPath)
-                try Zip.unzipFile(assetsDestinationURL, destination: destinationDirectoryURL, overwrite: true, password: nil, progress: { (progress) in
-                    print("progress: \(progress)")
-                })
+                self.delegate?.assetManagerLoadAssetsSuccess(self)
             } catch let error {
-                print("error: \(error)")
+                self.delegate?.assetManagerLoadAssetsFailure(self, error: error)
             }
-            
-            completion(succes: true, error: nil)
         }
-        task.resume()
+    }
+    
+    // MARK: - Private
+    
+    private func unzipAssets(fromData data: NSData, assetsDestinationURL: NSURL) throws {
+        // Copy the zip file to the destnation path
+        try data.writeToURL(assetsDestinationURL, options: .AtomicWrite)
+        
+        let destinationDirectoryUrl = (assetsDestinationURL.URLByDeletingLastPathComponent)!
+        
+        // Finally we can unzip the archive in the destination directory.
+        try Zip.unzipFile(assetsDestinationURL, destination: destinationDirectoryUrl,
+                          overwrite: true,
+                          password: nil,
+                          progress: { (progress) in
+            print("progress: \(progress)")
+        })
+    }
+    
+    private func prepareForAssetsLoading() {
+        self.buffer = NSMutableData()
+        self.expectedContentLength = 0
     }
 }
