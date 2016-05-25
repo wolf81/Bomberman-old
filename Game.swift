@@ -172,8 +172,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             case is Creature: self.creatures.append(entity as! Creature)
             case is Projectile: self.projectiles.append(entity as! Projectile)
             case is Prop: self.props.append(entity as! Prop)
-            case is Points:
-                self.points.append(entity as! Points)
+            case is Points: self.points.append(entity as! Points)
             default: print("unhandled entity type for instance: \(entity)")
             }
             
@@ -421,11 +420,6 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
                 player.spawn(afterDelay: 1)
             }
         case is Tile:
-            let propLoader = PropLoader(forGame: self)
-            if let points = try! propLoader.pointsWithType(PointsType.Fifty, gridPosition: entity.gridPosition) {
-                addEntity(points)
-            }
-            
             removeEntity(entity)
         default:
             removeEntity(entity)

@@ -42,5 +42,6 @@ class Tile: Entity {
         }
         
         self.gridPosition = gridPosition
+        self.value = PointsType.Fifty
     }
 }

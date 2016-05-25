@@ -56,6 +56,12 @@ class DestroyState: State {
                                 actions.append(fade)
                             }
                         }
+                        
+                        if let value = entity.value {
+                            let propLoader = PropLoader(forGame: Game.sharedInstance)
+                            let points = (try! propLoader.pointsWithType(value, gridPosition: entity.gridPosition))!
+                            Game.sharedInstance.addEntity(points)
+                        }
                     }
                     
                     let completion = {

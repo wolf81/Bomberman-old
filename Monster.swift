@@ -12,6 +12,8 @@ class Monster: Creature {
     override init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
+        self.value = PointsType.Hundred
+        
         let cpuControlComponent = CpuControlComponent(game: game)
         addComponent(cpuControlComponent)
         

@@ -19,6 +19,7 @@ protocol EntityDelegate: class {
 
 class Entity: GKEntity {
     var gridPosition = Point(x: 0, y: 0)
+    var value: PointsType?
     
     weak var game: Game?
 
