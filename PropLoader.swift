@@ -8,12 +8,6 @@
 
 import Foundation
 
-enum PointsType: Int {
-    case Ten = 10
-    case Fifty = 50
-    case Hundred = 100
-}
-
 enum PropLoaderError: ErrorType {
     case EntityParsingFailedForFile(file: String, inBundleSupportSubDirectory: String)
 }

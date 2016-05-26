@@ -8,6 +8,12 @@
 
 import SpriteKit
 
+enum PointsType: Int {
+    case Ten = 10
+    case Fifty = 50
+    case Hundred = 100
+}
+
 class Points: Entity {
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, type: PointsType) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition, createPhysicsBody: false)

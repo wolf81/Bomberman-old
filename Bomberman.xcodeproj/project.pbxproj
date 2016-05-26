@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		46DD2B8C1BE02760663B72C0 /* Pods_Bomberman_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3005FBC1E34ABD34E573C19 /* Pods_Bomberman_tvOS.framework */; };
 		62986544CB8DF6EB40704794 /* Pods_Bomberman_OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9094819A27922F53AB0791A5 /* Pods_Bomberman_OSX.framework */; };
-		790019001CF449DD001EEF3C /* ThemeTextureLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790018FF1CF449DD001EEF3C /* ThemeTextureLoader.swift */; };
-		790019011CF449DD001EEF3C /* ThemeTextureLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790018FF1CF449DD001EEF3C /* ThemeTextureLoader.swift */; };
+		790019001CF449DD001EEF3C /* TileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790018FF1CF449DD001EEF3C /* TileLoader.swift */; };
+		790019011CF449DD001EEF3C /* TileLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790018FF1CF449DD001EEF3C /* TileLoader.swift */; };
 		790019061CF58BBE001EEF3C /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019051CF58BBE001EEF3C /* Functions.swift */; };
 		790019071CF58BBE001EEF3C /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019051CF58BBE001EEF3C /* Functions.swift */; };
 		790019091CF5999C001EEF3C /* Points.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019081CF5999C001EEF3C /* Points.swift */; };
@@ -19,8 +19,8 @@
 		7900190D1CF5C4ED001EEF3C /* FloatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190B1CF5C4ED001EEF3C /* FloatState.swift */; };
 		7900190F1CF74877001EEF3C /* Power.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190E1CF74877001EEF3C /* Power.swift */; };
 		790019101CF74877001EEF3C /* Power.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190E1CF74877001EEF3C /* Power.swift */; };
-		790019151CF7A9DB001EEF3C /* ConfigLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019141CF7A9DB001EEF3C /* ConfigLoader.swift */; };
-		790019161CF7A9DB001EEF3C /* ConfigLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019141CF7A9DB001EEF3C /* ConfigLoader.swift */; };
+		790019151CF7A9DB001EEF3C /* ConfigurationLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */; };
+		790019161CF7A9DB001EEF3C /* ConfigurationLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */; };
 		790056341CDD3469009CDF81 /* PanelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056331CDD3469009CDF81 /* PanelNode.swift */; };
 		790056351CDD3469009CDF81 /* PanelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056331CDD3469009CDF81 /* PanelNode.swift */; };
 		790056371CDD4484009CDF81 /* SKAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056361CDD4484009CDF81 /* SKAction+Extensions.swift */; };
@@ -148,12 +148,12 @@
 		0429261688BD91C772522007 /* Pods-Bomberman-OSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bomberman-OSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bomberman-OSX/Pods-Bomberman-OSX.debug.xcconfig"; sourceTree = "<group>"; };
 		30807C1FC6D878FE8E33C87A /* Pods-Bomberman-OSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bomberman-OSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bomberman-OSX/Pods-Bomberman-OSX.release.xcconfig"; sourceTree = "<group>"; };
 		61199FE864ABFA28E0027D08 /* Pods-Bomberman-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bomberman-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bomberman-tvOS/Pods-Bomberman-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		790018FF1CF449DD001EEF3C /* ThemeTextureLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeTextureLoader.swift; sourceTree = "<group>"; };
+		790018FF1CF449DD001EEF3C /* TileLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TileLoader.swift; sourceTree = "<group>"; };
 		790019051CF58BBE001EEF3C /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		790019081CF5999C001EEF3C /* Points.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Points.swift; sourceTree = "<group>"; };
 		7900190B1CF5C4ED001EEF3C /* FloatState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatState.swift; sourceTree = "<group>"; };
 		7900190E1CF74877001EEF3C /* Power.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Power.swift; sourceTree = "<group>"; };
-		790019141CF7A9DB001EEF3C /* ConfigLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigLoader.swift; sourceTree = "<group>"; };
+		790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationLoader.swift; sourceTree = "<group>"; };
 		790056331CDD3469009CDF81 /* PanelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanelNode.swift; sourceTree = "<group>"; };
 		790056361CDD4484009CDF81 /* SKAction+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKAction+Extensions.swift"; sourceTree = "<group>"; };
 		790056391CDDD445009CDF81 /* Points 5K.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Points 5K.png"; sourceTree = "<group>"; };
@@ -333,8 +333,8 @@
 				794ADDEF1CD08912000AF170 /* CreatureLoader.swift */,
 				794ADE121CD1D2EA000AF170 /* ThemeLoader.swift */,
 				794ADE351CD36AF6000AF170 /* PropLoader.swift */,
-				790018FF1CF449DD001EEF3C /* ThemeTextureLoader.swift */,
-				790019141CF7A9DB001EEF3C /* ConfigLoader.swift */,
+				790018FF1CF449DD001EEF3C /* TileLoader.swift */,
+				790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */,
 			);
 			name = Loaders;
 			sourceTree = "<group>";
@@ -689,7 +689,7 @@
 				7902B0C51CDC9B2B00298CAC /* Prop.swift in Sources */,
 				7947BC441CCE371E00DE7C8A /* PlayerControlComponent.swift in Sources */,
 				793FAF481CE0C0C0005F64B1 /* MenuScene.swift in Sources */,
-				790019001CF449DD001EEF3C /* ThemeTextureLoader.swift in Sources */,
+				790019001CF449DD001EEF3C /* TileLoader.swift in Sources */,
 				790056431CDF4B5D009CDF81 /* AssetManager.swift in Sources */,
 				7947BC3E1CCDD7B200DE7C8A /* RoamState.swift in Sources */,
 				794ADDED1CD088E5000AF170 /* String+Extensions.swift in Sources */,
@@ -713,7 +713,7 @@
 				794ADE541CD5A5B5000AF170 /* Explosion.swift in Sources */,
 				79C9F18C1CD9B3AB00692D75 /* Player.swift in Sources */,
 				79FC6BBE1CCA4CC700DF7476 /* GameView.swift in Sources */,
-				790019151CF7A9DB001EEF3C /* ConfigLoader.swift in Sources */,
+				790019151CF7A9DB001EEF3C /* ConfigurationLoader.swift in Sources */,
 				7902B0BB1CDC8F5000298CAC /* GameSceneNode.swift in Sources */,
 				794ADE5D1CD70A6F000AF170 /* Array+Extensions.swift in Sources */,
 				7900190C1CF5C4ED001EEF3C /* FloatState.swift in Sources */,
@@ -734,14 +734,14 @@
 				794ADDEE1CD088E5000AF170 /* String+Extensions.swift in Sources */,
 				7947BC3F1CCDD7B200DE7C8A /* RoamState.swift in Sources */,
 				7947BC161CCB1C7200DE7C8A /* Level.swift in Sources */,
-				790019161CF7A9DB001EEF3C /* ConfigLoader.swift in Sources */,
+				790019161CF7A9DB001EEF3C /* ConfigurationLoader.swift in Sources */,
 				794ADDFF1CD0A66E000AF170 /* SpriteLoader.swift in Sources */,
 				7902B0C61CDC9B2B00298CAC /* Prop.swift in Sources */,
 				7947BC311CCDCE5500DE7C8A /* CpuControlComponent.swift in Sources */,
 				7902B0BC1CDC8F5000298CAC /* GameSceneNode.swift in Sources */,
 				7947BC351CCDCE6E00DE7C8A /* StateMachine.swift in Sources */,
 				79FC6BC11CCA570200DF7476 /* GameViewController.swift in Sources */,
-				790019011CF449DD001EEF3C /* ThemeTextureLoader.swift in Sources */,
+				790019011CF449DD001EEF3C /* TileLoader.swift in Sources */,
 				793FAF491CE0C0C0005F64B1 /* MenuScene.swift in Sources */,
 				794ADE341CD306CC000AF170 /* ConfigComponent.swift in Sources */,
 				794ADE4F1CD4B3AA000AF170 /* State.swift in Sources */,
