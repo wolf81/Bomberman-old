@@ -17,8 +17,6 @@ class ThemeLoader: DataLoader {
         
         if let path = try fileManager.pathForFile(file, inBundleSupportSubDirectory: directory) {
             theme = try Theme(configFileUrl: NSURL(fileURLWithPath: path))
-        } else {
-            throw DataLoaderError.FailedToCreatePathForFile(file: file, inBundleSupportSubDirectory: directory)
         }
         
         return theme

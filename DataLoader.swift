@@ -10,7 +10,6 @@ import Foundation
 
 enum DataLoaderError: ErrorType {
     case FailedLoadingFileAtPath(path: String)
-    case FailedToCreatePathForFile(file: String, inBundleSupportSubDirectory: String)
 }
 
 class DataLoader {
@@ -27,8 +26,6 @@ class DataLoader {
 
         if let path = try fileManager.pathForFile(file, inBundleSupportSubDirectory: directory) {
             json = try loadJson(fromPath: path)
-        } else {
-            throw DataLoaderError.FailedToCreatePathForFile(file: file, inBundleSupportSubDirectory: directory)
         }
         
         return json

@@ -8,17 +8,21 @@
 
 import Foundation
 
+enum LevelLoaderError: ErrorType {
+    case FailedParsingLevelFile(file: String, inBundleSupportSubDirectory: String)
+}
+
 class LevelLoader: DataLoader {
     func loadLevel(levelIndex: Int) throws -> Level? {
         var levelData: Level? = nil
-        let configFile = "\(levelIndex).json"
         
-        if let json = try loadJson(fromFile: configFile, inBundleSupportSubDirectory: "Levels") {
+        let file = "\(levelIndex).json"
+        let directory = "Levels"
+        if let json = try loadJson(fromFile: file, inBundleSupportSubDirectory: directory) {
             levelData = try Level(game: game, levelIndex: levelIndex, json: json)
             print("\(json)")
         } else {
-            // TODO: make error
-            print("could not load level config file: \(configFile)")
+            throw LevelLoaderError.FailedParsingLevelFile(file: file, inBundleSupportSubDirectory: directory)
         }
         
         return levelData

@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-enum ThemeTextureLoaderError: ErrorType {
+enum TileLoaderError: ErrorType {
     case UndefinedWallTileForTheme(theme: Theme)
     case InvalidTextureCountError(expectedCount: Int, textureCount: Int)
     case FailedLoadingDataAtURL(fileUrl: NSURL)
@@ -31,7 +31,7 @@ class TileLoader: ConfigurationLoader {
         var sprites: [SKTexture] = [SKTexture]()
         
         guard let textureName = theme.wallTilesPath else {
-            throw ThemeTextureLoaderError.UndefinedWallTileForTheme(theme: theme)
+            throw TileLoaderError.UndefinedWallTileForTheme(theme: theme)
         }
         
         let path = theme.configFilePath.stringByAppendingPathComponent(textureName)
@@ -39,7 +39,7 @@ class TileLoader: ConfigurationLoader {
             
         guard let data = NSData(contentsOfURL: fileUrl),
             let image = Image(data: data)?.CGImage else {
-            throw ThemeTextureLoaderError.FailedLoadingDataAtURL(fileUrl: fileUrl)
+            throw TileLoaderError.FailedLoadingDataAtURL(fileUrl: fileUrl)
         }
             
         let texture = SKTexture(CGImage: image)
@@ -47,7 +47,7 @@ class TileLoader: ConfigurationLoader {
         
         let expectedTextureCount = 8        
         guard sprites.count == expectedTextureCount else {
-            throw ThemeTextureLoaderError.InvalidTextureCountError(expectedCount: expectedTextureCount,
+            throw TileLoaderError.InvalidTextureCountError(expectedCount: expectedTextureCount,
                                                                    textureCount: sprites.count)
         }
         
@@ -76,14 +76,11 @@ class TileLoader: ConfigurationLoader {
     func tileWithName(name: String, gridPosition: Point, tileType: TileType) throws -> Tile? {
         var entity: Tile?
         
-        let configFile = "config.json"
-        let subDirectory = "Tiles/\(name)"
+        let file = "config.json"
+        let directory = "Tiles/\(name)"
         
-        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
+        if let configComponent = try loadConfiguration(file, bundleSupportSubDirectory: directory) {
             entity = Tile(gridPosition: gridPosition, configComponent: configComponent, tileType: tileType)
-        } else {
-            // TODO: make error
-            print("could not load entity config file: \(name)/\(configFile)")
         }
         
         return entity

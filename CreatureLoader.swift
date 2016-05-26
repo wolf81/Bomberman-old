@@ -17,9 +17,6 @@ class CreatureLoader: ConfigurationLoader {
         let directory = "Creatures/\(name)"
         if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             entity = Monster(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
-        } else {
-            // TODO: make error
-            print("could not load entity config file: \(name)/\(configFile)")
         }
                 
         return entity
@@ -38,9 +35,6 @@ class CreatureLoader: ConfigurationLoader {
         let directory = "Creatures/\(name)"
         if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             entity = Player(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, playerIndex: index)
-        } else {
-            // TODO: make error
-            print("could not load entity config file: \(name)/\(configFile)")
         }
         
         return entity

@@ -17,8 +17,6 @@ class ConfigurationLoader: DataLoader {
                 let url = NSURL(fileURLWithPath: path)
                 configComponent = ConfigComponent(json: json, configFileUrl: url)
             }
-        } else {
-            throw DataLoaderError.FailedToCreatePathForFile(file: file, inBundleSupportSubDirectory: directory)
         }
  
         return configComponent
