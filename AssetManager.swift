@@ -15,6 +15,9 @@ protocol AssetManagerDelegate: class {
     func assetManagerLoadAssetsProgress(assetManager: AssetManager, progress: Float)
 }
 
+// TODO: The AssetManager should store / load Etags internally. The Etag methods should be private
+//  to simplify the interface.
+
 class AssetManager: NSObject, NSURLSessionDataDelegate {
     private let etagKey = "etag"
     
