@@ -101,25 +101,26 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
 
         // Add new entities (e.g. dropped bombs) and remove destroyed entities (e.g. killed monsters)
         updateEntityLists()
-
-        let deltaTime = currentTime - self.previousUpdateTime;
-        self.timeRemaining -= deltaTime
-        self.previousUpdateTime = currentTime;
-        
-        // Update player movement, monster movement, state machines ...
-        updateComponentSystems(deltaTime)
         
         // when all players are dead or monsters are dead, finish game appropriately.
-        if isLevelFinished() {
+        let isFinished = isLevelFinished()
+        if isFinished {
             self.removeAllEntities()
             self.gameScene!.levelFinished(self.level!)
-        }
-        
-        if self.timeRemaining > 0 {
-            self.gameScene?.updateTimeRemaining(self.timeRemaining)
-        } else if !self.timerFinished {
-            self.timerFinished = true
-            accelerateMonsters()
+        } else {
+            let deltaTime = currentTime - self.previousUpdateTime;
+            self.timeRemaining -= deltaTime
+            self.previousUpdateTime = currentTime;
+            
+            // Update player movement, monster movement, state machines ...
+            updateComponentSystems(deltaTime)
+            
+            if self.timeRemaining > 0 {
+                self.gameScene?.updateTimeRemaining(self.timeRemaining)
+            } else if !self.timerFinished {
+                self.timerFinished = true
+                accelerateMonsters()
+            }
         }
     }
     
