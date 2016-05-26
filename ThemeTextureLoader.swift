@@ -26,7 +26,7 @@ enum WallTextureType: Int {
     case TopLeft = 7
 }
 
-class TileLoader: DataLoader {
+class TileLoader: ConfigurationLoader {
     func wallTileForTheme(theme: Theme, type: WallTextureType, gridPosition: Point) throws -> Tile {
         var sprites: [SKTexture] = [SKTexture]()
         
@@ -79,8 +79,7 @@ class TileLoader: DataLoader {
         let configFile = "config.json"
         let subDirectory = "Tiles/\(name)"
         
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
             entity = Tile(gridPosition: gridPosition, configComponent: configComponent, tileType: tileType)
         } else {
             // TODO: make error

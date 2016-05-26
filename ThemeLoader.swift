@@ -12,14 +12,13 @@ class ThemeLoader: DataLoader {
     func themeWithName(name: String) throws -> Theme? {
         var theme: Theme? = nil
         
-        let configFile = "config.json"
-        let subDirectory = "Themes/\(name)"
+        let file = "config.json"
+        let directory = "Themes/\(name)"
         
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
+        if let path = try fileManager.pathForFile(file, inBundleSupportSubDirectory: directory) {
             theme = try Theme(configFileUrl: NSURL(fileURLWithPath: path))
         } else {
-            // TODO: make error
-            print("could not load entity config file: \(name)/\(configFile)")
+            throw DataLoaderError.FailedToCreatePathForFile(file: file, inBundleSupportSubDirectory: directory)
         }
         
         return theme

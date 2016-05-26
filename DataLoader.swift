@@ -8,50 +8,39 @@
 
 import Foundation
 
-// TODO: Proper error handling
+enum DataLoaderError: ErrorType {
+    case FailedLoadingFileAtPath(path: String)
+    case FailedToCreatePathForFile(file: String, inBundleSupportSubDirectory: String)
+}
 
 class DataLoader {
     let game: Game
     
+    private(set) var fileManager = NSFileManager.defaultManager()
+
     init (forGame game: Game) {
         self.game = game
     }
     
-    let fileManager = NSFileManager.defaultManager()
-    
-    func pathForBundleSupportSubDirectory(directory: String, createIfNotExists: Bool) throws -> String? {
-        var path: String? = nil
-        
-        path = fileManager.bundleSupportDirectoryPath()
-        
-        if path != nil {
-            path = path!.stringByAppendingPathComponent(directory)
+    func loadJson(fromFile file: String, inBundleSupportSubDirectory directory: String) throws -> [String: AnyObject]? {
+        var json: [String: AnyObject]?
+
+        if let path = try fileManager.pathForFile(file, inBundleSupportSubDirectory: directory) {
+            json = try loadJson(fromPath: path)
+        } else {
+            throw DataLoaderError.FailedToCreatePathForFile(file: file, inBundleSupportSubDirectory: directory)
         }
         
-        var isDirectory: ObjCBool = false
-        if !fileManager.fileExistsAtPath(path!, isDirectory: &isDirectory) {
-            try fileManager.createDirectoryAtPath(path!, withIntermediateDirectories: false, attributes: nil)
-        }
-        
-        return path
+        return json
     }
     
-    func pathForFile(file: String, inBundleSupportSubDirectory directory: String) throws -> String? {
-        var path: String? = nil
-        
-        path = try pathForBundleSupportSubDirectory(directory, createIfNotExists: true)
-        path = path?.stringByAppendingPathComponent(file)
-        
-        return path
-   }
-
-    func jsonData(fromPath path: String) throws -> [String: AnyObject]? {
-        var json: AnyObject? = nil
+    func loadJson(fromPath path: String) throws -> [String: AnyObject]? {
+        var json: AnyObject?
         
         if let jsonData = fileManager.contentsAtPath(path) {
             json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
         } else {
-            print("could not load file at path: \(path)")
+            throw DataLoaderError.FailedLoadingFileAtPath(path: path)
         }
         
         return json as? [String: AnyObject]

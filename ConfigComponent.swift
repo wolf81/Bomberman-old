@@ -50,20 +50,6 @@ class ConfigComponent: GKComponent {
     
     // MARK: - Initialization
     
-    convenience init(configFileUrl: NSURL) throws {
-        let fileManager = NSFileManager.defaultManager()
-        
-        var json = [String: AnyObject]()
-        
-        if let jsonData = fileManager.contentsAtPath(configFileUrl.path!) {
-            json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: []) as! [String: AnyObject]
-        }
-
-        self.init(json: json)
-        
-        self.configFilePath = configFileUrl.URLByDeletingLastPathComponent?.path
-    }
-
     convenience init(json: [String: AnyObject], configFileUrl: NSURL) {
         self.init(json: json)
 

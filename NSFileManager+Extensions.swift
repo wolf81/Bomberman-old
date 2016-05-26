@@ -42,4 +42,30 @@ extension NSFileManager {
         
         return path
     }
+    
+    func pathForFile(file: String, inBundleSupportSubDirectory directory: String) throws -> String? {
+        var path: String?
+        
+        path = try pathForBundleSupportSubDirectory(directory, createIfNotExists: true)
+        path = path?.stringByAppendingPathComponent(file)
+        
+        return path
+    }
+    
+    func pathForBundleSupportSubDirectory(directory: String, createIfNotExists: Bool) throws -> String? {
+        var path: String?
+        
+        path = bundleSupportDirectoryPath()
+        
+        if path != nil {
+            path = path!.stringByAppendingPathComponent(directory)
+        }
+        
+        var isDirectory: ObjCBool = false
+        if !fileExistsAtPath(path!, isDirectory: &isDirectory) {
+            try createDirectoryAtPath(path!, withIntermediateDirectories: false, attributes: nil)
+        }
+        
+        return path
+    }
 }

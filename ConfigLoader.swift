@@ -8,17 +8,17 @@
 
 import Foundation
 
-class ConfigLoader: DataLoader {
-    func loadConfiguration(configFile: String, bundleSupportSubDirectory: String) throws -> ConfigComponent? {
+class ConfigurationLoader: DataLoader {
+    func loadConfiguration(file: String, bundleSupportSubDirectory directory: String) throws -> ConfigComponent? {
         var configComponent: ConfigComponent?
         
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: bundleSupportSubDirectory) {
-            if let json = try jsonData(fromPath: path) {
+        if let path = try fileManager.pathForFile(file, inBundleSupportSubDirectory: directory) {
+            if let json = try loadJson(fromPath: path) {
                 let url = NSURL(fileURLWithPath: path)
                 configComponent = ConfigComponent(json: json, configFileUrl: url)
             }
         } else {
-            print("could not create path for: \(bundleSupportSubDirectory)\\\(configFile)")
+            throw DataLoaderError.FailedToCreatePathForFile(file: file, inBundleSupportSubDirectory: directory)
         }
  
         return configComponent

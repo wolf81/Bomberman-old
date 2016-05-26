@@ -8,15 +8,14 @@
 
 import Foundation
 
-class CreatureLoader: DataLoader {
+class CreatureLoader: ConfigurationLoader {
+    private let configFile = "config.json"
+    
     func monsterWithName(name: String, gridPosition: Point) throws -> Creature? {
         var entity: Creature? = nil
         
-        let configFile = "config.json"
-        let subDirectory = "Creatures/\(name)"
-
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath: path))
+        let directory = "Creatures/\(name)"
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             entity = Monster(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
             // TODO: make error
@@ -36,11 +35,8 @@ class CreatureLoader: DataLoader {
         case .Player2: name = "Player2"
         }
         
-        let configFile = "config.json"
-        let subDirectory = "Creatures/\(name)"
-        
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath: path))
+        let directory = "Creatures/\(name)"
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             entity = Player(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, playerIndex: index)
         } else {
             // TODO: make error

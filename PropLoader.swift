@@ -14,18 +14,21 @@ enum PointsType: Int {
     case Hundred = 100
 }
 
-class PropLoader: ConfigLoader {
+enum PropLoaderError: ErrorType {
+    case EntityParsingFailedForFile(file: String, inBundleSupportSubDirectory: String)
+}
+
+class PropLoader: ConfigurationLoader {
+    private let configFile = "config.json"
+    
     func powerWithGridPosition(gridPosition: Point, type: PowerType) throws -> Power? {
         var entity: Power? = nil
         
-        let configFile = "config.json"
-        let subDirectory = "Props/Power"
-        
-        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
+        let directory = "Props/Power"
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             entity = Power(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, type: type)
         } else {
-            // TODO: make error
-            print("could not load entity config file: Power\(configFile)")
+            throw PropLoaderError.EntityParsingFailedForFile(file: configFile, inBundleSupportSubDirectory: directory)
         }
         
         return entity
@@ -34,10 +37,8 @@ class PropLoader: ConfigLoader {
     func explosionWithGridPosition(gridPosition: Point, direction: Direction) throws -> Explosion? {
         var explosion: Explosion?
         
-        let configFile = "config.json"
-        let subDirectory = "Props/Explosion"
-        
-        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
+        let directory = "Props/Explosion"
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             switch direction {
             case .North: configComponent.updateDestroyAnimRange(configComponent.explodeVerticalAnimRange)
             case .South: configComponent.updateDestroyAnimRange(configComponent.explodeVerticalAnimRange)
@@ -48,8 +49,7 @@ class PropLoader: ConfigLoader {
             
             explosion = Explosion(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
-            // TODO: make error
-            print("could not load entity config file: Bomb\(configFile)")
+            throw PropLoaderError.EntityParsingFailedForFile(file: configFile, inBundleSupportSubDirectory: directory)
         }
 
         return explosion
@@ -58,14 +58,11 @@ class PropLoader: ConfigLoader {
     func bombWithGridPosition(gridPosition: Point) throws -> Bomb? {
         var bomb: Bomb? = nil
         
-        let configFile = "config.json"
-        let subDirectory = "Props/Bomb"
-        
-        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
+        let directory = "Props/Bomb"
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             bomb = Bomb(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
-            // TODO: make error
-            print("could not load entity config file: Bomb\(configFile)")
+            throw PropLoaderError.EntityParsingFailedForFile(file: configFile, inBundleSupportSubDirectory: directory)
         }
         
         return bomb
@@ -74,14 +71,11 @@ class PropLoader: ConfigLoader {
     func projectileWithName(name: String, gridPosition: Point) throws -> Projectile? {
         var projectile: Projectile? = nil
         
-        let configFile = "config.json"
-        let subDirectory = "Props/\(name)"
-        
-        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
+        let directory = "Props/\(name)"
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             projectile = Projectile(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
-            // TODO: make error
-            print("could not load entity config file: Bomb\(configFile)")
+            throw PropLoaderError.EntityParsingFailedForFile(file: configFile, inBundleSupportSubDirectory: directory)
         }
         
         return projectile
@@ -90,14 +84,11 @@ class PropLoader: ConfigLoader {
     func pointsWithType(pointsType: PointsType, gridPosition: Point) throws -> Points? {
         var points: Points? = nil
         
-        let configFile = "config.json"
-        let subDirectory = "Props/Points10"
-        
-        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
+        let directory = "Props/Points10"
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             points = Points(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, type: pointsType)
         } else {
-            // TODO: make error
-            print("could not load entity config file: \(subDirectory)\\\(configFile)")
+            throw PropLoaderError.EntityParsingFailedForFile(file: configFile, inBundleSupportSubDirectory: directory)
         }
         
         return points
@@ -106,14 +97,11 @@ class PropLoader: ConfigLoader {
     func propWithName(propName: String, gridPosition: Point) throws -> Prop? {
         var prop: Prop? = nil
         
-        let configFile = "config.json"
-        let subDirectory = "Props/\(propName)"
-        
-        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
+        let directory = "Props/\(propName)"
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             prop = Prop(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
-            // TODO: make error
-            print("could not load entity config file: \(propName)/\(configFile)")
+            throw PropLoaderError.EntityParsingFailedForFile(file: configFile, inBundleSupportSubDirectory: directory)
         }
         
         return prop
