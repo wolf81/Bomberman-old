@@ -22,8 +22,8 @@ class GameSceneNode: SKShapeNode {
         let tileSize = CGSize(width: unitLength, height: unitLength)
         
         // TODO: Clean-up floor tile loading - many chances for bugs when e.g. textures are missing
-        let textureLoader = ThemeTextureLoader(forGame: level.game)
-        let floorTile = try! textureLoader.floorTextureForTheme(level.theme)
+        let tileLoader = TileLoader(forGame: level.game)
+        let floorTile = try! tileLoader.floorTextureForTheme(level.theme)
         let floorTexture = floorTile.tiledTextureWithSize(level.size(), tileSize: tileSize)
 
         self.world = SKSpriteNode(texture: floorTexture, size: level.size())

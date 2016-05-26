@@ -14,20 +14,18 @@ enum PointsType: Int {
     case Hundred = 100
 }
 
-class PropLoader: DataLoader {
-    func tileWithName(name: String, gridPosition: Point, tileType: TileType) throws -> Tile? {
-        var entity: Tile? = nil
+class PropLoader: ConfigLoader {
+    func powerWithGridPosition(gridPosition: Point, type: PowerType) throws -> Power? {
+        var entity: Power? = nil
         
         let configFile = "config.json"
-        let subDirectory = "Props/\(name)"
+        let subDirectory = "Props/Power"
         
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            let fileUrl = NSURL(fileURLWithPath:path)
-            let configComponent = try ConfigComponent(configFileUrl: fileUrl)
-            entity = Tile(gridPosition: gridPosition, configComponent: configComponent, tileType: tileType)
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
+            entity = Power(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, type: type)
         } else {
             // TODO: make error
-            print("could not load entity config file: \(name)/\(configFile)")
+            print("could not load entity config file: Power\(configFile)")
         }
         
         return entity
@@ -39,9 +37,7 @@ class PropLoader: DataLoader {
         let configFile = "config.json"
         let subDirectory = "Props/Explosion"
         
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
-            
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
             switch direction {
             case .North: configComponent.updateDestroyAnimRange(configComponent.explodeVerticalAnimRange)
             case .South: configComponent.updateDestroyAnimRange(configComponent.explodeVerticalAnimRange)
@@ -65,8 +61,7 @@ class PropLoader: DataLoader {
         let configFile = "config.json"
         let subDirectory = "Props/Bomb"
         
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
             bomb = Bomb(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
             // TODO: make error
@@ -82,8 +77,7 @@ class PropLoader: DataLoader {
         let configFile = "config.json"
         let subDirectory = "Props/\(name)"
         
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
             projectile = Projectile(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
             // TODO: make error
@@ -99,8 +93,7 @@ class PropLoader: DataLoader {
         let configFile = "config.json"
         let subDirectory = "Props/Points10"
         
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
             points = Points(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, type: pointsType)
         } else {
             // TODO: make error
@@ -116,8 +109,7 @@ class PropLoader: DataLoader {
         let configFile = "config.json"
         let subDirectory = "Props/\(propName)"
         
-        if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
-            let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))
+        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: subDirectory) {
             prop = Prop(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
         } else {
             // TODO: make error

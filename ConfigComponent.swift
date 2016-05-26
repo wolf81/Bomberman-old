@@ -63,7 +63,13 @@ class ConfigComponent: GKComponent {
         
         self.configFilePath = configFileUrl.URLByDeletingLastPathComponent?.path
     }
-    
+
+    convenience init(json: [String: AnyObject], configFileUrl: NSURL) {
+        self.init(json: json)
+
+        self.configFilePath = configFileUrl.URLByDeletingLastPathComponent?.path        
+    }
+
     init(json: [String: AnyObject]) {
         super.init()
         

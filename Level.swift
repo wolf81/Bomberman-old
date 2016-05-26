@@ -132,11 +132,11 @@ extension Level {
                     
                     if let tileType = TileType(rawValue: jsonNumber.integerValue) {
                         switch tileType {
-                        case .Border:
-                            tile = try tileForBorderAtRow(rowIndex, column: colIndex)
+                        case .Wall:
+                            tile = try wallTileForRow(rowIndex, column: colIndex)
                         case .DestructableBlock: fallthrough
                         case .IndestructableBlock:
-                            tile = try tileForBlockAtRow(rowIndex, column: colIndex, withType: tileType)
+                            tile = try blockTileForRow(rowIndex, column: colIndex, withType: tileType)
                         case .None: break
                         }
                     }
@@ -149,21 +149,23 @@ extension Level {
         }
     }
     
-    private func tileForBlockAtRow(rowIndex: Int, column colIndex: Int, withType type: TileType) throws -> Tile? {
-        let propLoader = PropLoader(forGame: self.game)
+    private func blockTileForRow(rowIndex: Int, column colIndex: Int, withType type: TileType) throws -> Tile? {
+        let tileLoader = TileLoader(forGame: self.game)
 
         var tile: Tile?
         
         if let tileName = self.theme.tileNameForTileType(type) {
             let gridPosition = Point(x: colIndex, y: rowIndex)
-            tile = try propLoader.tileWithName(tileName, gridPosition: gridPosition, tileType: type)
+            tile = try tileLoader.tileWithName(tileName, gridPosition: gridPosition, tileType: type)
         }
         
         return tile
     }
     
-    private func tileForBorderAtRow(rowIndex: Int, column colIndex: Int) throws -> Tile? {
-        let textureLoader = ThemeTextureLoader(forGame: self.game)
+    private func wallTileForRow(rowIndex: Int, column colIndex: Int) throws -> Tile? {
+        var tile: Tile?
+        
+        let tileLoader = TileLoader(forGame: self.game)
         
         var wallTextureType = WallTextureType.TopLeft
         
@@ -185,10 +187,8 @@ extension Level {
             wallTextureType = .Top
         }
         
-        let texture = try textureLoader.wallTextureForTheme(self.theme, type: wallTextureType)
-        let visualComponent = VisualComponent(sprites: [texture])
         let gridPosition = Point(x: colIndex, y: rowIndex)
-        let tile = Tile(gridPosition: gridPosition, visualComponent: visualComponent, tileType: .Border)
+        tile = try tileLoader.wallTileForTheme(self.theme, type: wallTextureType, gridPosition: gridPosition)
         
         return tile
     }

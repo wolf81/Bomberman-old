@@ -26,8 +26,8 @@ enum WallTextureType: Int {
     case TopLeft = 7
 }
 
-class ThemeTextureLoader: DataLoader {
-    func wallTextureForTheme(theme: Theme, type: WallTextureType) throws -> SKTexture {
+class TileLoader: DataLoader {
+    func wallTileForTheme(theme: Theme, type: WallTextureType, gridPosition: Point) throws -> Tile {
         var sprites: [SKTexture] = [SKTexture]()
         
         guard let textureName = theme.wallTilesPath else {
@@ -51,7 +51,12 @@ class ThemeTextureLoader: DataLoader {
                                                                    textureCount: sprites.count)
         }
         
-        return sprites[type.rawValue]
+        let sprite = sprites[type.rawValue]
+        
+        let visualComponent = VisualComponent(sprites: [sprite])
+        let tile = Tile(gridPosition: gridPosition, visualComponent: visualComponent, tileType: .Wall)
+        
+        return tile
     }
     
     func floorTextureForTheme(theme: Theme) throws -> SKTexture {
@@ -72,7 +77,7 @@ class ThemeTextureLoader: DataLoader {
         var entity: Tile?
         
         let configFile = "config.json"
-        let subDirectory = "Props/\(name)"
+        let subDirectory = "Tiles/\(name)"
         
         if let path = try pathForFile(configFile, inBundleSupportSubDirectory: subDirectory) {
             let configComponent = try ConfigComponent(configFileUrl: NSURL(fileURLWithPath:path))

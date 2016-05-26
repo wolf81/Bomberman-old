@@ -17,6 +17,10 @@
 		7900190A1CF5999C001EEF3C /* Points.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019081CF5999C001EEF3C /* Points.swift */; };
 		7900190C1CF5C4ED001EEF3C /* FloatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190B1CF5C4ED001EEF3C /* FloatState.swift */; };
 		7900190D1CF5C4ED001EEF3C /* FloatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190B1CF5C4ED001EEF3C /* FloatState.swift */; };
+		7900190F1CF74877001EEF3C /* Power.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190E1CF74877001EEF3C /* Power.swift */; };
+		790019101CF74877001EEF3C /* Power.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190E1CF74877001EEF3C /* Power.swift */; };
+		790019151CF7A9DB001EEF3C /* ConfigLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019141CF7A9DB001EEF3C /* ConfigLoader.swift */; };
+		790019161CF7A9DB001EEF3C /* ConfigLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019141CF7A9DB001EEF3C /* ConfigLoader.swift */; };
 		790056341CDD3469009CDF81 /* PanelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056331CDD3469009CDF81 /* PanelNode.swift */; };
 		790056351CDD3469009CDF81 /* PanelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056331CDD3469009CDF81 /* PanelNode.swift */; };
 		790056371CDD4484009CDF81 /* SKAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056361CDD4484009CDF81 /* SKAction+Extensions.swift */; };
@@ -148,6 +152,8 @@
 		790019051CF58BBE001EEF3C /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		790019081CF5999C001EEF3C /* Points.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Points.swift; sourceTree = "<group>"; };
 		7900190B1CF5C4ED001EEF3C /* FloatState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatState.swift; sourceTree = "<group>"; };
+		7900190E1CF74877001EEF3C /* Power.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Power.swift; sourceTree = "<group>"; };
+		790019141CF7A9DB001EEF3C /* ConfigLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigLoader.swift; sourceTree = "<group>"; };
 		790056331CDD3469009CDF81 /* PanelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanelNode.swift; sourceTree = "<group>"; };
 		790056361CDD4484009CDF81 /* SKAction+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKAction+Extensions.swift"; sourceTree = "<group>"; };
 		790056391CDDD445009CDF81 /* Points 5K.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Points 5K.png"; sourceTree = "<group>"; };
@@ -313,6 +319,7 @@
 				79C9F1911CD9B7E600692D75 /* Monster.swift */,
 				7902B0C41CDC9B2B00298CAC /* Prop.swift */,
 				790019081CF5999C001EEF3C /* Points.swift */,
+				7900190E1CF74877001EEF3C /* Power.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -327,6 +334,7 @@
 				794ADE121CD1D2EA000AF170 /* ThemeLoader.swift */,
 				794ADE351CD36AF6000AF170 /* PropLoader.swift */,
 				790018FF1CF449DD001EEF3C /* ThemeTextureLoader.swift */,
+				790019141CF7A9DB001EEF3C /* ConfigLoader.swift */,
 			);
 			name = Loaders;
 			sourceTree = "<group>";
@@ -676,6 +684,7 @@
 				794ADE211CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,
 				7947BC201CCB233500DE7C8A /* Types.swift in Sources */,
 				794ADE5A1CD6F261000AF170 /* StateMachineComponent.swift in Sources */,
+				7900190F1CF74877001EEF3C /* Power.swift in Sources */,
 				79FC6BB41CCA47D400DF7476 /* Game.swift in Sources */,
 				7902B0C51CDC9B2B00298CAC /* Prop.swift in Sources */,
 				7947BC441CCE371E00DE7C8A /* PlayerControlComponent.swift in Sources */,
@@ -704,6 +713,7 @@
 				794ADE541CD5A5B5000AF170 /* Explosion.swift in Sources */,
 				79C9F18C1CD9B3AB00692D75 /* Player.swift in Sources */,
 				79FC6BBE1CCA4CC700DF7476 /* GameView.swift in Sources */,
+				790019151CF7A9DB001EEF3C /* ConfigLoader.swift in Sources */,
 				7902B0BB1CDC8F5000298CAC /* GameSceneNode.swift in Sources */,
 				794ADE5D1CD70A6F000AF170 /* Array+Extensions.swift in Sources */,
 				7900190C1CF5C4ED001EEF3C /* FloatState.swift in Sources */,
@@ -724,6 +734,7 @@
 				794ADDEE1CD088E5000AF170 /* String+Extensions.swift in Sources */,
 				7947BC3F1CCDD7B200DE7C8A /* RoamState.swift in Sources */,
 				7947BC161CCB1C7200DE7C8A /* Level.swift in Sources */,
+				790019161CF7A9DB001EEF3C /* ConfigLoader.swift in Sources */,
 				794ADDFF1CD0A66E000AF170 /* SpriteLoader.swift in Sources */,
 				7902B0C61CDC9B2B00298CAC /* Prop.swift in Sources */,
 				7947BC311CCDCE5500DE7C8A /* CpuControlComponent.swift in Sources */,
@@ -739,6 +750,7 @@
 				7900190D1CF5C4ED001EEF3C /* FloatState.swift in Sources */,
 				793FAF461CE08E22005F64B1 /* LoadingScene.swift in Sources */,
 				794ADE551CD5A5B5000AF170 /* Explosion.swift in Sources */,
+				790019101CF74877001EEF3C /* Power.swift in Sources */,
 				7902B0C01CDC954600298CAC /* PlayerInfoNode.swift in Sources */,
 				79FC6B9C1CCA2B9C00DF7476 /* AppDelegate.swift in Sources */,
 				793FAF4C1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift in Sources */,

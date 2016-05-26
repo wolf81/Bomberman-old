@@ -44,4 +44,16 @@ class DataLoader {
         
         return path
    }
+
+    func jsonData(fromPath path: String) throws -> [String: AnyObject]? {
+        var json: AnyObject? = nil
+        
+        if let jsonData = fileManager.contentsAtPath(path) {
+            json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
+        } else {
+            print("could not load file at path: \(path)")
+        }
+        
+        return json as? [String: AnyObject]
+    }
 }
