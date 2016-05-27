@@ -38,23 +38,21 @@ class DestroyState: State {
                         visualComponent.spriteNode.physicsBody = nil
                     }
                     
+                    var spawnDelay: Double = 0
+                    
                     if let configComponent = entity.componentForClass(ConfigComponent) {
+                        spawnDelay = configComponent.spawnDelay
+                        
                         if configComponent.destroyAnimRange.count > 0 {
                             let totalTime = configComponent.destroyDuration
                             let sprites = Array(visualComponent.sprites[configComponent.destroyAnimRange])
-                            let timePerFrame = totalTime / Double(sprites.count)
+                            let animRepeat = configComponent.destroyAnimRepeat
+                            let timePerFrame = totalTime / Double(sprites.count * animRepeat)
                             let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
                             actions.append(anim)
                             
-                            if let creature = entity as? Creature {
-                                if creature.lives < 0 {
-                                    let fade = SKAction.fadeOutWithDuration(0.2)
-                                    actions.append(fade)
-                                }
-                            } else {
-                                let fade = SKAction.fadeOutWithDuration(0.2)
-                                actions.append(fade)
-                            }
+                            let fade = SKAction.fadeOutWithDuration(0.5)
+                            actions.append(fade)
                         }
                         
                         if let value = entity.value {
@@ -65,11 +63,13 @@ class DestroyState: State {
                     }
                     
                     let completion = {
-                        self.updating = false
-                        
-                        if let delegate = entity.delegate {
-                            delegate.entityDidDestroy(entity)
-                        }
+                        delay(spawnDelay, closure: {
+                            self.updating = false
+                            
+                            if let delegate = entity.delegate {
+                                delegate.entityDidDestroy(entity)
+                            }
+                        })
                     }
                     
                     if actions.count > 0 {

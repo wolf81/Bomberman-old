@@ -144,12 +144,9 @@ class Entity: GKEntity {
         }
     }
     
-    func spawn(afterDelay delay: NSTimeInterval = 0) {
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-        dispatch_after(when, dispatch_get_main_queue()) {
-            if let stateMachineComponent = self.componentForClass(StateMachineComponent) {
-                stateMachineComponent.enterSpawnState()
-            }
+    func spawn() {
+        if let stateMachineComponent = self.componentForClass(StateMachineComponent) {
+            stateMachineComponent.enterSpawnState()
         }
     }
     

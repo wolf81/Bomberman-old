@@ -39,7 +39,9 @@ class ConfigComponent: GKComponent {
     private(set) var explodeVerticalAnimRange   = 0 ..< 0
 
     private(set) var destroyDelay: NSTimeInterval?
-    private(set) var spawnDelay: NSTimeInterval?
+    private(set) var spawnDelay: NSTimeInterval = 0
+    
+    private(set) var destroyAnimRepeat = 1
     
     private(set) var floatDuration: NSTimeInterval = 1.0
     private(set) var destroyDuration: NSTimeInterval = 1.0
@@ -152,6 +154,10 @@ class ConfigComponent: GKComponent {
         
         if let durationJson = json["duration"] as? NSTimeInterval {
             self.destroyDuration = durationJson
+        }
+        
+        if let repeatJson = json["repeat"] as? Int {
+            self.destroyAnimRepeat = repeatJson
         }
     }
     

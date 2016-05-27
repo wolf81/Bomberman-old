@@ -11,6 +11,7 @@ import SpriteKit
 
 class SpawnState: State {
     private var destroyDelay: NSTimeInterval?
+    private var didShowSpawnAnimation = false
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
         var isValidNextState: Bool
@@ -82,9 +83,14 @@ class SpawnState: State {
                                     actions.append(anim)
                                 }
                             } else {
-                                // TODO: Figure out how to do a respawn animation, e.g.: fade in.
                                 let sprite = Array(visualComponent.sprites[configComponent.spawnAnimRange])
                                 visualComponent.spriteNode.texture = sprite.first
+                                
+                                let position = Game.sharedInstance.positionForGridPosition(entity.gridPosition)
+                                visualComponent.spriteNode.position = position
+                                
+                                let fadeIn = SKAction.fadeInWithDuration(0.5)
+                                actions.append(fadeIn)
                             }
                         }
                     }

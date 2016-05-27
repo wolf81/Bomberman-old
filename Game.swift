@@ -418,7 +418,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
                 }
                 
                 self.gameScene?.updatePlayer(player.index, setLives: player.lives)
-                player.spawn(afterDelay: 1)
+                player.spawn()
             }
         case is Tile:
             removeEntity(entity)
