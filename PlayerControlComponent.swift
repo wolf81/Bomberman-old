@@ -11,7 +11,7 @@ import GameplayKit
 class PlayerControlComponent: GKComponent {
     weak var player: Creature?
     
-    private var actions = [PlayerAction]()
+    private var actions = Set<PlayerAction>()
     
     init (player: Creature) {
         super.init()
@@ -19,40 +19,45 @@ class PlayerControlComponent: GKComponent {
         self.player = player
     }
     
-    func remove(action: PlayerAction) {
-        if let index = actions.indexOf(action) {
-            actions.removeAtIndex(index)
+    func addAction(action: PlayerAction) {
+        if action == PlayerAction.None {
+            self.actions.remove(.MoveDown)
+            self.actions.remove(.MoveLeft)
+            self.actions.remove(.MoveUp)
+            self.actions.remove(.MoveRight)
+        } else {
+            self.actions.insert(action)
         }
     }
     
-    func removeAllActions() {
-        actions.removeAll()
-    }
-    
-    func insert(action: PlayerAction) {
-        if let index = actions.indexOf(action) {
-            actions.removeAtIndex(index)
-        }
-        
-        actions.insert(action, atIndex: 0)
+    func removeAction(action: PlayerAction) {
+        self.actions.remove(action)
     }
     
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        if let action = self.actions.first {
-            if let player = self.player {
-                if player.isControllable {
-                    switch action {
-                    case .DropBomb:
+        if let player = self.player {
+            if player.isControllable {
+                
+                for action in actions {
+                    if action == PlayerAction.DropBomb {
                         player.dropBomb()
-                        remove(action)
-                    default:
-                        if player.isMoving == false {
-                            let direction = movementDirectionForPlayerAction(action)
-                            if player.moveInDirection(direction) == false {
-                                remove(action)
-                            }
-                        }
+                        removeAction(action)
                     }
+                }
+                
+                if !player.isMoving {
+                    var direction = Direction.None
+                    
+                    for action in actions {
+                        if action == PlayerAction.DropBomb {
+                            continue
+                        }
+                        
+                        direction = movementDirectionForPlayerAction(action)
+                        break
+                    }
+                    
+                    player.moveInDirection(direction)
                 }
             }
         }

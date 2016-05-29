@@ -15,9 +15,9 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     
     // Control systems for the player, computer and generic state machine (e.g.: tiles are not 
     //  'played' by the CPU, but can still have several states - some tiles can be destroyed).
-    private let cpuControlSystem = GKComponentSystem(componentClass: CpuControlComponent.self)
-    private let playerControlSystem = GKComponentSystem(componentClass: PlayerControlComponent.self)
-    private let stateMachineSystem = GKComponentSystem(componentClass: StateMachineComponent.self)
+    private let cpuControlSystem = ComponentSystem(componentClass: CpuControlComponent.self)
+    private let playerControlSystem = ComponentSystem(componentClass: PlayerControlComponent.self)
+    private let stateMachineSystem = ComponentSystem(componentClass: StateMachineComponent.self)
     
     // The current level. After the level is assigned, we add all entities of the level to the 
     //  entity lists of the game.
@@ -68,26 +68,26 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         return level
     }
         
-    func handlePlayerDidStartAction(scene: GameScene, player: PlayerIndex, action: PlayerAction) {
+    func handlePlayerDidStartAction(player: PlayerIndex, action: PlayerAction) {
         if player == .Player1 {
             if let playerControlComponent = level?.player1?.componentForClass(PlayerControlComponent) {
-                playerControlComponent.insert(action)
+                playerControlComponent.addAction(action)
             }
         } else if player == .Player2 {
             if let playerControlComponent = level?.player2?.componentForClass(PlayerControlComponent) {
-                playerControlComponent.insert(action)
+                playerControlComponent.addAction(action)
             }
         }
     }
     
-    func handlePlayerDidStopAction(scene: GameScene, player: PlayerIndex, action: PlayerAction) {
+    func handlePlayerDidStopAction(player: PlayerIndex, action: PlayerAction) {
         if player == .Player1 {
             if let playerControlComponent = level?.player1?.componentForClass(PlayerControlComponent) {
-                playerControlComponent.remove(action)
+                playerControlComponent.removeAction(action)
             }
         } else if player == .Player2 {
             if let playerControlComponent = level?.player2?.componentForClass(PlayerControlComponent) {
-                playerControlComponent.remove(action)
+                playerControlComponent.removeAction(action)
             }
         }
     }
@@ -214,6 +214,10 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.tiles.removeAll()
         self.projectiles.removeAll()
         self.points.removeAll()
+        
+        self.stateMachineSystem.removeAllComponents()
+        self.cpuControlSystem.removeAllComponents()
+        self.playerControlSystem.removeAllComponents()
     }
     
     func tileAtGridPosition(gridPosition: Point) -> Tile? {
@@ -414,7 +418,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             
             if let player = creature as? Player {
                 if let controlComponent = player.componentForClass(PlayerControlComponent) {
-                    controlComponent.removeAllActions()
+                    // TODO
                 }
                 
                 self.gameScene?.updatePlayer(player.index, setLives: player.lives)

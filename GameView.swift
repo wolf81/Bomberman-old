@@ -44,10 +44,8 @@ class GameView: SKView {
         self.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
         #endif
         
-        self.showsFPS = true
-        self.showsNodeCount = true
-        
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         self.ignoresSiblingOrder = true
+        self.shouldCullNonVisibleNodes = true
     }
 }
