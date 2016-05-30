@@ -59,6 +59,12 @@ class StateMachineComponent: GKComponent {
         }
     }
     
+    func enterCheerState() {
+        if (self.stateMachine.currentState is CheerState) == false {
+            self.stateMachine.enterState(CheerState)
+        }
+    }
+    
     func enterFloatState() {
         if (self.stateMachine.currentState is FloatState) == false {
             self.stateMachine.enterState(FloatState)

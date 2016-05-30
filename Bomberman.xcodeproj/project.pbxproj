@@ -23,6 +23,8 @@
 		790019161CF7A9DB001EEF3C /* ConfigurationLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */; };
 		790019191CFB0BBA001EEF3C /* ComponentSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019181CFB0BBA001EEF3C /* ComponentSystem.swift */; };
 		7900191A1CFB0BBA001EEF3C /* ComponentSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019181CFB0BBA001EEF3C /* ComponentSystem.swift */; };
+		7900191C1CFBCCFD001EEF3C /* CheerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900191B1CFBCCFD001EEF3C /* CheerState.swift */; };
+		7900191D1CFBCCFD001EEF3C /* CheerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900191B1CFBCCFD001EEF3C /* CheerState.swift */; };
 		790056341CDD3469009CDF81 /* PanelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056331CDD3469009CDF81 /* PanelNode.swift */; };
 		790056351CDD3469009CDF81 /* PanelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056331CDD3469009CDF81 /* PanelNode.swift */; };
 		790056371CDD4484009CDF81 /* SKAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056361CDD4484009CDF81 /* SKAction+Extensions.swift */; };
@@ -157,6 +159,7 @@
 		7900190E1CF74877001EEF3C /* Power.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Power.swift; sourceTree = "<group>"; };
 		790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationLoader.swift; sourceTree = "<group>"; };
 		790019181CFB0BBA001EEF3C /* ComponentSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentSystem.swift; sourceTree = "<group>"; };
+		7900191B1CFBCCFD001EEF3C /* CheerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheerState.swift; sourceTree = "<group>"; };
 		790056331CDD3469009CDF81 /* PanelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanelNode.swift; sourceTree = "<group>"; };
 		790056361CDD4484009CDF81 /* SKAction+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKAction+Extensions.swift"; sourceTree = "<group>"; };
 		790056391CDDD445009CDF81 /* Points 5K.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Points 5K.png"; sourceTree = "<group>"; };
@@ -306,6 +309,7 @@
 				7902B0A11CDAFBD400298CAC /* ControlState.swift */,
 				7902B0A41CDB0FAD00298CAC /* PropelState.swift */,
 				7900190B1CF5C4ED001EEF3C /* FloatState.swift */,
+				7900191B1CFBCCFD001EEF3C /* CheerState.swift */,
 			);
 			name = StateMachine;
 			sourceTree = "<group>";
@@ -692,6 +696,7 @@
 				79FC6BB41CCA47D400DF7476 /* Game.swift in Sources */,
 				7902B0C51CDC9B2B00298CAC /* Prop.swift in Sources */,
 				7947BC441CCE371E00DE7C8A /* PlayerControlComponent.swift in Sources */,
+				7900191C1CFBCCFD001EEF3C /* CheerState.swift in Sources */,
 				790019191CFB0BBA001EEF3C /* ComponentSystem.swift in Sources */,
 				793FAF481CE0C0C0005F64B1 /* MenuScene.swift in Sources */,
 				790019001CF449DD001EEF3C /* TileLoader.swift in Sources */,
@@ -756,6 +761,7 @@
 				793FAF461CE08E22005F64B1 /* LoadingScene.swift in Sources */,
 				794ADE551CD5A5B5000AF170 /* Explosion.swift in Sources */,
 				790019101CF74877001EEF3C /* Power.swift in Sources */,
+				7900191D1CFBCCFD001EEF3C /* CheerState.swift in Sources */,
 				7902B0C01CDC954600298CAC /* PlayerInfoNode.swift in Sources */,
 				79FC6B9C1CCA2B9C00DF7476 /* AppDelegate.swift in Sources */,
 				793FAF4C1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift in Sources */,

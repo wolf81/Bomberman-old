@@ -23,6 +23,8 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     //  entity lists of the game.
     private var level: Level? = nil
     
+    private var isLevelCompleted = false
+    
     private var timeRemaining: NSTimeInterval = 0
     private var timerFinished = false
     
@@ -69,11 +71,12 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     }
         
     func handlePlayerDidStartAction(player: PlayerIndex, action: PlayerAction) {
-        if player == .Player1 {
+        switch player {
+        case .Player1:
             if let playerControlComponent = level?.player1?.componentForClass(PlayerControlComponent) {
                 playerControlComponent.addAction(action)
             }
-        } else if player == .Player2 {
+        case .Player2:
             if let playerControlComponent = level?.player2?.componentForClass(PlayerControlComponent) {
                 playerControlComponent.addAction(action)
             }
@@ -81,11 +84,12 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     }
     
     func handlePlayerDidStopAction(player: PlayerIndex, action: PlayerAction) {
-        if player == .Player1 {
+        switch player {
+        case .Player1:
             if let playerControlComponent = level?.player1?.componentForClass(PlayerControlComponent) {
                 playerControlComponent.removeAction(action)
             }
-        } else if player == .Player2 {
+        case .Player2:
             if let playerControlComponent = level?.player2?.componentForClass(PlayerControlComponent) {
                 playerControlComponent.removeAction(action)
             }
@@ -103,24 +107,31 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         updateEntityLists()
         
         // when all players are dead or monsters are dead, finish game appropriately.
-        let isFinished = isLevelFinished()
-        if isFinished {
-            self.removeAllEntities()
-            self.gameScene!.levelFinished(self.level!)
-        } else {
-            let deltaTime = currentTime - self.previousUpdateTime;
-            self.timeRemaining -= deltaTime
-            self.previousUpdateTime = currentTime;
-            
-            // Update player movement, monster movement, state machines ...
-            updateComponentSystems(deltaTime)
-            
-            if self.timeRemaining > 0 {
-                self.gameScene?.updateTimeRemaining(self.timeRemaining)
-            } else if !self.timerFinished {
-                self.timerFinished = true
-                accelerateMonsters()
-            }
+        let playerAlive = isPlayerAlive()
+        let monsterAlive = isMonsterAlive()
+        
+        let win = playerAlive && !monsterAlive
+        let loss = monsterAlive && !playerAlive
+        
+        if win {
+            self.player1?.cheer()
+            self.player2?.cheer()
+        } else if loss {
+            finishLevel(false)
+        }
+        
+        let deltaTime = currentTime - self.previousUpdateTime;
+        self.timeRemaining -= deltaTime
+        self.previousUpdateTime = currentTime;
+        
+        // Update player movement, monster movement, state machines ...
+        updateComponentSystems(deltaTime)
+        
+        if self.timeRemaining > 0 {
+            self.gameScene?.updateTimeRemaining(self.timeRemaining)
+        } else if !self.timerFinished {
+            self.timerFinished = true
+            accelerateMonsters()
         }
     }
     
@@ -189,21 +200,22 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.entitiesToAdd.removeAll()
     }
     
-    private func isLevelFinished() -> Bool {
-        var levelFinished = true
+    private func isMonsterAlive() -> Bool {
+        var isMonsterAlive = false
         
-        let isPlayerAlive = !self.player1!.isDestroyed || !self.player2!.isDestroyed
-        
-        if isPlayerAlive {
-            for creature in self.creatures {
-                if creature.isKindOfClass(Monster) {
-                    levelFinished = false
-                    break
-                }
+        for creature in self.creatures {
+            if creature.isKindOfClass(Monster) {
+                isMonsterAlive = true
+                break
             }
         }
         
-        return levelFinished
+        return isMonsterAlive
+    }
+    
+    private func isPlayerAlive() -> Bool {
+        let isPlayerAlive = !self.player1!.isDestroyed || !self.player2!.isDestroyed
+        return isPlayerAlive
     }
     
     private func removeAllEntities() {
@@ -249,7 +261,8 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
 
     func configureLevel() {
         self.gameScene?.world.removeAllChildren()
-        
+        self.isLevelCompleted = false
+
         if let level = self.level {
             for x in 0 ..< level.width {
                 for y in 0 ..< level.height {
@@ -395,6 +408,21 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.entitiesToRemove.append(entity)
     }
     
+    func entityDidCheer(entity: Entity) {
+        finishLevel(true)
+    }
+    
+    func finishLevel(didPlayerWin: Bool) {
+        if self.isLevelCompleted == false {
+            self.isLevelCompleted = true
+            
+            print("SHOW COMPLETE ANIMATION")
+            
+            self.removeAllEntities()
+            self.gameScene!.levelFinished(self.level!)
+        }
+    }
+    
     func entityDidDestroy(entity: Entity) {
         switch entity {
         case is Bomb:
@@ -416,11 +444,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
                 removeEntity(entity)
             }
             
-            if let player = creature as? Player {
-                if let controlComponent = player.componentForClass(PlayerControlComponent) {
-                    // TODO
-                }
-                
+            if let player = creature as? Player {                
                 self.gameScene?.updatePlayer(player.index, setLives: player.lives)
                 player.spawn()
             }

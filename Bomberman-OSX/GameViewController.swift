@@ -113,7 +113,7 @@ class GameViewController: NSViewController, LoadingSceneDelegate, GameSceneDeleg
             }
         }
         
-        if let gameScene = self.gameView.scene {
+        if self.gameView.scene != nil {
             if let dpad = controller.gamepad?.dpad {
                 dpad.valueChangedHandler = { _, xValue, yValue in
                     let centerOffset: Float = 0.10
