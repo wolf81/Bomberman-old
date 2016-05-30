@@ -13,6 +13,7 @@ import SpriteKit
     
     func gameScenePlayerDidStartAction(scene: GameScene, player: PlayerIndex, action: PlayerAction)
     func gameScenePlayerDidStopAction(scene: GameScene, player: PlayerIndex, action: PlayerAction)
+    func gameScenePlayerDidPause(scene: GameScene)
     
     func gameSceneDidFinishLevel(scene: GameScene, level: Level)
 }
@@ -86,9 +87,15 @@ class GameScene: SKScene {
         if let delegate = self.gameSceneDelegate {
             let playerAction = playerActionForKeyCode(theEvent.keyCode)
 
-            if let player = playerAction.player {
-                if let action = playerAction.action {
-                    delegate.gameScenePlayerDidStartAction(self, player: player, action: action)
+            if let action = playerAction.action {
+                if let player = playerAction.player {
+                    if action != .Pause {
+                        delegate.gameScenePlayerDidStartAction(self, player: player, action: action)
+                    }
+                } else {
+                    if action == .Pause {
+                        delegate.gameScenePlayerDidPause(self)
+                    }
                 }
             }
         }
@@ -118,8 +125,10 @@ class GameScene: SKScene {
     private func playerActionForKeyCode(keyCode: UInt16) -> (player: PlayerIndex?, action: PlayerAction?) {
         var player: PlayerIndex? = nil
         var action: PlayerAction?
-        
-        if [123, 124, 125, 126, 49].contains(keyCode) {
+                
+        if keyCode == 53 {
+            action = PlayerAction.Pause
+        } else if [123, 124, 125, 126, 49].contains(keyCode) {
             switch keyCode {
             case 123: action = PlayerAction.MoveLeft
             case 124: action = PlayerAction.MoveRight
@@ -130,7 +139,7 @@ class GameScene: SKScene {
             }
             
             player = PlayerIndex.Player1
-        } else if [0, 1, 2, 13].contains(keyCode) {
+        } else if [0, 1, 2, 13, 53].contains(keyCode) {
             switch keyCode {
             case 0: action = PlayerAction.MoveLeft
             case 1: action = PlayerAction.MoveDown

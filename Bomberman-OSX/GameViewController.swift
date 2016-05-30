@@ -102,6 +102,12 @@ class GameViewController: NSViewController, LoadingSceneDelegate, GameSceneDeleg
         Game.sharedInstance.handlePlayerDidStartAction(player, action: action)
     }
     
+    func gameScenePlayerDidPause(scene: GameScene) {
+        if let gameScene = Game.sharedInstance.gameScene {
+            gameScene.paused = !gameScene.paused
+        }
+    }
+    
     func configureController(controller: GCController, forPlayer player: GCControllerPlayerIndex) {
         controller.playerIndex = player
         

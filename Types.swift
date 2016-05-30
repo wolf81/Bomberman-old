@@ -22,6 +22,7 @@ let nothingCategory     : UInt32 = 0x1 << 5
     case MoveLeft
     case MoveRight
     case DropBomb
+    case Pause
 }
 
 @objc public enum Direction: Int {
