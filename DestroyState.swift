@@ -43,13 +43,34 @@ class DestroyState: State {
                     if let configComponent = entity.componentForClass(ConfigComponent) {
                         spawnDelay = configComponent.spawnDelay
                         
+                        if let destroySound = configComponent.destroySound {
+                            if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(destroySound) {
+                                let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
+                                audioNode.autoplayLooped = false
+                                visualComponent.spriteNode.addChild(audioNode)
+                                
+                                let play = SKAction.runBlock({
+                                    audioNode.runAction(SKAction.play())
+                                })
+                                
+                                actions.append(play)
+                            }
+                        }
+
                         if configComponent.destroyAnimRange.count > 0 {
                             let totalTime = configComponent.destroyDuration
                             let sprites = Array(visualComponent.sprites[configComponent.destroyAnimRange])
                             let animRepeat = configComponent.destroyAnimRepeat
+                            
                             let timePerFrame = totalTime / Double(sprites.count * animRepeat)
                             let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
-                            actions.append(anim)
+                            
+                            if animRepeat > 1 {
+                                let repeatAction = SKAction.repeatAction(anim, count: animRepeat)
+                                actions.append(repeatAction)
+                            } else {
+                                actions.append(anim)
+                            }
                             
                             let fade = SKAction.fadeOutWithDuration(0.5)
                             actions.append(fade)

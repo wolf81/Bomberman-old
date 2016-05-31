@@ -32,6 +32,20 @@ class HitState: State {
                     var sprite: SKSpriteNode?
                     
                     if let configComponent = entity.componentForClass(ConfigComponent) {
+                        if let hitSound = configComponent.hitSound {
+                            if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(hitSound) {
+                                let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
+                                audioNode.autoplayLooped = false
+                                visualComponent.spriteNode.addChild(audioNode)
+                                
+                                let play = SKAction.runBlock({
+                                    audioNode.runAction(SKAction.play())
+                                })
+                                
+                                actions.append(play)
+                            }
+                        }
+                        
                         if configComponent.hitAnimRange.count > 0 {
                             let texture = visualComponent.sprites[configComponent.hitAnimRange.startIndex]
                             let tileSize = CGSizeMake(CGFloat(unitLength), CGFloat(unitLength))

@@ -127,6 +127,7 @@
 		794ADE671CD7307A000AF170 /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADE651CD7307A000AF170 /* Projectile.swift */; };
 		794ADE6C1CD82A0A000AF170 /* HitState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADE6B1CD82A0A000AF170 /* HitState.swift */; };
 		794ADE6D1CD82A0A000AF170 /* HitState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADE6B1CD82A0A000AF170 /* HitState.swift */; };
+		7994C3E01CFD7C8C00B6F77F /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7900191E1CFC2087001EEF3C /* GameController.framework */; };
 		79C9F18C1CD9B3AB00692D75 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C9F18B1CD9B3AB00692D75 /* Player.swift */; };
 		79C9F18D1CD9B3AB00692D75 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C9F18B1CD9B3AB00692D75 /* Player.swift */; };
 		79C9F1921CD9B7E600692D75 /* Monster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C9F1911CD9B7E600692D75 /* Monster.swift */; };
@@ -160,6 +161,7 @@
 		790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationLoader.swift; sourceTree = "<group>"; };
 		790019181CFB0BBA001EEF3C /* ComponentSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentSystem.swift; sourceTree = "<group>"; };
 		7900191B1CFBCCFD001EEF3C /* CheerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheerState.swift; sourceTree = "<group>"; };
+		7900191E1CFC2087001EEF3C /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
 		790056331CDD3469009CDF81 /* PanelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanelNode.swift; sourceTree = "<group>"; };
 		790056361CDD4484009CDF81 /* SKAction+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKAction+Extensions.swift"; sourceTree = "<group>"; };
 		790056391CDDD445009CDF81 /* Points 5K.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Points 5K.png"; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7994C3E01CFD7C8C00B6F77F /* GameController.framework in Frameworks */,
 				46DD2B8C1BE02760663B72C0 /* Pods_Bomberman_tvOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -256,6 +259,7 @@
 		242627F7267692DD04861B74 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7900191E1CFC2087001EEF3C /* GameController.framework */,
 				9094819A27922F53AB0791A5 /* Pods_Bomberman_OSX.framework */,
 				F3005FBC1E34ABD34E573C19 /* Pods_Bomberman_tvOS.framework */,
 			);
@@ -515,9 +519,16 @@
 				TargetAttributes = {
 					79FC6B821CCA2B9000DF7476 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = Q97F9KZ3J6;
 					};
 					79FC6B981CCA2B9C00DF7476 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = Q97F9KZ3J6;
+						SystemCapabilities = {
+							com.apple.GameControllers.appletvos = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -839,7 +850,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -866,6 +878,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.wolftrail.Bomberman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -891,7 +904,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -911,6 +925,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = net.wolftrail.Bomberman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -936,6 +951,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -958,7 +974,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = net.wolftrail.Bomberman;
+				PRODUCT_BUNDLE_IDENTIFIER = net.wolftrail.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -988,6 +1004,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1003,7 +1020,7 @@
 				INFOPLIST_FILE = "Bomberman-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = net.wolftrail.Bomberman;
+				PRODUCT_BUNDLE_IDENTIFIER = net.wolftrail.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;

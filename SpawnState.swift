@@ -64,6 +64,20 @@ class SpawnState: State {
             if let entity = self.entity {
                 if let visualComponent = entity.componentForClass(VisualComponent) {
                     if let configComponent = entity.componentForClass(ConfigComponent) {
+                        if let spawnSound = configComponent.spawnSound {
+                            if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(spawnSound) {
+                                let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
+                                audioNode.autoplayLooped = false
+                                visualComponent.spriteNode.addChild(audioNode)
+                                
+                                let play = SKAction.runBlock({
+                                    audioNode.runAction(SKAction.play())
+                                })
+                                
+                                actions.append(play)
+                            }
+                        }
+
                         if configComponent.spawnAnimRange.count > 0 {
                             if configComponent.spawnAnimRange.count > 1 {
                                 var totalTime: Double = 1.0

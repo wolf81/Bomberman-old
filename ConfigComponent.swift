@@ -44,6 +44,11 @@ class ConfigComponent: GKComponent {
     
     private(set) var destroyAnimRepeat = 1
     
+    private(set) var destroySound: String?
+    private(set) var spawnSound: String?
+    private(set) var hitSound: String?
+    private(set) var cheerSound: String?
+    
     private(set) var floatDuration: NSTimeInterval = 1.0
     private(set) var destroyDuration: NSTimeInterval = 1.0
     private(set) var cheerDuration: NSTimeInterval = 1.0
@@ -158,6 +163,7 @@ class ConfigComponent: GKComponent {
         self.destroyAnimRange = animRangeFromJson(json)
         self.destroyDuration = durationFromJson(json)
         self.destroyDelay = delayFromJson(json)
+        self.destroySound = soundFromJson(json)
 
         if let repeatJson = json["repeat"] as? Int {
             self.destroyAnimRepeat = repeatJson
@@ -166,6 +172,7 @@ class ConfigComponent: GKComponent {
     
     private func parseHitJson(json: [String: AnyObject]) {
         self.hitAnimRange = animRangeFromJson(json)
+        self.hitSound = soundFromJson(json)
     }
     
     private func parseFloatJson(json: [String: AnyObject]) {
@@ -175,11 +182,13 @@ class ConfigComponent: GKComponent {
     private func parseCheerJson(json: [String: AnyObject]) {
         self.cheerAnimRange = animRangeFromJson(json)
         self.cheerDuration = durationFromJson(json)
+        self.cheerSound = soundFromJson(json)
     }
 
     private func parseSpawnJson(json: [String: AnyObject]) {
         self.spawnAnimRange = animRangeFromJson(json)
         self.spawnDelay = delayFromJson(json) ?? 0.0
+        self.spawnSound = soundFromJson(json)
     }
     
     private func parseCreatureJson(json: [String: AnyObject]) {
@@ -256,6 +265,16 @@ class ConfigComponent: GKComponent {
         }
         
         return duration
+    }
+    
+    private func soundFromJson(json: [String: AnyObject]) -> String? {
+        var sound: String?
+        
+        if let soundJson = json["sound"] as? String {
+            sound = soundJson
+        }
+        
+        return sound
     }
     
     private func delayFromJson(json: [String: AnyObject]) -> NSTimeInterval? {

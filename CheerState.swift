@@ -22,6 +22,20 @@ class CheerState: State {
             if let entity = self.entity {
                 if let configComponent = entity.componentForClass(ConfigComponent) {
                     if let visualComponent = entity.componentForClass(VisualComponent) {
+                        if let cheerSound = configComponent.cheerSound {
+                            if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(cheerSound) {
+                                let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
+                                audioNode.autoplayLooped = false
+                                visualComponent.spriteNode.addChild(audioNode)
+                                
+                                let play = SKAction.runBlock({
+                                    audioNode.runAction(SKAction.play())
+                                })
+                                
+                                actions.append(play)
+                            }
+                        }
+                        
                         let move = visualComponent.spriteNode.actionForKey("move")
                         move?.speed = 0
                         
