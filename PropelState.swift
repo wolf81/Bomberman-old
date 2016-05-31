@@ -26,12 +26,11 @@ class PropelState: State {
                     default: break
                     }
                     
-                    if let toPosition = entity.game?.positionForGridPosition(gridPosition) {
-                        visualComponent.moveInDirection(direction, toPosition: toPosition, completion: {
-                            entity.gridPosition = gridPosition
-                            self.updating = false
-                        })
-                    }
+                    let toPosition = positionForGridPosition(gridPosition)
+                    visualComponent.moveInDirection(direction, toPosition: toPosition, completion: {
+                        entity.gridPosition = gridPosition
+                        self.updating = false
+                    })
                 }
             }
         }

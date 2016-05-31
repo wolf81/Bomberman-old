@@ -27,7 +27,7 @@ class CheerState: State {
                                 let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
                                 audioNode.autoplayLooped = false
                                 visualComponent.spriteNode.addChild(audioNode)
-                                
+                                                                
                                 let play = SKAction.runBlock({
                                     audioNode.runAction(SKAction.play())
                                 })

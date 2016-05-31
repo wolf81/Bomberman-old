@@ -39,7 +39,7 @@ class Creature: Entity {
             self.direction = direction            
             self.nextGridPosition = gridPosition
             
-            let location = game!.positionForGridPosition(gridPosition)
+            let location = positionForGridPosition(gridPosition)
             visualComponent.moveInDirection(direction, toPosition: location, completion: {
                 self.gridPosition = gridPosition
             })
@@ -129,7 +129,7 @@ class Creature: Entity {
         if let game = self.game {
             let propLoader = PropLoader(forGame: game)
             if let position = self.componentForClass(VisualComponent)?.spriteNode.position {
-                let gridPosition = game.gridPositionForPosition(position)
+                let gridPosition = gridPositionForPosition(position)
                 
                 if game.bombAtGridPosition(gridPosition) == nil {
                     do {

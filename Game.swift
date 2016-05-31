@@ -135,103 +135,6 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         }
     }
     
-    private func accelerateMonsters() {
-        for creature in self.creatures {
-            if creature is Monster {
-                if let visualComponent = creature.componentForClass(VisualComponent) {
-                    visualComponent.spriteNode.speed *= 1.6
-                }
-            }
-        }
-    }
-    
-    private func updateComponentSystems(deltaTime: NSTimeInterval) {
-        self.cpuControlSystem.updateWithDeltaTime(deltaTime)
-        self.playerControlSystem.updateWithDeltaTime(deltaTime)
-        self.stateMachineSystem.updateWithDeltaTime(deltaTime)
-    }
-    
-    private func updateEntityLists() {
-        for entity in self.entitiesToRemove {
-            switch entity {
-            case is Explosion: self.explosions.remove(entity as! Explosion)
-            case is Bomb: self.bombs.remove(entity as! Bomb)
-            case is Tile: self.tiles.remove(entity as! Tile)
-            case is Creature: self.creatures.remove(entity as! Creature)
-            case is Projectile: self.projectiles.remove(entity as! Projectile)
-            case is Prop: self.props.remove(entity as! Prop)
-            case is Points: self.points.remove(entity as! Points)
-            default: print("unhandled entity type for instance: \(entity)")
-            }
-            
-            if let visualComponent = entity.componentForClass(VisualComponent) {
-                visualComponent.spriteNode.removeFromParent()
-            }
-            
-            self.playerControlSystem.removeComponentWithEntity(entity)
-            self.cpuControlSystem.removeComponentWithEntity(entity)
-            self.stateMachineSystem.removeComponentWithEntity(entity)
-        }
-        entitiesToRemove.removeAll()
-        
-        for entity in self.entitiesToAdd {
-            entity.delegate = self
-            
-            switch entity {
-            case is Bomb: self.bombs.append(entity as! Bomb)
-            case is Explosion: self.explosions.append(entity as! Explosion)
-            case is Tile: self.tiles.append(entity as! Tile)
-            case is Creature: self.creatures.append(entity as! Creature)
-            case is Projectile: self.projectiles.append(entity as! Projectile)
-            case is Prop: self.props.append(entity as! Prop)
-            case is Points: self.points.append(entity as! Points)
-            default: print("unhandled entity type for instance: \(entity)")
-            }
-            
-            if let visualComponent = entity.componentForClass(VisualComponent) {
-                visualComponent.spriteNode.position = positionForGridPosition(entity.gridPosition)
-                self.gameScene?.world.addChild(visualComponent.spriteNode)
-            }
-            
-            self.playerControlSystem.addComponentWithEntity(entity)
-            self.cpuControlSystem.addComponentWithEntity(entity)
-            self.stateMachineSystem.addComponentWithEntity(entity)
-        }
-        self.entitiesToAdd.removeAll()
-    }
-    
-    private func isMonsterAlive() -> Bool {
-        var isMonsterAlive = false
-        
-        for creature in self.creatures {
-            if creature.isKindOfClass(Monster) {
-                isMonsterAlive = true
-                break
-            }
-        }
-        
-        return isMonsterAlive
-    }
-    
-    private func isPlayerAlive() -> Bool {
-        let isPlayerAlive = !self.player1!.isDestroyed || !self.player2!.isDestroyed
-        return isPlayerAlive
-    }
-    
-    private func removeAllEntities() {
-        self.creatures.removeAll()
-        self.props.removeAll()
-        self.bombs.removeAll()
-        self.explosions.removeAll()
-        self.tiles.removeAll()
-        self.projectiles.removeAll()
-        self.points.removeAll()
-        
-        self.stateMachineSystem.removeAllComponents()
-        self.cpuControlSystem.removeAllComponents()
-        self.playerControlSystem.removeAllComponents()
-    }
-    
     func tileAtGridPosition(gridPosition: Point) -> Tile? {
         var tile: Tile? = nil
         
@@ -245,20 +148,6 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         return tile
     }
     
-    func positionForGridPosition(gridPosition: Point) -> CGPoint {
-        let halfUnitLength = unitLength / 2
-        let position = CGPoint(x: gridPosition.x * unitLength + halfUnitLength,
-                               y: gridPosition.y * unitLength + halfUnitLength)
-        return position
-    }
-    
-    func gridPositionForPosition(position: CGPoint) -> Point {
-        let x = Int(position.x / CGFloat(unitLength))
-        let y = Int(position.y / CGFloat(unitLength))
-        
-        return Point(x: x, y: y)
-    }
-
     func configureLevel() {
         self.gameScene?.world.removeAllChildren()
         self.isLevelCompleted = false
@@ -381,6 +270,119 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         return gridPositions
     }
     
+    // MARK: - Private
+    
+    private func accelerateMonsters() {
+        for creature in self.creatures {
+            if creature is Monster {
+                if let visualComponent = creature.componentForClass(VisualComponent) {
+                    visualComponent.spriteNode.speed *= 1.6
+                }
+            }
+        }
+    }
+    
+    private func updateComponentSystems(deltaTime: NSTimeInterval) {
+        self.cpuControlSystem.updateWithDeltaTime(deltaTime)
+        self.playerControlSystem.updateWithDeltaTime(deltaTime)
+        self.stateMachineSystem.updateWithDeltaTime(deltaTime)
+    }
+    
+    private func updateEntityLists() {
+        for entity in self.entitiesToRemove {
+            switch entity {
+            case is Explosion: self.explosions.remove(entity as! Explosion)
+            case is Bomb: self.bombs.remove(entity as! Bomb)
+            case is Tile: self.tiles.remove(entity as! Tile)
+            case is Creature: self.creatures.remove(entity as! Creature)
+            case is Projectile: self.projectiles.remove(entity as! Projectile)
+            case is Prop: self.props.remove(entity as! Prop)
+            case is Points: self.points.remove(entity as! Points)
+            default: print("unhandled entity type for instance: \(entity)")
+            }
+            
+            if let visualComponent = entity.componentForClass(VisualComponent) {
+                visualComponent.spriteNode.removeFromParent()
+            }
+            
+            self.playerControlSystem.removeComponentWithEntity(entity)
+            self.cpuControlSystem.removeComponentWithEntity(entity)
+            self.stateMachineSystem.removeComponentWithEntity(entity)
+        }
+        entitiesToRemove.removeAll()
+        
+        for entity in self.entitiesToAdd {
+            entity.delegate = self
+            
+            switch entity {
+            case is Bomb: self.bombs.append(entity as! Bomb)
+            case is Explosion: self.explosions.append(entity as! Explosion)
+            case is Tile: self.tiles.append(entity as! Tile)
+            case is Creature: self.creatures.append(entity as! Creature)
+            case is Projectile: self.projectiles.append(entity as! Projectile)
+            case is Prop: self.props.append(entity as! Prop)
+            case is Points: self.points.append(entity as! Points)
+            default: print("unhandled entity type for instance: \(entity)")
+            }
+            
+            if let visualComponent = entity.componentForClass(VisualComponent) {
+                visualComponent.spriteNode.position = positionForGridPosition(entity.gridPosition)
+                self.gameScene?.world.addChild(visualComponent.spriteNode)
+            }
+            
+            self.playerControlSystem.addComponentWithEntity(entity)
+            self.cpuControlSystem.addComponentWithEntity(entity)
+            self.stateMachineSystem.addComponentWithEntity(entity)
+        }
+        self.entitiesToAdd.removeAll()
+    }
+    
+    private func finishLevel(didPlayerWin: Bool) {
+        if self.isLevelCompleted == false {
+            self.isLevelCompleted = true
+            
+            print("SHOW COMPLETE ANIMATION")
+            
+            removeAllEntities()
+            
+            self.gameScene!.levelFinished(self.level!)
+        }
+    }
+
+    private func isMonsterAlive() -> Bool {
+        var isMonsterAlive = false
+        
+        for creature in self.creatures {
+            if creature.isKindOfClass(Monster) {
+                isMonsterAlive = true
+                break
+            }
+        }
+        
+        return isMonsterAlive
+    }
+    
+    private func isPlayerAlive() -> Bool {
+        let isPlayerAlive = !self.player1!.isDestroyed || !self.player2!.isDestroyed
+        return isPlayerAlive
+    }
+    
+    private func removeAllEntities() {
+        self.creatures.removeAll()
+        self.props.removeAll()
+        self.bombs.removeAll()
+        self.explosions.removeAll()
+        self.tiles.removeAll()
+        self.projectiles.removeAll()
+        self.points.removeAll()
+        
+        self.stateMachineSystem.removeAllComponents()
+        self.cpuControlSystem.removeAllComponents()
+        self.playerControlSystem.removeAllComponents()
+    }
+
+    // MARK: - Public
+    
     func addEntity(entity: Entity) {
         self.entitiesToAdd.append(entity)
         
@@ -408,21 +410,12 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.entitiesToRemove.append(entity)
     }
     
+    // MARK: - EntityDelegate
+
     func entityDidCheer(entity: Entity) {
         finishLevel(true)
     }
-    
-    func finishLevel(didPlayerWin: Bool) {
-        if self.isLevelCompleted == false {
-            self.isLevelCompleted = true
-            
-            print("SHOW COMPLETE ANIMATION")
-            
-            self.removeAllEntities()
-            self.gameScene!.levelFinished(self.level!)
-        }
-    }
-    
+
     func entityDidDestroy(entity: Entity) {
         switch entity {
         case is Bomb:
@@ -493,7 +486,9 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         entity.roam()
     }
     
-    func handleCollisionBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
+    // MARK: - Collisions
+
+    private func handleCollisionBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
         if let player = entity as? Player {
             if player.isDestroyed == false {
                 player.hit()
@@ -504,11 +499,13 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         }
     }
     
-    func handleCollisionBetweenProp(prop: Prop, andPlayer: Player) {
+    private func handleCollisionBetweenProp(prop: Prop, andPlayer: Player) {
         if prop.isDestroyed == false {
             prop.destroy()        
         }
     }
+    
+    // MARK: - SKPhysicsContactDelegate
     
     func didBeginContact(contact: SKPhysicsContact) {
         let firstBody = contact.bodyA.node as! SpriteNode?

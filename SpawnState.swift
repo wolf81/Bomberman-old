@@ -100,7 +100,7 @@ class SpawnState: State {
                                 let sprite = Array(visualComponent.sprites[configComponent.spawnAnimRange])
                                 visualComponent.spriteNode.texture = sprite.first
                                 
-                                let position = Game.sharedInstance.positionForGridPosition(entity.gridPosition)
+                                let position = positionForGridPosition(entity.gridPosition)
                                 visualComponent.spriteNode.position = position
                                 
                                 let fadeIn = SKAction.fadeInWithDuration(0.5)
