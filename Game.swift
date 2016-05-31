@@ -368,6 +368,9 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     }
     
     private func removeAllEntities() {
+        self.entitiesToAdd.removeAll()
+        self.entitiesToRemove.removeAll()
+        
         self.creatures.removeAll()
         self.props.removeAll()
         self.bombs.removeAll()
