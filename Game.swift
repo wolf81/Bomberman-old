@@ -452,12 +452,17 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     }
     
     func entityDidHit(entity: Entity) {
-        if let player = entity as? Player {
+        switch entity {
+        case is Player:
+            let player = entity as! Player
             if !player.isDestroyed {
                 player.control()
-            }
-                
+            }            
             self.gameScene?.updatePlayer(player.index, setHealth: player.health)
+        case is Projectile:
+            let projectile = entity as! Projectile
+            projectile.destroy()
+        default: break
         }
     }
     
@@ -492,13 +497,12 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     // MARK: - Collisions
 
     private func handleCollisionBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
+        projectile.hit()
+
         if let player = entity as? Player {
             if player.isDestroyed == false {
                 player.hit()
-                projectile.destroy()
             }
-        } else {
-            projectile.destroy()
         }
     }
     

@@ -29,7 +29,7 @@ class HitState: State {
                     let move = visualComponent.spriteNode.actionForKey("move")
                     move?.speed = 0
                     
-                    var sprite: SKSpriteNode?
+                    var sprite: SKSpriteNode? = visualComponent.spriteNode
                     
                     if let configComponent = entity.componentForClass(ConfigComponent) {
                         if let hitSound = configComponent.hitSound {
@@ -81,7 +81,7 @@ class HitState: State {
                     }
                     
                     if actions.count > 0 {
-                        sprite!.runAction(SKAction.sequence(actions), completion: completion)
+                        sprite?.runAction(SKAction.sequence(actions), completion: completion)
                     } else {
                         completion()
                     }
