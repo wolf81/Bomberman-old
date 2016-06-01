@@ -38,6 +38,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     private(set) var tiles = [Tile]()
     private(set) var projectiles = [Projectile]()
     private(set) var points = [Points]()
+    private(set) var powers = [Power]()
     
     private(set) weak var player1: Player?
     private(set) weak var player2: Player?
@@ -135,19 +136,6 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         }
     }
     
-    func tileAtGridPosition(gridPosition: Point) -> Tile? {
-        var tile: Tile? = nil
-        
-        for aTile in self.tiles {
-            if pointEqualToPoint(aTile.gridPosition, point2: gridPosition) {
-                tile = aTile
-                break
-            }
-        }
-        
-        return tile
-    }
-    
     func configureLevel() {
         self.gameScene?.world.removeAllChildren()
         self.isLevelCompleted = false
@@ -172,49 +160,6 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
 
             self.timeRemaining = level.timer
         }
-    }
-    
-    func playerAtGridPosition(gridPosition: Point) -> Creature? {
-        var player: Creature?
-        
-        for aPlayer in [self.player1, self.player2] {
-            if pointEqualToPoint(aPlayer!.gridPosition, point2: gridPosition) {
-                player = aPlayer
-                break
-            }
-        }
-        
-        return player
-    }
-    
-    func bombAtGridPosition(gridPosition: Point) -> Bomb? {
-        var bomb: Bomb?
-        
-        for aBomb in self.bombs {
-            if pointEqualToPoint(aBomb.gridPosition, point2: gridPosition) {
-                bomb = aBomb
-                break
-            }
-        }
-        
-        return bomb
-    }
-    
-    func creatureAtGridPosition(gridPosition: Point) -> Creature? {
-        var creature: Creature? = nil
-        
-        for aCreature in self.creatures {
-            if let visualComponent = aCreature.componentForClass(VisualComponent) {
-                let position = visualComponent.spriteNode.position
-                let creatureGridPosition = gridPositionForPosition(position)
-                
-                if pointEqualToPoint(creatureGridPosition, point2: gridPosition) {
-                    creature = aCreature
-                }
-            }
-        }
-        
-        return creature
     }
     
     func nextVisibleGridPositionFromGridPosition(gridPosition: Point, inDirection direction: Direction) -> Point? {
@@ -298,6 +243,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             case is Projectile: self.projectiles.remove(entity as! Projectile)
             case is Prop: self.props.remove(entity as! Prop)
             case is Points: self.points.remove(entity as! Points)
+            case is Power: self.powers.remove(entity as! Power)
             default: print("unhandled entity type for instance: \(entity)")
             }
             
@@ -322,6 +268,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             case is Projectile: self.projectiles.append(entity as! Projectile)
             case is Prop: self.props.append(entity as! Prop)
             case is Points: self.points.append(entity as! Points)
+            case is Power: self.powers.append(entity as! Power)
             default: print("unhandled entity type for instance: \(entity)")
             }
             
@@ -378,6 +325,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.tiles.removeAll()
         self.projectiles.removeAll()
         self.points.removeAll()
+        self.powers.removeAll()
         
         self.stateMachineSystem.removeAllComponents()
         self.cpuControlSystem.removeAllComponents()
@@ -412,13 +360,88 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     func removeEntity(entity: Entity) {
         self.entitiesToRemove.append(entity)
     }
-    
-    // MARK: - EntityDelegate
+}
 
+// MARK: - Entity Search -
+
+extension Game {
+    func playerAtGridPosition(gridPosition: Point) -> Creature? {
+        var entity: Creature?
+        
+        for player in [self.player1, self.player2] {
+            if pointEqualToPoint(player!.gridPosition, point2: gridPosition) {
+                entity = player
+                break
+            }
+        }
+        
+        return entity
+    }
+    
+    func bombAtGridPosition(gridPosition: Point) -> Bomb? {
+        var entity: Bomb?
+        
+        for bomb in self.bombs {
+            if pointEqualToPoint(bomb.gridPosition, point2: gridPosition) {
+                entity = bomb
+                break
+            }
+        }
+        
+        return entity
+    }
+    
+    func creatureAtGridPosition(gridPosition: Point) -> Creature? {
+        var entity: Creature? = nil
+        
+        for creature in self.creatures {
+            if let visualComponent = creature.componentForClass(VisualComponent) {
+                let position = visualComponent.spriteNode.position
+                let creatureGridPosition = gridPositionForPosition(position)
+                
+                if pointEqualToPoint(creatureGridPosition, point2: gridPosition) {
+                    entity = creature
+                }
+            }
+        }
+        
+        return entity
+    }
+
+    func tileAtGridPosition(gridPosition: Point) -> Tile? {
+        var entity: Tile? = nil
+        
+        for tile in self.tiles {
+            if pointEqualToPoint(tile.gridPosition, point2: gridPosition) {
+                entity = tile
+                break
+            }
+        }
+        
+        return entity
+    }
+    
+    func powerAtGridPosition(gridPosition: Point) -> Power? {
+        var entity: Power? = nil
+        
+        for power in self.powers {
+            if pointEqualToPoint(power.gridPosition, point2: gridPosition) {
+                entity = power
+                break
+            }
+        }
+        
+        return entity
+    }
+}
+
+// MARK: - EntityDelegate -
+
+extension Game {
     func entityDidCheer(entity: Entity) {
         finishLevel(true)
     }
-
+    
     func entityDidDestroy(entity: Entity) {
         switch entity {
         case is Bomb:
@@ -440,12 +463,16 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
                 removeEntity(entity)
             }
             
-            if let player = creature as? Player {                
+            if let player = creature as? Player {
                 self.gameScene?.updatePlayer(player.index, setLives: player.lives)
                 player.spawn()
             }
         case is Tile:
             removeEntity(entity)
+            
+            if let power = self.level?.powerAtGridPosition(entity.gridPosition) {
+                addEntity(power)
+            }
         default:
             removeEntity(entity)
         }
@@ -457,7 +484,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             let player = entity as! Player
             if !player.isDestroyed {
                 player.control()
-            }            
+            }
             self.gameScene?.updatePlayer(player.index, setHealth: player.health)
         case is Projectile:
             let projectile = entity as! Projectile
@@ -493,26 +520,12 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         
         entity.roam()
     }
-    
-    // MARK: - Collisions
+}
 
-    private func handleCollisionBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
-        projectile.hit()
+// MARK: - Collision Handling -
 
-        if let player = entity as? Player {
-            if player.isDestroyed == false {
-                player.hit()
-            }
-        }
-    }
-    
-    private func handleCollisionBetweenProp(prop: Prop, andPlayer: Player) {
-        if prop.isDestroyed == false {
-            prop.destroy()        
-        }
-    }
-    
-    // MARK: - SKPhysicsContactDelegate
+extension Game {
+    // MARK: SKPhysicsContactDelegate
     
     func didBeginContact(contact: SKPhysicsContact) {
         let firstBody = contact.bodyA.node as! SpriteNode?
@@ -535,6 +548,24 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     }
     
     func didEndContact(contact: SKPhysicsContact) {
-//        print("didEndContact")
+        //        print("didEndContact")
+    }
+    
+    // MARK: Private
+    
+    private func handleCollisionBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
+        projectile.hit()
+        
+        if let player = entity as? Player {
+            if player.isDestroyed == false {
+                player.hit()
+            }
+        }
+    }
+    
+    private func handleCollisionBetweenProp(prop: Prop, andPlayer: Player) {
+        if prop.isDestroyed == false {
+            prop.destroy()
+        }
     }
 }

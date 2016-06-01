@@ -10,18 +10,7 @@ import Foundation
 
 class PropLoader: ConfigurationLoader {
     private let configFile = "config.json"
-    
-    func powerWithGridPosition(gridPosition: Point, type: PowerType) throws -> Power? {
-        var power: Power? = nil
         
-        let directory = "Props/Power"
-        if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
-            power = Power(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, type: type)
-        }
-        
-        return power
-    }
-    
     func explosionWithGridPosition(gridPosition: Point, direction: Direction) throws -> Explosion? {
         var explosion: Explosion?
         

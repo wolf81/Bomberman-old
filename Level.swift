@@ -26,12 +26,15 @@ class Level : NSObject {
     private(set) var tiles = [Tile?]()
     private(set) var creatures = [Creature?]()
     private(set) var props = [Prop?]()
+    private(set) var powers = [Power?]()
     
     private(set) var timer: NSTimeInterval = 60
     
     private(set) var player1: Player?
     private(set) var player2: Player?
     private(set) var game: Game
+    
+    // MARK: - Initialization
     
     init(game: Game, levelIndex: Int, json: NSDictionary) throws {
         self.game = game
@@ -67,12 +70,60 @@ class Level : NSObject {
         if let playersJson = json["players"] as? [String: AnyObject] {
             try parsePlayers(forGame: game, json: playersJson)
         }
+        
+        if let powersJson = json["powers"] as? [String: AnyObject] {
+            try parsePowers(forGame: game, json: powersJson)
+        }
     }
+    
+    // MARK: - Public
     
     func size() -> CGSize {
         let size = CGSize(width: self.width * unitLength, height: self.height * unitLength)
         return size
     }
+    
+    func propAtGridPosition(gridPosition: Point) -> Prop? {
+        var entity: Prop?
+        
+        if let index = indexForGridPosition(gridPosition) {
+            entity = self.props[index]
+        }
+        
+        return entity
+    }
+    
+    func powerAtGridPosition(gridPosition: Point) -> Power? {
+        var entity: Power?
+        
+        if let index = indexForGridPosition(gridPosition) {
+            entity = self.powers[index]
+        }
+        
+        return entity
+    }
+    
+    func creatureAtGridPosition(gridPosition: Point) -> Creature? {
+        var entity: Creature?
+        
+        if let index = indexForGridPosition(gridPosition) {
+            entity = self.creatures[index]
+        }
+        
+        return entity
+    }
+    
+    func tileAtGridPosition(gridPosition: Point) -> Tile? {
+        var entity: Tile?
+        
+        if let index = indexForGridPosition(gridPosition) {
+            entity = self.tiles[index]
+        }
+        
+        return entity
+    }
+    
+    // MARK: - Private
     
     private func indexForGridPosition(gridPosition: Point) -> Int? {
         var index: Int? = nil
@@ -83,37 +134,9 @@ class Level : NSObject {
         
         return index
     }
-    
-    func propAtGridPosition(gridPosition: Point) -> Prop? {
-        var entity: Prop? = nil
-        
-        if let index = indexForGridPosition(gridPosition) {
-            entity = self.props[index]
-        }
-        
-        return entity
-    }
-    
-    func creatureAtGridPosition(gridPosition: Point) -> Creature? {
-        var entity: Creature? = nil
-        
-        if let index = indexForGridPosition(gridPosition) {
-            entity = self.creatures[index]
-        }
-        
-        return entity
-    }
-    
-    func tileAtGridPosition(gridPosition: Point) -> Tile? {
-        var entity: Tile? = nil
-        
-        if let index = indexForGridPosition(gridPosition) {
-            entity = self.tiles[index]
-        }
-        
-        return entity
-    }
 }
+
+// MARK: - Parsing
 
 extension Level {
     private func parseLayout(json: AnyObject) throws {
@@ -144,6 +167,7 @@ extension Level {
                     self.tiles.append(tile)
                     self.creatures.append(nil)
                     self.props.append(nil)
+                    self.powers.append(nil)
                 }
             }
         }
@@ -191,6 +215,27 @@ extension Level {
         tile = try tileLoader.wallTileForTheme(self.theme, type: wallTextureType, gridPosition: gridPosition)
         
         return tile
+    }
+    
+    private func parsePowers(forGame game: Game, json: [String: AnyObject]) throws {
+        let powerNames = json.keys
+        
+        let powerLoader = PowerLoader(forGame: game)
+        for powerName in powerNames {
+            let positions = json[powerName] as? [NSArray]
+            
+            for position in positions! {
+                let colIndex = position.objectAtIndex(0) as! Int
+                let rowIndex = position.objectAtIndex(1) as! Int
+                
+                let position = Point(x: colIndex, y: rowIndex)
+                let index = indexForGridPosition(position)!
+                
+                if let power = try powerLoader.powerWithName(powerName, gridPosition: position) {
+                    self.powers[index] = power
+                }
+            }
+        }
     }
     
     private func parsePlayers(forGame game: Game, json: [String: AnyObject]) throws {
