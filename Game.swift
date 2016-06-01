@@ -155,6 +155,10 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
                     if let creature = level.creatureAtGridPosition(gridPosition) {
                         addEntity(creature)
                     }
+                    
+                    // NOTE: We don't parse powers here, instead power entites are added when tiles 
+                    //  are destroyed. The reason for this is that powers need to self-destruct 
+                    //  after a set amount of time and self destruct is triggered after spawn state.
                 }
             }
 
@@ -544,11 +548,15 @@ extension Game {
             handleCollisionBetweenProp(entity1 as! Prop, andPlayer: entity2 as! Player)
         } else if entity2 is Prop && entity1 is Player {
             handleCollisionBetweenProp(entity2 as! Prop, andPlayer: entity1 as! Player)
+        } else if entity2 is Power && entity1 is Player {
+            handleCollisionBetweenPower(entity2 as! Power, andPlayer: entity1 as! Player)
+        } else if entity1 is Power && entity2 is Player {
+            handleCollisionBetweenPower(entity1 as! Power, andPlayer: entity2 as! Player)
         }
     }
     
     func didEndContact(contact: SKPhysicsContact) {
-        //        print("didEndContact")
+//        print("didEndContact")
     }
     
     // MARK: Private
@@ -564,8 +572,10 @@ extension Game {
     }
     
     private func handleCollisionBetweenProp(prop: Prop, andPlayer: Player) {
-        if prop.isDestroyed == false {
-            prop.destroy()
-        }
+        prop.destroy()
+    }
+    
+    private func handleCollisionBetweenPower(power: Power, andPlayer: Player) {
+        power.destroy()
     }
 }
