@@ -6,6 +6,8 @@
 //
 //
 
+// MARK: - tvOS -
+
 import SpriteKit
 import GameController
 
@@ -13,8 +15,29 @@ import GameController
     
 import UIKit
 
-class GameViewController: GCEventViewController, GameSceneDelegate, LoadingSceneDelegate {
-    private(set) var gameView: GameView!
+class GameViewController: GCEventViewController {
+    private var sceneController: SceneController!
+    private var gameView: GameView!
+    
+    // MARK: - Initialization
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+
+        commonInit()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        commonInit()
+    }
+
+    private func commonInit() {
+        self.sceneController = SceneController(gameViewController: self)
+    }
+
+    // MARK: - View lifecycle 
     
     override func loadView() {
         gameView = GameView()
@@ -32,77 +55,95 @@ class GameViewController: GCEventViewController, GameSceneDelegate, LoadingScene
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let scene = LoadingScene(size: self.gameView.bounds.size, loadingSceneDelegate: self)
+        let scene = LoadingScene(size: self.gameView.bounds.size, loadingSceneDelegate: self.sceneController)
         self.gameView.presentScene(scene)
     }
     
-    // MARK: - LoadingSceneDelegate
+    // MARK: - Public
     
-    func loadingSceneDidFinishLoading() {
-        if let level = Game.sharedInstance.loadLevel(0) {
-            let gameScene = GameScene(level: level, gameSceneDelegate: self)
-            Game.sharedInstance.configureScene(gameScene)
-            
-            let transition = SKTransition.fadeWithDuration(0.5)
-            
-            self.gameView.presentScene(gameScene, transition: transition)
-        }
+    func presentScene(scene: SKScene, withTransition transition: SKTransition) {
+        self.gameView.presentScene(scene, transition: transition)
     }
     
-    func loadingSceneDidMoveToView(scene: LoadingScene, view: SKView) {
-        do {
-            try scene.updateAssetsIfNeeded()
-        } catch let error {
-            print("error: \(error)")
-        }
-    }
+    // MARK: - GameController suppport
     
-    // MARK: - GameSceneDelegate
-    
-    func gameSceneDidMoveToView(scene: GameScene, view: SKView) {
-        Game.sharedInstance.configureLevel()
-    }
-    
-    func gameSceneDidFinishLevel(scene: GameScene, level: Level) {
-        print("level finished")
+    func configureController(controller: GCController, forPlayer player: GCControllerPlayerIndex) {
+        controller.playerIndex = player
         
-        if let level = Game.sharedInstance.loadLevel(0) {
-            let gameScene = GameScene(level: level, gameSceneDelegate: self)
-            Game.sharedInstance.configureScene(gameScene)
+        controller.controllerPausedHandler = { [unowned self] _ in
+            print("pause / resume game")
             
-            let transition = SKTransition.fadeWithDuration(0.5)
-            
-            self.gameView.presentScene(gameScene, transition: transition)
+            if let scene = self.gameView.scene {
+                scene.paused = !scene.paused
+            }
         }
-    }
-    
-    func gameScenePlayerDidStopAction(scene: GameScene, player: PlayerIndex, action: PlayerAction) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: action)
-    }
-    
-    func gameScenePlayerDidStartAction(scene: GameScene, player: PlayerIndex, action: PlayerAction) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: action)
-    }
-    
-    func gameScenePlayerDidPause(scene: GameScene) {
-        if let gameScene = Game.sharedInstance.gameScene {
-            gameScene.paused = !gameScene.paused
+        
+        if self.gameView.scene != nil {
+            if let dpad = controller.gamepad?.dpad {
+                dpad.valueChangedHandler = { _, xValue, yValue in
+                    let centerOffset: Float = 0.10
+                    
+                    if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
+                        Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1,
+                                                                       action: PlayerAction.None)
+                    } else if fabs(xValue) > fabs(yValue) {
+                        let action: PlayerAction = xValue > 0 ? PlayerAction.MoveRight : PlayerAction.MoveLeft
+                        Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1,
+                                                                       action: action)
+                    } else {
+                        let action: PlayerAction = yValue > 0 ? PlayerAction.MoveUp : PlayerAction.MoveDown
+                        Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1,
+                                                                       action: action)
+                    }
+                }
+            }
+            
+            if let buttonA = controller.gamepad?.buttonA {
+                buttonA.pressedChangedHandler = { _, value, pressed in
+                    if pressed {
+                        Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1, action: PlayerAction.DropBomb)
+                    }
+                }
+            }
         }
     }
 }
 
 #else
 
+// MARK: - OS X -
+    
 import Cocoa
 
-class GameViewController: NSViewController, LoadingSceneDelegate, GameSceneDelegate {
+class GameViewController: NSViewController {
+    private var sceneController: SceneController!
     private var gameView: GameView!
+    
+    // MARK: - Initialization
+    
+    override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        commonInit()
+    }
+
+    private func commonInit() {
+        self.sceneController = SceneController(gameViewController: self)
+    }
+
+    // MARK: - View lifecycle
     
     override func loadView() {
         gameView = GameView()
         self.view = gameView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -118,62 +159,14 @@ class GameViewController: NSViewController, LoadingSceneDelegate, GameSceneDeleg
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        let scene = LoadingScene(size: self.gameView.bounds.size, loadingSceneDelegate: self)
+        let scene = LoadingScene(size: self.gameView.bounds.size, loadingSceneDelegate: self.sceneController)
         self.gameView.presentScene(scene)
     }
-    
-    // MARK: - LoadingSceneDelegate
-    
-    func loadingSceneDidFinishLoading() {
-        if let level = Game.sharedInstance.loadLevel(0) {
-            let gameScene = GameScene(level: level, gameSceneDelegate: self)
-            Game.sharedInstance.configureScene(gameScene)
 
-            let transition = SKTransition.fadeWithDuration(0.5)
-            
-            self.gameView.presentScene(gameScene, transition: transition)
-        }
-    }
+    // MARK: - Public
     
-    func loadingSceneDidMoveToView(scene: LoadingScene, view: SKView) {
-        do {
-            try scene.updateAssetsIfNeeded()
-        } catch let error {
-            print("error: \(error)")
-        }
-    }
-
-    // MARK: - GameSceneDelegate
-    
-    func gameSceneDidMoveToView(scene: GameScene, view: SKView) {
-        Game.sharedInstance.configureLevel()
-    }
-    
-    func gameSceneDidFinishLevel(scene: GameScene, level: Level) {
-        print("level finished")
-        
-        if let level = Game.sharedInstance.loadLevel(0) {
-            let gameScene = GameScene(level: level, gameSceneDelegate: self)
-            Game.sharedInstance.configureScene(gameScene)
-            
-            let transition = SKTransition.fadeWithDuration(0.5)
-
-            self.gameView.presentScene(gameScene, transition: transition)
-        }
-    }
-    
-    func gameScenePlayerDidStopAction(scene: GameScene, player: PlayerIndex, action: PlayerAction) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: action)
-    }
-    
-    func gameScenePlayerDidStartAction(scene: GameScene, player: PlayerIndex, action: PlayerAction) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: action)
-    }
-    
-    func gameScenePlayerDidPause(scene: GameScene) {
-        if let gameScene = Game.sharedInstance.gameScene {
-            gameScene.paused = !gameScene.paused
-        }
+    func presentScene(scene: SKScene, withTransition transition: SKTransition) {
+        self.gameView.presentScene(scene, transition: transition)
     }
     
     // MARK: - GameController suppport

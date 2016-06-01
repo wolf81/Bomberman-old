@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 func delay(delay:Double, closure:()->()) {
     dispatch_after(

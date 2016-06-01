@@ -7,20 +7,31 @@
 //
 
 import UIKit
+import GameController
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
+    var gameViewController: GameViewController!
+
+    var controllers: [GCController]!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
-        let mainViewController = GameViewController(nibName: nil, bundle: nil)
+        self.gameViewController = GameViewController(nibName: nil, bundle: nil)
 
-        window?.rootViewController = mainViewController
+        window?.rootViewController = self.gameViewController
         window?.makeKeyAndVisible()
+        
+        // Game controller support.
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserver(self, selector: #selector(setupControllers), name: GCControllerDidConnectNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(setupControllers), name: GCControllerDidDisconnectNotification, object: nil)
+        GCController.startWirelessControllerDiscoveryWithCompletionHandler {
+            print("discovered controller ...")
+        }
         
         return true
     }
@@ -47,6 +58,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    // Game controller support.
+    
+    func setupControllers(notification: NSNotification) {
+        self.controllers = GCController.controllers()
+        
+        if self.controllers.count > 0 {
+            self.controllers.first?.playerIndex = .Index1
+            
+            self.gameViewController.configureController(self.controllers.first!, forPlayer: .Index1)
+            
+            // do something
+            
+            // when connected:
+            // - move to controller based input
+            // - remove on-screen virtual controls (e.g. pause button)
+            // - set playerIndex to illuminate player indicator LEDs.
+            
+            // when disconnecting:
+            // - pause gameplay
+            // - return to regular controls
+        }
+    }
 }
 
