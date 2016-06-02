@@ -111,11 +111,8 @@ class SpawnState: State {
                     }
                 
                     let completion = {
-                        if let delegate = entity.delegate {
-                            delegate.entityDidSpawn(entity)
-                        }
-                        
                         self.updating = false
+                        entity.delegate?.entityDidSpawn(entity)
                     }
                     
                     if actions.count > 0 {

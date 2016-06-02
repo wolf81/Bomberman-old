@@ -32,12 +32,10 @@ class AttackState: State {
                     }
                     
                     let completion = {
+                        move?.speed = 1
+
                         self.updating = false
-                        
-                        if let delegate = entity.delegate {
-                            move?.speed = 1
-                            delegate.entityDidAttack(entity)
-                        }
+                        entity.delegate?.entityDidAttack(entity)
                     }
                     
                     if actions.count > 0 {

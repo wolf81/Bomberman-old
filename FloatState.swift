@@ -29,10 +29,7 @@ class FloatState: State {
                     
                     let completion = {
                         self.updating = false
-
-                        if let delegate = entity.delegate {
-                            delegate.entityDidFloat(self.entity!)
-                        }
+                        entity.delegate?.entityDidFloat(entity)
                     }
                     
                     if actions.count > 0 {

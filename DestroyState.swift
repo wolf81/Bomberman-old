@@ -16,6 +16,10 @@ class DestroyState: State {
     
     override func didEnterWithPreviousState(previousState: GKState?) {
         super.didEnterWithPreviousState(previousState)
+        
+        if let entity = self.entity {
+            entity.delegate?.entityWillDestroy(entity)
+        }
     }
     
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
@@ -86,10 +90,7 @@ class DestroyState: State {
                     let completion = {
                         delay(spawnDelay, closure: {
                             self.updating = false
-                            
-                            if let delegate = entity.delegate {
-                                delegate.entityDidDestroy(entity)
-                            }
+                            entity.delegate?.entityDidDestroy(entity)
                         })
                     }
                     

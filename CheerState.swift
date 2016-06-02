@@ -49,11 +49,8 @@ class CheerState: State {
                         }
                         
                         let completion = {
-                            self.updating = false
-                            
-                            if let delegate = entity.delegate {
-                                delegate.entityDidCheer(entity)
-                            }
+                            self.updating = false                            
+                            entity.delegate?.entityDidCheer(entity)
                         }
                         
                         if actions.count > 0 {

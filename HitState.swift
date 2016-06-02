@@ -71,13 +71,10 @@ class HitState: State {
                     }
                     
                     let completion = {
-                        self.updating = false
-                        
                         move?.speed = 1
-                        
-                        if let delegate = entity.delegate {
-                            delegate.entityDidHit(entity)
-                        }
+
+                        self.updating = false
+                        entity.delegate?.entityDidHit(entity)
                     }
                     
                     if actions.count > 0 {

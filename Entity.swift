@@ -11,6 +11,7 @@ import SpriteKit
 
 protocol EntityDelegate: class {
     func entityDidSpawn(entity: Entity)
+    func entityWillDestroy(entity: Entity)
     func entityDidDestroy(entity: Entity)
     func entityDidFloat(entity: Entity)
     func entityDidHit(entity: Entity)

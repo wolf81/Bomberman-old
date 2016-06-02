@@ -442,6 +442,16 @@ extension Game {
 // MARK: - EntityDelegate -
 
 extension Game {
+    func entityWillDestroy(entity: Entity) {
+        switch entity {
+        case is Tile:
+            if let power = self.level?.powerAtGridPosition(entity.gridPosition) {
+                addEntity(power)
+            }
+        default: break
+        }
+    }
+    
     func entityDidCheer(entity: Entity) {
         finishLevel(true)
     }
@@ -473,10 +483,6 @@ extension Game {
             }
         case is Tile:
             removeEntity(entity)
-            
-            if let power = self.level?.powerAtGridPosition(entity.gridPosition) {
-                addEntity(power)
-            }
         default:
             removeEntity(entity)
         }
