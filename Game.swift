@@ -25,8 +25,9 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     
     private var isLevelCompleted = false
     
+    // Enrage timer for monsters.
     private var timeRemaining: NSTimeInterval = 0
-    private var timerFinished = false
+    private var timeExpired = false
     
     private(set) var gameScene: GameScene? = nil
     
@@ -40,6 +41,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     private(set) var points = [Points]()
     private(set) var powers = [Power]()
     
+    // Players are referenced from the creatures array as it contains both players and monsters.
     private(set) weak var player1: Player?
     private(set) weak var player2: Player?
     
@@ -97,6 +99,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         }
     }
     
+    // The main update loop. Called every frame to update game state.
     func update(currentTime: CFTimeInterval) {
         // Make sure the previous update time is never negative (e.g.: due to overflow of time 
         //  interval)
@@ -128,11 +131,12 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         // Update player movement, monster movement, state machines ...
         updateComponentSystems(deltaTime)
         
+        // Enrage timer. When timer is expired, monsters become more dangerous.
         if self.timeRemaining > 0 {
             self.gameScene?.updateTimeRemaining(self.timeRemaining)
-        } else if !self.timerFinished {
-            self.timerFinished = true
-            accelerateMonsters()
+        } else if !self.timeExpired {
+            self.timeExpired = true
+            enrageMonsters()
         }
     }
     
@@ -221,7 +225,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     
     // MARK: - Private
     
-    private func accelerateMonsters() {
+    private func enrageMonsters() {
         for creature in self.creatures {
             if creature is Monster {
                 if let visualComponent = creature.componentForClass(VisualComponent) {
@@ -497,11 +501,9 @@ extension Game {
             }
             self.gameScene?.updatePlayer(player.index, setHealth: player.health)
         case is Projectile:
-            let projectile = entity as! Projectile
-            projectile.destroy()
+            fallthrough
         case is Power:
-            let power = entity as! Power
-            power.destroy()
+            entity.destroy()
         default: break
         }
     }
