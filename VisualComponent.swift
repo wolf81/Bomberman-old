@@ -24,7 +24,13 @@ class VisualComponent: GKComponent {
             sprite = SpriteNode(texture: texture, size: size)
             
             if createPhysicsBody {
-                sprite.physicsBody = SKPhysicsBody(texture: texture, alphaThreshold: 0.0, size: size)
+                // Create a body size slightly smaller than the actual texture, so we don't trigger 
+                //  contact methods when 2 entities are beside each other.
+                let bodySize = CGSize(width: size.width - 2, height: size.height - 2)
+
+                sprite.physicsBody = SKPhysicsBody(texture: texture,
+                                                   alphaThreshold: 0.0,
+                                                   size: bodySize)
                 
                 // TODO: For images with a lot of alpha, the resulting physics body might be to small
                 //  to notice contact. In that situation, create a custom body. Perhaps this should be
