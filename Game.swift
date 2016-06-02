@@ -499,6 +499,9 @@ extension Game {
         case is Projectile:
             let projectile = entity as! Projectile
             projectile.destroy()
+        case is Power:
+            let power = entity as! Power
+            power.destroy()
         default: break
         }
     }
@@ -582,6 +585,6 @@ extension Game {
     }
     
     private func handleCollisionBetweenPower(power: Power, andPlayer: Player) {
-        power.destroy()
+        power.hit()
     }
 }
