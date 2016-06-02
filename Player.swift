@@ -11,6 +11,10 @@ import Foundation
 class Player: Creature {
     let index: PlayerIndex
     
+    private var totalBombCount: Int = 4
+    private var currentBombCount: Int = 4
+    private var bombRefillTime: NSTimeInterval = 2.0
+
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, playerIndex: PlayerIndex) {
         self.index = playerIndex
         
@@ -30,6 +34,36 @@ class Player: Creature {
         
         let playerControlComponent = PlayerControlComponent(player: self)
         addComponent(playerControlComponent)
+    }
+    
+    override func updateWithDeltaTime(seconds: NSTimeInterval) {
+        super.updateWithDeltaTime(seconds)
+        
+        if self.currentBombCount < self.totalBombCount {
+            if self.bombRefillTime > 0 {
+                self.bombRefillTime -= seconds
+            } else {
+                self.currentBombCount += 1
+                print("BOMBS: \(self.currentBombCount)")
+                self.bombRefillTime = 2.0
+            }
+        } else {
+            self.bombRefillTime = 2.0
+        }
+    }
+    
+    override func dropBomb() -> Bool {
+        var didDropBomb = false
+        
+        if self.currentBombCount > 0 {
+            if super.dropBomb() {
+                didDropBomb = true
+
+                self.currentBombCount -= 1
+            }
+        }
+        
+        return didDropBomb
     }
         
     override func movementDirectionsFromCurrentGridPosition() -> [(direction: Direction, gridPosition: Point)] {

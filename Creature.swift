@@ -125,7 +125,9 @@ class Creature: Entity {
         }
     }
     
-    func dropBomb() {
+    func dropBomb() -> Bool {
+        var didDropBomb = false
+        
         if let game = self.game {
             let propLoader = PropLoader(forGame: game)
             if let position = self.componentForClass(VisualComponent)?.spriteNode.position {
@@ -135,6 +137,8 @@ class Creature: Entity {
                     do {
                         if let bomb = try propLoader.bombWithGridPosition(gridPosition) {
                             game.addEntity(bomb)
+                            
+                            didDropBomb = true
                         }
                     } catch let error {
                         print("error: \(error)")
@@ -142,6 +146,8 @@ class Creature: Entity {
                 }
             }
         }
+        
+        return didDropBomb
     }
 }
 
