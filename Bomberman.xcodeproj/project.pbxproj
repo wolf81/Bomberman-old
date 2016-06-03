@@ -17,8 +17,8 @@
 		7900190A1CF5999C001EEF3C /* Points.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019081CF5999C001EEF3C /* Points.swift */; };
 		7900190C1CF5C4ED001EEF3C /* FloatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190B1CF5C4ED001EEF3C /* FloatState.swift */; };
 		7900190D1CF5C4ED001EEF3C /* FloatState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190B1CF5C4ED001EEF3C /* FloatState.swift */; };
-		7900190F1CF74877001EEF3C /* Power.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190E1CF74877001EEF3C /* Power.swift */; };
-		790019101CF74877001EEF3C /* Power.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190E1CF74877001EEF3C /* Power.swift */; };
+		7900190F1CF74877001EEF3C /* PowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190E1CF74877001EEF3C /* PowerUp.swift */; };
+		790019101CF74877001EEF3C /* PowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900190E1CF74877001EEF3C /* PowerUp.swift */; };
 		790019151CF7A9DB001EEF3C /* ConfigurationLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */; };
 		790019161CF7A9DB001EEF3C /* ConfigurationLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */; };
 		790019191CFB0BBA001EEF3C /* ComponentSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019181CFB0BBA001EEF3C /* ComponentSystem.swift */; };
@@ -161,7 +161,7 @@
 		790019051CF58BBE001EEF3C /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		790019081CF5999C001EEF3C /* Points.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Points.swift; sourceTree = "<group>"; };
 		7900190B1CF5C4ED001EEF3C /* FloatState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatState.swift; sourceTree = "<group>"; };
-		7900190E1CF74877001EEF3C /* Power.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Power.swift; sourceTree = "<group>"; };
+		7900190E1CF74877001EEF3C /* PowerUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUp.swift; sourceTree = "<group>"; };
 		790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigurationLoader.swift; sourceTree = "<group>"; };
 		790019181CFB0BBA001EEF3C /* ComponentSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentSystem.swift; sourceTree = "<group>"; };
 		7900191B1CFBCCFD001EEF3C /* CheerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheerState.swift; sourceTree = "<group>"; };
@@ -337,7 +337,7 @@
 				79C9F1911CD9B7E600692D75 /* Monster.swift */,
 				7902B0C41CDC9B2B00298CAC /* Prop.swift */,
 				790019081CF5999C001EEF3C /* Points.swift */,
-				7900190E1CF74877001EEF3C /* Power.swift */,
+				7900190E1CF74877001EEF3C /* PowerUp.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -719,7 +719,7 @@
 				794ADE211CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,
 				7947BC201CCB233500DE7C8A /* Types.swift in Sources */,
 				794ADE5A1CD6F261000AF170 /* StateMachineComponent.swift in Sources */,
-				7900190F1CF74877001EEF3C /* Power.swift in Sources */,
+				7900190F1CF74877001EEF3C /* PowerUp.swift in Sources */,
 				79606E8A1CFEB0780034A0A1 /* PowerLoader.swift in Sources */,
 				79FC6BB41CCA47D400DF7476 /* Game.swift in Sources */,
 				7902B0C51CDC9B2B00298CAC /* Prop.swift in Sources */,
@@ -789,7 +789,7 @@
 				7900190D1CF5C4ED001EEF3C /* FloatState.swift in Sources */,
 				793FAF461CE08E22005F64B1 /* LoadingScene.swift in Sources */,
 				794ADE551CD5A5B5000AF170 /* Explosion.swift in Sources */,
-				790019101CF74877001EEF3C /* Power.swift in Sources */,
+				790019101CF74877001EEF3C /* PowerUp.swift in Sources */,
 				7900191D1CFBCCFD001EEF3C /* CheerState.swift in Sources */,
 				7902B0C01CDC954600298CAC /* PlayerInfoNode.swift in Sources */,
 				79FC6B9C1CCA2B9C00DF7476 /* AppDelegate.swift in Sources */,

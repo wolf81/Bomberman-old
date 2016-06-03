@@ -8,8 +8,18 @@
 
 import SpriteKit
 
-class Power: Entity {
-    init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
+enum PowerType: Int {
+    case ExplosionSize = 0
+    case Unknown
+}
+
+class PowerUp: Entity {
+    private(set) var activated = false
+    private(set) var power: PowerType
+    
+    init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, power: PowerType) {
+        self.power = power
+        
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition, createPhysicsBody: true)
         
         if let visualComponent = componentForClass(VisualComponent) {
@@ -21,5 +31,16 @@ class Power: Entity {
                 physicsBody.contactTestBitMask = playerCategory
             }
         }
-    }    
+    }
+    
+    func activate(forPlayer player: Player) {
+        if self.activated == false {
+            self.activated = true
+            
+            switch self.power {
+            case .ExplosionSize: player.abilityRange += 1
+            default: break
+            }
+        }
+    }
 }

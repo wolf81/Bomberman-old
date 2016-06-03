@@ -26,7 +26,7 @@ class Level : NSObject {
     private(set) var tiles = [Tile?]()
     private(set) var creatures = [Creature?]()
     private(set) var props = [Prop?]()
-    private(set) var powers = [Power?]()
+    private(set) var powerUps = [PowerUp?]()
     
     private(set) var timer: NSTimeInterval = 60
     
@@ -72,7 +72,7 @@ class Level : NSObject {
         }
         
         if let powersJson = json["powers"] as? [String: AnyObject] {
-            try parsePowers(forGame: game, json: powersJson)
+            try parsePowerUps(forGame: game, json: powersJson)
         }
     }
     
@@ -93,11 +93,11 @@ class Level : NSObject {
         return entity
     }
     
-    func powerAtGridPosition(gridPosition: Point) -> Power? {
-        var entity: Power?
+    func powerUpAtGridPosition(gridPosition: Point) -> PowerUp? {
+        var entity: PowerUp?
         
         if let index = indexForGridPosition(gridPosition) {
-            entity = self.powers[index]
+            entity = self.powerUps[index]
         }
         
         return entity
@@ -167,7 +167,7 @@ extension Level {
                     self.tiles.append(tile)
                     self.creatures.append(nil)
                     self.props.append(nil)
-                    self.powers.append(nil)
+                    self.powerUps.append(nil)
                 }
             }
         }
@@ -217,10 +217,10 @@ extension Level {
         return tile
     }
     
-    private func parsePowers(forGame game: Game, json: [String: AnyObject]) throws {
+    private func parsePowerUps(forGame game: Game, json: [String: AnyObject]) throws {
         let powerNames = json.keys
         
-        let powerLoader = PowerLoader(forGame: game)
+        let powerUpLoader = PowerUpLoader(forGame: game)
         for powerName in powerNames {
             let positions = json[powerName] as? [NSArray]
             
@@ -231,8 +231,8 @@ extension Level {
                 let position = Point(x: colIndex, y: rowIndex)
                 let index = indexForGridPosition(position)!
                 
-                if let power = try powerLoader.powerWithName(powerName, gridPosition: position) {
-                    self.powers[index] = power
+                if let powerUp = try powerUpLoader.powerUpWithName(powerName, gridPosition: position) {
+                    self.powerUps[index] = powerUp
                 }
             }
         }

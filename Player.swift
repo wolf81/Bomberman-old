@@ -20,6 +20,8 @@ class Player: Creature {
         
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
 
+        self.abilityRange = 3
+
         if let visualComponent = componentForClass(VisualComponent) {
             visualComponent.spriteNode.zPosition = 90
             
@@ -63,6 +65,7 @@ class Player: Creature {
                     if game.bombAtGridPosition(gridPosition) == nil {
                         do {
                             if let bomb = try propLoader.bombWithGridPosition(gridPosition) {
+                                bomb.abilityRange = self.abilityRange
                                 game.addEntity(bomb)
                                 
                                 didDropBomb = true

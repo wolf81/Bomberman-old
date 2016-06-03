@@ -15,6 +15,10 @@ class Creature: Entity {
     
     // Used by monsters as shooting delay, for players as refill time for bombs.
     let abilityCooldown: NSTimeInterval = 2.0
+    
+    // Used by monsters for attack range. -1 is unlimited, 0 is melee, otherwise it's up to x units.
+    // Players use this for the explosion size.
+    var abilityRange: Int = 0
 
     private(set) var direction = Direction.None
     private(set) var nextGridPosition = Point(x: 0, y: 0)

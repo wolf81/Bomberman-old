@@ -9,6 +9,8 @@
 import Foundation
 
 class Bomb: Entity {
+    var abilityRange: Int = 3
+    
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
@@ -24,12 +26,10 @@ class Bomb: Entity {
     }
     
     func explodeAtGridPosition(gridPosition: Point) throws {
-        let range = 3
-        
         var validPositions: [(Point, Direction)] = [(gridPosition, .None)]
         
         // west
-        for x in (gridPosition.x - range ..< gridPosition.x).reverse() {
+        for x in (gridPosition.x - self.abilityRange ..< gridPosition.x).reverse() {
             let testGridPosition = Point(x: x, y: gridPosition.y)
             
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
@@ -45,7 +45,7 @@ class Bomb: Entity {
         }
         
         // east
-        for x in (gridPosition.x + 1 ... gridPosition.x + range) {
+        for x in (gridPosition.x + 1 ... gridPosition.x + self.abilityRange) {
             let testGridPosition = Point(x: x, y: gridPosition.y)
             
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
@@ -61,7 +61,7 @@ class Bomb: Entity {
         }
         
         // north
-        for y in (gridPosition.y + 1 ... gridPosition.y + range) {
+        for y in (gridPosition.y + 1 ... gridPosition.y + self.abilityRange) {
             let testGridPosition = Point(x: gridPosition.x, y: y)
             
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
@@ -77,7 +77,7 @@ class Bomb: Entity {
         }
         
         // south
-        for y in (gridPosition.y - range ..< gridPosition.y).reverse() {
+        for y in (gridPosition.y - self.abilityRange ..< gridPosition.y).reverse() {
             let testGridPosition = Point(x: gridPosition.x, y: y)
             
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {

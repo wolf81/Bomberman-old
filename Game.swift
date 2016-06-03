@@ -39,7 +39,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     private(set) var tiles = [Tile]()
     private(set) var projectiles = [Projectile]()
     private(set) var points = [Points]()
-    private(set) var powers = [Power]()
+    private(set) var powerUps = [PowerUp]()
     
     // Players are referenced from the creatures array as it contains both players and monsters.
     private(set) weak var player1: Player?
@@ -254,7 +254,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             case is Projectile: self.projectiles.remove(entity as! Projectile)
             case is Prop: self.props.remove(entity as! Prop)
             case is Points: self.points.remove(entity as! Points)
-            case is Power: self.powers.remove(entity as! Power)
+            case is PowerUp: self.powerUps.remove(entity as! PowerUp)
             default: print("unhandled entity type for instance: \(entity)")
             }
             
@@ -279,7 +279,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             case is Projectile: self.projectiles.append(entity as! Projectile)
             case is Prop: self.props.append(entity as! Prop)
             case is Points: self.points.append(entity as! Points)
-            case is Power: self.powers.append(entity as! Power)
+            case is PowerUp: self.powerUps.append(entity as! PowerUp)
             default: print("unhandled entity type for instance: \(entity)")
             }
             
@@ -336,7 +336,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.tiles.removeAll()
         self.projectiles.removeAll()
         self.points.removeAll()
-        self.powers.removeAll()
+        self.powerUps.removeAll()
         
         self.stateMachineSystem.removeAllComponents()
         self.cpuControlSystem.removeAllComponents()
@@ -432,12 +432,12 @@ extension Game {
         return entity
     }
     
-    func powerAtGridPosition(gridPosition: Point) -> Power? {
-        var entity: Power? = nil
+    func powerAtGridPosition(gridPosition: Point) -> PowerUp? {
+        var entity: PowerUp? = nil
         
-        for power in self.powers {
-            if pointEqualToPoint(power.gridPosition, point2: gridPosition) {
-                entity = power
+        for powerUp in self.powerUps {
+            if pointEqualToPoint(powerUp.gridPosition, point2: gridPosition) {
+                entity = powerUp
                 break
             }
         }
@@ -452,7 +452,7 @@ extension Game {
     func entityWillDestroy(entity: Entity) {
         switch entity {
         case is Tile:
-            if let power = self.level?.powerAtGridPosition(entity.gridPosition) {
+            if let power = self.level?.powerUpAtGridPosition(entity.gridPosition) {
                 addEntity(power)
             }
         default: break
@@ -505,7 +505,7 @@ extension Game {
             self.gameScene?.updatePlayer(player.index, setHealth: player.health)
         case is Projectile:
             fallthrough
-        case is Power:
+        case is PowerUp:
             entity.destroy()
         default: break
         }
@@ -562,10 +562,10 @@ extension Game {
             handleCollisionBetweenProp(entity1 as! Prop, andPlayer: entity2 as! Player)
         } else if entity2 is Prop && entity1 is Player {
             handleCollisionBetweenProp(entity2 as! Prop, andPlayer: entity1 as! Player)
-        } else if entity2 is Power && entity1 is Player {
-            handleCollisionBetweenPower(entity2 as! Power, andPlayer: entity1 as! Player)
-        } else if entity1 is Power && entity2 is Player {
-            handleCollisionBetweenPower(entity1 as! Power, andPlayer: entity2 as! Player)
+        } else if entity2 is PowerUp && entity1 is Player {
+            handleCollisionBetweenPowerUp(entity2 as! PowerUp, andPlayer: entity1 as! Player)
+        } else if entity1 is PowerUp && entity2 is Player {
+            handleCollisionBetweenPowerUp(entity1 as! PowerUp, andPlayer: entity2 as! Player)
         }
     }
     
@@ -585,11 +585,15 @@ extension Game {
         }
     }
     
-    private func handleCollisionBetweenProp(prop: Prop, andPlayer: Player) {
+    private func handleCollisionBetweenProp(prop: Prop, andPlayer player: Player) {
         prop.destroy()
     }
     
-    private func handleCollisionBetweenPower(power: Power, andPlayer: Player) {
-        power.hit()
-    }
+    private func handleCollisionBetweenPowerUp(powerUp: PowerUp, andPlayer player: Player) {
+        powerUp.hit()
+        
+        if powerUp.activated == false {
+            powerUp.activate(forPlayer: player)
+        }
+     }
 }

@@ -8,18 +8,33 @@
 
 import Foundation
 
-class PowerLoader: ConfigurationLoader {
+class PowerUpLoader: ConfigurationLoader {
     let configFile = "config.json"
     
-    func powerWithName(name: String, gridPosition: Point) throws -> Power? {
-        var power: Power? = nil
+    func powerUpWithName(name: String, gridPosition: Point) throws -> PowerUp? {
+        var powerUp: PowerUp? = nil
         
         let directory = "Powers/\(name)"
         if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
-            power = Power(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
+            powerUp = PowerUp(forGame: self.game,
+                              configComponent: configComponent,
+                              gridPosition: gridPosition,
+                              power: powerTypeForName(name))
+        }
+        
+        return powerUp
+    }
+    
+    // MARK: - Private
+    
+    private func powerTypeForName(name: String) -> PowerType {
+        var power: PowerType
+        
+        switch name {
+        case "Explosion": power = PowerType.ExplosionSize
+        default: power = .Unknown
         }
         
         return power
     }
-
 }
