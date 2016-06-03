@@ -9,11 +9,11 @@
 import GameplayKit
 
 class PlayerControlComponent: GKComponent {
-    weak var player: Creature?
+    weak var player: Player?
     
     private var actions = Set<PlayerAction>()
     
-    init (player: Creature) {
+    init (player: Player) {
         super.init()
 
         self.player = player

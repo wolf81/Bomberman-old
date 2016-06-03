@@ -49,14 +49,7 @@ class DestroyState: State {
                         
                         if let destroySound = configComponent.destroySound {
                             if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(destroySound) {
-                                let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
-                                audioNode.autoplayLooped = false
-                                visualComponent.spriteNode.addChild(audioNode)
-                                
-                                let play = SKAction.runBlock({
-                                    audioNode.runAction(SKAction.play())
-                                })
-                                
+                                let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)                                
                                 actions.append(play)
                             }
                         }

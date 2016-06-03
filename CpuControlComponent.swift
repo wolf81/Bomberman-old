@@ -39,11 +39,11 @@ class CpuControlComponent: GKComponent {
                                 if playerInRangeForRangedAttack() {
                                     creature.attack()
                                     launchProjectile(projectileName, forCreature: creature)
-                                    self.attackDelay = 1.5
+                                    self.attackDelay = creature.abilityCooldown
                                 }
                             } else if playerInRangeForMeleeAttack() {
                                 creature.attack()
-                                self.attackDelay = 1.5
+                                self.attackDelay = creature.abilityCooldown
                             }
                         }
                     }

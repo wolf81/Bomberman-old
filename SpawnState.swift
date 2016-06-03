@@ -12,7 +12,7 @@ import SpriteKit
 class SpawnState: State {
     private var destroyDelay: NSTimeInterval?
     private var didShowSpawnAnimation = false
-    
+        
     override func isValidNextState(stateClass: AnyClass) -> Bool {
         var isValidNextState: Bool
         
@@ -67,14 +67,7 @@ class SpawnState: State {
                     if let configComponent = entity.componentForClass(ConfigComponent) {
                         if let spawnSound = configComponent.spawnSound {
                             if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(spawnSound) {
-                                let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
-                                audioNode.autoplayLooped = false
-                                visualComponent.spriteNode.addChild(audioNode)
-                                
-                                let play = SKAction.runBlock({
-                                    audioNode.runAction(SKAction.play())
-                                })
-                                
+                                let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
                                 actions.append(play)
                             }
                         }

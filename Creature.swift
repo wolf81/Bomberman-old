@@ -12,6 +12,9 @@ import SpriteKit
 class Creature: Entity {
     var health: Int = 1
     var lives: Int = 1
+    
+    // Used by monsters as shooting delay, for players as refill time for bombs.
+    let abilityCooldown: NSTimeInterval = 2.0
 
     private(set) var direction = Direction.None
     private(set) var nextGridPosition = Point(x: 0, y: 0)
@@ -123,31 +126,6 @@ class Creature: Entity {
         } else {
             super.hit()
         }
-    }
-    
-    func dropBomb() -> Bool {
-        var didDropBomb = false
-        
-        if let game = self.game {
-            let propLoader = PropLoader(forGame: game)
-            if let position = self.componentForClass(VisualComponent)?.spriteNode.position {
-                let gridPosition = gridPositionForPosition(position)
-                
-                if game.bombAtGridPosition(gridPosition) == nil {
-                    do {
-                        if let bomb = try propLoader.bombWithGridPosition(gridPosition) {
-                            game.addEntity(bomb)
-                            
-                            didDropBomb = true
-                        }
-                    } catch let error {
-                        print("error: \(error)")
-                    }
-                }
-            }
-        }
-        
-        return didDropBomb
     }
 }
 

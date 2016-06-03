@@ -396,6 +396,13 @@
 			name = Image;
 			sourceTree = "<group>";
 		};
+		79606E8C1D015F3C0034A0A1 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
 		79FC6B781CCA2B7500DF7476 = {
 			isa = PBXGroup;
 			children = (
@@ -450,6 +457,7 @@
 		79FC6BB21CCA47C300DF7476 /* Bomberman */ = {
 			isa = PBXGroup;
 			children = (
+				79606E8C1D015F3C0034A0A1 /* Utility */,
 				7902B0BD1CDC953000298CAC /* Nodes */,
 				794ADE191CD1E49A000AF170 /* Image */,
 				794ADE151CD1D305000AF170 /* Level */,

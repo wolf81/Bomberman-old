@@ -44,28 +44,45 @@ class Player: Creature {
                 self.bombRefillTime -= seconds
             } else {
                 self.currentBombCount += 1
-                print("BOMBS: \(self.currentBombCount)")
-                self.bombRefillTime = 2.0
+                self.bombRefillTime = self.abilityCooldown
             }
         } else {
-            self.bombRefillTime = 2.0
+            self.bombRefillTime = self.abilityCooldown
         }
     }
     
-    override func dropBomb() -> Bool {
+    func dropBomb() -> Bool {
         var didDropBomb = false
         
         if self.currentBombCount > 0 {
-            if super.dropBomb() {
-                didDropBomb = true
-
-                self.currentBombCount -= 1
+            if let game = self.game {
+                let propLoader = PropLoader(forGame: game)
+                if let position = self.componentForClass(VisualComponent)?.spriteNode.position {
+                    let gridPosition = gridPositionForPosition(position)
+                    
+                    if game.bombAtGridPosition(gridPosition) == nil {
+                        do {
+                            if let bomb = try propLoader.bombWithGridPosition(gridPosition) {
+                                game.addEntity(bomb)
+                                
+                                didDropBomb = true
+                                
+                            }
+                        } catch let error {
+                            print("error: \(error)")
+                        }
+                    }
+                }
             }
+        }
+        
+        if didDropBomb {
+            self.currentBombCount -= 1
         }
         
         return didDropBomb
     }
-        
+            
     override func movementDirectionsFromCurrentGridPosition() -> [(direction: Direction, gridPosition: Point)] {
         var adjustedMovementDirections = [(direction: Direction, gridPosition: Point)]()
         

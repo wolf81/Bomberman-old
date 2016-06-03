@@ -34,14 +34,7 @@ class HitState: State {
                     if let configComponent = entity.componentForClass(ConfigComponent) {
                         if let hitSound = configComponent.hitSound {
                             if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(hitSound) {
-                                let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
-                                audioNode.autoplayLooped = false
-                                visualComponent.spriteNode.addChild(audioNode)
-                                
-                                let play = SKAction.runBlock({
-                                    audioNode.runAction(SKAction.play())
-                                })
-                                
+                                let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
                                 actions.append(play)
                             }
                         }
