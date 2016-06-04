@@ -20,7 +20,7 @@ class PlayerInfoNode: SKShapeNode {
         let headTexture = SKTexture(imageNamed: "Player 1 Head.png")
         self.headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
         self.healthNode = HealthInfoNode(size: CGSize(width: 205, height: 110))
-        self.powerUpsNode = PowerUpsInfoNode(size: CGSize(width: 205, height: 110))
+        self.powerUpsNode = PowerUpsInfoNode(size: CGSize(width: 205, height: 80))
 
         super.init()
         
@@ -33,6 +33,9 @@ class PlayerInfoNode: SKShapeNode {
         
         self.healthNode.position = CGPoint(x: 10, y: 190)
         addChild(self.healthNode)
+        
+        self.powerUpsNode.position = CGPoint(x: 10, y: 115)
+        addChild(self.powerUpsNode)
 
         self.livesNode.text = "Lives: 0"
         self.livesNode.fontName = "TamilSangamMN"

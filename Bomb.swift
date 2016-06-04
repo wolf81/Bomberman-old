@@ -9,7 +9,7 @@
 import Foundation
 
 class Bomb: Entity {
-    var abilityRange: Int = 3
+    var abilityRange: Int = 2
     
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)

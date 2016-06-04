@@ -20,7 +20,7 @@ class Player: Creature {
         
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
 
-        self.abilityRange = 3
+        self.abilityRange = 2
 
         if let visualComponent = componentForClass(VisualComponent) {
             visualComponent.spriteNode.zPosition = 90
