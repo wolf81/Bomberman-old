@@ -57,6 +57,8 @@
 		7902B0C01CDC954600298CAC /* PlayerInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0BE1CDC954600298CAC /* PlayerInfoNode.swift */; };
 		7902B0C51CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
 		7902B0C61CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
+		7920A32A1D02C1CB002C2B16 /* HealthNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthNode.swift */; };
+		7920A32B1D02C1CB002C2B16 /* HealthNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthNode.swift */; };
 		793FAF451CE08E22005F64B1 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF441CE08E22005F64B1 /* LoadingScene.swift */; };
 		793FAF461CE08E22005F64B1 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF441CE08E22005F64B1 /* LoadingScene.swift */; };
 		793FAF481CE0C0C0005F64B1 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF471CE0C0C0005F64B1 /* MenuScene.swift */; };
@@ -182,6 +184,7 @@
 		7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneNode.swift; sourceTree = "<group>"; };
 		7902B0BE1CDC954600298CAC /* PlayerInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfoNode.swift; sourceTree = "<group>"; };
 		7902B0C41CDC9B2B00298CAC /* Prop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prop.swift; sourceTree = "<group>"; };
+		7920A3291D02C1CB002C2B16 /* HealthNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthNode.swift; sourceTree = "<group>"; };
 		793FAF441CE08E22005F64B1 /* LoadingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScene.swift; sourceTree = "<group>"; };
 		793FAF471CE0C0C0005F64B1 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		793FAF4A1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+Extensions.swift"; sourceTree = "<group>"; };
@@ -289,6 +292,7 @@
 				7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */,
 				7902B0BE1CDC954600298CAC /* PlayerInfoNode.swift */,
 				790056331CDD3469009CDF81 /* PanelNode.swift */,
+				7920A3291D02C1CB002C2B16 /* HealthNode.swift */,
 			);
 			name = Nodes;
 			sourceTree = "<group>";
@@ -743,6 +747,7 @@
 				794ADE541CD5A5B5000AF170 /* Explosion.swift in Sources */,
 				79C9F18C1CD9B3AB00692D75 /* Player.swift in Sources */,
 				79FC6BBE1CCA4CC700DF7476 /* GameView.swift in Sources */,
+				7920A32A1D02C1CB002C2B16 /* HealthNode.swift in Sources */,
 				790019151CF7A9DB001EEF3C /* ConfigurationLoader.swift in Sources */,
 				7902B0BB1CDC8F5000298CAC /* GameSceneNode.swift in Sources */,
 				794ADE5D1CD70A6F000AF170 /* Array+Extensions.swift in Sources */,
@@ -794,6 +799,7 @@
 				794ADE141CD1D2EA000AF170 /* ThemeLoader.swift in Sources */,
 				790019071CF58BBE001EEF3C /* Functions.swift in Sources */,
 				794ADE641CD716E8000AF170 /* AttackState.swift in Sources */,
+				7920A32B1D02C1CB002C2B16 /* HealthNode.swift in Sources */,
 				794ADE461CD48313000AF170 /* SpawnState.swift in Sources */,
 				794ADE221CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,
 				794ADE491CD4831B000AF170 /* DestroyState.swift in Sources */,

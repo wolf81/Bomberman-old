@@ -16,7 +16,6 @@ class PanelNode: SKSpriteNode {
     let p2_infoNode: PlayerInfoNode
     
     init(size: CGSize) {
-        let yMargin: CGFloat = 100
         let infoNodeSize = CGSize(width: 225, height: 380)
         self.p1_infoNode = PlayerInfoNode(size: infoNodeSize, text: "Player 1")
         self.p2_infoNode = PlayerInfoNode(size: infoNodeSize, text: "Player 2")
