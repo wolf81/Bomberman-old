@@ -9,7 +9,6 @@
 import SpriteKit
 
 class PlayerInfoNode: SKShapeNode {
-    let nameNode = SKLabelNode()
     let healthNode = SKLabelNode()
     let livesNode = SKLabelNode()
     let scoreNode = SKLabelNode()
@@ -17,22 +16,17 @@ class PlayerInfoNode: SKShapeNode {
     init(size: CGSize, text: String) {
         super.init()
         
+        self.path = CGPathCreateWithRect(CGRect(origin: CGPointZero, size: size), nil)
+        
         let x = size.width / 2
         
         let yMargin: CGFloat = 10
         let rowHeight = (size.height - (yMargin * 2)) / 4
         
-        self.nameNode.text = text
-        self.nameNode.fontName = "TamilSangamMN-Bold"
-        self.nameNode.fontSize = 35
-        var y = size.height - yMargin
-        self.nameNode.position = CGPoint(x: x, y: y)
-        addChild(self.nameNode)
-        
         self.livesNode.text = "Lives: 0"
         self.livesNode.fontName = "TamilSangamMN"
         self.livesNode.fontSize = 35
-        y -= rowHeight
+        var y = size.height - yMargin
         self.livesNode.position = CGPoint(x: x, y: y)
         addChild(self.livesNode)
         
@@ -50,11 +44,13 @@ class PlayerInfoNode: SKShapeNode {
         self.scoreNode.fontSize = 35
         addChild(self.scoreNode)
         
-        self.path = CGPathCreateWithRect(CGRect(origin: CGPointZero, size: size), nil)
-
         self.antialiased = false
-        self.lineWidth = 0
-        self.blendMode = .Replace
+        self.lineWidth = 4
+        self.strokeColor = SKColor.redColor()
+        self.fillColor = SKColor.blueColor()
+        self.blendMode = .Add
+        
+        self.zPosition = 15
     }
     
     func updateLives(lives: Int) {
@@ -72,6 +68,6 @@ class PlayerInfoNode: SKShapeNode {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        return nil
+        super.init(coder: aDecoder)
     }
 }

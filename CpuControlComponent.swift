@@ -34,7 +34,7 @@ class CpuControlComponent: GKComponent {
                     self.attackDelay -= seconds
                     
                     if self.attackDelay < 0 {
-                        if let configComponent = self.entity?.componentForClass(ConfigComponent) {
+                        if let configComponent = creature.componentForClass(ConfigComponent) {
                             if let projectileName = configComponent.projectile {
                                 if playerInRangeForRangedAttack() {
                                     creature.attack()

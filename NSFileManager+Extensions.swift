@@ -13,8 +13,8 @@ extension NSFileManager {
         case CreateBundleSupportDirectoryFailed
     }
     
-    var documentsDirectoryPath: String {
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+    var cachesDirectoryPath: String {
+        let paths = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)
         let path = paths.first!
         return path
     }
@@ -29,7 +29,7 @@ extension NSFileManager {
         var path: String?
         
         if let bundleIdentifier = NSBundle.mainBundle().bundleIdentifier {
-            path = applicationSupportDirectoryPath.stringByAppendingPathComponent(bundleIdentifier)
+            path = cachesDirectoryPath.stringByAppendingPathComponent(bundleIdentifier)
             
             let fileManager = NSFileManager.defaultManager()
             var isDirectory: ObjCBool = false

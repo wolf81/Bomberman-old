@@ -105,12 +105,9 @@ class GameScene: SKScene {
         if let delegate = self.gameSceneDelegate {
             let playerAction = playerActionForKeyCode(theEvent.keyCode)
             
-            if let player = playerAction.player {
-                if let action = playerAction.action {
-                    if action != .DropBomb {
-                        delegate.gameScenePlayerDidStopAction(self, player: player, action: action)
-                    }
-                }
+            if let player = playerAction.player, let action = playerAction.action
+                where action != .DropBomb {
+                delegate.gameScenePlayerDidStopAction(self, player: player, action: action)
             }
         }
     }

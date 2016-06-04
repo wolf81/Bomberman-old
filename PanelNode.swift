@@ -17,26 +17,28 @@ class PanelNode: SKSpriteNode {
     
     init(size: CGSize) {
         let yMargin: CGFloat = 100
-        let infoNodeSize = CGSizeMake(size.width, (size.height - (yMargin * 2)) / 2 - 100)
+        let infoNodeSize = CGSize(width: 225, height: 380)
         self.p1_infoNode = PlayerInfoNode(size: infoNodeSize, text: "Player 1")
         self.p2_infoNode = PlayerInfoNode(size: infoNodeSize, text: "Player 2")
         
-        super.init(texture: nil, color: SKColor.blackColor(), size: size)
+        let texture = SKTexture(imageNamed: "Panel.png")
+        super.init(texture: texture, color: SKColor.blackColor(), size: size)
         
+        self.timeNode.zPosition = 10
         addChild(self.timeNode)
         self.timeNode.fontName = "TamilSangamMN-Bold"
         self.timeNode.fontSize = 40
         self.timeNode.position = CGPoint(x: size.width / 2, y: size.height / 2 - timeNode.frame.height / 2)
         
         addChild(self.p1_infoNode)
-        self.p1_infoNode.position = CGPoint(x: 0, y: size.height - infoNodeSize.height - yMargin)
+        self.p1_infoNode.position = CGPoint(x: 55, y: 115)
         
         addChild(self.p2_infoNode)
-        self.p2_infoNode.position = CGPoint(x: 0, y: yMargin)
+        self.p2_infoNode.position = CGPoint(x: 55, y: 590)
         
         self.anchorPoint = CGPointZero
         self.position = CGPointZero
-        self.blendMode = .Replace
+//        self.blendMode = .Replace
     }
     
     required init?(coder aDecoder: NSCoder) {
