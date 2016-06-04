@@ -12,6 +12,12 @@ enum PowerType: Int {
     case ExplosionSize = 0
     case HealAll
     case Heal
+    case BombAdd
+    case BombSpeed
+    case MoveSpeed
+    case Shield
+    case DestroyMonsters
+    case DestroyBlocks
     case Unknown
 }
 
@@ -43,6 +49,20 @@ class PowerUp: Entity {
             case .ExplosionSize: player.abilityRange += 1
             case .Heal: player.health += 4
             case .HealAll: player.health = 16
+            case .DestroyBlocks:
+                if let tiles = self.game?.tiles {
+                    for tile in tiles {
+                        tile.destroy()
+                    }
+                }
+            case .DestroyMonsters:
+                if let creatures = self.game?.creatures {
+                    for creature in creatures {
+                        if creature is Monster {
+                            creature.destroy()
+                        }
+                    }
+                }
             default: break
             }
         }

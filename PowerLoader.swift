@@ -31,10 +31,15 @@ class PowerUpLoader: ConfigurationLoader {
         var power: PowerType
         
         switch name {
-        case "Explosion": power = .ExplosionSize
-        case "Heal": power = .Heal
-        case "HealAll": power = .HealAll
-        default: power = .Unknown
+        case "Explosion":       power = .ExplosionSize
+        case "Heal":            power = .Heal
+        case "HealAll":         power = .HealAll
+        case "BombAdd":         power = .BombAdd
+        case "BombSpeed":       power = .BombSpeed
+        case "Shield":          power = .Shield
+        case "DestroyMonsters": power = .DestroyMonsters
+        case "DestroyBlocks":   power = .DestroyBlocks
+        default:                power = .Unknown
         }
         
         return power

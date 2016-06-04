@@ -10,6 +10,7 @@ import SpriteKit
 
 class PowerUpsInfoNode: SKShapeNode {
     private var powerUpNodes = [SKSpriteNode]()
+    private var activePowers = Set<PowerType>()
 
     init(size: CGSize) {
         super.init()
@@ -18,7 +19,7 @@ class PowerUpsInfoNode: SKShapeNode {
         
         self.antialiased = false
         self.lineWidth = 0
-        self.fillColor = SKColor.purpleColor()
+//        self.fillColor = SKColor.purpleColor()
 
         self.zPosition = 20
         
@@ -29,6 +30,16 @@ class PowerUpsInfoNode: SKShapeNode {
         super.init(coder: aDecoder)
     }
     
+    func updatePowers(power: PowerType, setActive isActive: Bool) {
+        if isActive {
+            self.activePowers.insert(power)
+        } else {
+            self.activePowers.remove(power)
+        }
+        
+        updateAbilities()
+    }
+    
     func updateAbilities() {
         let powerUpSize = CGSize(width: 30, height: 30)
         
@@ -37,7 +48,11 @@ class PowerUpsInfoNode: SKShapeNode {
         
         for i in (0 ..< 5).reverse() {
             var powerUpSprite: SKTexture
-            powerUpSprite = powerUpSprites[i + 6]
+
+            let powerType = powerTypeForIndex(i)
+            let isPowerActive = self.activePowers.contains(powerType)
+            
+            powerUpSprite = powerUpSprites[i + (isPowerActive ? 6 : 0)]
 
             let xPos = i * Int(powerUpSize.width) + 25
             let yPos = 45
@@ -50,5 +65,19 @@ class PowerUpsInfoNode: SKShapeNode {
         for powerUpNode in self.powerUpNodes {
             self.addChild(powerUpNode)
         }
+    }
+    
+    private func powerTypeForIndex(index: Int) -> PowerType {
+        var powerType: PowerType
+        
+        switch index {
+        case 0: powerType = PowerType.BombAdd
+        case 1: powerType = PowerType.BombSpeed
+        case 2: powerType = PowerType.ExplosionSize
+        case 3: powerType = PowerType.Shield
+        default: powerType = PowerType.MoveSpeed
+        }
+//
+        return powerType
     }
 }
