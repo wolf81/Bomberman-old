@@ -57,8 +57,12 @@
 		7902B0C01CDC954600298CAC /* PlayerInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0BE1CDC954600298CAC /* PlayerInfoNode.swift */; };
 		7902B0C51CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
 		7902B0C61CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
-		7920A32A1D02C1CB002C2B16 /* HealthNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthNode.swift */; };
-		7920A32B1D02C1CB002C2B16 /* HealthNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthNode.swift */; };
+		7920A32A1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */; };
+		7920A32B1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */; };
+		7920A32D1D02DCDE002C2B16 /* HudLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A32C1D02DCDE002C2B16 /* HudLoader.swift */; };
+		7920A32E1D02DCE3002C2B16 /* HudLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A32C1D02DCDE002C2B16 /* HudLoader.swift */; };
+		7920A3301D02EDAD002C2B16 /* PowerUpInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A32F1D02EDAD002C2B16 /* PowerUpInfoNode.swift */; };
+		7920A3311D02EDAD002C2B16 /* PowerUpInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A32F1D02EDAD002C2B16 /* PowerUpInfoNode.swift */; };
 		793FAF451CE08E22005F64B1 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF441CE08E22005F64B1 /* LoadingScene.swift */; };
 		793FAF461CE08E22005F64B1 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF441CE08E22005F64B1 /* LoadingScene.swift */; };
 		793FAF481CE0C0C0005F64B1 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF471CE0C0C0005F64B1 /* MenuScene.swift */; };
@@ -184,7 +188,9 @@
 		7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneNode.swift; sourceTree = "<group>"; };
 		7902B0BE1CDC954600298CAC /* PlayerInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfoNode.swift; sourceTree = "<group>"; };
 		7902B0C41CDC9B2B00298CAC /* Prop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prop.swift; sourceTree = "<group>"; };
-		7920A3291D02C1CB002C2B16 /* HealthNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthNode.swift; sourceTree = "<group>"; };
+		7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthInfoNode.swift; sourceTree = "<group>"; };
+		7920A32C1D02DCDE002C2B16 /* HudLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudLoader.swift; sourceTree = "<group>"; };
+		7920A32F1D02EDAD002C2B16 /* PowerUpInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpInfoNode.swift; sourceTree = "<group>"; };
 		793FAF441CE08E22005F64B1 /* LoadingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScene.swift; sourceTree = "<group>"; };
 		793FAF471CE0C0C0005F64B1 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		793FAF4A1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+Extensions.swift"; sourceTree = "<group>"; };
@@ -292,7 +298,8 @@
 				7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */,
 				7902B0BE1CDC954600298CAC /* PlayerInfoNode.swift */,
 				790056331CDD3469009CDF81 /* PanelNode.swift */,
-				7920A3291D02C1CB002C2B16 /* HealthNode.swift */,
+				7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */,
+				7920A32F1D02EDAD002C2B16 /* PowerUpInfoNode.swift */,
 			);
 			name = Nodes;
 			sourceTree = "<group>";
@@ -358,6 +365,7 @@
 				790018FF1CF449DD001EEF3C /* TileLoader.swift */,
 				790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */,
 				79606E891CFEB0780034A0A1 /* PowerLoader.swift */,
+				7920A32C1D02DCDE002C2B16 /* HudLoader.swift */,
 			);
 			name = Loaders;
 			sourceTree = "<group>";
@@ -730,6 +738,7 @@
 				794ADDEA1CD088B9000AF170 /* NSFileManager+Extensions.swift in Sources */,
 				790019091CF5999C001EEF3C /* Points.swift in Sources */,
 				7902B0A21CDAFBD400298CAC /* ControlState.swift in Sources */,
+				7920A32D1D02DCDE002C2B16 /* HudLoader.swift in Sources */,
 				793FAF4B1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift in Sources */,
 				794ADDF01CD08912000AF170 /* CreatureLoader.swift in Sources */,
 				790056341CDD3469009CDF81 /* PanelNode.swift in Sources */,
@@ -747,8 +756,9 @@
 				794ADE541CD5A5B5000AF170 /* Explosion.swift in Sources */,
 				79C9F18C1CD9B3AB00692D75 /* Player.swift in Sources */,
 				79FC6BBE1CCA4CC700DF7476 /* GameView.swift in Sources */,
-				7920A32A1D02C1CB002C2B16 /* HealthNode.swift in Sources */,
+				7920A32A1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */,
 				790019151CF7A9DB001EEF3C /* ConfigurationLoader.swift in Sources */,
+				7920A3301D02EDAD002C2B16 /* PowerUpInfoNode.swift in Sources */,
 				7902B0BB1CDC8F5000298CAC /* GameSceneNode.swift in Sources */,
 				794ADE5D1CD70A6F000AF170 /* Array+Extensions.swift in Sources */,
 				7900190C1CF5C4ED001EEF3C /* FloatState.swift in Sources */,
@@ -782,6 +792,7 @@
 				794ADE341CD306CC000AF170 /* ConfigComponent.swift in Sources */,
 				794ADE4F1CD4B3AA000AF170 /* State.swift in Sources */,
 				79FC6BC01CCA500700DF7476 /* GameScene.swift in Sources */,
+				7920A3311D02EDAD002C2B16 /* PowerUpInfoNode.swift in Sources */,
 				7947BC211CCB5ABF00DE7C8A /* Types.swift in Sources */,
 				7900190D1CF5C4ED001EEF3C /* FloatState.swift in Sources */,
 				793FAF461CE08E22005F64B1 /* LoadingScene.swift in Sources */,
@@ -799,11 +810,12 @@
 				794ADE141CD1D2EA000AF170 /* ThemeLoader.swift in Sources */,
 				790019071CF58BBE001EEF3C /* Functions.swift in Sources */,
 				794ADE641CD716E8000AF170 /* AttackState.swift in Sources */,
-				7920A32B1D02C1CB002C2B16 /* HealthNode.swift in Sources */,
+				7920A32B1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */,
 				794ADE461CD48313000AF170 /* SpawnState.swift in Sources */,
 				794ADE221CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,
 				794ADE491CD4831B000AF170 /* DestroyState.swift in Sources */,
 				794ADE6D1CD82A0A000AF170 /* HitState.swift in Sources */,
+				7920A32E1D02DCE3002C2B16 /* HudLoader.swift in Sources */,
 				79FC6BB51CCA47D400DF7476 /* Game.swift in Sources */,
 				794ADDF41CD09026000AF170 /* DataLoader.swift in Sources */,
 				794ADE671CD7307A000AF170 /* Projectile.swift in Sources */,

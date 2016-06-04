@@ -10,7 +10,8 @@ import SpriteKit
 
 class PlayerInfoNode: SKShapeNode {
     let headNode: SKSpriteNode
-    let healthNode: HealthNode
+    let healthNode: HealthInfoNode
+    let powerUpNode: PowerUpInfoNode
     let livesNode = SKLabelNode()
     let scoreTitleNode = SKLabelNode()
     let scoreValueNode = SKLabelNode()
@@ -18,7 +19,8 @@ class PlayerInfoNode: SKShapeNode {
     init(size: CGSize, text: String) {
         let headTexture = SKTexture(imageNamed: "Player 1 Head.png")
         self.headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
-        self.healthNode = HealthNode(size: CGSize(width: 205, height: 110))
+        self.healthNode = HealthInfoNode(size: CGSize(width: 205, height: 110))
+        self.powerUpNode = PowerUpInfoNode(size: CGSize(width: 205, height: 110))
 
         super.init()
         
@@ -64,21 +66,15 @@ class PlayerInfoNode: SKShapeNode {
     }
     
     func updateHealth(health: Int) {
-        var healthString = "Health: "
-        
-        for _ in 0 ..< health {
-            healthString += "*"
-        }
-
-//        self.healthNode.text = healthString
+        self.healthNode.updateHealth(health)
     }
     
     required init?(coder aDecoder: NSCoder) {
         let headTexture = SKTexture(imageNamed: "Player 1 Head.png")
         self.headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
+        self.healthNode = HealthInfoNode(size: CGSize(width: 150, height: 100))
+        self.powerUpNode = PowerUpInfoNode(size: CGSize(width: 205, height: 110))
 
-        self.healthNode = HealthNode(size: CGSize(width: 150, height: 100))
-        
         super.init(coder: aDecoder)
     }
 }

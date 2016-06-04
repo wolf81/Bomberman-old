@@ -480,13 +480,14 @@ extension Game {
         case is Creature: fallthrough
         case is Player:
             let creature = entity as! Creature
-            if creature.lives < 0 {
-                removeEntity(entity)
-            }
-            
+
             if let player = creature as? Player {
                 self.gameScene?.updatePlayer(player.index, setLives: player.lives)
                 player.spawn()
+            }
+            
+            if creature.lives < 0 {
+                removeEntity(entity)
             }
         case is Tile:
             removeEntity(entity)
