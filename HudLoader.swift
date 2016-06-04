@@ -10,11 +10,18 @@ import SpriteKit
 
 class HudLoader {
     private(set) var heartSprites: [SKTexture]
+    private(set) var powerUpSprites: [SKTexture]
 
     init() {
         let heartsTexture = SKTexture(imageNamed: "Heart Icons.png")
-        let spriteSize = CGSize(width: 17, height: 18)
-        self.heartSprites = SpriteLoader.spritesFromTexture(heartsTexture, withSpriteSize: spriteSize)
+        let heartsSpriteSize = CGSize(width: 17, height: 18)
+        self.heartSprites = SpriteLoader.spritesFromTexture(heartsTexture,
+                                                            withSpriteSize: heartsSpriteSize)
+        
+        let powerUpsTexture = SKTexture(imageNamed: "Bonus Icons.png")
+        let powerUpsSpriteSize = CGSize(width: 14, height: 14)
+        self.powerUpSprites = SpriteLoader.spritesFromTexture(powerUpsTexture,
+                                                              withSpriteSize: powerUpsSpriteSize)
     }
 
 }

@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class PowerUpInfoNode: SKShapeNode {
+class PowerUpsInfoNode: SKShapeNode {
     init(size: CGSize) {
         super.init()
                 

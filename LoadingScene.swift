@@ -51,7 +51,7 @@ class LoadingScene: SKScene, AssetManagerDelegate {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        return nil
+        super.init(coder: aDecoder)
     }
     
     override func didMoveToView(view: SKView) {

@@ -10,6 +10,8 @@ import SpriteKit
 
 enum PowerType: Int {
     case ExplosionSize = 0
+    case HealAll
+    case Heal
     case Unknown
 }
 
@@ -39,6 +41,8 @@ class PowerUp: Entity {
             
             switch self.power {
             case .ExplosionSize: player.abilityRange += 1
+            case .Heal: player.health += 4
+            case .HealAll: player.health = 16
             default: break
             }
         }

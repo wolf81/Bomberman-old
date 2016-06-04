@@ -11,7 +11,7 @@ import SpriteKit
 class PlayerInfoNode: SKShapeNode {
     let headNode: SKSpriteNode
     let healthNode: HealthInfoNode
-    let powerUpNode: PowerUpInfoNode
+    let powerUpsNode: PowerUpsInfoNode
     let livesNode = SKLabelNode()
     let scoreTitleNode = SKLabelNode()
     let scoreValueNode = SKLabelNode()
@@ -20,7 +20,7 @@ class PlayerInfoNode: SKShapeNode {
         let headTexture = SKTexture(imageNamed: "Player 1 Head.png")
         self.headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
         self.healthNode = HealthInfoNode(size: CGSize(width: 205, height: 110))
-        self.powerUpNode = PowerUpInfoNode(size: CGSize(width: 205, height: 110))
+        self.powerUpsNode = PowerUpsInfoNode(size: CGSize(width: 205, height: 110))
 
         super.init()
         
@@ -73,7 +73,7 @@ class PlayerInfoNode: SKShapeNode {
         let headTexture = SKTexture(imageNamed: "Player 1 Head.png")
         self.headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
         self.healthNode = HealthInfoNode(size: CGSize(width: 150, height: 100))
-        self.powerUpNode = PowerUpInfoNode(size: CGSize(width: 205, height: 110))
+        self.powerUpsNode = PowerUpsInfoNode(size: CGSize(width: 205, height: 110))
 
         super.init(coder: aDecoder)
     }

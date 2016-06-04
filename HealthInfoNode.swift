@@ -43,7 +43,7 @@ class HealthInfoNode: SKShapeNode {
         }
         self.heartNodes.removeAll()
         
-        let heartSize = CGSize(width: 35, height: 35)
+        let heartSize = CGSize(width: 40, height: 40)
         
         let hudLoader = HudLoader()
         let heartSprites = hudLoader.heartSprites
@@ -62,8 +62,8 @@ class HealthInfoNode: SKShapeNode {
                     heartSprite = heartSprites[0]
                 }
                 
-                let xPos = x * Int(heartSize.width + 5) + 20
-                let yPos = (y * Int(heartSize.height + 10)) + 15
+                let xPos = x * Int(heartSize.width + 0) + 25
+                let yPos = (y * Int(heartSize.height + 5)) + 15
                 let heartNode = SKSpriteNode(texture: heartSprite, size: heartSize)
                 heartNode.position = CGPoint(x: xPos, y: yPos)
                 heartNode.anchorPoint = CGPointZero

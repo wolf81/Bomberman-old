@@ -31,7 +31,9 @@ class PowerUpLoader: ConfigurationLoader {
         var power: PowerType
         
         switch name {
-        case "Explosion": power = PowerType.ExplosionSize
+        case "Explosion": power = .ExplosionSize
+        case "Heal": power = .Heal
+        case "HealAll": power = .HealAll
         default: power = .Unknown
         }
         

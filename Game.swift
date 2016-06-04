@@ -595,6 +595,8 @@ extension Game {
         
         if powerUp.activated == false {
             powerUp.activate(forPlayer: player)
+            
+            self.gameScene?.updatePlayer(player.index, setHealth: player.health)
         }
      }
 }
