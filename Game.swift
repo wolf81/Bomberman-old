@@ -370,7 +370,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     }
     
     func bombCountForPlayer(player: PlayerIndex) -> Int {
-        let count = self.bombs.filter { bomb in bomb.player == player }.count
+        let count = self.bombs.filter { $0.player == player }.count
         return count
     }
 }
