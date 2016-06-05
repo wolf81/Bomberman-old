@@ -96,10 +96,10 @@ class Bomb: Entity {
         }
         
         for validPosition in validPositions {
-            if let creature = self.game?.creatureAtGridPosition(validPosition.0) {
-                print("destroy: \(creature)")
-                creature.destroy()
-            }
+//            if let creature = self.game?.creatureAtGridPosition(validPosition.0) {
+//                print("destroy: \(creature)")
+//                creature.destroy()
+//            }
             
             if let bomb = self.game?.bombAtGridPosition(validPosition.0) {
                 bomb.destroy()

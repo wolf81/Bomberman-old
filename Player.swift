@@ -84,10 +84,18 @@ class Player: Creature {
         super.spawn()
     }
     
+    override func hit() {
+        if self.shieldPowerLimit.currentCount == 0 {
+            super.hit()
+        }
+    }
+    
     override func destroy() {
-        self.health = 0
-        self.game?.gameScene?.updateHudForPlayer(self)
-        super.destroy()
+        if self.shieldPowerLimit.currentCount == 0 {
+            self.health = 0
+            self.game?.gameScene?.updateHudForPlayer(self)
+            super.destroy()
+        }
     }
     
     override func movementDirectionsFromCurrentGridPosition() -> [(direction: Direction, gridPosition: Point)] {

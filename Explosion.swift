@@ -18,7 +18,7 @@ class Explosion: Entity {
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = propCategory
                 physicsBody.collisionBitMask = nothingCategory
-                physicsBody.contactTestBitMask = nothingCategory
+                physicsBody.contactTestBitMask = playerCategory | monsterCategory
             }
         }
     }

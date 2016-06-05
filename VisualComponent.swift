@@ -83,6 +83,33 @@ class VisualComponent: GKComponent {
             let group = SKAction.group(actions)
             let sequence = SKAction.sequence([group, SKAction.runBlock(completion)])
             
+            // TODO: Clean-up the code for getting shield texture. Should be more dynamic, 
+            //  like entities. Perhaps the shield can be parsed as prop.
+            if let player = self.entity as? Player {
+                if player.shieldPowerLimit.currentCount > 0 {
+                    if self.spriteNode.children.count > 0 {
+                        self.spriteNode.removeAllChildren()
+                    }
+                    
+                    let shieldTexture = SKTexture(imageNamed: "Shield.png")
+                    let spriteSize = CGSizeMake(32, 32)
+                    let shieldSprites = SpriteLoader.spritesFromTexture(shieldTexture, withSpriteSize: spriteSize)
+                    
+                    var shieldSprite: SKTexture
+                    
+                    switch direction {
+                    case .West: shieldSprite = shieldSprites[2]
+                    case .East: shieldSprite = shieldSprites[1]
+                    default: shieldSprite = shieldSprites[0]
+                    }
+                    
+                    let shieldNode = SKSpriteNode(texture: shieldSprite, size: self.spriteNode.size)
+                    shieldNode.alpha = 0.5
+                    shieldNode.zPosition = 1000
+                    self.spriteNode.addChild(shieldNode)                
+                }
+            }
+            
             self.spriteNode.runAction(sequence, withKey: "move")
         }
     }    

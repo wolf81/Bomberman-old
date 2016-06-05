@@ -235,6 +235,10 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             })
     }
     
+    private func updateHudForPlayer(player: Player) {
+        self.gameScene?.updateHudForPlayer(player)
+    }
+    
     private func updateComponentSystems(deltaTime: NSTimeInterval) {
         self.cpuControlSystem.updateWithDeltaTime(deltaTime)
         self.playerControlSystem.updateWithDeltaTime(deltaTime)
@@ -551,21 +555,25 @@ extension Game {
         
         let entity1 = firstBody?.entity
         let entity2 = secondBody?.entity
-        
+                
         if entity1 is Projectile  {
-            handleCollisionBetweenProjectile(entity1 as! Projectile, andEntity: entity2!)
+            handleContactBetweenProjectile(entity1 as! Projectile, andEntity: entity2!)
         } else if entity2 is Projectile {
-            handleCollisionBetweenProjectile(entity2 as! Projectile, andEntity: entity1!)
+            handleContactBetweenProjectile(entity2 as! Projectile, andEntity: entity1!)
         }
         
-        if entity1 is Prop && entity2 is Player {
-            handleCollisionBetweenProp(entity1 as! Prop, andPlayer: entity2 as! Player)
+        if entity1 is Explosion && entity2 is Creature {
+            handleContactBetweenExplosion(entity1 as! Explosion, andCreature: entity2 as! Creature)
+        } else if entity2 is Explosion && entity1 is Creature {
+            handleContactBetweenExplosion(entity2 as! Explosion, andCreature: entity1 as! Creature)
+        } else if entity1 is Prop && entity2 is Player {
+            handleContactBetweenProp(entity1 as! Prop, andPlayer: entity2 as! Player)
         } else if entity2 is Prop && entity1 is Player {
-            handleCollisionBetweenProp(entity2 as! Prop, andPlayer: entity1 as! Player)
+            handleContactBetweenProp(entity2 as! Prop, andPlayer: entity1 as! Player)
         } else if entity2 is PowerUp && entity1 is Player {
-            handleCollisionBetweenPowerUp(entity2 as! PowerUp, andPlayer: entity1 as! Player)
+            handleContactBetweenPowerUp(entity2 as! PowerUp, andPlayer: entity1 as! Player)
         } else if entity1 is PowerUp && entity2 is Player {
-            handleCollisionBetweenPowerUp(entity1 as! PowerUp, andPlayer: entity2 as! Player)
+            handleContactBetweenPowerUp(entity1 as! PowerUp, andPlayer: entity2 as! Player)
         }
     }
     
@@ -575,21 +583,23 @@ extension Game {
     
     // MARK: Private
     
-    private func handleCollisionBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
+    private func handleContactBetweenExplosion(explosion: Explosion, andCreature creature: Creature) {
+        creature.destroy()
+    }
+    
+    private func handleContactBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
         projectile.hit()
         
-        if let player = entity as? Player {
-            if player.isDestroyed == false {
-                player.hit()
-            }
+        if let player = entity as? Player where player.isDestroyed == false {
+            player.hit()
         }
     }
     
-    private func handleCollisionBetweenProp(prop: Prop, andPlayer player: Player) {
+    private func handleContactBetweenProp(prop: Prop, andPlayer player: Player) {
         prop.destroy()
     }
     
-    private func handleCollisionBetweenPowerUp(powerUp: PowerUp, andPlayer player: Player) {
+    private func handleContactBetweenPowerUp(powerUp: PowerUp, andPlayer player: Player) {
         powerUp.hit()
         
         if powerUp.activated == false {
@@ -597,8 +607,4 @@ extension Game {
             updateHudForPlayer(player)
         }
      }
-    
-    private func updateHudForPlayer(player: Player) {
-        self.gameScene?.updateHudForPlayer(player)
-    }
 }
