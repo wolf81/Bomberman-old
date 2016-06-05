@@ -130,10 +130,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         
         // Update player movement, monster movement, state machines ...
         updateComponentSystems(deltaTime)
-        
-        self.player1?.updateWithDeltaTime(deltaTime)
-        self.player2?.updateWithDeltaTime(deltaTime)
-        
+                
         // Enrage timer. When timer is expired, monsters become more dangerous.
         if self.timeRemaining > 0 {
             self.gameScene?.updateTimeRemaining(self.timeRemaining)
@@ -370,6 +367,11 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     
     func removeEntity(entity: Entity) {
         self.entitiesToRemove.append(entity)
+    }
+    
+    func bombCountForPlayer(player: PlayerIndex) -> Int {
+        let count = self.bombs.filter { bomb in bomb.player == player }.count
+        return count
     }
 }
 

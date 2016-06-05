@@ -10,8 +10,11 @@ import Foundation
 
 class Bomb: Entity {
     var abilityRange: Int = 2
+    let player: PlayerIndex
     
-    init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
+    init(forGame game: Game, player: PlayerIndex, configComponent: ConfigComponent, gridPosition: Point) {
+        self.player = player
+        
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
         if let visualComponent = componentForClass(VisualComponent) {

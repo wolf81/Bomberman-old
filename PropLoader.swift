@@ -30,12 +30,15 @@ class PropLoader: ConfigurationLoader {
         return explosion
     }
     
-    func bombWithGridPosition(gridPosition: Point) throws -> Bomb? {
+    func bombWithGridPosition(gridPosition: Point, player: PlayerIndex) throws -> Bomb? {
         var bomb: Bomb? = nil
         
         let directory = "Props/Bomb"
         if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
-            bomb = Bomb(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
+            bomb = Bomb(forGame: self.game,
+                        player: player,
+                        configComponent: configComponent,
+                        gridPosition: gridPosition)
         }
         
         return bomb
