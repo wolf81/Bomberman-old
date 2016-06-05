@@ -49,7 +49,7 @@ class PowerUp: Entity {
             case .ExplosionSize: player.abilityRange += 1
             case .Heal: player.health += 4
             case .HealAll: player.health = 16
-            case .DestroyBlocks:
+            case .DestroyBlocks:                
                 if let tiles = self.game?.tiles {
                     for tile in tiles {
                         tile.destroy()
