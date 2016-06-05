@@ -35,30 +35,32 @@ class PlayerControlComponent: GKComponent {
     }
     
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        if let player = self.player {
-            if player.isControllable {
+        if let player = self.player where player.isControllable {
+            for action in actions {
+                if action == PlayerAction.DropBomb {
+                    do {
+                        try player.dropBomb()
+                    } catch let error {
+                        print("error: \(error)")
+                    }
+                    
+                    removeAction(action)
+                }
+            }
+            
+            if !player.isMoving {
+                var direction = Direction.None
                 
                 for action in actions {
                     if action == PlayerAction.DropBomb {
-                        player.dropBomb()
-                        removeAction(action)
+                        continue
                     }
+                    
+                    direction = movementDirectionForPlayerAction(action)
+                    break
                 }
                 
-                if !player.isMoving {
-                    var direction = Direction.None
-                    
-                    for action in actions {
-                        if action == PlayerAction.DropBomb {
-                            continue
-                        }
-                        
-                        direction = movementDirectionForPlayerAction(action)
-                        break
-                    }
-                    
-                    player.moveInDirection(direction)
-                }
+                player.moveInDirection(direction)
             }
         }
     }

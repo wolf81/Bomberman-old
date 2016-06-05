@@ -63,4 +63,27 @@ class PanelNode: SKSpriteNode {
         case .Player2: self.p2_infoNode.updateHealth(health)
         }
     }
+    
+    func updatePlayerPowers(forPlayer player: Player) {
+        let explosionPowerActive = player.explosionPowerLimit.currentCount > 0
+        let shieldPowerActive = player.shieldPowerLimit.currentCount > 0
+        let speedPowerActive = player.speedPowerLimit.currentCount > 0
+        let bombPowerActive = player.bombPowerLimit.currentCount > 0
+        let triggerPowerActive = player.bombTriggerPowerLimit.currentCount > 0
+
+        switch player.index {
+        case .Player1:
+            self.p1_infoNode.updatePower(PowerType.ExplosionSize, setActive: explosionPowerActive)
+            self.p1_infoNode.updatePower(PowerType.BombAdd, setActive: bombPowerActive)
+            self.p1_infoNode.updatePower(PowerType.BombSpeed, setActive: triggerPowerActive)
+            self.p1_infoNode.updatePower(PowerType.Shield, setActive: shieldPowerActive)
+            self.p1_infoNode.updatePower(PowerType.MoveSpeed, setActive: speedPowerActive)
+        case .Player2:
+            self.p2_infoNode.updatePower(PowerType.ExplosionSize, setActive: explosionPowerActive)
+            self.p2_infoNode.updatePower(PowerType.BombAdd, setActive: bombPowerActive)
+            self.p2_infoNode.updatePower(PowerType.BombSpeed, setActive: triggerPowerActive)
+            self.p2_infoNode.updatePower(PowerType.Shield, setActive: shieldPowerActive)
+            self.p2_infoNode.updatePower(PowerType.MoveSpeed, setActive: speedPowerActive)
+        }
+    }
 }

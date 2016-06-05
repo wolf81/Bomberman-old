@@ -11,10 +11,16 @@ import Foundation
 class Player: Creature {
     let index: PlayerIndex
     
-    private var totalBombCount: Int = 4
-    
     private let propLoader: PropLoader
-
+    
+    private(set) var explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
+    private(set) var bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+    private(set) var shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+    private(set) var bombPowerLimit = PowerUpLimit(currentCount: 4, maxCount: 6)
+    private(set) var speedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+    
+    // MARK: - Initialization
+    
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, playerIndex: PlayerIndex) {
         self.index = playerIndex
         self.propLoader = PropLoader(forGame: game)
@@ -38,22 +44,32 @@ class Player: Creature {
         let playerControlComponent = PlayerControlComponent(player: self)
         addComponent(playerControlComponent)
     }
-        
-    func dropBomb() -> Bool {
+    
+    // MARK: - Public
+    
+    func addExplosionPower() {
+        if self.explosionPowerLimit.currentCount < self.explosionPowerLimit.maxCount {
+            self.explosionPowerLimit.currentCount += 1
+        }
+    }
+    
+    func addShieldPower() {
+        if self.shieldPowerLimit.currentCount < self.shieldPowerLimit.maxCount {
+            self.shieldPowerLimit.currentCount += 1
+        }
+    }
+    
+    func dropBomb() throws -> Bool {
         var didDropBomb = false
 
-        if self.game?.bombCountForPlayer(self.index) < totalBombCount {
+        if self.game?.bombCountForPlayer(self.index) < self.bombPowerLimit.currentCount  {
             if let game = self.game, let visualComponent = self.componentForClass(VisualComponent) {
                 let gridPosition = gridPositionForPosition(visualComponent.spriteNode.position)
                 if game.bombAtGridPosition(gridPosition) == nil {
-                    do {
-                        if let bomb = try self.propLoader.bombWithGridPosition(gridPosition, player: self.index) {
-                            bomb.abilityRange = self.abilityRange
-                            game.addEntity(bomb)
-                            didDropBomb = true
-                        }
-                    } catch let error {
-                        print("error: \(error)")
+                    if let bomb = try self.propLoader.bombWithGridPosition(gridPosition, player: self.index) {
+                        bomb.abilityRange = self.explosionPowerLimit.currentCount
+                        game.addEntity(bomb)
+                        didDropBomb = true
                     }
                 }
             }
@@ -61,7 +77,19 @@ class Player: Creature {
         
         return didDropBomb
     }
-            
+    
+    override func spawn() {
+        self.resetPowerUps()
+        
+        super.spawn()
+    }
+    
+    override func destroy() {
+        self.health = 0
+        self.game?.gameScene?.updatePlayer(self.index, setHealth: self.health)
+        super.destroy()
+    }
+    
     override func movementDirectionsFromCurrentGridPosition() -> [(direction: Direction, gridPosition: Point)] {
         var adjustedMovementDirections = [(direction: Direction, gridPosition: Point)]()
         
@@ -84,5 +112,15 @@ class Player: Creature {
         }
     
         return adjustedMovementDirections
+    }
+    
+    // MARK: - Private
+    
+    private func resetPowerUps() {
+        self.explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
+        self.bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+        self.shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+        self.bombPowerLimit = PowerUpLimit(currentCount: 4, maxCount: 6)
+        self.speedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
     }
 }

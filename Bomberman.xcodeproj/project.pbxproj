@@ -65,6 +65,8 @@
 		7920A3311D02EDAD002C2B16 /* PowerUpsInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A32F1D02EDAD002C2B16 /* PowerUpsInfoNode.swift */; };
 		7920A3331D02F805002C2B16 /* Bonus Icons.png in Resources */ = {isa = PBXBuildFile; fileRef = 7920A3321D02F805002C2B16 /* Bonus Icons.png */; };
 		7920A3341D02F805002C2B16 /* Bonus Icons.png in Resources */ = {isa = PBXBuildFile; fileRef = 7920A3321D02F805002C2B16 /* Bonus Icons.png */; };
+		7920A3361D03FE70002C2B16 /* PowerUpLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */; };
+		7920A3371D03FE70002C2B16 /* PowerUpLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */; };
 		793FAF451CE08E22005F64B1 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF441CE08E22005F64B1 /* LoadingScene.swift */; };
 		793FAF461CE08E22005F64B1 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF441CE08E22005F64B1 /* LoadingScene.swift */; };
 		793FAF481CE0C0C0005F64B1 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF471CE0C0C0005F64B1 /* MenuScene.swift */; };
@@ -194,6 +196,7 @@
 		7920A32C1D02DCDE002C2B16 /* HudLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudLoader.swift; sourceTree = "<group>"; };
 		7920A32F1D02EDAD002C2B16 /* PowerUpsInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpsInfoNode.swift; sourceTree = "<group>"; };
 		7920A3321D02F805002C2B16 /* Bonus Icons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bonus Icons.png"; sourceTree = "<group>"; };
+		7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpLimit.swift; sourceTree = "<group>"; };
 		793FAF441CE08E22005F64B1 /* LoadingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScene.swift; sourceTree = "<group>"; };
 		793FAF471CE0C0C0005F64B1 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		793FAF4A1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+Extensions.swift"; sourceTree = "<group>"; };
@@ -307,6 +310,14 @@
 			name = Nodes;
 			sourceTree = "<group>";
 		};
+		7920A3381D03FE85002C2B16 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
 		7947BC2E1CCC9B4300DE7C8A /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,9 +360,9 @@
 				794ADE651CD7307A000AF170 /* Projectile.swift */,
 				79C9F18B1CD9B3AB00692D75 /* Player.swift */,
 				79C9F1911CD9B7E600692D75 /* Monster.swift */,
+				7900190E1CF74877001EEF3C /* PowerUp.swift */,
 				7902B0C41CDC9B2B00298CAC /* Prop.swift */,
 				790019081CF5999C001EEF3C /* Points.swift */,
-				7900190E1CF74877001EEF3C /* PowerUp.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -466,6 +477,7 @@
 		79FC6BB21CCA47C300DF7476 /* Bomberman */ = {
 			isa = PBXGroup;
 			children = (
+				7920A3381D03FE85002C2B16 /* Utility */,
 				7902B0BD1CDC953000298CAC /* Nodes */,
 				794ADE191CD1E49A000AF170 /* Image */,
 				794ADE151CD1D305000AF170 /* Level */,
@@ -722,6 +734,7 @@
 				794ADE4E1CD4B3AA000AF170 /* State.swift in Sources */,
 				7947BC301CCDCE5500DE7C8A /* CpuControlComponent.swift in Sources */,
 				790019061CF58BBE001EEF3C /* Functions.swift in Sources */,
+				7920A3361D03FE70002C2B16 /* PowerUpLimit.swift in Sources */,
 				7947BC2C1CCB879500DE7C8A /* VisualComponent.swift in Sources */,
 				794ADE331CD306CC000AF170 /* ConfigComponent.swift in Sources */,
 				7947BC381CCDD58900DE7C8A /* Tile.swift in Sources */,
@@ -817,6 +830,7 @@
 				790019071CF58BBE001EEF3C /* Functions.swift in Sources */,
 				794ADE641CD716E8000AF170 /* AttackState.swift in Sources */,
 				7920A32B1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */,
+				7920A3371D03FE70002C2B16 /* PowerUpLimit.swift in Sources */,
 				794ADE461CD48313000AF170 /* SpawnState.swift in Sources */,
 				794ADE221CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,
 				794ADE491CD4831B000AF170 /* DestroyState.swift in Sources */,

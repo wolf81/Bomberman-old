@@ -66,4 +66,8 @@ class GameSceneNode: SKShapeNode {
     func updatePlayer(playerIndex: PlayerIndex, setHealth health: Int) {
         self.panel.updatePlayer(playerIndex, setHealth: health)
     }
+    
+    func updatePlayerPowers(forPlayer player: Player) {
+        self.panel.updatePlayerPowers(forPlayer: player)
+    }
 }

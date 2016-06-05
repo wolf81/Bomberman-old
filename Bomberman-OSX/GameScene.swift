@@ -55,6 +55,10 @@ class GameScene: SKScene {
         self.rootNode.updatePlayer(playerIndex, setHealth: health)
     }
     
+    func updatePlayerPowers(player: Player) {
+        self.rootNode.updatePlayerPowers(forPlayer: player)
+    }
+    
     func levelFinished(level: Level) {
         if let delegate = self.gameSceneDelegate {
             delegate.gameSceneDidFinishLevel(self, level: level);

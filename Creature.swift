@@ -122,7 +122,7 @@ class Creature: Entity {
             let randomDirection = validDirections[randomIndex]
             moveToGridPosition(randomDirection.gridPosition, direction: randomDirection.direction)
         }
-    }
+    }    
     
     override func hit() {
         if self.health <= 0 {

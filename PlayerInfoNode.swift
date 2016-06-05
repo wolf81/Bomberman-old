@@ -16,6 +16,8 @@ class PlayerInfoNode: SKShapeNode {
     let scoreTitleNode = SKLabelNode()
     let scoreValueNode = SKLabelNode()
     
+    // MARK: - Initialization
+    
     init(size: CGSize, text: String) {
         let headTexture = SKTexture(imageNamed: "Player 1 Head.png")
         self.headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
@@ -63,6 +65,17 @@ class PlayerInfoNode: SKShapeNode {
         
         self.zPosition = 15
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        let headTexture = SKTexture(imageNamed: "Player 1 Head.png")
+        self.headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
+        self.healthNode = HealthInfoNode(size: CGSize(width: 150, height: 100))
+        self.powerUpsNode = PowerUpsInfoNode(size: CGSize(width: 205, height: 110))
+        
+        super.init(coder: aDecoder)
+    }
+
+    // MARK: - Public
     
     func updateLives(lives: Int) {
         self.livesNode.text = String(format: "x\(lives + 1)")
@@ -72,12 +85,7 @@ class PlayerInfoNode: SKShapeNode {
         self.healthNode.updateHealth(health)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        let headTexture = SKTexture(imageNamed: "Player 1 Head.png")
-        self.headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
-        self.healthNode = HealthInfoNode(size: CGSize(width: 150, height: 100))
-        self.powerUpsNode = PowerUpsInfoNode(size: CGSize(width: 205, height: 110))
-
-        super.init(coder: aDecoder)
-    }
+    func updatePower(power: PowerType, setActive isActive: Bool) {
+        self.powerUpsNode.updatePower(power, setActive: isActive)
+    }    
 }

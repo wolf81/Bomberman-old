@@ -105,7 +105,7 @@ class CpuControlComponent: GKComponent {
             
             if let visibleGridPositions = self.game?.visibleGridPositionsFromGridPosition(gridPosition, inDirection: direction) {
                 for visibleGridPosition in visibleGridPositions {
-                    if let player = self.game?.playerAtGridPosition(visibleGridPosition){
+                    if let player = self.game?.playerAtGridPosition(visibleGridPosition) {
                         playerVisible = player.isControllable
                         
                         if playerVisible {

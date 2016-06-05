@@ -46,23 +46,22 @@ class PowerUp: Entity {
             self.activated = true
             
             switch self.power {
-            case .ExplosionSize: player.abilityRange += 1
-            case .Heal: player.health += 4
-            case .HealAll: player.health = 16
-            case .DestroyBlocks:                
-                if let tiles = self.game?.tiles {
-                    for tile in tiles {
-                        tile.destroy()
-                    }
-                }
+            case .ExplosionSize:
+                player.addExplosionPower()
+            case .Heal:
+                player.health += 4
+            case .HealAll:
+                player.health = 16
+            case .Shield:
+                player.addShieldPower()
+            case .DestroyBlocks:
+                self.game?.tiles.forEach({
+                    $0.destroy()
+                })
             case .DestroyMonsters:
-                if let creatures = self.game?.creatures {
-                    for creature in creatures {
-                        if creature is Monster {
-                            creature.destroy()
-                        }
-                    }
-                }
+                self.game?.creatures
+                    .filter({ $0 is Monster })
+                    .forEach({ $0.destroy() })
             default: break
             }
         }

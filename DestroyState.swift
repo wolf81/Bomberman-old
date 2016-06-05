@@ -82,7 +82,8 @@ class DestroyState: State {
                     
                     let completion = {
                         delay(spawnDelay, closure: {
-                            self.updating = false
+                            self.updating = false                            
+                            
                             entity.delegate?.entityDidDestroy(entity)
                         })
                     }
