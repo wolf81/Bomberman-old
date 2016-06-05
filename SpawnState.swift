@@ -63,43 +63,43 @@ class SpawnState: State {
             var actions = [SKAction]()
 
             if let entity = self.entity {
-                if let visualComponent = entity.componentForClass(VisualComponent) {
-                    if let configComponent = entity.componentForClass(ConfigComponent) {
-                        if let spawnSound = configComponent.spawnSound {
-                            if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(spawnSound) {
-                                let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
-                                actions.append(play)
-                            }
+                if let visualComponent = entity.componentForClass(VisualComponent),
+                    let configComponent = entity.componentForClass(ConfigComponent) {
+                        
+                    if let spawnSound = configComponent.spawnSound {
+                        if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(spawnSound) {
+                            let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
+                            actions.append(play)
                         }
+                    }
 
-                        if configComponent.spawnAnimRange.count > 0 {
-                            if configComponent.spawnAnimRange.count > 1 {
-                                var totalTime: Double = 1.0
-                                
-                                if configComponent.destroyDelay > 0 {
-                                    totalTime = configComponent.destroyDelay!
-                                }
-                                
-                                let sprites = Array(visualComponent.sprites[configComponent.spawnAnimRange])
-                                let timePerFrame = totalTime / Double(sprites.count)
-                                let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
-                                
-                                if let _ = entity as? Creature {
-                                    let fadeIn = SKAction.fadeInWithDuration(totalTime)
-                                    actions.append(SKAction.group([fadeIn, anim]))
-                                } else {
-                                    actions.append(anim)
-                                }
-                            } else {
-                                let sprite = Array(visualComponent.sprites[configComponent.spawnAnimRange])
-                                visualComponent.spriteNode.texture = sprite.first
-                                
-                                let position = positionForGridPosition(entity.gridPosition)
-                                visualComponent.spriteNode.position = position
-                                
-                                let fadeIn = SKAction.fadeInWithDuration(0.5)
-                                actions.append(fadeIn)
+                    if configComponent.spawnAnimRange.count > 0 {
+                        if configComponent.spawnAnimRange.count > 1 {
+                            var totalTime: Double = 1.0
+                            
+                            if configComponent.destroyDelay > 0 {
+                                totalTime = configComponent.destroyDelay!
                             }
+                            
+                            let sprites = Array(visualComponent.sprites[configComponent.spawnAnimRange])
+                            let timePerFrame = totalTime / Double(sprites.count)
+                            let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
+                            
+                            if let _ = entity as? Creature {
+                                let fadeIn = SKAction.fadeInWithDuration(totalTime)
+                                actions.append(SKAction.group([fadeIn, anim]))
+                            } else {
+                                actions.append(anim)
+                            }
+                        } else {
+                            let sprite = Array(visualComponent.sprites[configComponent.spawnAnimRange])
+                            visualComponent.spriteNode.texture = sprite.first
+                            
+                            let position = positionForGridPosition(entity.gridPosition)
+                            visualComponent.spriteNode.position = position
+                            
+                            let fadeIn = SKAction.fadeInWithDuration(0.5)
+                            actions.append(fadeIn)
                         }
                     }
                 

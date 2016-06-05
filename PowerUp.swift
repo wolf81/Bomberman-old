@@ -25,6 +25,8 @@ class PowerUp: Entity {
     private(set) var activated = false
     private(set) var power: PowerType
     
+    // MARK: - Initialization
+    
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, power: PowerType) {
         self.power = power
         
@@ -41,6 +43,8 @@ class PowerUp: Entity {
         }
     }
     
+    // MARK: - Public
+    
     func activate(forPlayer player: Player) {
         if self.activated == false {
             self.activated = true
@@ -53,7 +57,7 @@ class PowerUp: Entity {
             case .HealAll:
                 player.health = 16
             case .Shield:
-                player.addShieldPower()
+                player.addShieldPower(withDuration: 8)
             case .DestroyBlocks:
                 self.game?.tiles.forEach({
                     $0.destroy()

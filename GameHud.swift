@@ -17,8 +17,8 @@ class GameHud: SKSpriteNode {
     
     init(size: CGSize) {
         let infoNodeSize = CGSize(width: 225, height: 380)
-        self.p1Hud = PlayerHud(size: infoNodeSize, text: "Player 1")
-        self.p2Hud = PlayerHud(size: infoNodeSize, text: "Player 2")
+        self.p1Hud = PlayerHud(size: infoNodeSize, forPlayer: .Player1)
+        self.p2Hud = PlayerHud(size: infoNodeSize, forPlayer: .Player2)
         
         let texture = SKTexture(imageNamed: "Panel.png")
         super.init(texture: texture, color: SKColor.blackColor(), size: size)
@@ -30,14 +30,13 @@ class GameHud: SKSpriteNode {
         self.timeNode.position = CGPoint(x: size.width / 2, y: size.height / 2 - timeNode.frame.height / 2)
         
         addChild(self.p1Hud)
-        self.p1Hud.position = CGPoint(x: 55, y: 115)
+        self.p1Hud.position = CGPoint(x: 55, y: 590)
         
         addChild(self.p2Hud)
-        self.p2Hud.position = CGPoint(x: 55, y: 590)
+        self.p2Hud.position = CGPoint(x: 55, y: 115)
         
         self.anchorPoint = CGPointZero
         self.position = CGPointZero
-//        self.blendMode = .Replace
     }
     
     required init?(coder aDecoder: NSCoder) {

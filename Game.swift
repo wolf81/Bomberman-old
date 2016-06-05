@@ -130,7 +130,10 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         
         // Update player movement, monster movement, state machines ...
         updateComponentSystems(deltaTime)
-                
+        
+        self.player1?.updateWithDeltaTime(deltaTime)
+        self.player2?.updateWithDeltaTime(deltaTime)
+        
         // Enrage timer. When timer is expired, monsters become more dangerous.
         if self.timeRemaining > 0 {
             self.gameScene?.updateTimeRemaining(self.timeRemaining)
@@ -605,6 +608,10 @@ extension Game {
         if powerUp.activated == false {
             powerUp.activate(forPlayer: player)
             updateHudForPlayer(player)
+            
+            if powerUp.power == .Shield {
+                player.updateForShield()
+            }
         }
      }
 }

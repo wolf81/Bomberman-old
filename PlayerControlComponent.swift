@@ -61,7 +61,7 @@ class PlayerControlComponent: GKComponent {
                 }
                 
                 player.moveInDirection(direction)
-            }
+            }            
         }
     }
     

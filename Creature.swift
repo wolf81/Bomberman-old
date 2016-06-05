@@ -16,11 +16,9 @@ class Creature: Entity {
     // Used by monsters as shooting delay, for players as refill time for bombs.
     let abilityCooldown: NSTimeInterval = 2.0
     
-    // Used by monsters for attack range. -1 is unlimited, 0 is melee, otherwise it's up to x units.
-    // Players use this for the explosion size.
-    var abilityRange: Int = 0
-
-    private(set) var direction = Direction.None
+    // The movement direction of the creature.
+    var direction = Direction.None
+    
     private(set) var nextGridPosition = Point(x: 0, y: 0)
     
     var isMoving: Bool {
@@ -34,6 +32,8 @@ class Creature: Entity {
         return isMoving
     }
     
+    // MARK: - Initialization 
+    
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
         self.lives = configComponent.lives
         self.health = configComponent.health
@@ -41,17 +41,7 @@ class Creature: Entity {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
     }
     
-    private func moveToGridPosition(gridPosition: Point, direction: Direction) {
-        if let visualComponent = componentForClass(VisualComponent) {
-            self.direction = direction            
-            self.nextGridPosition = gridPosition
-            
-            let location = positionForGridPosition(gridPosition)
-            visualComponent.moveInDirection(direction, toPosition: location, completion: {
-                self.gridPosition = gridPosition
-            })
-        }
-    }
+    // MARK: - Public
     
     func movementDirectionsFromCurrentGridPosition() -> [(direction: Direction, gridPosition: Point)] {
         var directions = [(direction: Direction, gridPosition: Point)]()
@@ -99,6 +89,11 @@ class Creature: Entity {
         return directions
     }
     
+    func updateForDirection(direction: Direction) {
+        // Can be overridden by subclasses. 
+        //  Used by the Player subclass to update shield texture when movement direction changes.
+    }
+    
     func moveInDirection(direction: Direction) -> Bool {
         var didMove = false
         
@@ -129,6 +124,20 @@ class Creature: Entity {
             destroy()
         } else {
             super.hit()
+        }
+    }
+    
+    // MARK: - Private
+    
+    private func moveToGridPosition(gridPosition: Point, direction: Direction) {
+        if let visualComponent = componentForClass(VisualComponent) {
+            self.direction = direction
+            self.nextGridPosition = gridPosition
+            
+            let location = positionForGridPosition(gridPosition)
+            visualComponent.moveInDirection(direction, toPosition: location, completion: {
+                self.gridPosition = gridPosition
+            })
         }
     }
 }

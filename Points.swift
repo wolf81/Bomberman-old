@@ -15,6 +15,9 @@ enum PointsType: Int {
 }
 
 class Points: Entity {
+    
+    // MARK: - Initialization
+
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, type: PointsType) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition, createPhysicsBody: false)
         

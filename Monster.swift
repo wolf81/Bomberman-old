@@ -9,6 +9,9 @@
 import Foundation
 
 class Monster: Creature {
+    
+    // MARK: - Initialization
+    
     override init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         

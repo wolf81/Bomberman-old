@@ -13,25 +13,25 @@ class PropelState: State {
         if !self.updating {
             self.updating = true
             
-            if let entity = self.entity as? Projectile {
-                if let visualComponent = entity.componentForClass(VisualComponent) {
-                    let direction = entity.direction
-                    var gridPosition = entity.gridPosition
-                    
-                    switch entity.direction {
-                    case .North: gridPosition.y += 1
-                    case .South: gridPosition.y -= 1
-                    case .West: gridPosition.x -= 1
-                    case .East: gridPosition.x += 1
-                    default: break
-                    }
-                    
-                    let toPosition = positionForGridPosition(gridPosition)
-                    visualComponent.moveInDirection(direction, toPosition: toPosition, completion: {
-                        entity.gridPosition = gridPosition
-                        self.updating = false
-                    })
+            if let entity = self.entity as? Projectile,
+                let visualComponent = entity.componentForClass(VisualComponent) {
+                
+                let direction = entity.direction
+                var gridPosition = entity.gridPosition
+                
+                switch entity.direction {
+                case .North: gridPosition.y += 1
+                case .South: gridPosition.y -= 1
+                case .West: gridPosition.x -= 1
+                case .East: gridPosition.x += 1
+                default: break
                 }
+                
+                let toPosition = positionForGridPosition(gridPosition)
+                visualComponent.moveInDirection(direction, toPosition: toPosition, completion: {
+                    entity.gridPosition = gridPosition
+                    self.updating = false
+                })
             }
         }
     }

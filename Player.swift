@@ -7,12 +7,25 @@
 //
 
 import Foundation
+import SpriteKit
 
 class Player: Creature {
     let index: PlayerIndex
     
-    private let propLoader: PropLoader
+    private var shieldDuration: NSTimeInterval = 0
     
+    private let propLoader: PropLoader
+
+    override var direction: Direction {
+        set(newDirection) {
+            super.direction = newDirection
+            updateForDirection(self.direction)
+        }
+        get {
+            return super.direction
+        }
+    }
+        
     private(set) var explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
     private(set) var bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
     private(set) var shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
@@ -26,8 +39,6 @@ class Player: Creature {
         self.propLoader = PropLoader(forGame: game)
         
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
-
-        self.abilityRange = 2
 
         if let visualComponent = componentForClass(VisualComponent) {
             visualComponent.spriteNode.zPosition = 90
@@ -47,15 +58,29 @@ class Player: Creature {
     
     // MARK: - Public
     
+    override func updateWithDeltaTime(seconds: NSTimeInterval) {
+        super.updateWithDeltaTime(seconds)
+        
+        if self.shieldPowerLimit.currentCount > 0 {
+            self.shieldDuration -= seconds
+            
+            if self.shieldDuration < 0 && self.shieldPowerLimit.currentCount > 0 {
+                self.shieldPowerLimit.currentCount -= 1
+                updateForShield()
+            }
+        }
+    }
+    
     func addExplosionPower() {
         if self.explosionPowerLimit.currentCount < self.explosionPowerLimit.maxCount {
             self.explosionPowerLimit.currentCount += 1
         }
     }
     
-    func addShieldPower() {
+    func addShieldPower(withDuration duration: NSTimeInterval) {
         if self.shieldPowerLimit.currentCount < self.shieldPowerLimit.maxCount {
             self.shieldPowerLimit.currentCount += 1
+            self.shieldDuration = duration
         }
     }
     
@@ -67,7 +92,7 @@ class Player: Creature {
                 let gridPosition = gridPositionForPosition(visualComponent.spriteNode.position)
                 if game.bombAtGridPosition(gridPosition) == nil {
                     if let bomb = try self.propLoader.bombWithGridPosition(gridPosition, player: self.index) {
-                        bomb.abilityRange = self.explosionPowerLimit.currentCount
+                        bomb.range = self.explosionPowerLimit.currentCount
                         game.addEntity(bomb)
                         didDropBomb = true
                     }
@@ -79,7 +104,10 @@ class Player: Creature {
     }
     
     override func spawn() {
-        self.resetPowerUps()
+        resetPowerUps()
+        
+        self.addShieldPower(withDuration: 2.0)
+        updateForShield()
         
         super.spawn()
     }
@@ -91,7 +119,9 @@ class Player: Creature {
     }
     
     override func destroy() {
-        if self.shieldPowerLimit.currentCount == 0 {
+        if self.shieldPowerLimit.currentCount == 0 && !self.isDestroyed {
+            self.resetPowerUps()
+
             self.health = 0
             self.game?.gameScene?.updateHudForPlayer(self)
             super.destroy()
@@ -120,6 +150,37 @@ class Player: Creature {
         }
     
         return adjustedMovementDirections
+    }
+    
+    override func updateForDirection(direction: Direction) {
+        updateForShield()
+    }
+    
+    func updateForShield() {
+        // TODO: Clean-up the code for getting shield texture. Should be more dynamic,
+        //  like entities. Perhaps the shield can be parsed as prop.
+        if let visualComponent = componentForClass(VisualComponent) {
+            visualComponent.spriteNode.removeAllChildren()
+            
+            if self.shieldPowerLimit.currentCount > 0 {
+                let shieldTexture = SKTexture(imageNamed: "Shield.png")
+                let spriteSize = CGSizeMake(32, 32)
+                let shieldSprites = SpriteLoader.spritesFromTexture(shieldTexture, withSpriteSize: spriteSize)
+                
+                var shieldSprite: SKTexture
+                
+                switch self.direction {
+                case .West: shieldSprite = shieldSprites[2]
+                case .East: shieldSprite = shieldSprites[1]
+                default: shieldSprite = shieldSprites[0]
+                }
+                
+                let shieldNode = SKSpriteNode(texture: shieldSprite, size: visualComponent.spriteNode.size)
+                shieldNode.alpha = 0.5
+                shieldNode.zPosition = 1000
+                visualComponent.spriteNode.addChild(shieldNode)
+            }
+        }
     }
     
     // MARK: - Private

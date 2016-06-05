@@ -18,8 +18,9 @@ class PlayerHud: SKShapeNode {
     
     // MARK: - Initialization
     
-    init(size: CGSize, text: String) {
-        let headTexture = SKTexture(imageNamed: "Player 1 Head.png")
+    init(size: CGSize, forPlayer player: PlayerIndex) {
+        let imageName = player == .Player1 ? "Player 1 Head.png" : "Player 2 Head.png"
+        let headTexture = SKTexture(imageNamed: imageName)
         self.headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
         self.healthNode = HealthInfoNode(size: CGSize(width: 205, height: 110))
         self.powerUpsNode = PowerUpsInfoNode(size: CGSize(width: 205, height: 80))
@@ -58,9 +59,9 @@ class PlayerHud: SKShapeNode {
         addChild(self.scoreValueNode)
         
         self.antialiased = false
-        self.lineWidth = 4
-        self.strokeColor = SKColor.redColor()
-        self.fillColor = SKColor.blueColor()
+//        self.lineWidth = 4
+//        self.strokeColor = SKColor.redColor()
+//        self.fillColor = SKColor.blueColor()
         self.blendMode = .Add
         
         self.zPosition = 15

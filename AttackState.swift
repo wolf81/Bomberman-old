@@ -10,9 +10,7 @@ import SpriteKit
 
 class AttackState: State {
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        if !self.updating {
-            print("self.entity: \(self.entity)")
-            
+        if !self.updating {            
             self.updating = true
             
             var actions = [SKAction]()

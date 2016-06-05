@@ -12,7 +12,9 @@ import GameplayKit
 class StateMachine: GKStateMachine {
     weak var entity: Entity?
     weak var game: Game?
-        
+    
+    // MARK: - Initialization
+
     init(game: Game, entity: Entity, states: [State]) {
         self.game = game
         self.entity = entity
@@ -20,6 +22,8 @@ class StateMachine: GKStateMachine {
         super.init(states: states)
     }
     
+    // MARK: - Public
+
     override func updateWithDeltaTime(sec: NSTimeInterval) {
         super.updateWithDeltaTime(sec)
         

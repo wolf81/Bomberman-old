@@ -12,6 +12,8 @@ import SpriteKit
 class Tile: Entity {
     let tileType: TileType
     
+    // MARK: - Initialization
+
     convenience init(gridPosition: Point, configComponent: ConfigComponent, tileType: TileType) {
         // TODO: make more safe, currently will crash if no config exists.
         let basePath = configComponent.configFilePath!
