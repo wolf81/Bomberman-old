@@ -226,13 +226,13 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     // MARK: - Private
     
     private func enrageMonsters() {
-        for creature in self.creatures {
-            if creature is Monster {
-                if let visualComponent = creature.componentForClass(VisualComponent) {
+        self.creatures
+            .filter({ $0 is Monster })
+            .forEach({
+                if let visualComponent = $0.componentForClass(VisualComponent) {
                     visualComponent.spriteNode.speed *= 1.6
                 }
-            }
-        }
+            })
     }
     
     private func updateComponentSystems(deltaTime: NSTimeInterval) {
