@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class PlayerInfoNode: SKShapeNode {
+class PlayerHud: SKShapeNode {
     let headNode: SKSpriteNode
     let healthNode: HealthInfoNode
     let powerUpsNode: PowerUpsInfoNode

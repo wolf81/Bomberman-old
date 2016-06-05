@@ -47,16 +47,8 @@ class GameScene: SKScene {
         self.rootNode.updateTimeRemaining(timeRemaining)
     }
     
-    func updatePlayer(playerIndex: PlayerIndex, setLives lives: Int) {
-        self.rootNode.updatePlayer(playerIndex, setLives: lives)
-    }
-    
-    func updatePlayer(playerIndex: PlayerIndex, setHealth health: Int) {
-        self.rootNode.updatePlayer(playerIndex, setHealth: health)
-    }
-    
-    func updatePlayerPowers(player: Player) {
-        self.rootNode.updatePlayerPowers(forPlayer: player)
+    func updateHudForPlayer(player: Player) {
+        self.rootNode.updateHudForPlayer(player)
     }
     
     func levelFinished(level: Level) {

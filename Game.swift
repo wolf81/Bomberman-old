@@ -358,10 +358,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             case .Player2: self.player2 = player
             }
             
-            if let gameScene = self.gameScene {
-                gameScene.updatePlayer(player.index, setLives: player.lives)
-                gameScene.updatePlayer(player.index, setHealth: player.health)
-            }
+            updateHudForPlayer(player)
         }
     }
     
@@ -484,7 +481,7 @@ extension Game {
             let creature = entity as! Creature
 
             if let player = creature as? Player {
-                self.gameScene?.updatePlayer(player.index, setLives: player.lives)
+                updateHudForPlayer(player)
                 player.spawn()
             }
             
@@ -505,7 +502,7 @@ extension Game {
             if !player.isDestroyed {
                 player.control()
             }
-            self.gameScene?.updatePlayer(player.index, setHealth: player.health)
+            updateHudForPlayer(player)
         case is Projectile:
             fallthrough
         case is PowerUp:
@@ -528,7 +525,7 @@ extension Game {
         case is Player:
             if let player = entity as? Player {
                 player.control()
-                self.gameScene?.updatePlayer(player.index, setHealth: player.health)
+                updateHudForPlayer(player)
             }
         case is Points:
             entity.float()
@@ -597,9 +594,11 @@ extension Game {
         
         if powerUp.activated == false {
             powerUp.activate(forPlayer: player)
-            
-            self.gameScene?.updatePlayer(player.index, setHealth: player.health)
-            self.gameScene?.updatePlayerPowers(player)
+            updateHudForPlayer(player)
         }
      }
+    
+    private func updateHudForPlayer(player: Player) {
+        self.gameScene?.updateHudForPlayer(player)
+    }
 }

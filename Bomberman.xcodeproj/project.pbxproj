@@ -25,8 +25,8 @@
 		7900191A1CFB0BBA001EEF3C /* ComponentSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790019181CFB0BBA001EEF3C /* ComponentSystem.swift */; };
 		7900191C1CFBCCFD001EEF3C /* CheerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900191B1CFBCCFD001EEF3C /* CheerState.swift */; };
 		7900191D1CFBCCFD001EEF3C /* CheerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7900191B1CFBCCFD001EEF3C /* CheerState.swift */; };
-		790056341CDD3469009CDF81 /* PanelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056331CDD3469009CDF81 /* PanelNode.swift */; };
-		790056351CDD3469009CDF81 /* PanelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056331CDD3469009CDF81 /* PanelNode.swift */; };
+		790056341CDD3469009CDF81 /* GameHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056331CDD3469009CDF81 /* GameHud.swift */; };
+		790056351CDD3469009CDF81 /* GameHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056331CDD3469009CDF81 /* GameHud.swift */; };
 		790056371CDD4484009CDF81 /* SKAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056361CDD4484009CDF81 /* SKAction+Extensions.swift */; };
 		790056381CDD4488009CDF81 /* SKAction+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056361CDD4484009CDF81 /* SKAction+Extensions.swift */; };
 		7900563C1CDDD445009CDF81 /* Points 5K.png in Resources */ = {isa = PBXBuildFile; fileRef = 790056391CDDD445009CDF81 /* Points 5K.png */; };
@@ -53,8 +53,8 @@
 		7902B0B51CDC82CB00298CAC /* Shield.png in Resources */ = {isa = PBXBuildFile; fileRef = 7902B0B31CDC82CB00298CAC /* Shield.png */; };
 		7902B0BB1CDC8F5000298CAC /* GameSceneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */; };
 		7902B0BC1CDC8F5000298CAC /* GameSceneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */; };
-		7902B0BF1CDC954600298CAC /* PlayerInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0BE1CDC954600298CAC /* PlayerInfoNode.swift */; };
-		7902B0C01CDC954600298CAC /* PlayerInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0BE1CDC954600298CAC /* PlayerInfoNode.swift */; };
+		7902B0BF1CDC954600298CAC /* PlayerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0BE1CDC954600298CAC /* PlayerHud.swift */; };
+		7902B0C01CDC954600298CAC /* PlayerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0BE1CDC954600298CAC /* PlayerHud.swift */; };
 		7902B0C51CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
 		7902B0C61CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
 		7920A32A1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */; };
@@ -176,7 +176,7 @@
 		790019181CFB0BBA001EEF3C /* ComponentSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentSystem.swift; sourceTree = "<group>"; };
 		7900191B1CFBCCFD001EEF3C /* CheerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheerState.swift; sourceTree = "<group>"; };
 		7900191E1CFC2087001EEF3C /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
-		790056331CDD3469009CDF81 /* PanelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanelNode.swift; sourceTree = "<group>"; };
+		790056331CDD3469009CDF81 /* GameHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameHud.swift; sourceTree = "<group>"; };
 		790056361CDD4484009CDF81 /* SKAction+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKAction+Extensions.swift"; sourceTree = "<group>"; };
 		790056391CDDD445009CDF81 /* Points 5K.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Points 5K.png"; sourceTree = "<group>"; };
 		7900563A1CDDD445009CDF81 /* Points 10-1K.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Points 10-1K.png"; sourceTree = "<group>"; };
@@ -190,7 +190,7 @@
 		7902B0AE1CDC82B500298CAC /* Player 2 Head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Player 2 Head.png"; sourceTree = "<group>"; };
 		7902B0B31CDC82CB00298CAC /* Shield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Shield.png; sourceTree = "<group>"; };
 		7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneNode.swift; sourceTree = "<group>"; };
-		7902B0BE1CDC954600298CAC /* PlayerInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInfoNode.swift; sourceTree = "<group>"; };
+		7902B0BE1CDC954600298CAC /* PlayerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerHud.swift; sourceTree = "<group>"; };
 		7902B0C41CDC9B2B00298CAC /* Prop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prop.swift; sourceTree = "<group>"; };
 		7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthInfoNode.swift; sourceTree = "<group>"; };
 		7920A32C1D02DCDE002C2B16 /* HudLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudLoader.swift; sourceTree = "<group>"; };
@@ -302,8 +302,8 @@
 			isa = PBXGroup;
 			children = (
 				7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */,
-				7902B0BE1CDC954600298CAC /* PlayerInfoNode.swift */,
-				790056331CDD3469009CDF81 /* PanelNode.swift */,
+				7902B0BE1CDC954600298CAC /* PlayerHud.swift */,
+				790056331CDD3469009CDF81 /* GameHud.swift */,
 				7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */,
 				7920A32F1D02EDAD002C2B16 /* PowerUpsInfoNode.swift */,
 			);
@@ -729,7 +729,7 @@
 				7947BC3B1CCDD59800DE7C8A /* Creature.swift in Sources */,
 				794ADDFE1CD0A66E000AF170 /* SpriteLoader.swift in Sources */,
 				79FC6B891CCA2B9000DF7476 /* GameScene.swift in Sources */,
-				7902B0BF1CDC954600298CAC /* PlayerInfoNode.swift in Sources */,
+				7902B0BF1CDC954600298CAC /* PlayerHud.swift in Sources */,
 				793FAF451CE08E22005F64B1 /* LoadingScene.swift in Sources */,
 				794ADE4E1CD4B3AA000AF170 /* State.swift in Sources */,
 				7947BC301CCDCE5500DE7C8A /* CpuControlComponent.swift in Sources */,
@@ -760,7 +760,7 @@
 				7920A32D1D02DCDE002C2B16 /* HudLoader.swift in Sources */,
 				793FAF4B1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift in Sources */,
 				794ADDF01CD08912000AF170 /* CreatureLoader.swift in Sources */,
-				790056341CDD3469009CDF81 /* PanelNode.swift in Sources */,
+				790056341CDD3469009CDF81 /* GameHud.swift in Sources */,
 				794ADE361CD36AF6000AF170 /* PropLoader.swift in Sources */,
 				790056371CDD4484009CDF81 /* SKAction+Extensions.swift in Sources */,
 				794ADE171CD1D315000AF170 /* Theme.swift in Sources */,
@@ -818,7 +818,7 @@
 				794ADE551CD5A5B5000AF170 /* Explosion.swift in Sources */,
 				790019101CF74877001EEF3C /* PowerUp.swift in Sources */,
 				7900191D1CFBCCFD001EEF3C /* CheerState.swift in Sources */,
-				7902B0C01CDC954600298CAC /* PlayerInfoNode.swift in Sources */,
+				7902B0C01CDC954600298CAC /* PlayerHud.swift in Sources */,
 				79FC6B9C1CCA2B9C00DF7476 /* AppDelegate.swift in Sources */,
 				793FAF4C1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift in Sources */,
 				794ADE5B1CD6F261000AF170 /* StateMachineComponent.swift in Sources */,
@@ -845,7 +845,7 @@
 				7947BC391CCDD58900DE7C8A /* Tile.swift in Sources */,
 				790056381CDD4488009CDF81 /* SKAction+Extensions.swift in Sources */,
 				79C9F1961CD9C14400692D75 /* SpriteNode.swift in Sources */,
-				790056351CDD3469009CDF81 /* PanelNode.swift in Sources */,
+				790056351CDD3469009CDF81 /* GameHud.swift in Sources */,
 				7900191A1CFB0BBA001EEF3C /* ComponentSystem.swift in Sources */,
 				794ADE4C1CD4B02A000AF170 /* Bomb.swift in Sources */,
 				794ADE1C1CD1E4A5000AF170 /* Image.swift in Sources */,

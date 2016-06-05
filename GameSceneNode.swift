@@ -10,7 +10,7 @@ import SpriteKit
 
 class GameSceneNode: SKShapeNode {
     let world: SKSpriteNode
-    let panel: PanelNode
+    let gameHud: GameHud
 
     init(withLevel level: Level) {
         let panelWidth: CGFloat = 300
@@ -33,8 +33,8 @@ class GameSceneNode: SKShapeNode {
         
         // Create panel node.
         let panelSize = CGSizeMake(panelWidth, size.height)
-        self.panel = PanelNode(size: panelSize)
-        self.panel.position = CGPoint(x: 0, y: 0)
+        self.gameHud = GameHud(size: panelSize)
+        self.gameHud.position = CGPoint(x: 0, y: 0)
         
         super.init()
         
@@ -44,7 +44,7 @@ class GameSceneNode: SKShapeNode {
         self.path = CGPathCreateWithRect(rect, nil)
         
         self.addChild(self.world)
-        self.addChild(self.panel)
+        self.addChild(self.gameHud)
         
         self.blendMode = .Replace
         self.antialiased = false
@@ -55,19 +55,11 @@ class GameSceneNode: SKShapeNode {
         return nil
     }
     
+    func updateHudForPlayer(player: Player) {
+        self.gameHud.updateForPlayer(player)
+    }
+    
     func updateTimeRemaining(timeRemaining: NSTimeInterval) {
-        self.panel.updateTimeRemaining(timeRemaining)
-    }
-    
-    func updatePlayer(playerIndex: PlayerIndex, setLives lives: Int) {
-        self.panel.updatePlayer(playerIndex, setLives: lives)
-    }
-    
-    func updatePlayer(playerIndex: PlayerIndex, setHealth health: Int) {
-        self.panel.updatePlayer(playerIndex, setHealth: health)
-    }
-    
-    func updatePlayerPowers(forPlayer player: Player) {
-        self.panel.updatePlayerPowers(forPlayer: player)
+        self.gameHud.updateTimeRemaining(timeRemaining)
     }
 }

@@ -86,7 +86,7 @@ class Player: Creature {
     
     override func destroy() {
         self.health = 0
-        self.game?.gameScene?.updatePlayer(self.index, setHealth: self.health)
+        self.game?.gameScene?.updateHudForPlayer(self)
         super.destroy()
     }
     
