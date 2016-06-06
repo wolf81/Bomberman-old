@@ -479,8 +479,8 @@ extension Game {
                 print("error: \(error)")
             }
             
-            let shake = SKAction.shake(self.gameScene!.world.position, duration: 0.5)
-            self.gameScene?.world.runAction(shake)
+//            let shake = SKAction.shake(self.gameScene!.world.position, duration: 0.5)
+//            self.gameScene?.world.runAction(shake)
             
             removeEntity(entity)
         case is Creature: fallthrough

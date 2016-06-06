@@ -157,6 +157,8 @@ class Player: Creature {
     }
     
     func updateForShield() {
+        self.game?.gameScene?.updateHudForPlayer(self)
+        
         // TODO: Clean-up the code for getting shield texture. Should be more dynamic,
         //  like entities. Perhaps the shield can be parsed as prop.
         if let visualComponent = componentForClass(VisualComponent) {
