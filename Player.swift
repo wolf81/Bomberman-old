@@ -155,10 +155,11 @@ class Player: Creature {
     
     override func destroy() {
         if self.shieldPowerLimit.currentCount == 0 && !self.isDestroyed {
+            self.health = 0
             self.resetPowerUps()
 
-            self.health = 0
             self.game?.gameScene?.updateHudForPlayer(self)
+            
             super.destroy()
         }
     }
@@ -191,7 +192,9 @@ class Player: Creature {
         updateForShield()
     }
 
-    func updateForMoveSpeed(speedAdjustment adjustment: CGFloat) {
+   // MARK: - Private
+
+    private func updateForMoveSpeed(speedAdjustment adjustment: CGFloat) {
         if let visualComponent = componentForClass(VisualComponent),
             configComponent = componentForClass(ConfigComponent) {
             visualComponent.spriteNode.speed = configComponent.speed + adjustment
@@ -204,8 +207,6 @@ class Player: Creature {
         // TODO: Clean-up the code for getting shield texture. Should be more dynamic,
         //  like entities. Perhaps the shield can be parsed as prop.
         if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.removeAllChildren()
-            
             if self.shieldPowerLimit.currentCount > 0 {
                 let shieldTexture = SKTexture(imageNamed: "Shield.png")
                 let spriteSize = CGSizeMake(32, 32)
@@ -218,16 +219,30 @@ class Player: Creature {
                 case .East: shieldSprite = shieldSprites[1]
                 default: shieldSprite = shieldSprites[0]
                 }
-                
-                let shieldNode = SKSpriteNode(texture: shieldSprite, size: visualComponent.spriteNode.size)
-                shieldNode.alpha = 0.5
-                shieldNode.zPosition = 1000
-                visualComponent.spriteNode.addChild(shieldNode)
+
+                if let shieldNode = visualComponent.spriteNode.childNodeWithName("shield") {
+                    let updateTexture = SKAction.setTexture(shieldSprite)
+                    shieldNode.runAction(updateTexture)
+                    
+                    if shieldDuration < 2.0 {
+                        let fadeIn = SKAction.fadeAlphaTo(0.0, duration: 0.5)
+                        let fadeOut = SKAction.fadeAlphaTo(0.5, duration: 0.5)
+                        let fadeAnim = SKAction.sequence([fadeIn, fadeOut])
+                        let anim = SKAction.repeatActionForever(fadeAnim)
+                        shieldNode.runAction(anim)
+                    }
+                } else {
+                    let shieldNode = SKSpriteNode(texture: shieldSprite, size: visualComponent.spriteNode.size)
+                    shieldNode.name = "shield"
+                    shieldNode.alpha = 0.5
+                    shieldNode.zPosition = 1000
+                    visualComponent.spriteNode.addChild(shieldNode)
+                }
+            } else {
+                visualComponent.spriteNode.removeAllChildren()
             }
         }
     }
-    
-    // MARK: - Private
     
     private func resetPowerUps() {
         self.explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
