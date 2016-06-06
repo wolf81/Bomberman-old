@@ -36,6 +36,7 @@ class PowerUpLoader: ConfigurationLoader {
         case "HealAll":         power = .HealAll
         case "BombAdd":         power = .BombAdd
         case "BombSpeed":       power = .BombSpeed
+        case "MoveSpeed":       power = .MoveSpeed
         case "Shield":          power = .Shield
         case "DestroyMonsters": power = .DestroyMonsters
         case "DestroyBlocks":   power = .DestroyBlocks

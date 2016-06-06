@@ -123,7 +123,7 @@ class Entity: GKEntity {
             addComponent(stateMachineComponent)
         }        
     }
-                
+    
     func destroy() {
         if let stateMachineComponent = componentForClass(StateMachineComponent) {
             stateMachineComponent.enterDestroyState()

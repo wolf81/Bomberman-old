@@ -66,8 +66,8 @@ class GameHud: SKSpriteNode {
         
         let shieldPowerActive = player.shieldPowerLimit.currentCount > 0
         playerInfoNode.updatePower(PowerType.Shield, setActive: shieldPowerActive)
-        
-        let speedPowerActive = player.speedPowerLimit.currentCount > 0
-        playerInfoNode.updatePower(PowerType.MoveSpeed, setActive: speedPowerActive)
+
+        let movePowerActive = player.moveSpeedPowerLimit.currentCount > 0
+        playerInfoNode.updatePower(PowerType.MoveSpeed, setActive: movePowerActive)
     }
 }

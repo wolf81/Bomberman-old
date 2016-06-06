@@ -61,7 +61,9 @@ class PowerUp: Entity {
             case .BombSpeed:
                 player.addBombTriggerPower()
             case .Shield:
-                player.addShieldPower(withDuration: 8)
+                player.addShieldPower(withDuration: 10.0)
+            case .MoveSpeed:
+                player.addMoveSpeedPower(withDuration: 15.0)
             case .DestroyBlocks:
                 self.game?.tiles.forEach({
                     $0.destroy()

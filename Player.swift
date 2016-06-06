@@ -63,12 +63,21 @@ class Player: Creature {
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
         super.updateWithDeltaTime(seconds)
         
-        if self.moveSpeedPowerLimit.currentCount > 0 {
+        if self.shieldPowerLimit.currentCount > 0 {
             self.shieldDuration -= seconds
             
-            if self.shieldDuration < 0 && self.moveSpeedPowerLimit.currentCount > 0 {
-                self.moveSpeedPowerLimit.currentCount -= 1
+            if self.shieldDuration < 0 && self.shieldPowerLimit.currentCount > 0 {
+                self.shieldPowerLimit.currentCount -= 1
                 updateForShield()
+            }
+        }
+        
+        if self.moveSpeedPowerLimit.currentCount > 0 {
+            self.moveSpeedDuration -= seconds
+            
+            if self.moveSpeedDuration < 0 && self.moveSpeedPowerLimit.currentCount > 0 {
+                self.moveSpeedPowerLimit.currentCount -= 1
+                updateForMoveSpeed(speedAdjustment: 0.0)
             }
         }
     }
@@ -95,13 +104,17 @@ class Player: Creature {
         if self.moveSpeedPowerLimit.currentCount < self.moveSpeedPowerLimit.maxCount {
             self.moveSpeedPowerLimit.currentCount += 1
             self.moveSpeedDuration = duration
+            
+            updateForMoveSpeed(speedAdjustment: 0.6)
         }
     }
     
     func addShieldPower(withDuration duration: NSTimeInterval) {
-        if self.moveSpeedPowerLimit.currentCount < self.moveSpeedPowerLimit.maxCount {
-            self.moveSpeedPowerLimit.currentCount += 1
+        if self.shieldPowerLimit.currentCount < self.shieldPowerLimit.maxCount {
+            self.shieldPowerLimit.currentCount += 1
             self.shieldDuration = duration
+            
+            updateForShield()
         }
     }
     
@@ -135,13 +148,13 @@ class Player: Creature {
     }
     
     override func hit() {
-        if self.moveSpeedPowerLimit.currentCount == 0 {
+        if self.shieldPowerLimit.currentCount == 0 {
             super.hit()
         }
     }
     
     override func destroy() {
-        if self.moveSpeedPowerLimit.currentCount == 0 && !self.isDestroyed {
+        if self.shieldPowerLimit.currentCount == 0 && !self.isDestroyed {
             self.resetPowerUps()
 
             self.health = 0
@@ -177,8 +190,15 @@ class Player: Creature {
     override func updateForDirection(direction: Direction) {
         updateForShield()
     }
+
+    func updateForMoveSpeed(speedAdjustment adjustment: CGFloat) {
+        if let visualComponent = componentForClass(VisualComponent),
+            configComponent = componentForClass(ConfigComponent) {
+            visualComponent.spriteNode.speed = configComponent.speed + adjustment
+        }
+    }
     
-    func updateForShield() {
+    private func updateForShield() {
         self.game?.gameScene?.updateHudForPlayer(self)
         
         // TODO: Clean-up the code for getting shield texture. Should be more dynamic,
@@ -186,7 +206,7 @@ class Player: Creature {
         if let visualComponent = componentForClass(VisualComponent) {
             visualComponent.spriteNode.removeAllChildren()
             
-            if self.moveSpeedPowerLimit.currentCount > 0 {
+            if self.shieldPowerLimit.currentCount > 0 {
                 let shieldTexture = SKTexture(imageNamed: "Shield.png")
                 let spriteSize = CGSizeMake(32, 32)
                 let shieldSprites = SpriteLoader.spritesFromTexture(shieldTexture, withSpriteSize: spriteSize)
@@ -213,6 +233,7 @@ class Player: Creature {
         self.explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
         self.bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
         self.moveSpeedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+        self.shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
         self.bombPowerLimit = PowerUpLimit(currentCount: 4, maxCount: 6)
         self.speedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
     }

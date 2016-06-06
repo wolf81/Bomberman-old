@@ -608,11 +608,7 @@ extension Game {
         
         if powerUp.activated == false {
             powerUp.activate(forPlayer: player)
-            updateHudForPlayer(player)
-            
-            if powerUp.power == .Shield {
-                player.updateForShield()
-            }
+            updateHudForPlayer(player)            
         }
      }
 }
