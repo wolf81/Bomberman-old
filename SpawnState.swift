@@ -10,7 +10,6 @@ import GameplayKit
 import SpriteKit
 
 class SpawnState: State {
-    private var destroyDelay: NSTimeInterval?
     private var didShowSpawnAnimation = false
         
     override func isValidNextState(stateClass: AnyClass) -> Bool {
@@ -32,30 +31,12 @@ class SpawnState: State {
         return isValidNextState
     }
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
-        super.didEnterWithPreviousState(previousState)
-
-        if let configComponent = self.entity?.componentForClass(ConfigComponent) {
-            if let destroyDelay = configComponent.destroyDelay {
-                self.destroyDelay = destroyDelay
-            }
-        }
-    }
-    
     override func willExitWithNextState(nextState: GKState) {
         super.willExitWithNextState(nextState)
     }
     
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
         super.updateWithDeltaTime(seconds)
-        
-        if self.destroyDelay != nil {
-            self.destroyDelay! -= seconds
-            
-            if self.destroyDelay <= 0 {
-                self.entity?.destroy()
-            }
-        }
         
         if !self.updating {
             self.updating = true
@@ -65,7 +46,9 @@ class SpawnState: State {
             if let entity = self.entity {
                 if let visualComponent = entity.componentForClass(VisualComponent),
                     let configComponent = entity.componentForClass(ConfigComponent) {
-                        
+                    
+                    let totalTime = entity.spawnDuration
+                    
                     if let spawnSound = configComponent.spawnSound {
                         if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(spawnSound) {
                             let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
@@ -75,12 +58,6 @@ class SpawnState: State {
 
                     if configComponent.spawnAnimRange.count > 0 {
                         if configComponent.spawnAnimRange.count > 1 {
-                            var totalTime: Double = 1.0
-                            
-                            if configComponent.destroyDelay > 0 {
-                                totalTime = configComponent.destroyDelay!
-                            }
-                            
                             let sprites = Array(visualComponent.sprites[configComponent.spawnAnimRange])
                             let timePerFrame = totalTime / Double(sprites.count)
                             let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)

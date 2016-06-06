@@ -56,6 +56,10 @@ class PowerUp: Entity {
                 player.health += 4
             case .HealAll:
                 player.health = 16
+            case .BombAdd:
+                player.addBombPower()
+            case .BombSpeed:
+                player.addBombTriggerPower()
             case .Shield:
                 player.addShieldPower(withDuration: 8)
             case .DestroyBlocks:

@@ -23,6 +23,7 @@ class PowerUpsInfoNode: SKShapeNode {
         
         self.antialiased = false
         self.lineWidth = 0
+        self.blendMode = .Replace
         
         updatePowerUpNodes()
     }

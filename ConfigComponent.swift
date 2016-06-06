@@ -39,7 +39,6 @@ class ConfigComponent: GKComponent {
     private(set) var explodeHorizontalAnimRange = 0 ..< 0
     private(set) var explodeVerticalAnimRange   = 0 ..< 0
 
-    private(set) var destroyDelay: NSTimeInterval?
     private(set) var spawnDelay: NSTimeInterval = 0
     
     private(set) var destroyAnimRepeat = 1
@@ -50,6 +49,7 @@ class ConfigComponent: GKComponent {
     private(set) var cheerSound: String?
     
     private(set) var floatDuration: NSTimeInterval = 1.0
+    private(set) var spawnDuration: NSTimeInterval = 1.0
     private(set) var destroyDuration: NSTimeInterval = 1.0
     private(set) var cheerDuration: NSTimeInterval = 1.0
     
@@ -162,7 +162,6 @@ class ConfigComponent: GKComponent {
     private func parseDestroyJson(json: [String: AnyObject]) {
         self.destroyAnimRange = animRangeFromJson(json)
         self.destroyDuration = durationFromJson(json)
-        self.destroyDelay = delayFromJson(json)
         self.destroySound = soundFromJson(json)
 
         if let repeatJson = json["repeat"] as? Int {
@@ -188,6 +187,7 @@ class ConfigComponent: GKComponent {
     private func parseSpawnJson(json: [String: AnyObject]) {
         self.spawnAnimRange = animRangeFromJson(json)
         self.spawnDelay = delayFromJson(json) ?? 0.0
+        self.spawnDuration = durationFromJson(json)
         self.spawnSound = soundFromJson(json)
     }
     

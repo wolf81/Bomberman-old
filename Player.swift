@@ -13,6 +13,7 @@ class Player: Creature {
     let index: PlayerIndex
     
     private var shieldDuration: NSTimeInterval = 0
+    private var moveSpeedDuration: NSTimeInterval = 0
     
     private let propLoader: PropLoader
 
@@ -29,6 +30,7 @@ class Player: Creature {
     private(set) var explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
     private(set) var bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
     private(set) var shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+    private(set) var moveSpeedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
     private(set) var bombPowerLimit = PowerUpLimit(currentCount: 4, maxCount: 6)
     private(set) var speedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
     
@@ -61,11 +63,11 @@ class Player: Creature {
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
         super.updateWithDeltaTime(seconds)
         
-        if self.shieldPowerLimit.currentCount > 0 {
+        if self.moveSpeedPowerLimit.currentCount > 0 {
             self.shieldDuration -= seconds
             
-            if self.shieldDuration < 0 && self.shieldPowerLimit.currentCount > 0 {
-                self.shieldPowerLimit.currentCount -= 1
+            if self.shieldDuration < 0 && self.moveSpeedPowerLimit.currentCount > 0 {
+                self.moveSpeedPowerLimit.currentCount -= 1
                 updateForShield()
             }
         }
@@ -77,9 +79,28 @@ class Player: Creature {
         }
     }
     
+    func addBombPower() {
+        if self.bombPowerLimit.currentCount < self.bombPowerLimit.maxCount {
+            self.bombPowerLimit.currentCount += 1
+        }
+    }
+    
+    func addBombTriggerPower() {
+        if self.bombTriggerPowerLimit.currentCount < self.bombTriggerPowerLimit.maxCount {
+            self.bombTriggerPowerLimit.currentCount += 1
+        }
+    }
+    
+    func addMoveSpeedPower(withDuration duration: NSTimeInterval) {
+        if self.moveSpeedPowerLimit.currentCount < self.moveSpeedPowerLimit.maxCount {
+            self.moveSpeedPowerLimit.currentCount += 1
+            self.moveSpeedDuration = duration
+        }
+    }
+    
     func addShieldPower(withDuration duration: NSTimeInterval) {
-        if self.shieldPowerLimit.currentCount < self.shieldPowerLimit.maxCount {
-            self.shieldPowerLimit.currentCount += 1
+        if self.moveSpeedPowerLimit.currentCount < self.moveSpeedPowerLimit.maxCount {
+            self.moveSpeedPowerLimit.currentCount += 1
             self.shieldDuration = duration
         }
     }
@@ -93,6 +114,7 @@ class Player: Creature {
                 if game.bombAtGridPosition(gridPosition) == nil {
                     if let bomb = try self.propLoader.bombWithGridPosition(gridPosition, player: self.index) {
                         bomb.range = self.explosionPowerLimit.currentCount
+                        bomb.spawnDuration -= Double(self.bombTriggerPowerLimit.currentCount) * 1.0
                         game.addEntity(bomb)
                         didDropBomb = true
                     }
@@ -113,13 +135,13 @@ class Player: Creature {
     }
     
     override func hit() {
-        if self.shieldPowerLimit.currentCount == 0 {
+        if self.moveSpeedPowerLimit.currentCount == 0 {
             super.hit()
         }
     }
     
     override func destroy() {
-        if self.shieldPowerLimit.currentCount == 0 && !self.isDestroyed {
+        if self.moveSpeedPowerLimit.currentCount == 0 && !self.isDestroyed {
             self.resetPowerUps()
 
             self.health = 0
@@ -164,7 +186,7 @@ class Player: Creature {
         if let visualComponent = componentForClass(VisualComponent) {
             visualComponent.spriteNode.removeAllChildren()
             
-            if self.shieldPowerLimit.currentCount > 0 {
+            if self.moveSpeedPowerLimit.currentCount > 0 {
                 let shieldTexture = SKTexture(imageNamed: "Shield.png")
                 let spriteSize = CGSizeMake(32, 32)
                 let shieldSprites = SpriteLoader.spritesFromTexture(shieldTexture, withSpriteSize: spriteSize)
@@ -190,7 +212,7 @@ class Player: Creature {
     private func resetPowerUps() {
         self.explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
         self.bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
-        self.shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+        self.moveSpeedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
         self.bombPowerLimit = PowerUpLimit(currentCount: 4, maxCount: 6)
         self.speedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
     }

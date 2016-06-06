@@ -22,6 +22,7 @@ protocol EntityDelegate: class {
 class Entity: GKEntity {
     var gridPosition = Point(x: 0, y: 0)
     var value: PointsType?
+    var spawnDuration: NSTimeInterval = 1.0
     
     weak var game: Game?
 
@@ -93,6 +94,7 @@ class Entity: GKEntity {
         
         self.gridPosition = gridPosition
         self.game = game
+        self.spawnDuration = configComponent.spawnDuration
         
         addComponent(configComponent)
         

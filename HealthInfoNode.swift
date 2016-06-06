@@ -20,7 +20,7 @@ class HealthInfoNode: SKShapeNode {
 
         self.antialiased = false
         self.lineWidth = 0
-        self.blendMode = .Add
+        self.blendMode = .Replace
         
         self.zPosition = 20
     }

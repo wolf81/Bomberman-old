@@ -35,6 +35,7 @@ class GameSceneNode: SKShapeNode {
         let panelSize = CGSizeMake(panelWidth, size.height)
         self.gameHud = GameHud(size: panelSize)
         self.gameHud.position = CGPoint(x: 0, y: 0)
+        self.gameHud.blendMode = .Replace
         
         super.init()
         

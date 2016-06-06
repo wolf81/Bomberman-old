@@ -62,7 +62,7 @@ class PlayerHud: SKShapeNode {
 //        self.lineWidth = 4
 //        self.strokeColor = SKColor.redColor()
 //        self.fillColor = SKColor.blueColor()
-        self.blendMode = .Add
+        self.blendMode = .Replace
         
         self.zPosition = 15
     }

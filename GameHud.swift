@@ -37,6 +37,7 @@ class GameHud: SKSpriteNode {
         
         self.anchorPoint = CGPointZero
         self.position = CGPointZero
+        self.blendMode = .Replace
     }
     
     required init?(coder aDecoder: NSCoder) {

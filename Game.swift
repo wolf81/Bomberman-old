@@ -527,6 +527,7 @@ extension Game {
     
     func entityDidSpawn(entity: Entity) {
         switch entity {
+        case is Bomb: entity.destroy()
         case is Explosion: entity.destroy()
         case is Projectile: entity.propel()
         case is Player:
