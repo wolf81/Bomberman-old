@@ -29,13 +29,10 @@ class ConfigComponent: GKComponent {
     private(set) var cheerAnimation = AnimationConfiguration()
     private(set) var decayAnimation = AnimationConfiguration()
     private(set) var moveAnimation = AnimationConfiguration()
-        
-    private(set) var attackUpAnimRange          = 0 ..< 0
-    private(set) var attackDownAnimRange        = 0 ..< 0
-    private(set) var attackLeftAnimRange        = 0 ..< 0
-    private(set) var attackRightAnimRange       = 0 ..< 0
+    private(set) var attackAnimation = AnimationConfiguration()
     
     private(set) var destroySound: String?
+    private(set) var attackSound: String?
     private(set) var spawnSound: String?
     private(set) var hitSound: String?
     private(set) var cheerSound: String?
@@ -63,6 +60,10 @@ class ConfigComponent: GKComponent {
         
         if let attackJson = json["attack"] as? [String: AnyObject] {
             parseAttackJson(attackJson)
+            
+            if let animationJson = attackJson["animation"] as? [String: AnyObject] {
+                self.attackAnimation = AnimationConfiguration(json: animationJson)
+            }
         }
         
         if let spriteJson = json["sprite"] as? [String: AnyObject] {
@@ -118,14 +119,9 @@ class ConfigComponent: GKComponent {
     
     // MARK: - Public
     
-    // WORKAROUND: for explosions to change animRange depending on explosion direction
-    func updateDestroyAnimRange(animRange: Range<Int>) {
-//        self.destroyAnimation.spriteRange = animRange
-    }
-    
     // MARK: - Private
 
-    func parseStatesJson(json: [String]) {
+    private func parseStatesJson(json: [String]) {
         var states = [State]()
         
         for stateJson in json {
@@ -192,64 +188,12 @@ class ConfigComponent: GKComponent {
     }
     
     private func parseAttackJson(json: [String: AnyObject]) {
-        if let attackUpJson = json["attackUp"] as? [String: AnyObject] {
-            self.attackUpAnimRange = animRangeFromJson(attackUpJson)
-        }
-        
-        if let attackDownJson = json["attackDown"] as? [String: AnyObject] {
-            self.attackDownAnimRange = animRangeFromJson(attackDownJson)
-        }
+        self.attackSound = soundFromJson(json)
 
-        if let attackLeftJson = json["attackLeft"] as? [String: AnyObject] {
-            self.attackLeftAnimRange = animRangeFromJson(attackLeftJson)
-        }
-
-        if let attackRightJson = json["attackRight"] as? [String: AnyObject] {
-            self.attackRightAnimRange = animRangeFromJson(attackRightJson)
-        }
-        
         if let projectileJson = json["projectile"] as? String {
             self.projectile = projectileJson
         }
     }
-    
-//    private func animationFromJson(json: [String: AnyObject]) -> AnimationConfiguration {
-//        let range = rangeFromJson(json)
-//        let duration = durationFromJson(json)
-//        let delay = delayFromJson(json) ?? 0.0
-//        let repeatCount = repeatCountFromJson(json) ?? 1
-//        
-//        let anim = AnimationConfiguration(spriteRange: range,
-//                                          duration: duration,
-//                                          delay: delay,
-//                                          repeatCount: repeatCount)
-//        
-//        return anim
-//    }
-    
-//    private func rangeFromJson(json: [String: AnyObject]) -> Range<Int> {
-//        var range = 0 ..< 0
-//        
-//        if let animJson = json["range"] as? [Int] {
-//            if animJson.count == 2 {
-//                let location = animJson[0]
-//                let length = animJson[1]
-//                range = Range(location ..< (location + length))
-//            }
-//        }
-//        
-//        return range
-//    }
-//    
-//    private func durationFromJson(json: [String: AnyObject]) -> NSTimeInterval {
-//        var duration: NSTimeInterval = 1.0
-//        
-//        if let durationJson = json["duration"] as? NSTimeInterval {
-//            duration = durationJson
-//        }
-//        
-//        return duration
-//    }
     
     private func soundFromJson(json: [String: AnyObject]) -> String? {
         var sound: String?
@@ -260,27 +204,7 @@ class ConfigComponent: GKComponent {
         
         return sound
     }
-    
-//    private func repeatCountFromJson(json: [String: AnyObject]) -> Int? {
-//        var repeatCount: Int?
-//        
-//        if let repeatJson = json["repeat"] as? Int {
-//            repeatCount = repeatJson
-//        }
-//        
-//        return repeatCount
-//    }
-//    
-//    private func delayFromJson(json: [String: AnyObject]) -> NSTimeInterval? {
-//        var delay: NSTimeInterval?
-//        
-//        if let delayJson = json["delay"] as? NSTimeInterval {
-//            delay = delayJson
-//        }
-//        
-//        return delay
-//    }
-    
+
     private func animRangeFromJson(json: [String: AnyObject]) -> Range<Int> {
         var range = Range(0 ..< 0)
         

@@ -16,10 +16,18 @@ class AttackState: State {
             var actions = [SKAction]()
             
             if let entity = self.entity {
-                if let visualComponent = entity.componentForClass(VisualComponent) {
+                if let visualComponent = entity.componentForClass(VisualComponent),
+                    let configComponent = entity.componentForClass(ConfigComponent) {
                     let move = visualComponent.spriteNode.actionForKey("move")
                     move?.speed = 0
 
+                    if let attackSound = configComponent.attackSound {
+                        if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(attackSound) {
+                            let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
+                            actions.append(play)
+                        }
+                    }
+                    
                     let attackAnimRange = attackAnimRangeForCurrentDirection()
                     if attackAnimRange.count > 0 {
                         let totalTime: Double = 1.0
@@ -51,14 +59,7 @@ class AttackState: State {
         
         if let entity = self.entity {
             if let configComponent = entity.componentForClass(ConfigComponent) {
-                let creature = entity as! Creature
-                switch creature.direction {
-                case .North: animRange = configComponent.attackUpAnimRange
-                case .West: animRange = configComponent.attackLeftAnimRange
-                case .South: animRange = configComponent.attackDownAnimRange
-                case .East: animRange = configComponent.attackRightAnimRange
-                case .None: break
-                }
+                animRange = configComponent.attackAnimation.animRangeForDirection(entity.direction)
             }
         }
         
