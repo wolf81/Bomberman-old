@@ -18,6 +18,7 @@ protocol EntityDelegate: class {
     func entityDidHit(entity: Entity)
     func entityDidAttack(entity: Entity)
     func entityDidCheer(entity: Entity)
+    func entityDidDisintegrate(entity: Entity)
 }
 
 class Entity: GKEntity {
@@ -152,6 +153,12 @@ class Entity: GKEntity {
     func float() {
         if let stateMachineComponent = componentForClass(StateMachineComponent) {
             stateMachineComponent.enterFloatState()
+        }
+    }
+    
+    func disintegrate() {
+        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+            stateMachineComponent.enterDisintegrateState()
         }
     }
     

@@ -24,6 +24,7 @@ class ConfigComponent: GKComponent {
     private(set) var destroyAnimation = AnimationConfiguration()
     private(set) var hitAnimation = AnimationConfiguration()
     private(set) var cheerAnimation = AnimationConfiguration()
+    private(set) var disintegrateAnimation = AnimationConfiguration()
     
     private(set) var moveUpAnimRange            = 0 ..< 0
     private(set) var moveDownAnimRange          = 0 ..< 0
@@ -43,8 +44,6 @@ class ConfigComponent: GKComponent {
     private(set) var spawnSound: String?
     private(set) var hitSound: String?
     private(set) var cheerSound: String?
-    
-    private(set) var floatDuration: NSTimeInterval = 1.0
     
     private(set) var projectile: String?
     
@@ -97,10 +96,6 @@ class ConfigComponent: GKComponent {
             }
         }
         
-        if let floatJson = json["float"] as? [String: AnyObject] {
-            parseFloatJson(floatJson)
-        }
-        
         if let hitJson = json["hit"] as? [String: AnyObject] {
             parseHitJson(hitJson)
             
@@ -112,7 +107,13 @@ class ConfigComponent: GKComponent {
         if let json = json["explode"] as? [String: AnyObject] {
             parseExplodeJson(json)
         }
-        
+
+        if let disintegrateJson = json["disintegrate"] as? [String: AnyObject] {
+            if let animationJson = disintegrateJson["animation"] as? [String: AnyObject] {
+                self.disintegrateAnimation = animationFromJson(animationJson)
+            }
+        }
+
         if let destroyJson = json["destroy"] as? [String: AnyObject] {
             parseDestroyJson(destroyJson)
             
@@ -145,6 +146,7 @@ class ConfigComponent: GKComponent {
             case "propel": states.append(PropelState())
             case "float": states.append(FloatState())
             case "cheer": states.append(CheerState())
+            case "disintegrate": states.append(DisintegrateState())
             default: print("unknown state: \(stateJson)")
             }
         }
@@ -174,10 +176,6 @@ class ConfigComponent: GKComponent {
     
     private func parseHitJson(json: [String: AnyObject]) {
         self.hitSound = soundFromJson(json)
-    }
-    
-    private func parseFloatJson(json: [String: AnyObject]) {
-        self.floatDuration = durationFromJson(json)
     }
     
     private func parseCheerJson(json: [String: AnyObject]) {
@@ -260,7 +258,10 @@ class ConfigComponent: GKComponent {
         let delay = delayFromJson(json) ?? 0.0
         let repeatCount = repeatCountFromJson(json) ?? 1
         
-        let anim = AnimationConfiguration(spriteRange: range, duration: duration, delay: delay, repeatCount: repeatCount)
+        let anim = AnimationConfiguration(spriteRange: range,
+                                          duration: duration,
+                                          delay: delay,
+                                          repeatCount: repeatCount)
         
         return anim
     }

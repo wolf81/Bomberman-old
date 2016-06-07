@@ -248,11 +248,20 @@ class Player: Creature {
     }
     
     private func resetPowerUps() {
-        self.explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
-        self.bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
-        self.moveSpeedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
-        self.shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
-        self.bombPowerLimit = PowerUpLimit(currentCount: 4, maxCount: 6)
-        self.speedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+        if self.lives >= 0 {
+            self.explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
+            self.bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+            self.moveSpeedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+            self.shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+            self.bombPowerLimit = PowerUpLimit(currentCount: 4, maxCount: 6)
+            self.speedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+        } else {
+            self.explosionPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 5)
+            self.bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+            self.moveSpeedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+            self.shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+            self.bombPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 6)
+            self.speedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+        }
     }
 }

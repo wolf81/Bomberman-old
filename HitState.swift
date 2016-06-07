@@ -29,8 +29,6 @@ class HitState: State {
                     let move = visualComponent.spriteNode.actionForKey("move")
                     move?.speed = 0
                     
-                    var sprite: SKSpriteNode? = visualComponent.spriteNode
-                    
                     if let configComponent = entity.componentForClass(ConfigComponent) {
                         if let hitSound = configComponent.hitSound {
                             if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(hitSound) {
@@ -47,47 +45,33 @@ class HitState: State {
                         
                         if hitAnim.spriteRange.count > 0 {
                             let sprites = Array(visualComponent.sprites[hitAnim.spriteRange])
-                            let size = visualComponent.spriteNode.size
-                            sprite = SKSpriteNode(texture: sprites.first, color: SKColor.whiteColor(), size: size)
-                            sprite?.position = visualComponent.spriteNode.position
-                            sprite?.zPosition = visualComponent.spriteNode.zPosition + 1
-                            
-                            entity.game?.gameScene?.world.addChild(sprite!)
-                            
-                            let hide = SKAction.runBlock({
-                                visualComponent.spriteNode.hidden = true
-                            })
-                            
                             let timePerFrame = hitAnim.duration / Double(hitAnim.spriteRange.count * hitAnim.repeatCount)
-                            let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
+                            let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)                            
+                            let wait = SKAction.waitForDuration(hitAnim.duration)
                             
                             if hitAnim.repeatCount > 1 {
                                 let repeatAnim = SKAction.repeatAction(anim, count: hitAnim.repeatCount)
-                                sprite?.runAction(repeatAnim)
+                                actions.append(SKAction.group([wait, repeatAnim]))
                             } else {
-                                sprite?.runAction(anim)
+                                actions.append(SKAction.group([wait, anim]))
                             }
-                            
-                            let wait = SKAction.waitForDuration(hitAnim.duration)
-                            
-                            let show = SKAction.runBlock({
-                                sprite?.removeFromParent()
-                                visualComponent.spriteNode.hidden = false
-                            })
-                            
-                            actions.append(SKAction.sequence([hide, wait, show]))
+                        }
+                        
+                        if let lastSprite = visualComponent.spriteNode.texture {
+                            let update = SKAction.setTexture(lastSprite)
+                            actions.append(update)
                         }
                     }
                     
                     let completion = {
-                        move?.speed = 1
-
+                        move?.speed = 1.0
+                        
                         self.updating = false
                         entity.delegate?.entityDidHit(entity)
                     }
                     
                     if actions.count > 0 {
-                        sprite?.runAction(SKAction.sequence(actions), completion: completion)
+                        visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
                     } else {
                         completion()
                     }

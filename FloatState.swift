@@ -19,13 +19,11 @@ class FloatState: State {
                 if let visualComponent = entity.componentForClass(VisualComponent) {
                     visualComponent.spriteNode.removeAllActions()
                     
-                    if let configComponent = entity.componentForClass(ConfigComponent) {
-                        let totalTime = configComponent.floatDuration
-                        let move = SKAction.moveByX(0, y: CGFloat(unitLength), duration: totalTime)
-                        let fade = SKAction.fadeOutWithDuration(totalTime)
-                        let anim = SKAction.group([move, fade])
-                        actions.append(anim)
-                    }
+                    let totalTime = 1.0
+                    let move = SKAction.moveByX(0, y: CGFloat(unitLength), duration: totalTime)
+                    let fade = SKAction.fadeOutWithDuration(totalTime)
+                    let anim = SKAction.group([move, fade])
+                    actions.append(anim)
                     
                     let completion = {
                         self.updating = false

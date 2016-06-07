@@ -52,7 +52,7 @@ class GameHud: SKSpriteNode {
     
     func updateForPlayer(player: Player) {
         let playerInfoNode = player.index == .Player1 ? self.p1Hud : self.p2Hud
-        playerInfoNode.updateLives(player.lives)
+        playerInfoNode.updateLives(player.lives)        
         playerInfoNode.updateHealth(player.health)
         
         let explosionPowerActive = player.explosionPowerLimit.currentCount > 0

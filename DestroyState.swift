@@ -50,27 +50,11 @@ class DestroyState: State {
                             }
                         }
 
-                        let destroyAnim = configComponent.destroyAnimation
-                        if destroyAnim.delay > 0 {
-                            let wait = SKAction.waitForDuration(destroyAnim.delay)
-                            actions.append(wait)
-                        }
-                        
-                        if destroyAnim.spriteRange.count > 0 {
-                            let timePerFrame = destroyAnim.duration / Double(destroyAnim.spriteRange.count * destroyAnim.repeatCount)
-                            let sprites = Array(visualComponent.sprites[destroyAnim.spriteRange])
-                            let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
-                            
-                            if destroyAnim.repeatCount > 1 {
-                                let repeatAnim = SKAction.repeatAction(anim, count: destroyAnim.repeatCount)
-                                actions.append(repeatAnim)
-                            } else {
-                                actions.append(anim)
-                            }
-                        }
-                        
+                        let anim = SKAction.animation(forEntity: entity, withConfiguration: configComponent.destroyAnimation)
+                        anim.forEach({ actions.append($0) })
+
 //                        let fadeOut = SKAction.fadeOutWithDuration(0.5)
-//                        actions.append(fadeOut)
+//                        actions.append(fadeOut)                        
                     }
                     
                     let completion = {

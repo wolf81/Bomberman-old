@@ -476,6 +476,13 @@ extension Game {
         finishLevel(true)
     }
     
+    func entityDidDisintegrate(entity: Entity) {
+        switch entity {
+        case is Bomb: entity.destroy()
+        default: break
+        }
+    }
+    
     func entityDidDestroy(entity: Entity) {
         switch entity {
         case is Bomb:
@@ -534,7 +541,7 @@ extension Game {
     
     func entityDidSpawn(entity: Entity) {
         switch entity {
-        case is Bomb: entity.destroy()
+        case is Bomb: entity.disintegrate()
         case is Explosion: entity.destroy()
         case is Projectile: entity.propel()
         case is Player:

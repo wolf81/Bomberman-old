@@ -22,4 +22,32 @@ extension SKAction {
         actionsArray.append(SKAction.moveTo(initialPosition, duration: 0.015))
         return SKAction.sequence(actionsArray)
     }
+    
+    class func animation(forEntity entity: Entity, withConfiguration configuration: AnimationConfiguration) -> [SKAction] {
+        var actions = [SKAction]()
+        
+        if let visualComponent = entity.componentForClass(VisualComponent) {
+            if configuration.delay > 0 {
+                let wait = SKAction.waitForDuration(configuration.delay)
+                actions.append(wait)
+            }
+            
+            if configuration.spriteRange.count > 0 {
+                let frameCount = configuration.spriteRange.count * configuration.repeatCount
+                let timePerFrame = configuration.duration / Double(frameCount)
+                
+                let sprites = Array(visualComponent.sprites[configuration.spriteRange])
+                let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
+                
+                if configuration.repeatCount > 1 {
+                    let repeatAnim = SKAction.repeatAction(anim, count: configuration.repeatCount)
+                    actions.append(repeatAnim)
+                } else {
+                    actions.append(anim)
+                }
+            }
+        }
+
+        return actions
+    }
 }

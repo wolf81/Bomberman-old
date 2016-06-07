@@ -19,7 +19,7 @@ class SpawnState: State {
         case is Monster: isValidNextState = (stateClass is RoamState.Type || stateClass is DestroyState.Type)
         case is Projectile: isValidNextState = stateClass is PropelState.Type
         case is Player: isValidNextState = (stateClass is ControlState.Type)
-        case is Bomb: isValidNextState = (stateClass is DestroyState.Type)
+        case is Bomb: isValidNextState = true
         case is Explosion: isValidNextState = (stateClass is DestroyState.Type)
         case is Tile: isValidNextState = (stateClass is DestroyState.Type)
         case is Prop: isValidNextState = (stateClass is DestroyState.Type)
@@ -64,27 +64,30 @@ class SpawnState: State {
                         }
                     }
                     
-                    let spawnAnim = configComponent.spawnAnimation
-                    if spawnAnim.delay > 0 {
-                        let wait = SKAction.waitForDuration(spawnAnim.delay)
-                        actions.append(wait)
-                    }
-
-                    if spawnAnim.spriteRange.count > 1 {
-                        let timePerFrame = spawnAnim.duration / Double(spawnAnim.spriteRange.count)
-                        let sprites = Array(visualComponent.sprites[spawnAnim.spriteRange])
-                        let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
-                        actions.append(anim)
-                    } else { // fade in?
-                        if visualComponent.sprites.count > 0 {
-                            let sprite = visualComponent.sprites[0]
-                            let update = SKAction.setTexture(sprite)
-                            actions.append(update)
-                        }
-                        
-                        let fadeIn = SKAction.fadeInWithDuration(0.5)
-                        actions.append(fadeIn)
-                    }                    
+                    let anim = SKAction.animation(forEntity: entity, withConfiguration: configComponent.spawnAnimation)
+                    actions.appendContentsOf(anim)
+                    
+//                    let spawnAnim = configComponent.spawnAnimation
+//                    if spawnAnim.delay > 0 {
+//                        let wait = SKAction.waitForDuration(spawnAnim.delay)
+//                        actions.append(wait)
+//                    }
+//
+//                    if spawnAnim.spriteRange.count > 1 {
+//                        let timePerFrame = spawnAnim.duration / Double(spawnAnim.spriteRange.count)
+//                        let sprites = Array(visualComponent.sprites[spawnAnim.spriteRange])
+//                        let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
+//                        actions.append(anim)
+//                    } else { // fade in?
+//                        if visualComponent.sprites.count > 0 {
+//                            let sprite = visualComponent.sprites[0]
+//                            let update = SKAction.setTexture(sprite)
+//                            actions.append(update)
+//                        }
+//                        
+//                        let fadeIn = SKAction.fadeInWithDuration(0.5)
+//                        actions.append(fadeIn)
+//                    }                    
                     
                     let completion = {
                         self.didSpawn = true

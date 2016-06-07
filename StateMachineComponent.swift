@@ -43,7 +43,7 @@ class StateMachineComponent: GKComponent {
     
     func enterSpawnState() {
         if (self.stateMachine.currentState is SpawnState) == false {
-            if let creature = self.entity as? Creature {
+            if let creature = self.entity as? Creature where creature.lives >= 0 {
                 if let configComponent = creature.componentForClass(ConfigComponent) {
                     creature.health = configComponent.health
                 }
@@ -70,7 +70,13 @@ class StateMachineComponent: GKComponent {
             self.stateMachine.enterState(FloatState)
         }
     }
-    
+
+    func enterDisintegrateState() {
+        if (self.stateMachine.currentState is DisintegrateState) == false {
+            self.stateMachine.enterState(DisintegrateState)
+        }
+    }
+
     func enterDestroyState() {
         if (self.stateMachine.currentState is DestroyState) == false {
             if let creature = self.entity as? Creature {

@@ -126,7 +126,7 @@ class Creature: Entity {
             super.hit()
         }
     }
-    
+        
     // MARK: - Private
     
     private func moveToGridPosition(gridPosition: Point, direction: Direction) {
