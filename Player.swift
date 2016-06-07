@@ -194,6 +194,8 @@ class Player: Creature {
 
    // MARK: - Private
 
+    // TODO: When hit by bullet after getting movement speed boost, speed is slowed down, even if 
+    //  there is time remaining.
     private func updateForMoveSpeed(speedAdjustment adjustment: CGFloat) {
         if let visualComponent = componentForClass(VisualComponent),
             configComponent = componentForClass(ConfigComponent) {
@@ -201,6 +203,7 @@ class Player: Creature {
         }
     }
     
+    // TODO: When picking-up shield just after respawn, the full new shield should be added.
     private func updateForShield() {
         self.game?.gameScene?.updateHudForPlayer(self)
         

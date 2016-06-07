@@ -21,11 +21,9 @@ class ConfigComponent: GKComponent {
     private(set) var health: Int = 0
     
     private(set) var spawnAnimation = AnimationConfiguration()
-    private(set) var destroyAnimation: AnimationConfiguration?
+    private(set) var destroyAnimation = AnimationConfiguration()
+    private(set) var hitAnimation = AnimationConfiguration()
     
-    private(set) var spawnAnimRange             = 0 ..< 0
-    private(set) var destroyAnimRange           = 0 ..< 0
-    private(set) var hitAnimRange               = 0 ..< 0
     private(set) var cheerAnimRange             = 0 ..< 0
     
     private(set) var moveUpAnimRange            = 0 ..< 0
@@ -42,16 +40,12 @@ class ConfigComponent: GKComponent {
     private(set) var explodeHorizontalAnimRange = 0 ..< 0
     private(set) var explodeVerticalAnimRange   = 0 ..< 0
     
-    private(set) var destroyAnimRepeat = 1
-    
     private(set) var destroySound: String?
     private(set) var spawnSound: String?
     private(set) var hitSound: String?
     private(set) var cheerSound: String?
     
     private(set) var floatDuration: NSTimeInterval = 1.0
-    private(set) var spawnDuration: NSTimeInterval = 1.0
-    private(set) var destroyDuration: NSTimeInterval = 1.0
     private(set) var cheerDuration: NSTimeInterval = 1.0
     
     private(set) var projectile: String?
@@ -107,6 +101,10 @@ class ConfigComponent: GKComponent {
         
         if let hitJson = json["hit"] as? [String: AnyObject] {
             parseHitJson(hitJson)
+            
+            if let animationJson = hitJson["animation"] as? [String: AnyObject] {
+                self.hitAnimation = animationFromJson(animationJson)
+            }
         }
         
         if let json = json["explode"] as? [String: AnyObject] {
@@ -126,7 +124,7 @@ class ConfigComponent: GKComponent {
     
     // WORKAROUND: for explosions to change animRange depending on explosion direction
     func updateDestroyAnimRange(animRange: Range<Int>) {
-        self.destroyAnimRange = animRange
+        self.destroyAnimation.spriteRange = animRange
     }
     
     // MARK: - Private
@@ -169,17 +167,10 @@ class ConfigComponent: GKComponent {
     }
 
     private func parseDestroyJson(json: [String: AnyObject]) {
-        self.destroyAnimRange = animRangeFromJson(json)
-        self.destroyDuration = durationFromJson(json)
         self.destroySound = soundFromJson(json)
-
-        if let repeatJson = json["repeat"] as? Int {
-            self.destroyAnimRepeat = repeatJson
-        }
     }
     
     private func parseHitJson(json: [String: AnyObject]) {
-        self.hitAnimRange = animRangeFromJson(json)
         self.hitSound = soundFromJson(json)
     }
     
@@ -194,8 +185,6 @@ class ConfigComponent: GKComponent {
     }
 
     private func parseSpawnJson(json: [String: AnyObject]) {
-        self.spawnAnimRange = animRangeFromJson(json)
-        self.spawnDuration = durationFromJson(json)
         self.spawnSound = soundFromJson(json)
     }
     

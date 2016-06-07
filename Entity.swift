@@ -95,7 +95,7 @@ class Entity: GKEntity {
         
         self.gridPosition = gridPosition
         self.game = game
-        self.spawnDuration = configComponent.spawnDuration
+        self.spawnDuration = configComponent.spawnAnimation.duration
         
         addComponent(configComponent)
         
