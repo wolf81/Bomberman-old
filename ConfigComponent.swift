@@ -23,8 +23,7 @@ class ConfigComponent: GKComponent {
     private(set) var spawnAnimation = AnimationConfiguration()
     private(set) var destroyAnimation = AnimationConfiguration()
     private(set) var hitAnimation = AnimationConfiguration()
-    
-    private(set) var cheerAnimRange             = 0 ..< 0
+    private(set) var cheerAnimation = AnimationConfiguration()
     
     private(set) var moveUpAnimRange            = 0 ..< 0
     private(set) var moveDownAnimRange          = 0 ..< 0
@@ -46,7 +45,6 @@ class ConfigComponent: GKComponent {
     private(set) var cheerSound: String?
     
     private(set) var floatDuration: NSTimeInterval = 1.0
-    private(set) var cheerDuration: NSTimeInterval = 1.0
     
     private(set) var projectile: String?
     
@@ -93,6 +91,10 @@ class ConfigComponent: GKComponent {
         
         if let cheerJson = json["cheer"] as? [String: AnyObject] {
             parseCheerJson(cheerJson)
+
+            if let animationJson = cheerJson["animation"] as? [String: AnyObject] {
+                self.cheerAnimation = animationFromJson(animationJson)
+            }
         }
         
         if let floatJson = json["float"] as? [String: AnyObject] {
@@ -179,8 +181,6 @@ class ConfigComponent: GKComponent {
     }
     
     private func parseCheerJson(json: [String: AnyObject]) {
-        self.cheerAnimRange = animRangeFromJson(json)
-        self.cheerDuration = durationFromJson(json)
         self.cheerSound = soundFromJson(json)
     }
 

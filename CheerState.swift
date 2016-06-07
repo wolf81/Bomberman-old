@@ -29,10 +29,15 @@ class CheerState: State {
                     let move = visualComponent.spriteNode.actionForKey("move")
                     move?.speed = 0
                     
-                    let animRange = configComponent.cheerAnimRange
-                    if animRange.count > 0 {
-                        let totalTime = configComponent.cheerDuration
-                        let sprites = Array(visualComponent.sprites[animRange])
+                    let cheerAnim = configComponent.cheerAnimation
+                    if cheerAnim.delay > 0 {
+                        let wait = SKAction.waitForDuration(cheerAnim.delay)
+                        actions.append(wait)
+                    }
+                    
+                    if cheerAnim.spriteRange.count > 0 {
+                        let sprites = Array(visualComponent.sprites[cheerAnim.spriteRange])
+                        let totalTime = cheerAnim.duration
                         let timePerFrame = totalTime / Double(sprites.count)
                         let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
                         actions.append(anim)
