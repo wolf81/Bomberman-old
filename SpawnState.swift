@@ -10,7 +10,7 @@ import GameplayKit
 import SpriteKit
 
 class SpawnState: State {
-    private var didShowSpawnAnimation = false
+    private var didSpawn = false
         
     override func isValidNextState(stateClass: AnyClass) -> Bool {
         var isValidNextState: Bool
@@ -35,10 +35,20 @@ class SpawnState: State {
         super.willExitWithNextState(nextState)
     }
     
+    override func didEnterWithPreviousState(previousState: GKState?) {
+        super.didEnterWithPreviousState(previousState)
+        
+        self.didSpawn = false
+        
+        if let entity = self.entity {
+            entity.delegate?.entityWillSpawn(entity)
+        }
+    }
+    
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
         super.updateWithDeltaTime(seconds)
         
-        if !self.updating {
+        if !self.didSpawn && !self.updating {
             self.updating = true
             
             var actions = [SKAction]()
@@ -46,41 +56,38 @@ class SpawnState: State {
             if let entity = self.entity {
                 if let visualComponent = entity.componentForClass(VisualComponent),
                     let configComponent = entity.componentForClass(ConfigComponent) {
-                    
-                    let totalTime = entity.spawnDuration
-                    
+
                     if let spawnSound = configComponent.spawnSound {
                         if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(spawnSound) {
                             let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
                             actions.append(play)
                         }
                     }
-
-                    if configComponent.spawnAnimRange.count > 0 {
-                        if configComponent.spawnAnimRange.count > 1 {
-                            let sprites = Array(visualComponent.sprites[configComponent.spawnAnimRange])
-                            let timePerFrame = totalTime / Double(sprites.count)
-                            let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
-                            
-                            if let _ = entity as? Creature {
-                                let fadeIn = SKAction.fadeInWithDuration(totalTime)
-                                actions.append(SKAction.group([fadeIn, anim]))
-                            } else {
-                                actions.append(anim)
-                            }
-                        } else {
-                            let sprite = Array(visualComponent.sprites[configComponent.spawnAnimRange])
-                            visualComponent.spriteNode.texture = sprite.first
-                            
-                            let position = positionForGridPosition(entity.gridPosition)
-                            visualComponent.spriteNode.position = position
-                            
-                            let fadeIn = SKAction.fadeInWithDuration(0.5)
-                            actions.append(fadeIn)
-                        }
+                    
+                    let spawnAnim = configComponent.spawnAnimation
+                    if spawnAnim.delay > 0 {
+                        let wait = SKAction.waitForDuration(spawnAnim.delay)
+                        actions.append(wait)
                     }
-                
+
+                    if spawnAnim.spriteRange.count > 1 {
+                        let timePerFrame = spawnAnim.duration / Double(spawnAnim.spriteRange.count)
+                        let sprites = Array(visualComponent.sprites[spawnAnim.spriteRange])
+                        let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
+                        actions.append(anim)
+                    } else { // fade in?
+                        if visualComponent.sprites.count > 0 {
+                            let sprite = visualComponent.sprites[0]
+                            let update = SKAction.setTexture(sprite)
+                            actions.append(update)
+                        }
+                        
+                        let fadeIn = SKAction.fadeInWithDuration(0.5)
+                        actions.append(fadeIn)
+                    }                    
+                    
                     let completion = {
+                        self.didSpawn = true
                         self.updating = false
                         entity.delegate?.entityDidSpawn(entity)
                     }

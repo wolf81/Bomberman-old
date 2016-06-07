@@ -26,7 +26,7 @@ class VisualComponent: GKComponent {
             if createPhysicsBody {
                 // Create a body size slightly smaller than the actual texture, so we don't trigger 
                 //  contact methods when 2 entities are beside each other.
-                let bodySize = CGSize(width: size.width - 2, height: size.height - 2)
+                let bodySize = CGSize(width: size.width - 4, height: size.height - 4)
 
                 sprite.physicsBody = SKPhysicsBody(texture: texture,
                                                    alphaThreshold: 0.0,

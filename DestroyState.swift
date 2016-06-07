@@ -42,11 +42,7 @@ class DestroyState: State {
                         visualComponent.spriteNode.physicsBody = nil
                     }
                     
-                    var spawnDelay: Double = 0
-                    
                     if let configComponent = entity.componentForClass(ConfigComponent) {
-                        spawnDelay = configComponent.spawnDelay
-                        
                         if let destroySound = configComponent.destroySound {
                             if let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(destroySound) {
                                 let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)                                
@@ -54,38 +50,52 @@ class DestroyState: State {
                             }
                         }
 
-                        if configComponent.destroyAnimRange.count > 0 {
-                            let totalTime = configComponent.destroyDuration
-                            let sprites = Array(visualComponent.sprites[configComponent.destroyAnimRange])
-                            let animRepeat = configComponent.destroyAnimRepeat
-                            
-                            let timePerFrame = totalTime / Double(sprites.count * animRepeat)
-                            let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
-                            
-                            if animRepeat > 1 {
-                                let repeatAction = SKAction.repeatAction(anim, count: animRepeat)
-                                actions.append(repeatAction)
-                            } else {
-                                actions.append(anim)
+                        if let destroyAnim = configComponent.destroyAnimation {
+                            if destroyAnim.delay > 0 {
+                                let wait = SKAction.waitForDuration(destroyAnim.delay)
+                                actions.append(wait)
                             }
                             
-                            let fade = SKAction.fadeOutWithDuration(0.5)
-                            actions.append(fade)
-                        }
-                        
-                        if let value = entity.value {
-                            let propLoader = PropLoader(forGame: Game.sharedInstance)
-                            let points = (try! propLoader.pointsWithType(value, gridPosition: entity.gridPosition))!
-                            Game.sharedInstance.addEntity(points)
-                        }
+                            if destroyAnim.spriteRange.count > 1 {
+                                let timePerFrame = destroyAnim.duration / Double(destroyAnim.spriteRange.count * destroyAnim.repeatCount)
+                                let sprites = Array(visualComponent.sprites[destroyAnim.spriteRange])
+                                let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
+                                
+                                if destroyAnim.repeatCount > 1 {
+                                    let repeatAnim = SKAction.repeatAction(anim, count: destroyAnim.repeatCount)
+                                    actions.append(repeatAnim)
+                                } else {
+                                    actions.append(anim)
+                                }
+                            }
+                            
+                            let fadeOut = SKAction.fadeOutWithDuration(0.5)
+                            actions.append(fadeOut)
+                        } else {
+                            if configComponent.destroyAnimRange.count > 0 {
+                                let totalTime = configComponent.destroyDuration
+                                let sprites = Array(visualComponent.sprites[configComponent.destroyAnimRange])
+                                let animRepeat = configComponent.destroyAnimRepeat
+                                
+                                let timePerFrame = totalTime / Double(sprites.count * animRepeat)
+                                let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
+                                
+                                if animRepeat > 1 {
+                                    let repeatAction = SKAction.repeatAction(anim, count: animRepeat)
+                                    actions.append(repeatAction)
+                                } else {
+                                    actions.append(anim)
+                                }
+                                
+                                let fade = SKAction.fadeOutWithDuration(0.5)
+                                actions.append(fade)
+                            }
+                        }                        
                     }
                     
                     let completion = {
-                        delay(spawnDelay, closure: {
-                            self.updating = false                            
-                            
-                            entity.delegate?.entityDidDestroy(entity)
-                        })
+                        self.updating = false
+                        entity.delegate?.entityDidDestroy(entity)                        
                     }
                     
                     if actions.count > 0 {

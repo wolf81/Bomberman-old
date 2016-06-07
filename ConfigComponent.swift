@@ -20,6 +20,9 @@ class ConfigComponent: GKComponent {
     private(set) var lives: Int = 0
     private(set) var health: Int = 0
     
+    private(set) var spawnAnimation = AnimationConfiguration()
+    private(set) var destroyAnimation: AnimationConfiguration?
+    
     private(set) var spawnAnimRange             = 0 ..< 0
     private(set) var destroyAnimRange           = 0 ..< 0
     private(set) var hitAnimRange               = 0 ..< 0
@@ -38,8 +41,6 @@ class ConfigComponent: GKComponent {
     private(set) var explodeCenterAnimRange     = 0 ..< 0
     private(set) var explodeHorizontalAnimRange = 0 ..< 0
     private(set) var explodeVerticalAnimRange   = 0 ..< 0
-
-    private(set) var spawnDelay: NSTimeInterval = 0
     
     private(set) var destroyAnimRepeat = 1
     
@@ -90,6 +91,10 @@ class ConfigComponent: GKComponent {
         
         if let spawnJson = json["spawn"] as? [String: AnyObject] {
             parseSpawnJson(spawnJson)
+            
+            if let animationJson = spawnJson["animation"] as? [String: AnyObject] {
+                self.spawnAnimation = animationFromJson(animationJson)
+            }
         }
         
         if let cheerJson = json["cheer"] as? [String: AnyObject] {
@@ -110,6 +115,10 @@ class ConfigComponent: GKComponent {
         
         if let destroyJson = json["destroy"] as? [String: AnyObject] {
             parseDestroyJson(destroyJson)
+            
+            if let animationJson = destroyJson["animation"] as? [String: AnyObject] {
+                self.destroyAnimation = animationFromJson(animationJson)
+            }
         }
     }
     
@@ -186,7 +195,6 @@ class ConfigComponent: GKComponent {
 
     private func parseSpawnJson(json: [String: AnyObject]) {
         self.spawnAnimRange = animRangeFromJson(json)
-        self.spawnDelay = delayFromJson(json) ?? 0.0
         self.spawnDuration = durationFromJson(json)
         self.spawnSound = soundFromJson(json)
     }
@@ -257,6 +265,31 @@ class ConfigComponent: GKComponent {
         }
     }
     
+    private func animationFromJson(json: [String: AnyObject]) -> AnimationConfiguration {
+        let range = rangeFromJson(json)
+        let duration = durationFromJson(json)
+        let delay = delayFromJson(json) ?? 0.0
+        let repeatCount = repeatCountFromJson(json) ?? 1
+        
+        let anim = AnimationConfiguration(spriteRange: range, duration: duration, delay: delay, repeatCount: repeatCount)
+        
+        return anim
+    }
+    
+    private func rangeFromJson(json: [String: AnyObject]) -> Range<Int> {
+        var range = 0 ..< 0
+        
+        if let animJson = json["range"] as? [Int] {
+            if animJson.count == 2 {
+                let location = animJson[0]
+                let length = animJson[1]
+                range = Range(location ..< (location + length))
+            }
+        }
+        
+        return range
+    }
+    
     private func durationFromJson(json: [String: AnyObject]) -> NSTimeInterval {
         var duration: NSTimeInterval = 1.0
         
@@ -275,6 +308,16 @@ class ConfigComponent: GKComponent {
         }
         
         return sound
+    }
+    
+    private func repeatCountFromJson(json: [String: AnyObject]) -> Int? {
+        var repeatCount: Int?
+        
+        if let repeatJson = json["repeat"] as? Int {
+            repeatCount = repeatJson
+        }
+        
+        return repeatCount
     }
     
     private func delayFromJson(json: [String: AnyObject]) -> NSTimeInterval? {

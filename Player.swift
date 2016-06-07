@@ -105,7 +105,7 @@ class Player: Creature {
             self.moveSpeedPowerLimit.currentCount += 1
             self.moveSpeedDuration = duration
             
-            updateForMoveSpeed(speedAdjustment: 0.6)
+            updateForMoveSpeed(speedAdjustment: 0.8)
         }
     }
     

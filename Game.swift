@@ -133,6 +133,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         
         self.player1?.updateWithDeltaTime(deltaTime)
         self.player2?.updateWithDeltaTime(deltaTime)
+        self.powerUps.forEach({ $0.updateWithDeltaTime(deltaTime) })
         
         // Enrage timer. When timer is expired, monsters become more dangerous.
         if self.timeRemaining > 0 {
@@ -463,6 +464,12 @@ extension Game {
             }
         default: break
         }
+                
+        if let value = entity.value {
+            let propLoader = PropLoader(forGame: Game.sharedInstance)
+            let points = (try! propLoader.pointsWithType(value, gridPosition: entity.gridPosition))!
+            Game.sharedInstance.addEntity(points)
+        }
     }
     
     func entityDidCheer(entity: Entity) {
@@ -546,6 +553,15 @@ extension Game {
         
         entity.roam()
     }
+    
+    func entityWillSpawn(entity: Entity) {
+        if entity is Player {
+            if let visualComponent = entity.componentForClass(VisualComponent) {
+                let position = positionForGridPosition(entity.gridPosition)
+                visualComponent.spriteNode.position = position
+            }
+        }
+    }
 }
 
 // MARK: - Collision Handling -
@@ -566,6 +582,9 @@ extension Game {
             handleContactBetweenProjectile(entity2 as! Projectile, andEntity: entity1!)
         }
         
+        // TODO: Currently there's a bug when player slightly out of range of explosion walks 
+        //  inside explosion after animation starts. The player dies. Maybe don't use physicsbody
+        //  for tests between player and explosion? Or fix this issue somehow.
         if entity1 is Explosion && entity2 is Creature {
             handleContactBetweenExplosion(entity1 as! Explosion, andCreature: entity2 as! Creature)
         } else if entity2 is Explosion && entity1 is Creature {

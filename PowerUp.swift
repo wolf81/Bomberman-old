@@ -22,6 +22,7 @@ enum PowerType: Int {
 }
 
 class PowerUp: Entity {
+    private(set) var destroyDelay: NSTimeInterval = 8.0
     private(set) var activated = false
     private(set) var power: PowerType
     
@@ -45,6 +46,16 @@ class PowerUp: Entity {
     
     // MARK: - Public
     
+    override func updateWithDeltaTime(seconds: NSTimeInterval) {
+        super.updateWithDeltaTime(seconds)
+        
+        self.destroyDelay -= seconds
+        
+        if destroyDelay <= 0 {
+            self.destroy()
+        }
+    }
+    
     func activate(forPlayer player: Player) {
         if self.activated == false {
             self.activated = true
@@ -65,9 +76,7 @@ class PowerUp: Entity {
             case .MoveSpeed:
                 player.addMoveSpeedPower(withDuration: 15.0)
             case .DestroyBlocks:
-                self.game?.tiles.forEach({
-                    $0.destroy()
-                })
+                self.game?.tiles.forEach({ $0.destroy() })
             case .DestroyMonsters:
                 self.game?.creatures
                     .filter({ $0 is Monster })

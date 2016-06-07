@@ -32,6 +32,10 @@ class Bomb: Entity {
     
     // MARK: - Public
     
+    override func destroy() {
+        super.destroy()
+    }
+    
     func explodeAtGridPosition(gridPosition: Point) throws {
         var validPositions: [(Point, Direction)] = [(gridPosition, .None)]
         

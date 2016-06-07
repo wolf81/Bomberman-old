@@ -10,6 +10,7 @@ import GameplayKit
 import SpriteKit
 
 protocol EntityDelegate: class {
+    func entityWillSpawn(entity: Entity)
     func entityDidSpawn(entity: Entity)
     func entityWillDestroy(entity: Entity)
     func entityDidDestroy(entity: Entity)
