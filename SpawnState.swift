@@ -64,6 +64,8 @@ class SpawnState: State {
                         }
                     }
                     
+                    configComponent.spawnAnimation.duration += entity.spawnTimeAdjustment
+                    
                     let anim = SKAction.animation(forEntity: entity, withConfiguration: configComponent.spawnAnimation)
                     actions.appendContentsOf(anim)
                     

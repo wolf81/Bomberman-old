@@ -18,13 +18,13 @@ protocol EntityDelegate: class {
     func entityDidHit(entity: Entity)
     func entityDidAttack(entity: Entity)
     func entityDidCheer(entity: Entity)
-    func entityDidDisintegrate(entity: Entity)
+    func entityDidDecay(entity: Entity)
 }
 
 class Entity: GKEntity {
     var gridPosition = Point(x: 0, y: 0)
     var value: PointsType?
-    var spawnDuration: NSTimeInterval = 1.0
+    var spawnTimeAdjustment: NSTimeInterval = 1.0
     
     weak var game: Game?
 
@@ -96,7 +96,6 @@ class Entity: GKEntity {
         
         self.gridPosition = gridPosition
         self.game = game
-        self.spawnDuration = configComponent.spawnAnimation.duration
         
         addComponent(configComponent)
         

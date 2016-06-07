@@ -72,8 +72,8 @@ class StateMachineComponent: GKComponent {
     }
 
     func enterDisintegrateState() {
-        if (self.stateMachine.currentState is DisintegrateState) == false {
-            self.stateMachine.enterState(DisintegrateState)
+        if (self.stateMachine.currentState is DecayState) == false {
+            self.stateMachine.enterState(DecayState)
         }
     }
 

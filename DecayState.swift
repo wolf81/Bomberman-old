@@ -9,7 +9,7 @@
 import GameplayKit
 import SpriteKit
 
-class DisintegrateState : State {
+class DecayState : State {
     override func isValidNextState(stateClass: AnyClass) -> Bool {
         return stateClass is DestroyState.Type
     }
@@ -24,12 +24,12 @@ class DisintegrateState : State {
                 if let configComponent = entity.componentForClass(ConfigComponent),
                     let visualComponent = entity.componentForClass(VisualComponent) {
                     
-                    let anim = SKAction.animation(forEntity: entity, withConfiguration: configComponent.disintegrateAnimation)
+                    let anim = SKAction.animation(forEntity: entity, withConfiguration: configComponent.decayAnimation)
                     anim.forEach({ actions.append($0) })
                     
                     let completion = {
                         self.updating = false
-                        entity.delegate?.entityDidDisintegrate(entity)
+                        entity.delegate?.entityDidDecay(entity)
                     }
                     
                     if actions.count > 0 {

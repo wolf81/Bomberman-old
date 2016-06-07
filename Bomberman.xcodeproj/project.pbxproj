@@ -142,8 +142,8 @@
 		79606E8A1CFEB0780034A0A1 /* PowerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E891CFEB0780034A0A1 /* PowerLoader.swift */; };
 		79606E8B1CFEB0780034A0A1 /* PowerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E891CFEB0780034A0A1 /* PowerLoader.swift */; };
 		7994C3E01CFD7C8C00B6F77F /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7900191E1CFC2087001EEF3C /* GameController.framework */; };
-		79C4E7041D069C8E00A35B37 /* DisintegrateState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C4E7031D069C8E00A35B37 /* DisintegrateState.swift */; };
-		79C4E7051D069C8E00A35B37 /* DisintegrateState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C4E7031D069C8E00A35B37 /* DisintegrateState.swift */; };
+		79C4E7041D069C8E00A35B37 /* DecayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C4E7031D069C8E00A35B37 /* DecayState.swift */; };
+		79C4E7051D069C8E00A35B37 /* DecayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C4E7031D069C8E00A35B37 /* DecayState.swift */; };
 		79C4E7071D06A2D100A35B37 /* AnimationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C4E7061D06A2D100A35B37 /* AnimationConfiguration.swift */; };
 		79C4E7081D06A2D100A35B37 /* AnimationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C4E7061D06A2D100A35B37 /* AnimationConfiguration.swift */; };
 		79C9F18C1CD9B3AB00692D75 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C9F18B1CD9B3AB00692D75 /* Player.swift */; };
@@ -239,7 +239,7 @@
 		794ADE6B1CD82A0A000AF170 /* HitState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitState.swift; sourceTree = "<group>"; };
 		79606E861CFE6C2D0034A0A1 /* SceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		79606E891CFEB0780034A0A1 /* PowerLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerLoader.swift; sourceTree = "<group>"; };
-		79C4E7031D069C8E00A35B37 /* DisintegrateState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisintegrateState.swift; sourceTree = "<group>"; };
+		79C4E7031D069C8E00A35B37 /* DecayState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecayState.swift; sourceTree = "<group>"; };
 		79C4E7061D06A2D100A35B37 /* AnimationConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationConfiguration.swift; sourceTree = "<group>"; };
 		79C9F18B1CD9B3AB00692D75 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		79C9F1911CD9B7E600692D75 /* Monster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Monster.swift; sourceTree = "<group>"; };
@@ -352,7 +352,7 @@
 				7902B0A41CDB0FAD00298CAC /* PropelState.swift */,
 				7900190B1CF5C4ED001EEF3C /* FloatState.swift */,
 				7900191B1CFBCCFD001EEF3C /* CheerState.swift */,
-				79C4E7031D069C8E00A35B37 /* DisintegrateState.swift */,
+				79C4E7031D069C8E00A35B37 /* DecayState.swift */,
 			);
 			name = StateMachine;
 			sourceTree = "<group>";
@@ -730,7 +730,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79C4E7041D069C8E00A35B37 /* DisintegrateState.swift in Sources */,
+				79C4E7041D069C8E00A35B37 /* DecayState.swift in Sources */,
 				7947BC4E1CCF1DFD00DE7C8A /* LevelLoader.swift in Sources */,
 				794ADE1B1CD1E4A5000AF170 /* Image.swift in Sources */,
 				794ADE451CD48313000AF170 /* SpawnState.swift in Sources */,
@@ -841,7 +841,7 @@
 				794ADE641CD716E8000AF170 /* AttackState.swift in Sources */,
 				7920A32B1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */,
 				7920A3371D03FE70002C2B16 /* PowerUpLimit.swift in Sources */,
-				79C4E7051D069C8E00A35B37 /* DisintegrateState.swift in Sources */,
+				79C4E7051D069C8E00A35B37 /* DecayState.swift in Sources */,
 				794ADE461CD48313000AF170 /* SpawnState.swift in Sources */,
 				79C4E7081D06A2D100A35B37 /* AnimationConfiguration.swift in Sources */,
 				794ADE221CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,

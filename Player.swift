@@ -127,7 +127,7 @@ class Player: Creature {
                 if game.bombAtGridPosition(gridPosition) == nil {
                     if let bomb = try self.propLoader.bombWithGridPosition(gridPosition, player: self.index) {
                         bomb.range = self.explosionPowerLimit.currentCount
-                        bomb.spawnDuration -= Double(self.bombTriggerPowerLimit.currentCount) * 1.0
+                        bomb.spawnTimeAdjustment = -1 * Double(self.bombTriggerPowerLimit.currentCount) * 1
                         game.addEntity(bomb)
                         didDropBomb = true
                     }

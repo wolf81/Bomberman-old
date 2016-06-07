@@ -20,11 +20,11 @@ class ConfigComponent: GKComponent {
     private(set) var lives: Int = 0
     private(set) var health: Int = 0
     
-    private(set) var spawnAnimation = AnimationConfiguration()
+    var spawnAnimation = AnimationConfiguration()
     private(set) var destroyAnimation = AnimationConfiguration()
     private(set) var hitAnimation = AnimationConfiguration()
     private(set) var cheerAnimation = AnimationConfiguration()
-    private(set) var disintegrateAnimation = AnimationConfiguration()
+    private(set) var decayAnimation = AnimationConfiguration()
     
     private(set) var moveUpAnimRange            = 0 ..< 0
     private(set) var moveDownAnimRange          = 0 ..< 0
@@ -108,9 +108,9 @@ class ConfigComponent: GKComponent {
             parseExplodeJson(json)
         }
 
-        if let disintegrateJson = json["disintegrate"] as? [String: AnyObject] {
-            if let animationJson = disintegrateJson["animation"] as? [String: AnyObject] {
-                self.disintegrateAnimation = animationFromJson(animationJson)
+        if let decayJson = json["decay"] as? [String: AnyObject] {
+            if let animationJson = decayJson["animation"] as? [String: AnyObject] {
+                self.decayAnimation = animationFromJson(animationJson)
             }
         }
 
@@ -146,7 +146,7 @@ class ConfigComponent: GKComponent {
             case "propel": states.append(PropelState())
             case "float": states.append(FloatState())
             case "cheer": states.append(CheerState())
-            case "disintegrate": states.append(DisintegrateState())
+            case "decay": states.append(DecayState())
             default: print("unknown state: \(stateJson)")
             }
         }

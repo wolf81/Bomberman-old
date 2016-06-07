@@ -476,7 +476,7 @@ extension Game {
         finishLevel(true)
     }
     
-    func entityDidDisintegrate(entity: Entity) {
+    func entityDidDecay(entity: Entity) {
         switch entity {
         case is Bomb: entity.destroy()
         default: break
