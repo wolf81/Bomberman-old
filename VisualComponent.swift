@@ -55,17 +55,11 @@ class VisualComponent: GKComponent {
     }
         
     func moveInDirection(direction: Direction, toPosition: CGPoint, completion: () -> Void) {
-        if let configComponent = self.entity?.componentForClass(ConfigComponent) {
-            var animRange = 0 ..< 0
+        if let entity = self.entity as? Entity,
+            let configComponent = self.entity?.componentForClass(ConfigComponent) {
             
-            switch direction {
-            case .East: animRange = configComponent.moveRightAnimRange
-            case .North: animRange = configComponent.moveUpAnimRange
-            case .West: animRange = configComponent.moveLeftAnimRange
-            case .South: animRange = configComponent.moveDownAnimRange
-            default: break
-            }
-                        
+            let animRange = configComponent.moveAnimation.animRangeForDirection(entity.direction)
+            
             var actions = [SKAction]()
             
             let duration: NSTimeInterval = 1.0

@@ -15,10 +15,7 @@ class Creature: Entity {
     
     // Used by monsters as shooting delay, for players as refill time for bombs.
     let abilityCooldown: NSTimeInterval = 2.0
-    
-    // The movement direction of the creature.
-    var direction = Direction.None
-    
+        
     private(set) var nextGridPosition = Point(x: 0, y: 0)
     
     var isMoving: Bool {

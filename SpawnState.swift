@@ -42,6 +42,13 @@ class SpawnState: State {
         
         if let entity = self.entity {
             entity.delegate?.entityWillSpawn(entity)
+            
+            if let visualComponent = entity.componentForClass(VisualComponent),
+                let configComponent = entity.componentForClass(ConfigComponent) {
+                
+                let animRange = configComponent.spawnAnimation.animRangeForDirection(entity.direction)
+                visualComponent.spriteNode.texture = visualComponent.sprites[animRange.startIndex]
+            }
         }
     }
     
@@ -68,28 +75,6 @@ class SpawnState: State {
                     
                     let anim = SKAction.animation(forEntity: entity, withConfiguration: configComponent.spawnAnimation)
                     actions.appendContentsOf(anim)
-                    
-//                    let spawnAnim = configComponent.spawnAnimation
-//                    if spawnAnim.delay > 0 {
-//                        let wait = SKAction.waitForDuration(spawnAnim.delay)
-//                        actions.append(wait)
-//                    }
-//
-//                    if spawnAnim.spriteRange.count > 1 {
-//                        let timePerFrame = spawnAnim.duration / Double(spawnAnim.spriteRange.count)
-//                        let sprites = Array(visualComponent.sprites[spawnAnim.spriteRange])
-//                        let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
-//                        actions.append(anim)
-//                    } else { // fade in?
-//                        if visualComponent.sprites.count > 0 {
-//                            let sprite = visualComponent.sprites[0]
-//                            let update = SKAction.setTexture(sprite)
-//                            actions.append(update)
-//                        }
-//                        
-//                        let fadeIn = SKAction.fadeInWithDuration(0.5)
-//                        actions.append(fadeIn)
-//                    }                    
                     
                     let completion = {
                         self.didSpawn = true

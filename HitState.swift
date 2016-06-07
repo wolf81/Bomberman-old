@@ -43,9 +43,11 @@ class HitState: State {
                             actions.append(wait)
                         }
                         
-                        if hitAnim.spriteRange.count > 0 {
-                            let sprites = Array(visualComponent.sprites[hitAnim.spriteRange])
-                            let timePerFrame = hitAnim.duration / Double(hitAnim.spriteRange.count * hitAnim.repeatCount)
+                        let animRange = configComponent.hitAnimation.animRangeForDirection(entity.direction)
+                        
+                        if animRange.count > 0 {
+                            let sprites = Array(visualComponent.sprites[animRange])
+                            let timePerFrame = hitAnim.duration / Double(animRange.count * hitAnim.repeatCount)
                             let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)                            
                             let wait = SKAction.waitForDuration(hitAnim.duration)
                             

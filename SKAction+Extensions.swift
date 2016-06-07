@@ -32,11 +32,13 @@ extension SKAction {
                 actions.append(wait)
             }
             
-            if configuration.spriteRange.count > 0 {
-                let frameCount = configuration.spriteRange.count * configuration.repeatCount
+            let animRange = configuration.animRangeForDirection(entity.direction)
+            
+            if animRange.count > 0 {
+                let frameCount = animRange.count * configuration.repeatCount
                 let timePerFrame = configuration.duration / Double(frameCount)
                 
-                let sprites = Array(visualComponent.sprites[configuration.spriteRange])
+                let sprites = Array(visualComponent.sprites[animRange])
                 let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
                 
                 if configuration.repeatCount > 1 {

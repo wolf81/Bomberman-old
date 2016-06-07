@@ -16,15 +16,8 @@ class PropLoader: ConfigurationLoader {
         
         let directory = "Props/Explosion"
         if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
-            switch direction {
-            case .North: configComponent.updateDestroyAnimRange(configComponent.explodeVerticalAnimRange)
-            case .South: configComponent.updateDestroyAnimRange(configComponent.explodeVerticalAnimRange)
-            case .East: configComponent.updateDestroyAnimRange(configComponent.explodeHorizontalAnimRange)
-            case .West: configComponent.updateDestroyAnimRange(configComponent.explodeHorizontalAnimRange)
-            default: configComponent.updateDestroyAnimRange(configComponent.explodeCenterAnimRange)
-            }
-            
             explosion = Explosion(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
+            explosion?.direction = direction
         }
 
         return explosion

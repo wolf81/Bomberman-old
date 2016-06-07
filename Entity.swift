@@ -24,8 +24,11 @@ protocol EntityDelegate: class {
 class Entity: GKEntity {
     var gridPosition = Point(x: 0, y: 0)
     var value: PointsType?
-    var spawnTimeAdjustment: NSTimeInterval = 1.0
+    var spawnTimeAdjustment: NSTimeInterval = 0.0
     
+    // The movement direction of the creature.
+    var direction = Direction.None
+
     weak var game: Game?
 
     weak var delegate: EntityDelegate?
