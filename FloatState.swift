@@ -16,15 +16,16 @@ class FloatState: State {
             var actions = [SKAction]()
             
             if let entity = self.entity {
-                if let visualComponent = entity.componentForClass(VisualComponent) {
+                if let visualComponent = entity.componentForClass(VisualComponent),
+                    let configComponent = entity.componentForClass(ConfigComponent) {
+                    
                     visualComponent.spriteNode.removeAllActions()
                     
-                    let totalTime = 1.0
-                    let move = SKAction.moveByX(0, y: CGFloat(unitLength), duration: totalTime)
-                    let fade = SKAction.fadeOutWithDuration(totalTime)
-                    let anim = SKAction.group([move, fade])
-                    actions.append(anim)
-                    
+                    let floatAnim = SKAction.animation(forEntity: entity,
+                                                         configuration: configComponent.floatAnimation,
+                                                         state: self)
+                    floatAnim.forEach({ actions.append($0) })
+
                     let completion = {
                         self.updating = false
                         entity.delegate?.entityDidFloat(entity)
@@ -38,5 +39,12 @@ class FloatState: State {
                 }
             }
         }
+    }
+    
+    override func defaultAnimation(withDuration duration: NSTimeInterval, repeatCount: Int) -> SKAction {
+        let move = SKAction.moveByX(0, y: CGFloat(unitLength), duration: duration)
+        let fade = SKAction.fadeOutWithDuration(duration)
+        let anim = SKAction.group([move, fade])
+        return anim
     }
 }

@@ -24,6 +24,7 @@ class ConfigComponent: GKComponent {
     //  Figure out cleaner solution.
     var spawnAnimation = AnimationConfiguration()
     
+    private(set) var floatAnimation = AnimationConfiguration()
     private(set) var destroyAnimation = AnimationConfiguration()
     private(set) var hitAnimation = AnimationConfiguration()
     private(set) var cheerAnimation = AnimationConfiguration()
@@ -99,6 +100,12 @@ class ConfigComponent: GKComponent {
             
             if let animationJson = hitJson["animation"] as? [String: AnyObject] {
                 self.hitAnimation = AnimationConfiguration(json: animationJson)
+            }
+        }
+        
+        if let floatJson = json["float"] as? [String: AnyObject] {
+            if let animationJson = floatJson["animation"] as? [String: AnyObject] {
+                self.floatAnimation = AnimationConfiguration(json: animationJson)
             }
         }
         
