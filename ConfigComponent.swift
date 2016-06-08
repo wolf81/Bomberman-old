@@ -139,7 +139,6 @@ class ConfigComponent: GKComponent {
             case "attack": states.append(AttackState())
             case "hit": states.append(HitState())
             case "control": states.append(ControlState())
-            case "propel": states.append(PropelState())
             case "float": states.append(FloatState())
             case "cheer": states.append(CheerState())
             case "decay": states.append(DecayState())

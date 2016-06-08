@@ -544,7 +544,21 @@ extension Game {
         case is Bomb: entity.decay()
         case is PowerUp: entity.decay()
         case is Explosion: entity.destroy()
-        case is Projectile: entity.propel()
+        case is Projectile:
+            if let vc = entity.componentForClass(VisualComponent) {
+                var dx: CGFloat = 0.0, dy: CGFloat = 0.0
+                let force: CGFloat = 0.7
+                
+                switch entity.direction {
+                case .North: dy = force
+                case .South: dy = -force
+                case .East: dx = force
+                case .West: dx = -force
+                default: break
+                }
+                
+            vc.spriteNode.physicsBody?.applyForce(CGVector(dx: dx, dy: dy))
+            }
         case is Player:
             if let player = entity as? Player {
                 player.control()
@@ -557,8 +571,6 @@ extension Game {
     }
     
     func entityDidAttack(entity: Entity) {
-        print("entityDidAttack: \(entity)")
-        
         entity.roam()
     }
     

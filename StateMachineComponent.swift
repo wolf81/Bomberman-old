@@ -52,13 +52,7 @@ class StateMachineComponent: GKComponent {
             self.stateMachine.enterState(SpawnState)
         }
     }
-    
-    func enterPropelState() {
-        if (self.stateMachine.currentState is PropelState) == false {
-            self.stateMachine.enterState(PropelState)
-        }
-    }
-    
+        
     func enterCheerState() {
         if (self.stateMachine.currentState is CheerState) == false {
             self.stateMachine.enterState(CheerState)

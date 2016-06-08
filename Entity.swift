@@ -12,11 +12,13 @@ import SpriteKit
 protocol EntityDelegate: class {
     func entityWillSpawn(entity: Entity)
     func entityDidSpawn(entity: Entity)
+    
     func entityWillDestroy(entity: Entity)
     func entityDidDestroy(entity: Entity)
+    
+    func entityDidAttack(entity: Entity)    
     func entityDidFloat(entity: Entity)
     func entityDidHit(entity: Entity)
-    func entityDidAttack(entity: Entity)
     func entityDidCheer(entity: Entity)
     func entityDidDecay(entity: Entity)
 }
@@ -139,13 +141,7 @@ class Entity: GKEntity {
             stateMachineComponent.enterHitState()
         }    
     }
-    
-    func propel() {
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
-            stateMachineComponent.enterPropelState()
-        }
-    }
-    
+        
     func cheer() {
         if let stateMachineComponent = componentForClass(StateMachineComponent) {
             stateMachineComponent.enterCheerState()

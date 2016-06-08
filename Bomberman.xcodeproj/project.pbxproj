@@ -39,8 +39,6 @@
 		790056441CDF4B5D009CDF81 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790056421CDF4B5D009CDF81 /* AssetManager.swift */; };
 		7902B0A21CDAFBD400298CAC /* ControlState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0A11CDAFBD400298CAC /* ControlState.swift */; };
 		7902B0A31CDAFBD400298CAC /* ControlState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0A11CDAFBD400298CAC /* ControlState.swift */; };
-		7902B0A51CDB0FAD00298CAC /* PropelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0A41CDB0FAD00298CAC /* PropelState.swift */; };
-		7902B0A61CDB0FAD00298CAC /* PropelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0A41CDB0FAD00298CAC /* PropelState.swift */; };
 		7902B0A81CDB43DC00298CAC /* Panel.png in Resources */ = {isa = PBXBuildFile; fileRef = 7902B0A71CDB43DC00298CAC /* Panel.png */; };
 		7902B0A91CDB43DC00298CAC /* Panel.png in Resources */ = {isa = PBXBuildFile; fileRef = 7902B0A71CDB43DC00298CAC /* Panel.png */; };
 		7902B0AB1CDC828700298CAC /* Heart Icons.png in Resources */ = {isa = PBXBuildFile; fileRef = 7902B0AA1CDC828700298CAC /* Heart Icons.png */; };
@@ -187,7 +185,6 @@
 		7900563B1CDDD445009CDF81 /* Points 100K.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Points 100K.png"; sourceTree = "<group>"; };
 		790056421CDF4B5D009CDF81 /* AssetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		7902B0A11CDAFBD400298CAC /* ControlState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlState.swift; sourceTree = "<group>"; };
-		7902B0A41CDB0FAD00298CAC /* PropelState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropelState.swift; sourceTree = "<group>"; };
 		7902B0A71CDB43DC00298CAC /* Panel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Panel.png; sourceTree = "<group>"; };
 		7902B0AA1CDC828700298CAC /* Heart Icons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Heart Icons.png"; sourceTree = "<group>"; };
 		7902B0AD1CDC82B500298CAC /* Player 1 Head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Player 1 Head.png"; sourceTree = "<group>"; };
@@ -349,7 +346,6 @@
 				794ADE621CD716E8000AF170 /* AttackState.swift */,
 				794ADE6B1CD82A0A000AF170 /* HitState.swift */,
 				7902B0A11CDAFBD400298CAC /* ControlState.swift */,
-				7902B0A41CDB0FAD00298CAC /* PropelState.swift */,
 				7900190B1CF5C4ED001EEF3C /* FloatState.swift */,
 				7900191B1CFBCCFD001EEF3C /* CheerState.swift */,
 				79C4E7031D069C8E00A35B37 /* DecayState.swift */,
@@ -795,7 +791,6 @@
 				794ADE631CD716E8000AF170 /* AttackState.swift in Sources */,
 				79606E871CFE6C2D0034A0A1 /* SceneController.swift in Sources */,
 				794ADE6C1CD82A0A000AF170 /* HitState.swift in Sources */,
-				7902B0A51CDB0FAD00298CAC /* PropelState.swift in Sources */,
 				794ADDF31CD09026000AF170 /* DataLoader.swift in Sources */,
 				79FC6B871CCA2B9000DF7476 /* AppDelegate.swift in Sources */,
 			);
@@ -871,7 +866,6 @@
 				7947BC2D1CCB879500DE7C8A /* VisualComponent.swift in Sources */,
 				7947BC451CCE371E00DE7C8A /* PlayerControlComponent.swift in Sources */,
 				7947BC4F1CCF1DFD00DE7C8A /* LevelLoader.swift in Sources */,
-				7902B0A61CDB0FAD00298CAC /* PropelState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

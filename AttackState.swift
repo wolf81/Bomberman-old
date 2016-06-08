@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameplayKit
 
 class AttackState: State {
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
