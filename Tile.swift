@@ -35,7 +35,7 @@ class Tile: Entity {
 
         super.init(visualComponent: visualComponent)
 
-        visualComponent.spriteNode.zPosition = 20
+        visualComponent.spriteNode.zPosition = 60
 
         if let physicsBody = visualComponent.spriteNode.physicsBody {
             physicsBody.categoryBitMask = tileCategory

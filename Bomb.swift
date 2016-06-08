@@ -20,7 +20,7 @@ class Bomb: Entity {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
         if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = 60
+            visualComponent.spriteNode.zPosition = 50
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = propCategory

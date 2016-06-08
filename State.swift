@@ -43,5 +43,9 @@ class State: GKState {
         })
     
         return play
-    }    
+    }
+    
+    func defaultAnimation(withDuration duration: NSTimeInterval, repeatCount: Int) -> SKAction {
+        return SKAction.waitForDuration(duration)
+    }
 }

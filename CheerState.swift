@@ -29,8 +29,10 @@ class CheerState: State {
                     let move = visualComponent.spriteNode.actionForKey("move")
                     move?.speed = 0
                     
-                    let anim = SKAction.animation(forEntity: entity, withConfiguration: configComponent.cheerAnimation)
-                    anim.forEach({ actions.append($0) })
+                    let cheerAnim = SKAction.animation(forEntity: entity,
+                                                       configuration: configComponent.cheerAnimation,
+                                                       state: self)
+                    cheerAnim.forEach({ actions.append($0) })
                     
                     let completion = {
                         self.updating = false                            

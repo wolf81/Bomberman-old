@@ -16,7 +16,7 @@ class Explosion: Entity {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
         if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = 10
+            visualComponent.spriteNode.zPosition = 70
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = propCategory

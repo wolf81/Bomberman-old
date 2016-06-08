@@ -9,15 +9,7 @@
 import GameplayKit
 import SpriteKit
 
-class HitState: State {
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
-        return (stateClass is DestroyState.Type) || (stateClass is ControlState.Type)
-    }
-    
-    override func didEnterWithPreviousState(previousState: GKState?) {
-        super.didEnterWithPreviousState(previousState)            
-    }
-    
+class HitState: State {    
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
         if !self.updating {
             self.updating = true

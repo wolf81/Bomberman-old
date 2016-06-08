@@ -50,8 +50,10 @@ class DestroyState: State {
                             }
                         }
 
-                        let anim = SKAction.animation(forEntity: entity, withConfiguration: configComponent.destroyAnimation)
-                        anim.forEach({ actions.append($0) })
+                        let destroyAnim = SKAction.animation(forEntity: entity,
+                                                           configuration: configComponent.destroyAnimation,
+                                                           state: self)
+                        destroyAnim.forEach({ actions.append($0) })
 
 //                        let fadeOut = SKAction.fadeOutWithDuration(0.5)
 //                        actions.append(fadeOut)                        

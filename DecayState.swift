@@ -10,10 +10,6 @@ import GameplayKit
 import SpriteKit
 
 class DecayState : State {
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
-        return stateClass is DestroyState.Type
-    }
-    
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
         if !self.updating {
             self.updating = true
@@ -24,8 +20,10 @@ class DecayState : State {
                 if let configComponent = entity.componentForClass(ConfigComponent),
                     let visualComponent = entity.componentForClass(VisualComponent) {
                     
-                    let anim = SKAction.animation(forEntity: entity, withConfiguration: configComponent.decayAnimation)
-                    anim.forEach({ actions.append($0) })
+                    let decayAnim = SKAction.animation(forEntity: entity,
+                                                       configuration: configComponent.decayAnimation,
+                                                       state: self)
+                    decayAnim.forEach({ actions.append($0) })
                     
                     let completion = {
                         self.updating = false
@@ -40,5 +38,16 @@ class DecayState : State {
                 }
             }
         }
+    }
+    
+    override func defaultAnimation(withDuration duration: NSTimeInterval, repeatCount: Int) -> SKAction {
+        let timePerFrame = duration / Double(repeatCount * 2)
+        
+        let fadeOut = SKAction.fadeAlphaTo(0.5, duration: timePerFrame)
+        let fadeIn = SKAction.fadeAlphaTo(1.0, duration: timePerFrame)
+        let fade = SKAction.sequence([fadeOut, fadeIn])
+        let anim = SKAction.repeatAction(fade, count: repeatCount)
+        
+        return anim
     }
 }

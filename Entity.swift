@@ -158,9 +158,9 @@ class Entity: GKEntity {
         }
     }
     
-    func disintegrate() {
+    func decay() {
         if let stateMachineComponent = componentForClass(StateMachineComponent) {
-            stateMachineComponent.enterDisintegrateState()
+            stateMachineComponent.enterDecayState()
         }
     }
     

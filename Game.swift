@@ -458,6 +458,15 @@ extension Game {
 extension Game {
     func entityWillDestroy(entity: Entity) {
         switch entity {
+        case is Bomb:
+            let bomb = entity as! Bomb
+            do {
+                try bomb.explodeAtGridPosition(entity.gridPosition)
+            } catch let error {
+                print("error: \(error)")
+            }
+//            let shake = SKAction.shake(self.gameScene!.world.position, duration: 0.5)
+//            self.gameScene?.world.runAction(shake)
         case is Tile:
             if let power = self.level?.powerUpAtGridPosition(entity.gridPosition) {
                 addEntity(power)
@@ -479,6 +488,7 @@ extension Game {
     func entityDidDecay(entity: Entity) {
         switch entity {
         case is Bomb: entity.destroy()
+        case is PowerUp: entity.destroy()
         default: break
         }
     }
@@ -486,16 +496,6 @@ extension Game {
     func entityDidDestroy(entity: Entity) {
         switch entity {
         case is Bomb:
-            let bomb = entity as! Bomb
-            do {
-                try bomb.explodeAtGridPosition(entity.gridPosition)
-            } catch let error {
-                print("error: \(error)")
-            }
-            
-//            let shake = SKAction.shake(self.gameScene!.world.position, duration: 0.5)
-//            self.gameScene?.world.runAction(shake)
-            
             removeEntity(entity)
         case is Creature: fallthrough
         case is Player:
@@ -525,7 +525,7 @@ extension Game {
             }
             updateHudForPlayer(player)
         case is Projectile:
-            fallthrough
+            entity.destroy()
         case is PowerUp:
             entity.destroy()
         default: break
@@ -541,7 +541,8 @@ extension Game {
     
     func entityDidSpawn(entity: Entity) {
         switch entity {
-        case is Bomb: entity.disintegrate()
+        case is Bomb: entity.decay()
+        case is PowerUp: entity.decay()
         case is Explosion: entity.destroy()
         case is Projectile: entity.propel()
         case is Player:

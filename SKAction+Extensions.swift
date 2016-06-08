@@ -23,7 +23,9 @@ extension SKAction {
         return SKAction.sequence(actionsArray)
     }
     
-    class func animation(forEntity entity: Entity, withConfiguration configuration: AnimationConfiguration) -> [SKAction] {
+    class func animation(forEntity entity: Entity,
+                                   configuration: AnimationConfiguration,
+                                   state: State) -> [SKAction] {
         var actions = [SKAction]()
         
         if let visualComponent = entity.componentForClass(VisualComponent) {
@@ -47,9 +49,13 @@ extension SKAction {
                 } else {
                     actions.append(anim)
                 }
+            } else {
+                let anim = state.defaultAnimation(withDuration: configuration.duration,
+                                                  repeatCount: configuration.repeatCount)
+                actions.append(anim)
             }
         }
-
+        
         return actions
-    }
+    }    
 }

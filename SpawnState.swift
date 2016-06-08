@@ -12,29 +12,6 @@ import SpriteKit
 class SpawnState: State {
     private var didSpawn = false
         
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
-        var isValidNextState: Bool
-        
-        switch self.entity {
-        case is Monster: isValidNextState = (stateClass is RoamState.Type || stateClass is DestroyState.Type)
-        case is Projectile: isValidNextState = stateClass is PropelState.Type
-        case is Player: isValidNextState = (stateClass is ControlState.Type)
-        case is Bomb: isValidNextState = true
-        case is Explosion: isValidNextState = (stateClass is DestroyState.Type)
-        case is Tile: isValidNextState = (stateClass is DestroyState.Type)
-        case is Prop: isValidNextState = (stateClass is DestroyState.Type)
-        case is Points: isValidNextState = (stateClass is FloatState.Type)
-        case is PowerUp: isValidNextState = true
-        default: isValidNextState = false
-        }
-        
-        return isValidNextState
-    }
-    
-    override func willExitWithNextState(nextState: GKState) {
-        super.willExitWithNextState(nextState)
-    }
-    
     override func didEnterWithPreviousState(previousState: GKState?) {
         super.didEnterWithPreviousState(previousState)
         
@@ -73,8 +50,10 @@ class SpawnState: State {
                     
                     configComponent.spawnAnimation.duration += entity.spawnTimeAdjustment
                     
-                    let anim = SKAction.animation(forEntity: entity, withConfiguration: configComponent.spawnAnimation)
-                    actions.appendContentsOf(anim)
+                    let spawnAnim = SKAction.animation(forEntity: entity,
+                                                         configuration: configComponent.spawnAnimation,
+                                                         state: self)
+                    spawnAnim.forEach({ actions.append($0) })
                     
                     let completion = {
                         self.didSpawn = true
