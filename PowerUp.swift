@@ -34,7 +34,7 @@ class PowerUp: Entity {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition, createPhysicsBody: true)
         
         if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = 15
+            visualComponent.spriteNode.zPosition = EntityLayer.PowerUp.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = propCategory

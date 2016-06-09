@@ -16,7 +16,7 @@ class Prop: Entity {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
         if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = 1
+            visualComponent.spriteNode.zPosition = EntityLayer.Prop.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = propCategory

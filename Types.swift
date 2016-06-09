@@ -27,10 +27,10 @@ let nothingCategory     : UInt32 = 0x1 << 5
 
 @objc public enum Direction: Int {
     case None
-    case North
-    case South
-    case East
-    case West
+    case Up
+    case Down
+    case Right
+    case Left
 }
 
 @objc public enum PlayerIndex: Int {

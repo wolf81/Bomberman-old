@@ -140,6 +140,14 @@
 		79606E8A1CFEB0780034A0A1 /* PowerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E891CFEB0780034A0A1 /* PowerLoader.swift */; };
 		79606E8B1CFEB0780034A0A1 /* PowerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E891CFEB0780034A0A1 /* PowerLoader.swift */; };
 		7994C3E01CFD7C8C00B6F77F /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7900191E1CFC2087001EEF3C /* GameController.framework */; };
+		79B35D271D0822DD0002EA99 /* CompleteLevel.caf in Resources */ = {isa = PBXBuildFile; fileRef = 79B35D261D0822DD0002EA99 /* CompleteLevel.caf */; };
+		79B35D281D0822DD0002EA99 /* CompleteLevel.caf in Resources */ = {isa = PBXBuildFile; fileRef = 79B35D261D0822DD0002EA99 /* CompleteLevel.caf */; };
+		79B35D2A1D0822F80002EA99 /* GameOver.caf in Resources */ = {isa = PBXBuildFile; fileRef = 79B35D291D0822F80002EA99 /* GameOver.caf */; };
+		79B35D2B1D0822F80002EA99 /* GameOver.caf in Resources */ = {isa = PBXBuildFile; fileRef = 79B35D291D0822F80002EA99 /* GameOver.caf */; };
+		79B35D2D1D08230B0002EA99 /* HurryUp.caf in Resources */ = {isa = PBXBuildFile; fileRef = 79B35D2C1D08230B0002EA99 /* HurryUp.caf */; };
+		79B35D2E1D08230B0002EA99 /* HurryUp.caf in Resources */ = {isa = PBXBuildFile; fileRef = 79B35D2C1D08230B0002EA99 /* HurryUp.caf */; };
+		79B35D301D0950500002EA99 /* EntityLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B35D2F1D0950500002EA99 /* EntityLayer.swift */; };
+		79B35D311D0950500002EA99 /* EntityLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B35D2F1D0950500002EA99 /* EntityLayer.swift */; };
 		79C4E7041D069C8E00A35B37 /* DecayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C4E7031D069C8E00A35B37 /* DecayState.swift */; };
 		79C4E7051D069C8E00A35B37 /* DecayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C4E7031D069C8E00A35B37 /* DecayState.swift */; };
 		79C4E7071D06A2D100A35B37 /* AnimationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C4E7061D06A2D100A35B37 /* AnimationConfiguration.swift */; };
@@ -236,6 +244,10 @@
 		794ADE6B1CD82A0A000AF170 /* HitState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitState.swift; sourceTree = "<group>"; };
 		79606E861CFE6C2D0034A0A1 /* SceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		79606E891CFEB0780034A0A1 /* PowerLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerLoader.swift; sourceTree = "<group>"; };
+		79B35D261D0822DD0002EA99 /* CompleteLevel.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CompleteLevel.caf; sourceTree = "<group>"; };
+		79B35D291D0822F80002EA99 /* GameOver.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GameOver.caf; sourceTree = "<group>"; };
+		79B35D2C1D08230B0002EA99 /* HurryUp.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HurryUp.caf; sourceTree = "<group>"; };
+		79B35D2F1D0950500002EA99 /* EntityLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityLayer.swift; sourceTree = "<group>"; };
 		79C4E7031D069C8E00A35B37 /* DecayState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecayState.swift; sourceTree = "<group>"; };
 		79C4E7061D06A2D100A35B37 /* AnimationConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationConfiguration.swift; sourceTree = "<group>"; };
 		79C9F18B1CD9B3AB00692D75 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -356,6 +368,7 @@
 		7947BC361CCDD58000DE7C8A /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				79B35D2F1D0950500002EA99 /* EntityLayer.swift */,
 				794ADDE61CD076CA000AF170 /* Entity.swift */,
 				7947BC371CCDD58900DE7C8A /* Tile.swift */,
 				7947BC3A1CCDD59800DE7C8A /* Creature.swift */,
@@ -429,6 +442,9 @@
 		79FC6B781CCA2B7500DF7476 = {
 			isa = PBXGroup;
 			children = (
+				79B35D2C1D08230B0002EA99 /* HurryUp.caf */,
+				79B35D291D0822F80002EA99 /* GameOver.caf */,
+				79B35D261D0822DD0002EA99 /* CompleteLevel.caf */,
 				7920A3321D02F805002C2B16 /* Bonus Icons.png */,
 				790056391CDDD445009CDF81 /* Points 5K.png */,
 				7900563A1CDDD445009CDF81 /* Points 10-1K.png */,
@@ -596,8 +612,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79B35D2D1D08230B0002EA99 /* HurryUp.caf in Resources */,
 				7900563E1CDDD445009CDF81 /* Points 10-1K.png in Resources */,
 				7902B0AB1CDC828700298CAC /* Heart Icons.png in Resources */,
+				79B35D2A1D0822F80002EA99 /* GameOver.caf in Resources */,
+				79B35D271D0822DD0002EA99 /* CompleteLevel.caf in Resources */,
 				7900563C1CDDD445009CDF81 /* Points 5K.png in Resources */,
 				7902B0AF1CDC82B500298CAC /* Player 1 Head.png in Resources */,
 				790056401CDDD445009CDF81 /* Points 100K.png in Resources */,
@@ -613,8 +632,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79B35D2E1D08230B0002EA99 /* HurryUp.caf in Resources */,
 				7900563F1CDDD445009CDF81 /* Points 10-1K.png in Resources */,
 				7902B0AC1CDC828700298CAC /* Heart Icons.png in Resources */,
+				79B35D2B1D0822F80002EA99 /* GameOver.caf in Resources */,
+				79B35D281D0822DD0002EA99 /* CompleteLevel.caf in Resources */,
 				7900563D1CDDD445009CDF81 /* Points 5K.png in Resources */,
 				7902B0B01CDC82B500298CAC /* Player 1 Head.png in Resources */,
 				790056411CDDD445009CDF81 /* Points 100K.png in Resources */,
@@ -792,6 +814,7 @@
 				79606E871CFE6C2D0034A0A1 /* SceneController.swift in Sources */,
 				794ADE6C1CD82A0A000AF170 /* HitState.swift in Sources */,
 				794ADDF31CD09026000AF170 /* DataLoader.swift in Sources */,
+				79B35D301D0950500002EA99 /* EntityLayer.swift in Sources */,
 				79FC6B871CCA2B9000DF7476 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -834,6 +857,7 @@
 				794ADE141CD1D2EA000AF170 /* ThemeLoader.swift in Sources */,
 				790019071CF58BBE001EEF3C /* Functions.swift in Sources */,
 				794ADE641CD716E8000AF170 /* AttackState.swift in Sources */,
+				79B35D311D0950500002EA99 /* EntityLayer.swift in Sources */,
 				7920A32B1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */,
 				7920A3371D03FE70002C2B16 /* PowerUpLimit.swift in Sources */,
 				79C4E7051D069C8E00A35B37 /* DecayState.swift in Sources */,

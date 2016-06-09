@@ -49,37 +49,37 @@ class Creature: Entity {
             let northGridPosition = Point(x: gridPosition.x, y: gridPosition.y + 1)
             if let tile = game.tileAtGridPosition(northGridPosition) {
                 if tile.isDestroyed {
-                    directions.append((.North, northGridPosition))
+                    directions.append((.Up, northGridPosition))
                 }
             } else {
-                directions.append((.North, northGridPosition))
+                directions.append((.Up, northGridPosition))
             }
             
             let westGridPosition = Point(x: gridPosition.x - 1, y: gridPosition.y)
             if let tile = game.tileAtGridPosition(westGridPosition) {
                 if tile.isDestroyed {
-                    directions.append((.West, westGridPosition))
+                    directions.append((.Left, westGridPosition))
                 }
             } else {
-                directions.append((.West, westGridPosition))
+                directions.append((.Left, westGridPosition))
             }
             
             let southGridPosition = Point(x: gridPosition.x, y: gridPosition.y - 1)
             if let tile = game.tileAtGridPosition(southGridPosition) {
                 if tile.isDestroyed {
-                    directions.append((.South, southGridPosition))
+                    directions.append((.Down, southGridPosition))
                 }
             } else {
-                directions.append((.South, southGridPosition))
+                directions.append((.Down, southGridPosition))
             }
             
             let eastGridPosition = Point(x: gridPosition.x + 1, y: gridPosition.y)
             if let tile = game.tileAtGridPosition(eastGridPosition) {
                 if tile.isDestroyed {
-                    directions.append((.East, eastGridPosition))
+                    directions.append((.Right, eastGridPosition))
                 }
             } else {
-                directions.append((.East, eastGridPosition))            
+                directions.append((.Right, eastGridPosition))            
             }
         }
         
@@ -123,7 +123,7 @@ class Creature: Entity {
             super.hit()
         }
     }
-        
+            
     // MARK: - Private
     
     private func moveToGridPosition(gridPosition: Point, direction: Direction) {

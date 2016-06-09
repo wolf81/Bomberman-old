@@ -40,7 +40,7 @@ class Points: Entity {
         let visualComponent = VisualComponent(sprites: [sprite], createPhysicsBody: false)
         visualComponent.spriteNode.speed = configComponent.speed
         
-        visualComponent.spriteNode.zPosition = 80
+        visualComponent.spriteNode.zPosition = EntityLayer.Points.rawValue
         
         addComponent(visualComponent)
     }

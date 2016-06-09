@@ -59,12 +59,12 @@ class LoadingScene: SKScene, AssetManagerDelegate {
     }
     
     func updateAssetsIfNeeded() throws {
-        self.loadingSceneDelegate?.loadingSceneDidFinishLoading()
-        return
+//        self.loadingSceneDelegate?.loadingSceneDidFinishLoading()
+//        return
         
         // ---
         
-        let url = NSURL(string: "https://dl.dropboxusercontent.com/s/s1mere2vjgcbu0t/assets.zip")!
+        let url = NSURL(string: "https://dl.dropboxusercontent.com/s/i4en1xtkrxg8ccm/assets.zip")!
         
         self.messageNode.text = "Checking for updated assets ..."
         

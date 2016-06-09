@@ -20,7 +20,7 @@ class Bomb: Entity {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
         if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = 50
+            visualComponent.spriteNode.zPosition = EntityLayer.Bomb.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = propCategory
@@ -46,12 +46,12 @@ class Bomb: Entity {
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
                 if tile.tileType == TileType.DestructableBlock &&
                     x == gridPosition.x - 1 {
-                    validPositions.append((testGridPosition, .West))
+                    validPositions.append((testGridPosition, .Left))
                     tile.destroy()
                 }
                 break
             } else {
-                validPositions.append((testGridPosition, .West))
+                validPositions.append((testGridPosition, .Left))
             }
         }
         
@@ -62,12 +62,12 @@ class Bomb: Entity {
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
                 if tile.tileType == TileType.DestructableBlock &&
                     x == gridPosition.x + 1 {
-                    validPositions.append((testGridPosition, .East))
+                    validPositions.append((testGridPosition, .Right))
                     tile.destroy()
                 }
                 break
             } else {
-                validPositions.append((testGridPosition, .East))
+                validPositions.append((testGridPosition, .Right))
             }
         }
         
@@ -78,12 +78,12 @@ class Bomb: Entity {
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
                 if tile.tileType == TileType.DestructableBlock &&
                     y == gridPosition.y + 1 {
-                    validPositions.append((testGridPosition, .North))
+                    validPositions.append((testGridPosition, .Up))
                     tile.destroy()
                 }
                 break
             } else {
-                validPositions.append((testGridPosition, .North))
+                validPositions.append((testGridPosition, .Up))
             }
         }
         
@@ -94,12 +94,12 @@ class Bomb: Entity {
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
                 if tile.tileType == TileType.DestructableBlock &&
                     y == gridPosition.y - 1 {
-                    validPositions.append((testGridPosition, .South))
+                    validPositions.append((testGridPosition, .Down))
                     tile.destroy()
                 }
                 break
             } else {
-                validPositions.append((testGridPosition, .South))
+                validPositions.append((testGridPosition, .Down))
             }
         }
         

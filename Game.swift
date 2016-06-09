@@ -28,6 +28,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     // Enrage timer for monsters.
     private var timeRemaining: NSTimeInterval = 0
     private var timeExpired = false
+    private var hurryUpShown = false
     
     private(set) var gameScene: GameScene? = nil
     
@@ -138,6 +139,13 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         // Enrage timer. When timer is expired, monsters become more dangerous.
         if self.timeRemaining > 0 {
             self.gameScene?.updateTimeRemaining(self.timeRemaining)
+            
+            if self.timeRemaining < 30 && self.hurryUpShown == false {
+                self.hurryUpShown = true
+                
+                let play = SKAction.playSoundFileNamed("HurryUp.caf", waitForCompletion: false)
+                self.gameScene?.runAction(play)
+            }
         } else if !self.timeExpired {
             self.timeExpired = true
             enrageMonsters()
@@ -178,10 +186,10 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         var nextGridPosition: Point?
         
         switch direction {
-        case .North: nextGridPosition = Point(x: gridPosition.x, y: gridPosition.y + 1)
-        case .South: nextGridPosition = Point(x: gridPosition.x, y: gridPosition.y - 1)
-        case .West: nextGridPosition = Point(x: gridPosition.x - 1, y: gridPosition.y)
-        case .East: nextGridPosition = Point(x: gridPosition.x + 1, y: gridPosition.y)
+        case .Up: nextGridPosition = Point(x: gridPosition.x, y: gridPosition.y + 1)
+        case .Down: nextGridPosition = Point(x: gridPosition.x, y: gridPosition.y - 1)
+        case .Left: nextGridPosition = Point(x: gridPosition.x - 1, y: gridPosition.y)
+        case .Right: nextGridPosition = Point(x: gridPosition.x + 1, y: gridPosition.y)
         default: break
         }
     
@@ -198,19 +206,19 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         var gridPositions = [Point]()
         
         switch direction {
-        case .North:
+        case .Up:
             for y in gridPosition.y ..< self.level!.height {
                 gridPositions.append(Point(x: gridPosition.x, y: y))
             }
-        case .South:
+        case .Down:
             for y in (0 ..< gridPosition.y).reverse() {
                 gridPositions.append(Point(x: gridPosition.x, y: y))
             }
-        case .West:
+        case .Left:
             for x in (0 ..< gridPosition.x).reverse() {
                 gridPositions.append(Point(x: x, y: gridPosition.y))
             }
-        case .East:
+        case .Right:
             for x in (gridPosition.x ..< self.level!.width) {
                 gridPositions.append(Point(x: x, y: gridPosition.y))
             }
@@ -304,11 +312,15 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         if self.isLevelCompleted == false {
             self.isLevelCompleted = true
             
-            print("SHOW COMPLETE ANIMATION")
+            let wait = SKAction.waitForDuration(2.0)
+            let soundFile = didPlayerWin ? "CompleteLevel.caf" : "GameOver.caf"
+            let play = SKAction.playSoundFileNamed(soundFile, waitForCompletion: false)
+            let sequence = SKAction.sequence([wait, play, wait]);
             
-            removeAllEntities()
-            
-            self.gameScene!.levelFinished(self.level!)
+            self.gameScene?.runAction(sequence, completion: {
+                self.removeAllEntities()
+                self.gameScene!.levelFinished(self.level!)            
+            })
         }
     }
 
@@ -326,7 +338,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     }
     
     private func isPlayerAlive() -> Bool {
-        let isPlayerAlive = !self.player1!.isDestroyed || !self.player2!.isDestroyed
+        let isPlayerAlive = self.player1!.lives >= 0 || self.player2!.lives >= 0
         return isPlayerAlive
     }
     
@@ -550,10 +562,10 @@ extension Game {
                 let force: CGFloat = 0.7
                 
                 switch entity.direction {
-                case .North: dy = force
-                case .South: dy = -force
-                case .East: dx = force
-                case .West: dx = -force
+                case .Up: dy = force
+                case .Down: dy = -force
+                case .Right: dx = force
+                case .Left: dx = -force
                 default: break
                 }
                 

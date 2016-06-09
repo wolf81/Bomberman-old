@@ -43,7 +43,7 @@ class Player: Creature {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
 
         if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = 90
+            visualComponent.spriteNode.zPosition = EntityLayer.Player.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = playerCategory
@@ -141,10 +141,12 @@ class Player: Creature {
     override func spawn() {
         resetPowerUps()
         
-        self.addShieldPower(withDuration: 2.0)
-        updateForShield()
-        
-        super.spawn()
+        if self.lives >= 0 {
+            self.addShieldPower(withDuration: 2.0)
+            updateForShield()
+            
+            super.spawn()
+        }
     }
     
     override func hit() {
@@ -218,8 +220,8 @@ class Player: Creature {
                 var shieldSprite: SKTexture
                 
                 switch self.direction {
-                case .West: shieldSprite = shieldSprites[2]
-                case .East: shieldSprite = shieldSprites[1]
+                case .Left: shieldSprite = shieldSprites[2]
+                case .Right: shieldSprite = shieldSprites[1]
                 default: shieldSprite = shieldSprites[0]
                 }
 

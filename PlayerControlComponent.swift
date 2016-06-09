@@ -69,10 +69,10 @@ class PlayerControlComponent: GKComponent {
         var direction: Direction
         
         switch action {
-        case .MoveUp: direction = .North
-        case .MoveDown: direction = .South
-        case .MoveLeft: direction = .West
-        case .MoveRight: direction = .East
+        case .MoveUp: direction = .Up
+        case .MoveDown: direction = .Down
+        case .MoveLeft: direction = .Left
+        case .MoveRight: direction = .Right
         default: direction = .None
         }
         

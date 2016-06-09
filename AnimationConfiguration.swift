@@ -36,10 +36,10 @@ struct AnimationConfiguration {
         var animRange = 0 ..< 0
         
         switch direction {
-        case .North: animRange = self.upAnimRange
-        case .South: animRange = self.downAnimRange
-        case .West: animRange = self.leftAnimRange
-        case .East: animRange = self.rightAnimRange
+        case .Up: animRange = self.upAnimRange
+        case .Down: animRange = self.downAnimRange
+        case .Left: animRange = self.leftAnimRange
+        case .Right: animRange = self.rightAnimRange
         case .None: animRange = self.centerAnimRange
         }
         

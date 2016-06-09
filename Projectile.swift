@@ -13,12 +13,12 @@ class Projectile: Entity {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
         if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = 100
+            visualComponent.spriteNode.zPosition = EntityLayer.Projectile.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = projectileCategory
                 physicsBody.contactTestBitMask = playerCategory | tileCategory
-                physicsBody.collisionBitMask = nothingCategory
+                physicsBody.collisionBitMask = playerCategory | tileCategory
                 physicsBody.usesPreciseCollisionDetection = true;
             }
         }

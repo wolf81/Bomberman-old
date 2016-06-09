@@ -9,8 +9,10 @@
 import SpriteKit
 
 class CheerState: State {
+    private var didCheer = false
+    
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        if !self.updating {
+        if !self.updating && !self.didCheer {
             self.updating = true
             
             var actions = [SKAction]()
@@ -35,7 +37,9 @@ class CheerState: State {
                     cheerAnim.forEach({ actions.append($0) })
                     
                     let completion = {
-                        self.updating = false                            
+                        self.updating = false
+                        self.didCheer = true
+                        
                         entity.delegate?.entityDidCheer(entity)
                     }
                     

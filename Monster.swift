@@ -21,7 +21,7 @@ class Monster: Creature {
         addComponent(cpuControlComponent)
         
         if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = 80
+            visualComponent.spriteNode.zPosition = EntityLayer.Monster.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = monsterCategory
