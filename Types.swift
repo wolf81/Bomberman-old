@@ -17,11 +17,11 @@ let nothingCategory     : UInt32 = 0x1 << 5
 
 @objc public enum PlayerAction: Int {
     case None
-    case MoveUp
-    case MoveDown
-    case MoveLeft
-    case MoveRight
-    case DropBomb
+    case Up
+    case Down
+    case Left
+    case Right
+    case Action
     case Pause
 }
 

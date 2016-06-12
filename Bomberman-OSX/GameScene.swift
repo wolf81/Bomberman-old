@@ -78,11 +78,11 @@ class GameScene: BaseScene {
     }
     
     override func handleUpPress(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: .MoveUp)
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .Up)
     }
     
     override func handleDownPress(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: .MoveDown)
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .Down)
     }
     
     override func handlePausePress(forPlayer: PlayerIndex) {
@@ -90,31 +90,31 @@ class GameScene: BaseScene {
     }
     
     override func handleLeftPress(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: .MoveLeft)
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .Left)
     }
     
     override func handleRightPress(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: .MoveRight)
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .Right)
     }
     
     override func handleActionPress(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: .DropBomb)
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .Action)
     }
 
     override func handleUpRelease(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: .MoveUp)
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .Up)
     }
     
     override func handleDownRelease(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: .MoveDown)
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .Down)
     }
     
     override func handleLeftRelease(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: .MoveLeft)
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .Left)
     }
     
     override func handleRightRelease(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: .MoveRight)
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .Right)
     }
     
     override func handleActionRelease(forPlayer player: PlayerIndex) {

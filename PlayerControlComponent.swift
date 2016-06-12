@@ -21,10 +21,10 @@ class PlayerControlComponent: GKComponent {
     
     func addAction(action: PlayerAction) {
         if action == PlayerAction.None {
-            self.actions.remove(.MoveDown)
-            self.actions.remove(.MoveLeft)
-            self.actions.remove(.MoveUp)
-            self.actions.remove(.MoveRight)
+            self.actions.remove(.Down)
+            self.actions.remove(.Left)
+            self.actions.remove(.Up)
+            self.actions.remove(.Right)
         } else {
             self.actions.insert(action)
         }
@@ -37,7 +37,7 @@ class PlayerControlComponent: GKComponent {
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
         if let player = self.player where player.isControllable {
             for action in actions {
-                if action == PlayerAction.DropBomb {
+                if action == PlayerAction.Action {
                     do {
                         try player.dropBomb()
                     } catch let error {
@@ -52,7 +52,7 @@ class PlayerControlComponent: GKComponent {
                 var direction = Direction.None
                 
                 for action in actions {
-                    if action == PlayerAction.DropBomb {
+                    if action == PlayerAction.Action {
                         continue
                     }
                     
@@ -69,10 +69,10 @@ class PlayerControlComponent: GKComponent {
         var direction: Direction
         
         switch action {
-        case .MoveUp: direction = .Up
-        case .MoveDown: direction = .Down
-        case .MoveLeft: direction = .Left
-        case .MoveRight: direction = .Right
+        case .Up: direction = .Up
+        case .Down: direction = .Down
+        case .Left: direction = .Left
+        case .Right: direction = .Right
         default: direction = .None
         }
         

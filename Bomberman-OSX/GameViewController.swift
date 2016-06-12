@@ -85,13 +85,13 @@ class GameViewController: GCEventViewController {
             profile.reportsAbsoluteDpadValues = true
             profile.buttonX.pressedChangedHandler = { _, value, pressed in
                 if pressed {
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.DropBomb)
+                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.Action)
                 }
             }
 
             profile.buttonX.pressedChangedHandler = { _, value, pressed in
                 if pressed {
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.DropBomb)
+                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.Action)
                 }
             }
 
@@ -102,11 +102,11 @@ class GameViewController: GCEventViewController {
                     Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
                                                                    action: PlayerAction.None)
                 } else if fabs(xValue) > fabs(yValue) {
-                    let action: PlayerAction = xValue > 0 ? PlayerAction.MoveRight : PlayerAction.MoveLeft
+                    let action: PlayerAction = xValue > 0 ? PlayerAction.Right : PlayerAction.Left
                     Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
                                                                    action: action)
                 } else {
-                    let action: PlayerAction = yValue > 0 ? PlayerAction.MoveUp : PlayerAction.MoveDown
+                    let action: PlayerAction = yValue > 0 ? PlayerAction.Up : PlayerAction.Down
                     Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
                                                                    action: action)
                 }
@@ -119,11 +119,11 @@ class GameViewController: GCEventViewController {
                     Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
                                                                    action: PlayerAction.None)
                 } else if fabs(xValue) > fabs(yValue) {
-                    let action: PlayerAction = xValue > 0 ? PlayerAction.MoveRight : PlayerAction.MoveLeft
+                    let action: PlayerAction = xValue > 0 ? PlayerAction.Right : PlayerAction.Left
                     Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
                                                                    action: action)
                 } else {
-                    let action: PlayerAction = yValue > 0 ? PlayerAction.MoveUp : PlayerAction.MoveDown
+                    let action: PlayerAction = yValue > 0 ? PlayerAction.Up : PlayerAction.Down
                     Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
                                                                    action: action)
                 }
@@ -131,7 +131,7 @@ class GameViewController: GCEventViewController {
             
             profile.buttonA.pressedChangedHandler = { _, value, pressed in
                 if pressed {
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.DropBomb)
+                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.Action)
                 }
             }
         }
@@ -220,11 +220,11 @@ class GameViewController: NSViewController {
                         Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1,
                                                                        action: PlayerAction.None)
                     } else if fabs(xValue) > fabs(yValue) {
-                        let action: PlayerAction = xValue > 0 ? PlayerAction.MoveRight : PlayerAction.MoveLeft
+                        let action: PlayerAction = xValue > 0 ? PlayerAction.Right : PlayerAction.Left
                         Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1,
                                                                        action: action)
                     } else {
-                        let action: PlayerAction = yValue > 0 ? PlayerAction.MoveUp : PlayerAction.MoveDown
+                        let action: PlayerAction = yValue > 0 ? PlayerAction.Up : PlayerAction.Down
                         Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1,
                                                                        action: action)
                     }
@@ -234,7 +234,7 @@ class GameViewController: NSViewController {
             if let buttonA = controller.gamepad?.buttonA {
                 buttonA.pressedChangedHandler = { _, value, pressed in
                     if pressed {
-                        Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1, action: PlayerAction.DropBomb)
+                        Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1, action: PlayerAction.Action)
                     }
                 }
             }
