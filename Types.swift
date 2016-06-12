@@ -8,12 +8,14 @@
 
 import Foundation
 
-let monsterCategory     : UInt32 = 0x1 << 0
-let playerCategory      : UInt32 = 0x1 << 1
-let tileCategory        : UInt32 = 0x1 << 2
-let projectileCategory  : UInt32 = 0x1 << 3
-let propCategory        : UInt32 = 0x1 << 4
-let nothingCategory     : UInt32 = 0x1 << 5
+struct EntityCategory {
+    static let Nothing:     UInt32 = 0
+    static let Monster:     UInt32 = 0b1
+    static let Player:      UInt32 = 0b10
+    static let Tile:        UInt32 = 0b100
+    static let Projectile:  UInt32 = 0b1000
+    static let Prop:        UInt32 = 0b10000
+}
 
 @objc public enum PlayerAction: Int {
     case None

@@ -16,9 +16,9 @@ class Projectile: Entity {
             visualComponent.spriteNode.zPosition = EntityLayer.Projectile.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
-                physicsBody.categoryBitMask = projectileCategory
-                physicsBody.contactTestBitMask = playerCategory | tileCategory
-                physicsBody.collisionBitMask = playerCategory | tileCategory
+                physicsBody.categoryBitMask = EntityCategory.Projectile
+                physicsBody.contactTestBitMask = EntityCategory.Player | EntityCategory.Tile
+                physicsBody.collisionBitMask = EntityCategory.Player | EntityCategory.Tile
                 physicsBody.usesPreciseCollisionDetection = true;
             }
         }

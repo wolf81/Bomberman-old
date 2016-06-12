@@ -19,9 +19,9 @@ class Explosion: Entity {
             visualComponent.spriteNode.zPosition = EntityLayer.Explosion.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
-                physicsBody.categoryBitMask = propCategory
-                physicsBody.collisionBitMask = nothingCategory
-                physicsBody.contactTestBitMask = playerCategory | monsterCategory
+                physicsBody.categoryBitMask = EntityCategory.Prop
+                physicsBody.collisionBitMask = EntityCategory.Nothing
+                physicsBody.contactTestBitMask = EntityCategory.Player | EntityCategory.Monster
             }
         }
     }

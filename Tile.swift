@@ -38,9 +38,9 @@ class Tile: Entity {
         visualComponent.spriteNode.zPosition = 60
 
         if let physicsBody = visualComponent.spriteNode.physicsBody {
-            physicsBody.categoryBitMask = tileCategory
-            physicsBody.collisionBitMask = nothingCategory
-            physicsBody.contactTestBitMask = nothingCategory
+            physicsBody.categoryBitMask = EntityCategory.Tile
+            physicsBody.collisionBitMask = EntityCategory.Nothing
+            physicsBody.contactTestBitMask = EntityCategory.Nothing
         }
         
         self.gridPosition = gridPosition

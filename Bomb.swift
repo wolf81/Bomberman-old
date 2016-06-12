@@ -23,9 +23,9 @@ class Bomb: Entity {
             visualComponent.spriteNode.zPosition = EntityLayer.Bomb.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
-                physicsBody.categoryBitMask = propCategory
-                physicsBody.contactTestBitMask = nothingCategory
-                physicsBody.collisionBitMask = nothingCategory
+                physicsBody.categoryBitMask = EntityCategory.Prop
+                physicsBody.contactTestBitMask = EntityCategory.Nothing
+                physicsBody.collisionBitMask = EntityCategory.Nothing
             }
         }
     }

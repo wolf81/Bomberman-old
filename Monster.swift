@@ -24,9 +24,9 @@ class Monster: Creature {
             visualComponent.spriteNode.zPosition = EntityLayer.Monster.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
-                physicsBody.categoryBitMask = monsterCategory
-                physicsBody.collisionBitMask = nothingCategory
-                physicsBody.contactTestBitMask = nothingCategory
+                physicsBody.categoryBitMask = EntityCategory.Monster
+                physicsBody.collisionBitMask = EntityCategory.Nothing
+                physicsBody.contactTestBitMask = EntityCategory.Nothing
             }
         }
     }

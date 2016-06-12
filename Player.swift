@@ -46,9 +46,9 @@ class Player: Creature {
             visualComponent.spriteNode.zPosition = EntityLayer.Player.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
-                physicsBody.categoryBitMask = playerCategory
-                physicsBody.contactTestBitMask = playerCategory
-                physicsBody.collisionBitMask = nothingCategory
+                physicsBody.categoryBitMask = EntityCategory.Player
+                physicsBody.contactTestBitMask = EntityCategory.Player
+                physicsBody.collisionBitMask = EntityCategory.Nothing
             }
         }
         
