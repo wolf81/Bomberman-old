@@ -3,7 +3,6 @@
 //  Bomberman-OSX
 //
 //  Created by Wolfgang Schreurs on 22/04/16.
-//  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
 //
 
 

@@ -55,6 +55,8 @@
 		7902B0C01CDC954600298CAC /* PlayerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0BE1CDC954600298CAC /* PlayerHud.swift */; };
 		7902B0C51CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
 		7902B0C61CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
+		791827CF1D0D23550058848C /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791827CE1D0D23550058848C /* BaseScene.swift */; };
+		791827D01D0D23550058848C /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791827CE1D0D23550058848C /* BaseScene.swift */; };
 		7920A32A1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */; };
 		7920A32B1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */; };
 		7920A32D1D02DCDE002C2B16 /* HudLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A32C1D02DCDE002C2B16 /* HudLoader.swift */; };
@@ -201,6 +203,7 @@
 		7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneNode.swift; sourceTree = "<group>"; };
 		7902B0BE1CDC954600298CAC /* PlayerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerHud.swift; sourceTree = "<group>"; };
 		7902B0C41CDC9B2B00298CAC /* Prop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prop.swift; sourceTree = "<group>"; };
+		791827CE1D0D23550058848C /* BaseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 		7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthInfoNode.swift; sourceTree = "<group>"; };
 		7920A32C1D02DCDE002C2B16 /* HudLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudLoader.swift; sourceTree = "<group>"; };
 		7920A32F1D02EDAD002C2B16 /* PowerUpsInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpsInfoNode.swift; sourceTree = "<group>"; };
@@ -323,6 +326,18 @@
 				7920A32F1D02EDAD002C2B16 /* PowerUpsInfoNode.swift */,
 			);
 			name = Nodes;
+			sourceTree = "<group>";
+		};
+		791827CD1D0D23280058848C /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				79FC6B881CCA2B9000DF7476 /* GameScene.swift */,
+				793FAF441CE08E22005F64B1 /* LoadingScene.swift */,
+				793FAF471CE0C0C0005F64B1 /* MenuScene.swift */,
+				79606E861CFE6C2D0034A0A1 /* SceneController.swift */,
+				791827CE1D0D23550058848C /* BaseScene.swift */,
+			);
+			name = Scenes;
 			sourceTree = "<group>";
 		};
 		7920A3381D03FE85002C2B16 /* Utility */ = {
@@ -497,6 +512,7 @@
 		79FC6BB21CCA47C300DF7476 /* Bomberman */ = {
 			isa = PBXGroup;
 			children = (
+				791827CD1D0D23280058848C /* Scenes */,
 				7920A3381D03FE85002C2B16 /* Utility */,
 				7902B0BD1CDC953000298CAC /* Nodes */,
 				794ADE191CD1E49A000AF170 /* Image */,
@@ -509,14 +525,10 @@
 				7947BC2E1CCC9B4300DE7C8A /* Components */,
 				7947BC1F1CCB233500DE7C8A /* Types.swift */,
 				79FC6BB31CCA47D400DF7476 /* Game.swift */,
-				79FC6B881CCA2B9000DF7476 /* GameScene.swift */,
-				793FAF441CE08E22005F64B1 /* LoadingScene.swift */,
-				793FAF471CE0C0C0005F64B1 /* MenuScene.swift */,
 				79C9F1941CD9C14400692D75 /* SpriteNode.swift */,
 				79FC6BBD1CCA4CC700DF7476 /* GameView.swift */,
 				79FC6BAE1CCA322400DF7476 /* GameViewController.swift */,
 				790019051CF58BBE001EEF3C /* Functions.swift */,
-				79606E861CFE6C2D0034A0A1 /* SceneController.swift */,
 			);
 			name = Bomberman;
 			sourceTree = "<group>";
@@ -800,6 +812,7 @@
 				79C9F1951CD9C14400692D75 /* SpriteNode.swift in Sources */,
 				79C9F1921CD9B7E600692D75 /* Monster.swift in Sources */,
 				794ADE661CD7307A000AF170 /* Projectile.swift in Sources */,
+				791827CF1D0D23550058848C /* BaseScene.swift in Sources */,
 				794ADE541CD5A5B5000AF170 /* Explosion.swift in Sources */,
 				79C9F18C1CD9B3AB00692D75 /* Player.swift in Sources */,
 				79FC6BBE1CCA4CC700DF7476 /* GameView.swift in Sources */,
@@ -846,6 +859,7 @@
 				794ADE551CD5A5B5000AF170 /* Explosion.swift in Sources */,
 				790019101CF74877001EEF3C /* PowerUp.swift in Sources */,
 				7900191D1CFBCCFD001EEF3C /* CheerState.swift in Sources */,
+				791827D01D0D23550058848C /* BaseScene.swift in Sources */,
 				7902B0C01CDC954600298CAC /* PlayerHud.swift in Sources */,
 				79FC6B9C1CCA2B9C00DF7476 /* AppDelegate.swift in Sources */,
 				793FAF4C1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift in Sources */,

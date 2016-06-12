@@ -79,7 +79,7 @@ class Player: Creature {
                 self.moveSpeedPowerLimit.currentCount -= 1
                 updateForMoveSpeed(speedAdjustment: 0.0)
             }
-        }
+        }        
     }
     
     func addExplosionPower() {

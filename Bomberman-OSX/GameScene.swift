@@ -3,22 +3,16 @@
 //  Bomberman-OSX
 //
 //  Created by Wolfgang Schreurs on 22/04/16.
-//  Copyright (c) 2016 __MyCompanyName__. All rights reserved.
 //
 
 import SpriteKit
 
-@objc protocol GameSceneDelegate: SKSceneDelegate {
+protocol GameSceneDelegate: SKSceneDelegate {
     func gameSceneDidMoveToView(scene: GameScene, view: SKView)
-    
-    func gameScenePlayerDidStartAction(scene: GameScene, player: PlayerIndex, action: PlayerAction)
-    func gameScenePlayerDidStopAction(scene: GameScene, player: PlayerIndex, action: PlayerAction)
-    func gameScenePlayerDidPause(scene: GameScene)
-    
     func gameSceneDidFinishLevel(scene: GameScene, level: Level)
 }
 
-class GameScene: SKScene {
+class GameScene: BaseScene {
     private(set) var level: Level?
     
     private let rootNode: GameSceneNode
@@ -26,6 +20,14 @@ class GameScene: SKScene {
     var world: SKSpriteNode {
         return self.rootNode.world
     }
+    
+    // Work around to set the subclass delegate.
+    var gameSceneDelegate: GameSceneDelegate? {
+        get { return self.delegate as? GameSceneDelegate }
+        set { self.delegate = newValue }
+    }
+
+    // MARK: - Initialization
     
     init(level: Level, gameSceneDelegate: GameSceneDelegate?) {
         // TODO: Consider not instantiating with level, but with sizes for panel and world and the 
@@ -42,7 +44,14 @@ class GameScene: SKScene {
         
         self.scaleMode = .AspectFit
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        // TODO: Make proper implementation.
+        return nil
+    }
     
+    // MARK: - Public
+
     func updateTimeRemaining(timeRemaining: NSTimeInterval) {
         self.rootNode.updateTimeRemaining(timeRemaining)
     }
@@ -57,93 +66,58 @@ class GameScene: SKScene {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        return nil
-    }
-    
-    // Work around to set the subclass delegate.
-    var gameSceneDelegate: GameSceneDelegate? {
-        get { return self.delegate as? GameSceneDelegate }
-        set { self.delegate = newValue }
-    }
-    
     override func didMoveToView(view: SKView) {
         if let delegate = self.gameSceneDelegate {
             delegate.gameSceneDidMoveToView(self, view: view)
         }        
     }
     
-    #if os(tvOS)
-    
-    // handle user interaction
-    
-    #else
-
-    override func keyDown(theEvent: NSEvent) {
-        if let delegate = self.gameSceneDelegate {
-            let playerAction = playerActionForKeyCode(theEvent.keyCode)
-
-            if let action = playerAction.action {
-                if let player = playerAction.player {
-                    if action != .Pause {
-                        delegate.gameScenePlayerDidStartAction(self, player: player, action: action)
-                    }
-                } else {
-                    if action == .Pause {
-                        delegate.gameScenePlayerDidPause(self)
-                    }
-                }
-            }
-        }
-    }
-    
-    override func keyUp(theEvent: NSEvent) {
-        if let delegate = self.gameSceneDelegate {
-            let playerAction = playerActionForKeyCode(theEvent.keyCode)
-            
-            if let player = playerAction.player, let action = playerAction.action
-                where action != .DropBomb {
-                delegate.gameScenePlayerDidStopAction(self, player: player, action: action)
-            }
-        }
-    }
-    
-    #endif
-
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         Game.sharedInstance.update(currentTime)
     }
     
-    private func playerActionForKeyCode(keyCode: UInt16) -> (player: PlayerIndex?, action: PlayerAction?) {
-        var player: PlayerIndex? = nil
-        var action: PlayerAction?
-                
-        if keyCode == 53 {
-            action = PlayerAction.Pause
-        } else if [123, 124, 125, 126, 49].contains(keyCode) {
-            switch keyCode {
-            case 123: action = PlayerAction.MoveLeft
-            case 124: action = PlayerAction.MoveRight
-            case 125: action = PlayerAction.MoveDown
-            case 126: action = PlayerAction.MoveUp
-            case 49: action = PlayerAction.DropBomb
-            default: break
-            }
-            
-            player = PlayerIndex.Player1
-        } else if [0, 1, 2, 13, 53].contains(keyCode) {
-            switch keyCode {
-            case 0: action = PlayerAction.MoveLeft
-            case 1: action = PlayerAction.MoveDown
-            case 2: action = PlayerAction.MoveRight
-            case 13: action = PlayerAction.MoveUp
-            default: break
-            }
-            
-            player = PlayerIndex.Player2
-        }
+    override func handleUpPress(forPlayer player: PlayerIndex) {
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .MoveUp)
+    }
+    
+    override func handleDownPress(forPlayer player: PlayerIndex) {
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .MoveDown)
+    }
+    
+    override func handlePausePress(forPlayer: PlayerIndex) {
+        self.paused = !self.paused
+    }
+    
+    override func handleLeftPress(forPlayer player: PlayerIndex) {
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .MoveLeft)
+    }
+    
+    override func handleRightPress(forPlayer player: PlayerIndex) {
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .MoveRight)
+    }
+    
+    override func handleActionPress(forPlayer player: PlayerIndex) {
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .DropBomb)
+    }
 
-        return (player: player, action: action)
+    override func handleUpRelease(forPlayer player: PlayerIndex) {
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .MoveUp)
+    }
+    
+    override func handleDownRelease(forPlayer player: PlayerIndex) {
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .MoveDown)
+    }
+    
+    override func handleLeftRelease(forPlayer player: PlayerIndex) {
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .MoveLeft)
+    }
+    
+    override func handleRightRelease(forPlayer player: PlayerIndex) {
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .MoveRight)
+    }
+    
+    override func handleActionRelease(forPlayer player: PlayerIndex) {
+        //
     }
 }

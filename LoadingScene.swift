@@ -10,7 +10,7 @@ import SpriteKit
 
 @objc protocol LoadingSceneDelegate: SKSceneDelegate {
     func loadingSceneDidMoveToView(scene: LoadingScene, view: SKView)
-    func loadingSceneDidFinishLoading()
+    func loadingSceneDidFinishLoading(scene: LoadingScene)
 }
 
 class LoadingScene: SKScene, AssetManagerDelegate {
@@ -76,7 +76,7 @@ class LoadingScene: SKScene, AssetManagerDelegate {
             
             self.assetManager.loadAssets(url)
         } else {
-            self.loadingSceneDelegate?.loadingSceneDidFinishLoading()
+            self.loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
         }
     }
     
@@ -85,7 +85,7 @@ class LoadingScene: SKScene, AssetManagerDelegate {
     }
     
     func assetManagerLoadAssetsFailure(assetManager: AssetManager, error: ErrorType) {
-        self.loadingSceneDelegate?.loadingSceneDidFinishLoading()
+        self.loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
     }
 
     func assetManagerLoadAssetsSuccess(assetManager: AssetManager) {
@@ -96,7 +96,7 @@ class LoadingScene: SKScene, AssetManagerDelegate {
         }
 
         delay(0.5) {
-            self.loadingSceneDelegate?.loadingSceneDidFinishLoading()
+            self.loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
         }
     }
     
