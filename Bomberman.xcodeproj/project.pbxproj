@@ -319,6 +319,7 @@
 		7902B0BD1CDC953000298CAC /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
+				79C9F1941CD9C14400692D75 /* SpriteNode.swift */,
 				7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */,
 				7902B0BE1CDC954600298CAC /* PlayerHud.swift */,
 				790056331CDD3469009CDF81 /* GameHud.swift */,
@@ -525,7 +526,6 @@
 				7947BC2E1CCC9B4300DE7C8A /* Components */,
 				7947BC1F1CCB233500DE7C8A /* Types.swift */,
 				79FC6BB31CCA47D400DF7476 /* Game.swift */,
-				79C9F1941CD9C14400692D75 /* SpriteNode.swift */,
 				79FC6BBD1CCA4CC700DF7476 /* GameView.swift */,
 				79FC6BAE1CCA322400DF7476 /* GameViewController.swift */,
 				790019051CF58BBE001EEF3C /* Functions.swift */,

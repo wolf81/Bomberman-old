@@ -22,16 +22,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     }
     
     func gameSceneDidFinishLevel(scene: GameScene, level: Level) {
-        print("level finished")
-        
-        if let level = Game.sharedInstance.loadLevel(0) {
-            let gameScene = GameScene(level: level, gameSceneDelegate: self)
-            Game.sharedInstance.configureScene(gameScene)
-            
-            let transition = SKTransition.fadeWithDuration(0.5)
-            
-            self.gameViewController?.presentScene(gameScene, withTransition: transition)
-        }
+        transitionToLevel(level.index + 1)
     }
     
     func gameScenePlayerDidStopAction(scene: GameScene, player: PlayerIndex, action: PlayerAction) {
@@ -54,15 +45,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         print("selected: \(optionSelected)")
         
         switch optionSelected {
-        case .NewGame:
-            if let level = Game.sharedInstance.loadLevel(0) {
-                let gameScene = GameScene(level: level, gameSceneDelegate: self)
-                Game.sharedInstance.configureScene(gameScene)
-                
-                let transition = SKTransition.fadeWithDuration(0.5)
-                
-                self.gameViewController?.presentScene(gameScene, withTransition: transition)
-            }
+        case .NewGame: transitionToLevel(0)
         default: break
         }
         
@@ -72,19 +55,11 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     
     func loadingSceneDidFinishLoading(scene: LoadingScene) {
         let menuScene = MenuScene(size: scene.size, delegate: self)
-        let transition = SKTransition.fadeWithDuration(0.5)
-        self.gameViewController?.presentScene(menuScene, withTransition: transition)
+        transitionToScene(menuScene)
+        
         return // -- DEBUG
         
-        
-        if let level = Game.sharedInstance.loadLevel(0) {
-            let gameScene = GameScene(level: level, gameSceneDelegate: self)
-            Game.sharedInstance.configureScene(gameScene)
-            
-            let transition = SKTransition.fadeWithDuration(0.5)
-            
-            self.gameViewController?.presentScene(gameScene, withTransition: transition)
-        }
+//        transitionToLevel(0)        
     }
     
     func loadingSceneDidMoveToView(scene: LoadingScene, view: SKView) {
@@ -93,5 +68,34 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         } catch let error {
             print("error: \(error)")
         }
+    }
+    
+    // MARK: - Private
+    
+    private func transitionToScene(scene: BaseScene) {
+        let transition = SKTransition.fadeWithDuration(0.5)
+        self.gameViewController?.presentScene(scene, withTransition: transition)
+    }
+    
+    private func transitionToLevel(levelIndex: Int) {
+        print("transitioning to level: \(levelIndex)")
+            
+        do {
+            let level = try loadLevel(levelIndex)
+            let gameScene = GameScene(level: level, gameSceneDelegate: self)
+            Game.sharedInstance.configureForGameScene(gameScene)
+            transitionToScene(gameScene)
+        } catch let error {
+            print("error: \(error)")
+        }
+    }
+    
+    private func loadLevel(levelIndex: Int) throws -> Level {
+        print("loading level: \(levelIndex)")
+
+        let levelParser = LevelLoader(forGame: Game.sharedInstance)
+        let level = try levelParser.loadLevel(levelIndex)
+
+        return level
     }
 }

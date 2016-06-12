@@ -13,18 +13,18 @@ enum LevelLoaderError: ErrorType {
 }
 
 class LevelLoader: DataLoader {
-    func loadLevel(levelIndex: Int) throws -> Level? {
-        var levelData: Level? = nil
+    func loadLevel(levelIndex: Int) throws -> Level {
+        var level: Level
         
         let file = "\(levelIndex).json"
         let directory = "Levels"
         if let json = try loadJson(fromFile: file, inBundleSupportSubDirectory: directory) {
-            levelData = try Level(game: game, levelIndex: levelIndex, json: json)
+            level = try Level(game: game, levelIndex: levelIndex, json: json)
             print("\(json)")
         } else {
             throw LevelLoaderError.FailedParsingLevelFile(file: file, inBundleSupportSubDirectory: directory)
         }
         
-        return levelData
+        return level
     }    
 }

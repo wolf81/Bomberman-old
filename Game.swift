@@ -54,24 +54,10 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     //  are updated using the delta time (time difference since last update).
     private var previousUpdateTime: NSTimeInterval = -1
     
-    func configureScene(gameScene: GameScene) {
+    func configureForGameScene(gameScene: GameScene) {
         self.level = gameScene.level
         self.gameScene = gameScene
         self.gameScene?.physicsWorld.contactDelegate = self
-    }
-    
-    func loadLevel(levelIndex: Int) -> Level? {
-        let levelParser = LevelLoader(forGame: self)
-        
-        var level: Level?
-        
-        do {
-            level = try levelParser.loadLevel(levelIndex)
-        } catch let error {
-            print("error: \(error)")
-        }
-        
-        return level
     }
         
     func handlePlayerDidStartAction(player: PlayerIndex, action: PlayerAction) {
@@ -365,20 +351,26 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     func addEntity(entity: Entity) {
         self.entitiesToAdd.append(entity)
         
-        if let tile = entity as? Tile {
-            // TODO (workaround): because tile loading uses different path compared to entity 
+        switch entity {
+        case is Tile:
+            let tile = entity as! Tile
+            
+            // TODO (workaround): because tile loading uses different path compared to entity
             //  loading and we still need to add a state machine.
             if tile.tileType == .DestructableBlock {
                 let stateMachineComponent = StateMachineComponent(game: self, entity: tile, states: [SpawnState(), DestroyState()])
                 tile.addComponent(stateMachineComponent)
             }
-        } else if let player = entity as? Player {
+        case is Player:
+            let player = entity as! Player
+
             switch player.index {
             case .Player1: self.player1 = player
             case .Player2: self.player2 = player
             }
-            
+        
             updateHudForPlayer(player)
+        default: break
         }
     }
     

@@ -60,6 +60,10 @@ class CpuControlComponent: GKComponent {
         
         do {
             if let projectile = try propLoader.projectileWithName(entityName, gridPosition: gridPosition) {
+                if let visualComponent = projectile.componentForClass(VisualComponent) {
+                    visualComponent.spriteNode.position = creature.position
+                }
+                 
                 projectile.direction = direction
                 
                 self.game?.addEntity(projectile)

@@ -29,6 +29,16 @@ class Creature: Entity {
         return isMoving
     }
     
+    var position: CGPoint {
+        var position = positionForGridPosition(self.gridPosition)
+        
+        if let visualComponent = componentForClass(VisualComponent) {
+            position = visualComponent.spriteNode.position
+        }
+        
+        return position
+    }
+    
     // MARK: - Initialization 
     
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
