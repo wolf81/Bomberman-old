@@ -123,7 +123,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.powerUps.forEach({ $0.updateWithDeltaTime(deltaTime) })
         
         // Enrage timer. When timer is expired, monsters become more dangerous.
-        if self.timeRemaining > 0 {
+        if self.timeRemaining > 0 && !self.isLevelCompleted {
             self.gameScene?.updateTimeRemaining(self.timeRemaining)
             
             if self.timeRemaining < 30 && self.hurryUpShown == false {
@@ -307,9 +307,11 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         if self.isLevelCompleted == false {
             self.isLevelCompleted = true
             
-            MusicPlayer.sharedInstance.fadeOut(2.0)
+            let delay = 2.0
+            
+            MusicPlayer.sharedInstance.fadeOut(delay)
 
-            let wait = SKAction.waitForDuration(2.0)
+            let wait = SKAction.waitForDuration(delay)
             let soundFile = didPlayerWin ? "CompleteLevel.caf" : "GameOver.caf"
             let play = SKAction.playSoundFileNamed(soundFile, waitForCompletion: false)
             let sequence = SKAction.sequence([wait, play, wait]);
