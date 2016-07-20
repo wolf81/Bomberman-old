@@ -307,6 +307,8 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         if self.isLevelCompleted == false {
             self.isLevelCompleted = true
             
+            MusicPlayer.sharedInstance.fadeOut(2.0)
+
             let wait = SKAction.waitForDuration(2.0)
             let soundFile = didPlayerWin ? "CompleteLevel.caf" : "GameOver.caf"
             let play = SKAction.playSoundFileNamed(soundFile, waitForCompletion: false)
