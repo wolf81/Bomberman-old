@@ -55,6 +55,8 @@
 		7902B0C01CDC954600298CAC /* PlayerHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0BE1CDC954600298CAC /* PlayerHud.swift */; };
 		7902B0C51CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
 		7902B0C61CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
+		7904A69B1D3F82ED00C3F417 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904A69A1D3F82ED00C3F417 /* MusicPlayer.swift */; };
+		7904A69C1D3F82ED00C3F417 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904A69A1D3F82ED00C3F417 /* MusicPlayer.swift */; };
 		791827CF1D0D23550058848C /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791827CE1D0D23550058848C /* BaseScene.swift */; };
 		791827D01D0D23550058848C /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791827CE1D0D23550058848C /* BaseScene.swift */; };
 		7920A32A1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */; };
@@ -203,6 +205,7 @@
 		7902B0BA1CDC8F5000298CAC /* GameSceneNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneNode.swift; sourceTree = "<group>"; };
 		7902B0BE1CDC954600298CAC /* PlayerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerHud.swift; sourceTree = "<group>"; };
 		7902B0C41CDC9B2B00298CAC /* Prop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prop.swift; sourceTree = "<group>"; };
+		7904A69A1D3F82ED00C3F417 /* MusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
 		791827CE1D0D23550058848C /* BaseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 		7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthInfoNode.swift; sourceTree = "<group>"; };
 		7920A32C1D02DCDE002C2B16 /* HudLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudLoader.swift; sourceTree = "<group>"; };
@@ -327,6 +330,14 @@
 				7920A32F1D02EDAD002C2B16 /* PowerUpsInfoNode.swift */,
 			);
 			name = Nodes;
+			sourceTree = "<group>";
+		};
+		7904A6991D3F82DE00C3F417 /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				7904A69A1D3F82ED00C3F417 /* MusicPlayer.swift */,
+			);
+			name = Music;
 			sourceTree = "<group>";
 		};
 		791827CD1D0D23280058848C /* Scenes */ = {
@@ -513,6 +524,7 @@
 		79FC6BB21CCA47C300DF7476 /* Bomberman */ = {
 			isa = PBXGroup;
 			children = (
+				7904A6991D3F82DE00C3F417 /* Music */,
 				791827CD1D0D23280058848C /* Scenes */,
 				7920A3381D03FE85002C2B16 /* Utility */,
 				7902B0BD1CDC953000298CAC /* Nodes */,
@@ -778,6 +790,7 @@
 				794ADE331CD306CC000AF170 /* ConfigComponent.swift in Sources */,
 				7947BC381CCDD58900DE7C8A /* Tile.swift in Sources */,
 				7947BC151CCB1C6E00DE7C8A /* Level.swift in Sources */,
+				7904A69B1D3F82ED00C3F417 /* MusicPlayer.swift in Sources */,
 				794ADE211CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,
 				7947BC201CCB233500DE7C8A /* Types.swift in Sources */,
 				794ADE5A1CD6F261000AF170 /* StateMachineComponent.swift in Sources */,
@@ -841,6 +854,7 @@
 				7947BC3F1CCDD7B200DE7C8A /* RoamState.swift in Sources */,
 				7947BC161CCB1C7200DE7C8A /* Level.swift in Sources */,
 				790019161CF7A9DB001EEF3C /* ConfigurationLoader.swift in Sources */,
+				7904A69C1D3F82ED00C3F417 /* MusicPlayer.swift in Sources */,
 				794ADDFF1CD0A66E000AF170 /* SpriteLoader.swift in Sources */,
 				7902B0C61CDC9B2B00298CAC /* Prop.swift in Sources */,
 				7947BC311CCDCE5500DE7C8A /* CpuControlComponent.swift in Sources */,

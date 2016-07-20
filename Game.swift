@@ -165,6 +165,15 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             }
 
             self.timeRemaining = level.timer
+            
+            if let music = level.music {
+                do {
+                    try MusicPlayer.sharedInstance.playMusic(music)
+                } catch let error {
+                    // TODO: Proper error handling
+                    print(error)
+                }
+            }
         }
     }
     
@@ -475,6 +484,11 @@ extension Game {
             if let power = self.level?.powerUpAtGridPosition(entity.gridPosition) {
                 addEntity(power)
             }
+        case is Explosion:
+            // We only want explosions to interact with other entities during spawn. 
+            //  After spawning, other entities (e.g. players) should be able to walk through the 
+            //  explosion animation.
+            entity.removePhysicsBody()
         default: break
         }
                 

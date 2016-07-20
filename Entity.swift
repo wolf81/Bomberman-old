@@ -130,6 +130,12 @@ class Entity: GKEntity {
         }        
     }
     
+    func removePhysicsBody() {
+        if let visualComponent = componentForClass(VisualComponent) {
+            visualComponent.spriteNode.physicsBody = nil
+        }
+    }
+    
     func destroy() {
         if let stateMachineComponent = componentForClass(StateMachineComponent) {
             stateMachineComponent.enterDestroyState()

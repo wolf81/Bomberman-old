@@ -19,6 +19,7 @@ class Level : NSObject {
     let index: Int
 
     private(set) var theme: Theme
+    private(set) var music: String?
     
     private(set) var width = 22
     private(set) var height = 15
@@ -46,6 +47,8 @@ class Level : NSObject {
             let theme = try themeParser.themeWithName(themeName) else {
                 throw LevelError.FailedLoadingTheme(fromJson: json)
         }
+        
+        self.music = json.valueForKey("music") as? String
         
         self.theme = theme
         

@@ -6,7 +6,7 @@
 //
 //
 
-import Foundation
+import CoreGraphics
 
 // zPositions of entities.
 enum EntityLayer: CGFloat {
