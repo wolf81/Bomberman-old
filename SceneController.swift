@@ -101,6 +101,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     private func resume() {
         if let gameScene = self.pausedGameScene {
             let transition = SKTransition.fadeWithDuration(0.5)
+        
             self.gameViewController?.presentScene(gameScene, withTransition: transition)
         }
     }

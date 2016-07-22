@@ -30,7 +30,21 @@ class State: GKState {
         return entity
     }
     
-    // MARK - Public
+    // MARK: - Private
+    
+    private func restartAudioNodeEngineIfNeeded(forAudioNode audioNode: SKAudioNode) {
+        if let engine = audioNode.avAudioNode?.engine where engine.running == false {
+            engine.prepare()
+            
+            do {
+                try engine.start()
+            } catch let error {
+                print("\(error)")
+            }
+        }
+    }
+    
+    // MARK: - Public
     
     func playAction(forFileAtPath filePath: String, spriteNode: SKSpriteNode) -> SKAction {
         let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
@@ -39,6 +53,10 @@ class State: GKState {
         spriteNode.addChild(audioNode)
         
         let play = SKAction.runBlock({
+            // After switching scenes (e.g. to menu) and returning to the game scene, the audio 
+            //  engine apparantly needs a restart - no restart results in a crash.
+            self.restartAudioNodeEngineIfNeeded(forAudioNode: audioNode)
+            
             audioNode.runAction(SKAction.play())
         })
     

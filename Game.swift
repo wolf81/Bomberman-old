@@ -139,6 +139,8 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     }
     
     func configureLevel() {
+        self.removeAllEntities()
+        
         self.gameScene?.world.removeAllChildren()
         self.isLevelCompleted = false
 
@@ -317,6 +319,8 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
             let sequence = SKAction.sequence([wait, play, wait]);
             
             self.gameScene?.runAction(sequence, completion: {
+                // TODO: Maybe remove, since during 'configure' (level loading) we remove all 
+                //  entities anyway.
                 self.removeAllEntities()
                 self.gameScene!.levelFinished(self.level!)            
             })
