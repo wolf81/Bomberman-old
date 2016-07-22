@@ -11,6 +11,9 @@ import SpriteKit
 class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSceneDelegate {
     weak var gameViewController: GameViewController?
     
+    // Game scene for current game, if any. Used for pause / resume functionality. 
+    var pausedGameScene: SKScene?
+    
     init(gameViewController: GameViewController) {
         self.gameViewController = gameViewController        
     }
@@ -18,27 +21,23 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     // MARK: - GameSceneDelegate
     
     func gameSceneDidMoveToView(scene: GameScene, view: SKView) {
-        Game.sharedInstance.configureLevel()
+        if scene != self.pausedGameScene {
+            Game.sharedInstance.configureLevel()
+        }
     }
     
     func gameSceneDidFinishLevel(scene: GameScene, level: Level) {
         transitionToLevel(level.index + 1)
     }
-    
-    func gameScenePlayerDidStopAction(scene: GameScene, player: PlayerIndex, action: PlayerAction) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: action)
+        
+    func gameSceneDidPause(scene: GameScene) {
+        self.pausedGameScene = scene
+        
+        let menuScene = MenuScene(size: scene.size, delegate: self)
+        menuScene.scaleMode = scene.scaleMode
+        transitionToScene(menuScene)
     }
     
-    func gameScenePlayerDidStartAction(scene: GameScene, player: PlayerIndex, action: PlayerAction) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: action)
-    }
-    
-    func gameScenePlayerDidPause(scene: GameScene) {
-        if let gameScene = Game.sharedInstance.gameScene {
-            gameScene.paused = !gameScene.paused
-        }
-    }
-
     // MARK: - MenuSceneDelegate
     
     func menuScene(scene: MenuScene, optionSelected: MenuOption) {
@@ -46,9 +45,9 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         
         switch optionSelected {
         case .NewGame: transitionToLevel(0)
+        case .Continue: resume()
         default: break
         }
-        
     }
     
     // MARK: - LoadingSceneDelegate
@@ -97,5 +96,12 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         let level = try levelParser.loadLevel(levelIndex)
 
         return level
+    }
+    
+    private func resume() {
+        if let gameScene = self.pausedGameScene {
+            let transition = SKTransition.fadeWithDuration(0.5)
+            self.gameViewController?.presentScene(gameScene, withTransition: transition)
+        }
     }
 }

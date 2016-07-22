@@ -33,6 +33,8 @@ class MusicPlayer {
     }
     
     func fadeOut(duration: Double) {
+        print("fadeOut start")
+        
         if let audioPlayer = self.audioPlayer {
             let steps = Int(duration * 100.0)
             let volume = audioPlayer.volume
@@ -44,7 +46,10 @@ class MusicPlayer {
                 let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delta))
                 dispatch_after(popTime, dispatch_get_main_queue(), {
                     let fraction = Float(step) / Float(steps)
+                    
                     audioPlayer.volume = volume + (0 - volume) * Float(fraction)
+                    
+                    print("fade ...")
                 })
             }
         }

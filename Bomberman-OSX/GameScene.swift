@@ -10,6 +10,7 @@ import SpriteKit
 protocol GameSceneDelegate: SKSceneDelegate {
     func gameSceneDidMoveToView(scene: GameScene, view: SKView)
     func gameSceneDidFinishLevel(scene: GameScene, level: Level)
+    func gameSceneDidPause(scene: GameScene)
 }
 
 class GameScene: BaseScene {
@@ -51,7 +52,7 @@ class GameScene: BaseScene {
     }
     
     // MARK: - Public
-
+    
     func updateTimeRemaining(timeRemaining: NSTimeInterval) {
         self.rootNode.updateTimeRemaining(timeRemaining)
     }
@@ -85,8 +86,12 @@ class GameScene: BaseScene {
         Game.sharedInstance.handlePlayerDidStartAction(player, action: .Down)
     }
     
-    override func handlePausePress(forPlayer: PlayerIndex) {
-        self.paused = !self.paused
+    override func handlePausePress(forPlayer player: PlayerIndex) {
+        self.paused = true
+                
+        if let delegate = self.gameSceneDelegate {
+            delegate.gameSceneDidPause(self)
+        }
     }
     
     override func handleLeftPress(forPlayer player: PlayerIndex) {

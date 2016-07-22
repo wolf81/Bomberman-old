@@ -24,6 +24,7 @@ class BaseScene: SKScene {
             case .Right: handleRightPress(forPlayer: playerAction.player)
             case .Up: handleUpPress(forPlayer: playerAction.player)
             case .Down: handleDownPress(forPlayer: playerAction.player)
+            case .Pause: handlePausePress(forPlayer: playerAction.player)
             default: break
             }
         }
@@ -37,6 +38,7 @@ class BaseScene: SKScene {
             case .Right: handleRightRelease(forPlayer: playerAction.player)
             case .Up: handleUpRelease(forPlayer: playerAction.player)
             case .Down: handleDownRelease(forPlayer: playerAction.player)
+            case .Pause: handlePausePress(forPlayer: playerAction.player)
             default: break
             }
         }
@@ -49,7 +51,7 @@ class BaseScene: SKScene {
     // Subclasses can override the following methods appropriate for the scene. E.g. in game can 
     //  move character up and down. In menu navigate through menu options.
     
-    func handlePausePress(forPlayer: PlayerIndex) {
+    func handlePausePress(forPlayer player: PlayerIndex) {
     }
     
     func handleUpPress(forPlayer player: PlayerIndex) {
