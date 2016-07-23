@@ -118,7 +118,8 @@ class Entity: GKEntity {
         }
         
         let sprites = SpriteLoader.spritesFromTexture(texture, withSpriteSize: configComponent.spriteSize)
-        let visualComponent = VisualComponent(sprites: sprites, createPhysicsBody: createPhysicsBody)
+        let wu_size = configComponent.wuSize
+        let visualComponent = VisualComponent(sprites: sprites, createPhysicsBody: createPhysicsBody, wu_size: wu_size)
         visualComponent.spriteNode.speed = configComponent.speed
         addComponent(visualComponent)
         

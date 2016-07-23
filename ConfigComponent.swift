@@ -15,6 +15,9 @@ class ConfigComponent: GKComponent {
     private(set) var textureFile = String()
     private(set) var spriteSize = CGSize()
     
+    // World unit size of the entity - used for sprites that are bigger than 1 world unit.
+    private(set) var wuSize = Size(width: 1, height: 1)
+    
     private(set) var speed: CGFloat = 1.0
     
     private(set) var lives: Int = 0
@@ -191,6 +194,10 @@ class ConfigComponent: GKComponent {
                 self.spriteSize = CGSize(width: width, height: height)
             }
         }
+        
+        let wu_width = json["wu_width"] as? Int
+        let wu_height = json["wu_height"] as? Int
+        self.wuSize = Size(width: wu_width ?? 1, height: wu_height ?? 1)
     }
     
     private func parseAttackJson(json: [String: AnyObject]) {

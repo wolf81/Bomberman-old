@@ -13,12 +13,12 @@ class VisualComponent: GKComponent {
     private(set) var sprites: [SKTexture]
     private(set) var spriteNode: SpriteNode
     
-    init(sprites: [SKTexture], createPhysicsBody: Bool = true) {
+    init(sprites: [SKTexture], createPhysicsBody: Bool = true, wu_size: Size = Size(width: 1, height: 1)) {
         self.sprites = sprites
         
         var sprite: SpriteNode
         
-        let size = CGSize(width: unitLength, height: unitLength)
+        let size = CGSize(width: unitLength * wu_size.width, height: unitLength * wu_size.height)
         
         if let texture = sprites.first {
             sprite = SpriteNode(texture: texture, size: size)
