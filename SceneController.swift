@@ -9,6 +9,8 @@
 import SpriteKit
 
 class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSceneDelegate {
+    let defaultSize = CGSize(width: 1280, height: 720)
+    
     weak var gameViewController: GameViewController?
     
     // Game scene for current game, if any. Used for pause / resume functionality. 
@@ -33,8 +35,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     func gameSceneDidPause(scene: GameScene) {
         self.pausedGameScene = scene
         
-        let menuScene = MenuScene(size: scene.size, delegate: self)
-        menuScene.scaleMode = scene.scaleMode
+        let menuScene = MenuScene(size: self.defaultSize, delegate: self)
         transitionToScene(menuScene)
     }
     
@@ -53,7 +54,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     // MARK: - LoadingSceneDelegate
     
     func loadingSceneDidFinishLoading(scene: LoadingScene) {
-        let menuScene = MenuScene(size: scene.size, delegate: self)
+        let menuScene = MenuScene(size: self.defaultSize, delegate: self)
         transitionToScene(menuScene)
         
         return // -- DEBUG

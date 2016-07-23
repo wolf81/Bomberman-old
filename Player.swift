@@ -135,8 +135,6 @@ class Player: Creature {
             }
         }
         
-        print("DID DROP BOMB? \(didDropBomb)")
-        
         return didDropBomb
     }
     

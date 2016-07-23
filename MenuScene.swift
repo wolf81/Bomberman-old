@@ -79,7 +79,7 @@ class MenuScene: BaseScene {
         
         self.developerLabel = SKLabelNode(text: "DEVELOPER")
         self.developerLabel.position = CGPoint(x: x, y: y - 150)
-        self.addChild(self.developerLabel)
+        self.addChild(self.developerLabel)        
     }
     
     private func updateUI() {

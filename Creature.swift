@@ -56,40 +56,24 @@ class Creature: Entity {
         if let game = self.game {
             let gridPosition = self.gridPosition
             
-            let northGridPosition = Point(x: gridPosition.x, y: gridPosition.y + 1)
-            if let tile = game.tileAtGridPosition(northGridPosition) {
-                if tile.isDestroyed {
-                    directions.append((.Up, northGridPosition))
-                }
-            } else {
-                directions.append((.Up, northGridPosition))
+            let upGridPosition = Point(x: gridPosition.x, y: gridPosition.y + 1)
+            if canMoveToGridPosition(upGridPosition, forGame: game) {
+                directions.append((.Up, upGridPosition))
+            }
+
+            let leftGridPosition = Point(x: gridPosition.x - 1, y: gridPosition.y)
+            if canMoveToGridPosition(leftGridPosition, forGame: game) {
+                directions.append((.Left, leftGridPosition))
             }
             
-            let westGridPosition = Point(x: gridPosition.x - 1, y: gridPosition.y)
-            if let tile = game.tileAtGridPosition(westGridPosition) {
-                if tile.isDestroyed {
-                    directions.append((.Left, westGridPosition))
-                }
-            } else {
-                directions.append((.Left, westGridPosition))
+            let downGridPosition = Point(x: gridPosition.x, y: gridPosition.y - 1)
+            if canMoveToGridPosition(downGridPosition, forGame: game) {
+                directions.append((.Down, downGridPosition))
             }
             
-            let southGridPosition = Point(x: gridPosition.x, y: gridPosition.y - 1)
-            if let tile = game.tileAtGridPosition(southGridPosition) {
-                if tile.isDestroyed {
-                    directions.append((.Down, southGridPosition))
-                }
-            } else {
-                directions.append((.Down, southGridPosition))
-            }
-            
-            let eastGridPosition = Point(x: gridPosition.x + 1, y: gridPosition.y)
-            if let tile = game.tileAtGridPosition(eastGridPosition) {
-                if tile.isDestroyed {
-                    directions.append((.Right, eastGridPosition))
-                }
-            } else {
-                directions.append((.Right, eastGridPosition))            
+            let rightGridPosition = Point(x: gridPosition.x + 1, y: gridPosition.y)
+            if canMoveToGridPosition(rightGridPosition, forGame: game) {
+                directions.append((.Right, rightGridPosition))
             }
         }
         
@@ -146,6 +130,20 @@ class Creature: Entity {
                 self.gridPosition = gridPosition
             })
         }
+    }
+    
+    func canMoveToGridPosition(gridPosition: Point, forGame game: Game) -> Bool {
+        var canMove = false
+        
+        if let tile = game.tileAtGridPosition(gridPosition) {
+            if tile.isDestroyed {
+                canMove = true
+            }
+        } else {
+            canMove = true
+        }
+        
+        return canMove
     }
 }
 
