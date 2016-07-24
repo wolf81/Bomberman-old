@@ -6,9 +6,11 @@
 //
 //
 
-import Foundation
+import CoreGraphics
 
-class Projectile: Entity {    
+class Projectile: Entity {
+    var force = CGVector()
+    
     var damage: Int {
         var damage = 1
         
@@ -31,6 +33,7 @@ class Projectile: Entity {
                 physicsBody.contactTestBitMask = EntityCategory.Player | EntityCategory.Tile
                 physicsBody.collisionBitMask = EntityCategory.Player | EntityCategory.Tile
                 physicsBody.usesPreciseCollisionDetection = true;
+                physicsBody.linearDamping = 0.0;
             }
         }
     }    

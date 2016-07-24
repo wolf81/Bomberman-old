@@ -56,19 +56,31 @@ class CpuControlComponent: GKComponent {
     }
     
     private func launchProjectileToPlayer(entityName: String, forCreature creature: Creature) {
-        let playerPos = self.game!.player1?.position
+        let playerPos = self.game!.player1!.gridPosition
         let gridPosition = creature.gridPosition
         
 //        let dx: CGFloat = creaturePos / playerPos
-        let velocity = CGVector(dx: 0.4, dy: 1.2)
      
         let propLoader = PropLoader(forGame: self.game!)
         
         do {
             if let projectile = try propLoader.projectileWithName(entityName, gridPosition: gridPosition) {
+                let dx = playerPos.x - gridPosition.x
+                let dy = playerPos.y - gridPosition.y
+
+                let distance = sqrt( pow(Float(dx), 2) + pow(Float(dy), 2) )
+                let speed = CGFloat(unitLength) * 1.5
+                let factor = 1.0 / CGFloat(distance) * speed
+                
+                projectile.force = CGVector(dx: CGFloat(dx) * factor, dy: CGFloat(dy) * factor)
+                
+                
                 if let visualComponent = projectile.componentForClass(VisualComponent) {
                     visualComponent.spriteNode.position = creature.position
-                    visualComponent.spriteNode.physicsBody?.velocity = velocity
+                    
+                    // Boss projec
+                    visualComponent.spriteNode.physicsBody?.contactTestBitMask = EntityCategory.Player
+                    visualComponent.spriteNode.physicsBody?.collisionBitMask = EntityCategory.Player
                 }
                 
                 self.game?.addEntity(projectile)

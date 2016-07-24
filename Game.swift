@@ -608,14 +608,15 @@ extension Game {
                 case .Left: dx = -force
                 case .None:
                     // TODO: Work-around for boss projectiles - find cleaner solution.
-                    //  Suggestion: add velocity as property to projectile. 'Smart' projectiles 
+                    //  Suggestion: add velocity as property to projectile. 'Smart' projectiles
                     //  might then be able to change directions for more interesting play.
-                    dx = vc.spriteNode.physicsBody!.velocity.dx
-                    dy = vc.spriteNode.physicsBody!.velocity.dy
-                default: break
+                    let projectile = entity as! Projectile
+                    vc.spriteNode.physicsBody?.velocity = projectile.force
                 }
                 
-            vc.spriteNode.physicsBody?.applyForce(CGVector(dx: dx, dy: dy))
+                if entity.direction != .None {
+                    vc.spriteNode.physicsBody?.applyForce(CGVector(dx: dx, dy: dy))
+                }
             }
         case is Player:
             if let player = entity as? Player {
