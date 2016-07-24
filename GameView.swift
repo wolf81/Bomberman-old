@@ -47,5 +47,6 @@ class GameView: SKView {
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         self.ignoresSiblingOrder = true
         self.shouldCullNonVisibleNodes = true
+//        self.showsPhysics = true
     }
 }

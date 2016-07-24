@@ -460,6 +460,32 @@ extension Game {
         return entity
     }
     
+    func bossAtGridPosition(gridPosition: Point) -> Monster? {
+        var boss: Monster? = nil
+        
+        for creature in self.creatures {
+            if let monster = creature as? Monster {
+                if let configComponent = monster.componentForClass(ConfigComponent) {
+                    if configComponent.creatureType == CreatureType.Boss {
+                        let wuSize = configComponent.wuSize
+                        let xOffset = (wuSize.width - 1) / 2
+                        let yOffset = (wuSize.height - 1) / 2
+                        
+                        let position = monster.gridPosition
+                        let xRange = position.x - xOffset ... position.x + xOffset
+                        let yRange = position.y - yOffset ... position.y + yOffset
+                        
+                        if xRange.contains(gridPosition.x) && yRange.contains(gridPosition.y) {
+                            boss = monster
+                        }
+                    }
+                }
+            }
+        }
+        
+        return boss
+    }
+    
     func powerAtGridPosition(gridPosition: Point) -> PowerUp? {
         var entity: PowerUp? = nil
         
@@ -643,6 +669,10 @@ extension Game {
             handleContactBetweenPowerUp(entity2 as! PowerUp, andPlayer: entity1 as! Player)
         } else if entity1 is PowerUp && entity2 is Player {
             handleContactBetweenPowerUp(entity1 as! PowerUp, andPlayer: entity2 as! Player)
+        } else if entity1 is Player && entity2 is Monster {
+            handleContactBetweenMonster(entity2 as! Monster, andPlayer: entity1 as! Player)
+        } else if entity2 is Player && entity1 is Monster {
+            handleContactBetweenMonster(entity1 as! Monster, andPlayer: entity2 as! Player)
         }
     }
     
@@ -660,12 +690,16 @@ extension Game {
         projectile.hit()
         
         if let player = entity as? Player where player.isDestroyed == false {
-            player.hit()
+            player.hit(projectile.damage)
         }
     }
     
     private func handleContactBetweenProp(prop: Prop, andPlayer player: Player) {
         prop.destroy()
+    }
+    
+    private func handleContactBetweenMonster(monster: Monster, andPlayer player: Player) {
+        player.moveInDirection(.None)
     }
     
     private func handleContactBetweenPowerUp(powerUp: PowerUp, andPlayer player: Player) {

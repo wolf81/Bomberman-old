@@ -16,7 +16,13 @@ class CreatureLoader: ConfigurationLoader {
         
         let directory = "Creatures/\(name)"
         if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
-            entity = Monster(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
+            switch configComponent.creatureType {
+            case .Boss:
+                entity = Monster(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, createPhysicsBody: true, collidesWithPlayer: true)
+            case .Monster: fallthrough
+            default:
+                entity = Monster(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, createPhysicsBody: false, collidesWithPlayer: false)
+            }
         }
                 
         return entity

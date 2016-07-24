@@ -149,9 +149,9 @@ class Player: Creature {
         }
     }
     
-    override func hit() {
+    override func hit(damage: Int) {
         if self.shieldPowerLimit.currentCount == 0 {
-            super.hit()
+            super.hit(damage)
         }
     }
     

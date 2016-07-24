@@ -12,7 +12,7 @@ class Monster: Creature {
     
     // MARK: - Initialization
     
-    override init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
+    init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, createPhysicsBody: Bool, collidesWithPlayer: Bool) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
         self.value = PointsType.Hundred
@@ -25,8 +25,8 @@ class Monster: Creature {
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = EntityCategory.Monster
-                physicsBody.collisionBitMask = EntityCategory.Nothing
-                physicsBody.contactTestBitMask = EntityCategory.Nothing
+                physicsBody.collisionBitMask = collidesWithPlayer ? EntityCategory.Player : EntityCategory.Nothing
+                physicsBody.contactTestBitMask = collidesWithPlayer ? EntityCategory.Player : EntityCategory.Nothing
             }
         }
     }

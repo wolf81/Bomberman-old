@@ -60,8 +60,10 @@ class PlayerControlComponent: GKComponent {
                     break
                 }
                 
-                player.moveInDirection(direction)
-            }            
+                if (direction != .None) {
+                    player.moveInDirection(direction)
+                }
+            }
         }
     }
     

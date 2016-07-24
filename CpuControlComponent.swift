@@ -27,7 +27,7 @@ class CpuControlComponent: GKComponent {
         super.updateWithDeltaTime(seconds)
         
         if let stateMachineComponent = self.entity?.componentForClass(StateMachineComponent) {
-            if stateMachineComponent.currentState == nil {
+            if stateMachineComponent.currentState == nil && stateMachineComponent.canRoam {
                 stateMachineComponent.enterRoamState()
             } else {
                 if let creature = self.entity as! Creature? {

@@ -110,14 +110,14 @@ class Creature: Entity {
         }
     }    
     
-    override func hit() {
+    override func hit(damage: Int) {
         if self.health <= 0 {
             destroy()
         } else {
-            super.hit()
+            super.hit(damage)
         }
     }
-            
+    
     // MARK: - Private
     
     private func moveToGridPosition(gridPosition: Point, direction: Direction) {
@@ -135,11 +135,7 @@ class Creature: Entity {
     func canMoveToGridPosition(gridPosition: Point, forGame game: Game) -> Bool {
         var canMove = false
         
-        if let tile = game.tileAtGridPosition(gridPosition) {
-            if tile.isDestroyed {
-                canMove = true
-            }
-        } else {
+        if game.bossAtGridPosition(gridPosition) == nil && game.tileAtGridPosition(gridPosition) == nil {
             canMove = true
         }
         

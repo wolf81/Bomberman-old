@@ -143,9 +143,9 @@ class Entity: GKEntity {
         }
     }
     
-    func hit() {
+    func hit(damage: Int = 1) {
         if let stateMachineComponent = componentForClass(StateMachineComponent) {
-            stateMachineComponent.enterHitState()
+            stateMachineComponent.enterHitState(damage)
         }    
     }
         

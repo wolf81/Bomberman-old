@@ -9,6 +9,12 @@
 import GameplayKit
 import CoreGraphics
 
+enum CreatureType {
+    case Monster
+    case Boss
+    case Undefined
+}
+
 class ConfigComponent: GKComponent {
     private(set) var configFilePath: String?
     
@@ -22,6 +28,8 @@ class ConfigComponent: GKComponent {
     
     private(set) var lives: Int = 0
     private(set) var health: Int = 0
+
+    private(set) var hitDamage: Int = 1
     
     // TODO: We need to modify spawn timers for bombs, therefore this property can be modified. 
     //  Figure out cleaner solution.
@@ -42,6 +50,8 @@ class ConfigComponent: GKComponent {
     private(set) var cheerSound: String?
     
     private(set) var projectile: String?
+    
+    private(set) var creatureType: CreatureType = .Undefined
     
     private(set) var states: [State]?
     
@@ -159,7 +169,8 @@ class ConfigComponent: GKComponent {
     }
     
     private func parseHitJson(json: [String: AnyObject]) {
-        self.hitSound = soundFromJson(json)
+        self.hitSound = soundFromJson(json)        
+        self.hitDamage = json["damage"] as? Int ?? 1
     }
     
     private func parseCheerJson(json: [String: AnyObject]) {
@@ -177,6 +188,14 @@ class ConfigComponent: GKComponent {
         
         if let healthJson = json["health"] as? Int {
             self.health = max(healthJson, 0)
+        }
+        
+        if let typeJson = json["type"] as? String {
+            switch typeJson {
+            case "monster": self.creatureType = .Monster
+            case "boss": self.creatureType = .Boss
+            default: self.creatureType = .Undefined
+            }
         }
     }
     

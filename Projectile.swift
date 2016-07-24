@@ -8,7 +8,18 @@
 
 import Foundation
 
-class Projectile: Entity {
+class Projectile: Entity {    
+    var damage: Int {
+        var damage = 1
+        
+        if let configComponent = componentForClass(ConfigComponent) {
+            // TODO: check for explicit animation action, cause just sounds are also possible
+            damage = configComponent.hitDamage
+        }
+        
+        return damage
+    }
+    
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
