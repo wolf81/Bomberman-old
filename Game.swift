@@ -606,6 +606,12 @@ extension Game {
                 case .Down: dy = -force
                 case .Right: dx = force
                 case .Left: dx = -force
+                case .None:
+                    // TODO: Work-around for boss projectiles - find cleaner solution.
+                    //  Suggestion: add velocity as property to projectile. 'Smart' projectiles 
+                    //  might then be able to change directions for more interesting play.
+                    dx = vc.spriteNode.physicsBody!.velocity.dx
+                    dy = vc.spriteNode.physicsBody!.velocity.dy
                 default: break
                 }
                 

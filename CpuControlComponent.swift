@@ -31,12 +31,15 @@ class CpuControlComponent: GKComponent {
                 stateMachineComponent.enterRoamState()
             } else {
                 if let creature = self.entity as! Creature? {
-                    self.attackDelay -= seconds
-                    
-                    if self.attackDelay < 0 {
-                        if let configComponent = creature.componentForClass(ConfigComponent) {
+                    if let configComponent = creature.componentForClass(ConfigComponent) {
+                        self.attackDelay -= seconds
+                        if self.attackDelay < 0 {
                             if let projectileName = configComponent.projectile {
-                                if playerInRangeForRangedAttack() {
+                                if configComponent.creatureType == .Boss {
+                                    creature.attack()
+                                    launchProjectileToPlayer(projectileName, forCreature: creature)
+                                    self.attackDelay = creature.abilityCooldown
+                                } else if playerInRangeForRangedAttack() {
                                     creature.attack()
                                     launchProjectile(projectileName, forCreature: creature)
                                     self.attackDelay = creature.abilityCooldown
@@ -49,6 +52,29 @@ class CpuControlComponent: GKComponent {
                     }
                 }
             }
+        }
+    }
+    
+    private func launchProjectileToPlayer(entityName: String, forCreature creature: Creature) {
+        let playerPos = self.game!.player1?.position
+        let gridPosition = creature.gridPosition
+        
+//        let dx: CGFloat = creaturePos / playerPos
+        let velocity = CGVector(dx: 0.4, dy: 1.2)
+     
+        let propLoader = PropLoader(forGame: self.game!)
+        
+        do {
+            if let projectile = try propLoader.projectileWithName(entityName, gridPosition: gridPosition) {
+                if let visualComponent = projectile.componentForClass(VisualComponent) {
+                    visualComponent.spriteNode.position = creature.position
+                    visualComponent.spriteNode.physicsBody?.velocity = velocity
+                }
+                
+                self.game?.addEntity(projectile)
+            }
+        } catch let error {
+            print("error: \(error)")
         }
     }
     
