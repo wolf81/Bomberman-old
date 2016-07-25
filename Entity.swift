@@ -45,6 +45,16 @@ class Entity: GKEntity {
         return frame
     }
     
+    var speed: CGFloat {
+        var speed: CGFloat = 1.0
+        
+        if let configComponent = componentForClass(ConfigComponent) {
+            speed = configComponent.speed
+        }
+        
+        return speed
+    }
+    
     var canRoam: Bool {
         var canRoam = false
         

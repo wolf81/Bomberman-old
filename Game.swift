@@ -598,25 +598,11 @@ extension Game {
         case is Explosion: entity.destroy()
         case is Projectile:
             if let vc = entity.componentForClass(VisualComponent) {
-                var dx: CGFloat = 0.0, dy: CGFloat = 0.0
-                let force: CGFloat = 0.7
-                
-                switch entity.direction {
-                case .Up: dy = force
-                case .Down: dy = -force
-                case .Right: dx = force
-                case .Left: dx = -force
-                case .None:
-                    // TODO: Work-around for boss projectiles - find cleaner solution.
-                    //  Suggestion: add velocity as property to projectile. 'Smart' projectiles
-                    //  might then be able to change directions for more interesting play.
-                    let projectile = entity as! Projectile
-                    vc.spriteNode.physicsBody?.velocity = projectile.force
-                }
-                
-                if entity.direction != .None {
-                    vc.spriteNode.physicsBody?.applyForce(CGVector(dx: dx, dy: dy))
-                }
+                // TODO: Work-around for boss projectiles - find cleaner solution.
+                //  Suggestion: add velocity as property to projectile. 'Smart' projectiles
+                //  might then be able to change directions for more interesting play.
+                let projectile = entity as! Projectile
+                vc.spriteNode.physicsBody?.velocity = projectile.force
             }
         case is Player:
             if let player = entity as? Player {
