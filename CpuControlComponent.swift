@@ -103,8 +103,8 @@ class CpuControlComponent: GKComponent {
                     
                     if !collidesWithBlocks {
                         // TODO: consider make this bitmask configurable through config file.
-                        visualComponent.spriteNode.physicsBody?.contactTestBitMask = EntityCategory.Player
-                        visualComponent.spriteNode.physicsBody?.collisionBitMask = EntityCategory.Player
+                        visualComponent.spriteNode.physicsBody?.contactTestBitMask = EntityCategory.Player | EntityCategory.Wall
+                        visualComponent.spriteNode.physicsBody?.collisionBitMask = EntityCategory.Player | EntityCategory.Wall
                     }
                 }
                 

@@ -15,6 +15,7 @@ struct EntityCategory {
     static let Tile:        UInt32 = 0b100
     static let Projectile:  UInt32 = 0b1000
     static let Prop:        UInt32 = 0b10000
+    static let Wall:        UInt32 = 0b100000
 }
 
 @objc public enum PlayerAction: Int {

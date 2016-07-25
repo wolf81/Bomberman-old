@@ -30,8 +30,8 @@ class Projectile: Entity {
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = EntityCategory.Projectile
-                physicsBody.contactTestBitMask = EntityCategory.Player | EntityCategory.Tile
-                physicsBody.collisionBitMask = EntityCategory.Player | EntityCategory.Tile
+                physicsBody.contactTestBitMask = EntityCategory.Player | EntityCategory.Tile | EntityCategory.Wall
+                physicsBody.collisionBitMask = EntityCategory.Player | EntityCategory.Tile | EntityCategory.Wall
                 physicsBody.usesPreciseCollisionDetection = true;
                 physicsBody.linearDamping = 0.0;
             }
