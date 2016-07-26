@@ -14,6 +14,8 @@ enum LevelLoaderError: ErrorType {
 
 class LevelLoader: DataLoader {
     func loadLevel(levelIndex: Int) throws -> Level {
+        print("loading level: \(levelIndex)")
+        
         var level: Level
         
         let file = "\(levelIndex).json"
