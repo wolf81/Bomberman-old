@@ -57,6 +57,8 @@ class MenuScene: BaseScene {
         super.didMoveToView(view)
         
         updateUI()
+        
+        MusicPlayer.sharedInstance.pause()
     }
     
     // MARK: - Private

@@ -14,7 +14,7 @@ enum TransitionAnimation {
     case Pop
 }
 
-class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSceneDelegate, SettingsSceneDelegate {
+class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSceneDelegate, SettingsSceneDelegate, DeveloperSceneDelegate {
     let defaultSize = CGSize(width: 1280, height: 720)
     
     weak var gameViewController: GameViewController?
@@ -45,6 +45,13 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         transitionToScene(menuScene, animation: .Fade)
     }
     
+    // MARK: - DeveloperSceneDelegate
+    
+    func developerScene(scene: DeveloperScene, optionSelected: DeveloperOption) {
+        let menuScene = MenuScene(size: self.defaultSize, delegate: self)
+        transitionToScene(menuScene, animation: .Pop)
+    }
+    
     // MARK: - MenuSceneDelegate
     
     func menuScene(scene: MenuScene, optionSelected: MenuOption) {
@@ -54,7 +61,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         case .NewGame: showLevel(0)
         case .Continue: continueLevel()
         case .Settings: showSettings()
-        default: break
+        case .Developer: showDeveloper()
         }
     }
     
@@ -82,25 +89,32 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     
     // MARK: - Private
 
+    private func showDeveloper() {
+        let scene = DeveloperScene(size: self.defaultSize, delegate: self)
+        transitionToScene(scene, animation: .Push)
+    }
+    
     private func showSettings() {
-        let settingsScene = SettingsScene(size: self.defaultSize, delegate: self)
-        transitionToScene(settingsScene, animation: .Push)
+        let scene = SettingsScene(size: self.defaultSize, delegate: self)
+        transitionToScene(scene, animation: .Push)
     }
     
     private func showLevel(levelIndex: Int) {
         do {
             let level = try loadLevel(levelIndex)
-            let gameScene = GameScene(level: level, gameSceneDelegate: self)
-            Game.sharedInstance.configureForGameScene(gameScene)
-            transitionToScene(gameScene, animation: .Fade)
+            let scene = GameScene(level: level, gameSceneDelegate: self)
+            Game.sharedInstance.configureForGameScene(scene)
+            transitionToScene(scene, animation: .Fade)
         } catch let error {
             print("error: \(error)")
         }
     }
     
     private func continueLevel() {
-        if let gameScene = self.pausedGameScene {
-            transitionToScene(gameScene, animation: .Fade)
+        if let scene = self.pausedGameScene {
+            transitionToScene(scene, animation: .Fade)
+            
+            Game.sharedInstance.resume()
         }
     }
     

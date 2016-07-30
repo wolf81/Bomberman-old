@@ -13,6 +13,16 @@ class MusicPlayer {
     
     private var audioPlayer: AVAudioPlayer?
     private var fileManager: NSFileManager
+        
+    var isPlaying: Bool {
+        var isPlaying = false
+        
+        if let audioPlayer = self.audioPlayer {
+            isPlaying = audioPlayer.playing
+        }
+        
+        return isPlaying
+    }
     
     init() {
         self.fileManager = NSFileManager.defaultManager()
@@ -29,6 +39,7 @@ class MusicPlayer {
             self.audioPlayer?.play()
         } else {
             // TODO: throw error - file not exists.
+            print("failed to load file: \(file)")
         }
     }
     
@@ -52,6 +63,18 @@ class MusicPlayer {
                     print("fade ...")
                 })
             }
+        }
+    }
+    
+    func resume() {
+        if let audioPlayer = self.audioPlayer {
+            audioPlayer.play()
+        }
+    }
+    
+    func pause() {
+        if let audioPlayer = self.audioPlayer {
+            audioPlayer.pause()
         }
     }
     

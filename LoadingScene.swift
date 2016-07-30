@@ -34,17 +34,17 @@ class LoadingScene: SKScene, AssetManagerDelegate {
         
         self.assetManager.delegate = self
         
-        let yOffset = (size.height / 4)
-        
-        self.titleNode.text = "Loading"
-        self.titleNode.position = CGPoint(x: size.width / 2, y: yOffset * 3)
+        let y = self.size.height / 2
+
+        self.titleNode.text = "LOADING"
+        self.titleNode.position = CGPoint(x: size.width / 2, y: y + 100)
         addChild(self.titleNode)
         
         self.messageNode.text = "-"
-        self.messageNode.position = CGPoint(x: size.width / 2, y: yOffset * 2)
+        self.messageNode.position = CGPoint(x: size.width / 2, y: y)
         addChild(self.messageNode)
         
-        self.percentageNode.position = CGPoint(x: size.width / 2, y: yOffset * 1)
+        self.percentageNode.position = CGPoint(x: size.width / 2, y: y - 100)
         addChild(self.percentageNode)
         
         updateProgress(0)
@@ -59,20 +59,15 @@ class LoadingScene: SKScene, AssetManagerDelegate {
     }
     
     func updateAssetsIfNeeded() throws {
-//        self.loadingSceneDelegate?.loadingSceneDidFinishLoading()
-//        return
-        
-        // ---
-        
         let url = NSURL(string: "https://dl.dropboxusercontent.com/s/i4en1xtkrxg8ccm/assets.zip")!
         
-        self.messageNode.text = "Checking for updated assets ..."
+        self.messageNode.text = "CHECKING FOR UPDATED ASSETS ..."
         
         self.remoteEtag = try assetManager.etagForRemoteAssetsArchive(url)
         let localEtag = assetManager.etagForLocalAssetsArchive()
         
         if self.remoteEtag != localEtag {
-            self.messageNode.text = "Loading updated assets ..."
+            self.messageNode.text = "UPDATING ASSETS ..."
             
             self.assetManager.loadAssets(url)
         } else {

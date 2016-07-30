@@ -58,6 +58,8 @@ class HitState: State {
                     }
                     
                     let completion = {
+                        // TODO: Does not work correctly when player has a speed boost. Speed boost 
+                        //  is removed on hit.
                         move?.speed = 1.0
                         
                         self.updating = false

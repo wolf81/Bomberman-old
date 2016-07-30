@@ -69,6 +69,8 @@
 		7920A3341D02F805002C2B16 /* Bonus Icons.png in Resources */ = {isa = PBXBuildFile; fileRef = 7920A3321D02F805002C2B16 /* Bonus Icons.png */; };
 		7920A3361D03FE70002C2B16 /* PowerUpLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */; };
 		7920A3371D03FE70002C2B16 /* PowerUpLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */; };
+		792D7C681D4C8476003C5FC8 /* DeveloperScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D7C671D4C8476003C5FC8 /* DeveloperScene.swift */; };
+		792D7C691D4C8476003C5FC8 /* DeveloperScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D7C671D4C8476003C5FC8 /* DeveloperScene.swift */; };
 		793FAF451CE08E22005F64B1 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF441CE08E22005F64B1 /* LoadingScene.swift */; };
 		793FAF461CE08E22005F64B1 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF441CE08E22005F64B1 /* LoadingScene.swift */; };
 		793FAF481CE0C0C0005F64B1 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF471CE0C0C0005F64B1 /* MenuScene.swift */; };
@@ -214,6 +216,7 @@
 		7920A32F1D02EDAD002C2B16 /* PowerUpsInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpsInfoNode.swift; sourceTree = "<group>"; };
 		7920A3321D02F805002C2B16 /* Bonus Icons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bonus Icons.png"; sourceTree = "<group>"; };
 		7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpLimit.swift; sourceTree = "<group>"; };
+		792D7C671D4C8476003C5FC8 /* DeveloperScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeveloperScene.swift; sourceTree = "<group>"; };
 		793FAF441CE08E22005F64B1 /* LoadingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScene.swift; sourceTree = "<group>"; };
 		793FAF471CE0C0C0005F64B1 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		793FAF4A1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+Extensions.swift"; sourceTree = "<group>"; };
@@ -356,6 +359,7 @@
 				793FAF471CE0C0C0005F64B1 /* MenuScene.swift */,
 				791827CE1D0D23550058848C /* BaseScene.swift */,
 				7963F0021D47797500F5076D /* SettingsScene.swift */,
+				792D7C671D4C8476003C5FC8 /* DeveloperScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -783,6 +787,7 @@
 				79C4E7041D069C8E00A35B37 /* DecayState.swift in Sources */,
 				7947BC4E1CCF1DFD00DE7C8A /* LevelLoader.swift in Sources */,
 				794ADE1B1CD1E4A5000AF170 /* Image.swift in Sources */,
+				792D7C681D4C8476003C5FC8 /* DeveloperScene.swift in Sources */,
 				794ADE451CD48313000AF170 /* SpawnState.swift in Sources */,
 				794ADE131CD1D2EA000AF170 /* ThemeLoader.swift in Sources */,
 				7947BC3B1CCDD59800DE7C8A /* Creature.swift in Sources */,
@@ -921,6 +926,7 @@
 				79606E881CFE6C2D0034A0A1 /* SceneController.swift in Sources */,
 				790056441CDF4B5D009CDF81 /* AssetManager.swift in Sources */,
 				79606E8B1CFEB0780034A0A1 /* PowerLoader.swift in Sources */,
+				792D7C691D4C8476003C5FC8 /* DeveloperScene.swift in Sources */,
 				7900190A1CF5999C001EEF3C /* Points.swift in Sources */,
 				7902B0A31CDAFBD400298CAC /* ControlState.swift in Sources */,
 				794ADDF11CD08912000AF170 /* CreatureLoader.swift in Sources */,

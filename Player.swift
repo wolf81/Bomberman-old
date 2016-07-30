@@ -209,8 +209,10 @@ class Player: Creature {
     private func updateForShield() {
         self.game?.gameScene?.updateHudForPlayer(self)
         
-        // TODO: Clean-up the code for getting shield texture. Should be more dynamic,
+        // TODO 1: Clean-up the code for getting shield texture. Should be more dynamic,
         //  like entities. Perhaps the shield can be parsed as prop.
+        //
+        // TODO 2: Shield positioning seems wrong when respawning.
         if let visualComponent = componentForClass(VisualComponent) {
             if self.shieldPowerLimit.currentCount > 0 {
                 let shieldTexture = SKTexture(imageNamed: "Shield.png")

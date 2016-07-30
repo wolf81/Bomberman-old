@@ -1,42 +1,42 @@
 //
-//  SettingsScene.swift
+//  DeveloperScene.swift
 //  Bomberman
 //
-//  Created by Wolfgang Schreurs on 26/07/16.
+//  Created by Wolfgang Schreurs on 30/07/16.
 //
 //
 
 import SpriteKit
 
-enum SettingsOption: Int {
-    case Music = 0
+enum DeveloperOption: Int {
+    case Level
     case Back
     
-    static let allValues: [SettingsOption] = [Music, Back]
+    static let allValues: [DeveloperOption] = [Level, Back]
 }
 
-protocol SettingsSceneDelegate: SKSceneDelegate {
-    func settingsScene(scene: SettingsScene, optionSelected: SettingsOption)
+protocol DeveloperSceneDelegate: SKSceneDelegate {
+    func developerScene(scene: DeveloperScene, optionSelected: DeveloperOption)
 }
 
-class SettingsScene: BaseScene {
+class DeveloperScene: BaseScene {
+    private var levelLabel: SKLabelNode!
     private var backLabel: SKLabelNode!
-    private var musicLabel: SKLabelNode!
     
-    // TODO: Should be an actual switch - for dev purposes we can use a label for now.
-    private var musicSwitch: SKLabelNode!
-
-    private var selectedOption: SettingsOption = .Music
-
+    // TODO: Create proper control?
+    private var levelChooser: SKLabelNode!
+    
+    private var selectedOption: DeveloperOption = .Level
+    
     // Work around to set the subclass delegate.
-    var settingsSceneDelegate: SettingsSceneDelegate? {
-        get { return self.delegate as? SettingsSceneDelegate }
+    var developerSceneDelegate: DeveloperSceneDelegate? {
+        get { return self.delegate as? DeveloperSceneDelegate }
         set { self.delegate = newValue }
     }
     
     // MARK: - Initialization
     
-    init(size: CGSize, delegate: SettingsSceneDelegate) {
+    init(size: CGSize, delegate: DeveloperSceneDelegate) {
         super.init(size: size)
         
         self.delegate = delegate
@@ -63,41 +63,40 @@ class SettingsScene: BaseScene {
     private func commonInit() {
         let x = self.size.width / 2
         let y = self.size.height / 2
+
+        self.levelLabel = SKLabelNode(text: "LEVEL:")
+        self.levelLabel.position = CGPoint(x: x, y: y + 50)
+        self.addChild(self.levelLabel)
+
+        self.levelChooser = SKLabelNode(text: "0")
+        self.levelChooser.position = CGPoint(x: x + 90, y: y + 50)
+        self.addChild(self.levelChooser)
         
         self.backLabel = SKLabelNode(text: "BACK")
         self.backLabel.position = CGPoint(x: x, y: y - 50)
         self.addChild(self.backLabel)
-        
-        self.musicLabel = SKLabelNode(text: "MUSIC:")
-        self.musicLabel.position = CGPoint(x: x, y: y + 50)
-        self.addChild(self.musicLabel)
-        
-        let text = musicSetting() ? "ON" : "OFF"
-        self.musicSwitch = SKLabelNode(text: text)
-        self.musicSwitch.position = CGPoint(x: x + 90, y: y + 50)
-        self.addChild(self.musicSwitch)
     }
     
     private func updateUI() {
         let defaultFontName = "HelveticaNeue-UltraLight"
         let highlightFontName = "HelveticaNeue-Medium"
         
-        for option in SettingsOption.allValues {
-            let labels = labelForSettingsOption(option)
+        for option in DeveloperOption.allValues {
+            let labels = labelsForDeveloperOption(option)
             labels.forEach({ label in
                 label.fontName = (option == self.selectedOption) ? highlightFontName : defaultFontName
             })
         }
     }
     
-    private func labelForSettingsOption(option: SettingsOption) -> [SKLabelNode] {
+    private func labelsForDeveloperOption(option: DeveloperOption) -> [SKLabelNode] {
         var labels = [SKLabelNode]()
         
         switch option {
+        case .Level:
+            labels.append(self.levelLabel)
+            labels.append(self.levelChooser)
         case .Back: labels.append(self.backLabel)
-        case .Music:
-            labels.append(self.musicLabel)
-            labels.append(self.musicSwitch)
         }
         
         return labels
@@ -120,14 +119,14 @@ class SettingsScene: BaseScene {
     override func handleUpPress(forPlayer player: PlayerIndex) {
         var selectionIndex = 0
         
-        for (idx, option) in SettingsOption.allValues.enumerate() {
+        for (idx, option) in DeveloperOption.allValues.enumerate() {
             if option == self.selectedOption {
                 selectionIndex = max(idx - 1, 0)
                 break
             }
         }
         
-        self.selectedOption = SettingsOption(rawValue: selectionIndex)!
+        self.selectedOption = DeveloperOption(rawValue: selectionIndex)!
         
         updateUI()
     }
@@ -135,27 +134,45 @@ class SettingsScene: BaseScene {
     override func handleDownPress(forPlayer player: PlayerIndex) {
         var selectionIndex = 0
         
-        for (idx, option) in SettingsOption.allValues.enumerate() {
+        for (idx, option) in DeveloperOption.allValues.enumerate() {
             if option == self.selectedOption {
-                selectionIndex = min(idx + 1, SettingsOption.allValues.count - 1)
+                selectionIndex = min(idx + 1, DeveloperOption.allValues.count - 1)
                 break
             }
         }
         
-        self.selectedOption = SettingsOption(rawValue: selectionIndex)!
+        self.selectedOption = DeveloperOption(rawValue: selectionIndex)!
         
         updateUI()
     }
-
+    
+    override func handleLeftPress(forPlayer player: PlayerIndex) {
+        switch self.selectedOption {
+        case .Level:
+            var index = Int(self.levelChooser.text!)!
+            index = max(index - 1, 0)
+            self.levelChooser.text = String(index)
+        default: break
+        }
+    }
+    
+    override func handleRightPress(forPlayer player: PlayerIndex) {
+        switch self.selectedOption {
+        case .Level:
+            var index = Int(self.levelChooser.text!)!
+            // TODO: should calc max level here using level loader.
+            index = min(index + 1, 5)
+            self.levelChooser.text = String(index)
+        default: break
+        }
+    }
+    
     override func handleActionPress(forPlayer player: PlayerIndex) {
         switch self.selectedOption {
+        case .Level:
+            print("level")
         case .Back:
-            self.settingsSceneDelegate?.settingsScene(self, optionSelected: self.selectedOption)
-        case .Music:
-            self.musicSwitch.text = (self.musicSwitch.text == "OFF") ? "ON" : "OFF"
-            
-            let isOn = self.musicSwitch.text == "ON"
-            updateMusicSetting(isOn)
+            self.developerSceneDelegate?.developerScene(self, optionSelected: self.selectedOption)
         }
     }
 }
