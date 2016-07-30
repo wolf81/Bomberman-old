@@ -160,8 +160,8 @@ class DeveloperScene: BaseScene {
         switch self.selectedOption {
         case .Level:
             var index = Int(self.levelChooser.text!)!
-            // TODO: should calc max level here using level loader.
-            index = min(index + 1, 5)
+            let maxIndex = max(LevelLoader.levelCount - 1, 0)
+            index = min(index + 1, maxIndex)
             self.levelChooser.text = String(index)
         default: break
         }

@@ -13,6 +13,8 @@ enum LevelLoaderError: ErrorType {
 }
 
 class LevelLoader: DataLoader {
+    static var levelCount: Int = LevelLoader.initLevelCount()
+
     func loadLevel(levelIndex: Int) throws -> Level {
         print("loading level: \(levelIndex)")
         
@@ -28,5 +30,33 @@ class LevelLoader: DataLoader {
         }
         
         return level
-    }    
+    }
+    
+    private static func initLevelCount() -> Int {
+        var count = 0
+        
+        let directory = "Levels"
+
+        let fileManager = NSFileManager.defaultManager()
+        
+        var index = 0
+
+        while (true) {
+            do {
+                if let path = try fileManager.pathForFile("\(index).json", inBundleSupportSubDirectory: directory) {
+                    if fileManager.fileExistsAtPath(path) {
+                        count += 1
+                        index += 1
+                    } else {
+                        break
+                    }
+                }
+            } catch let error {
+                print("error: \(error)")
+                break
+            }
+        }
+        
+        return count
+    }
 }
