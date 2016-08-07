@@ -87,6 +87,8 @@ class SettingsScene: BaseScene {
                 label.fontName = (option == self.selectedOption) ? highlightFontName : defaultFontName
             })
         }
+        
+        self.musicSwitch.setFocused(self.selectedOption == .Music)
     }
     
     private func labelForSettingsOption(option: SettingsOption) -> [SKLabelNode] {

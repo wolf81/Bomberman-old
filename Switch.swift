@@ -10,6 +10,7 @@ import SpriteKit
 
 class Switch: SKShapeNode {
     private var enabled = false
+    private var focused = false
     
     init(size: CGSize) {
         super.init()
@@ -32,6 +33,15 @@ class Switch: SKShapeNode {
     
     func isEnabled() -> Bool {
         return self.enabled
+    }
+    
+    func setFocused(focused: Bool) {
+        self.focused = focused
+        self.lineWidth = focused ? 3.0 : 1.0
+    }
+    
+    func isFocused() -> Bool {
+        return self.focused
     }
     
     // MARK: - Private

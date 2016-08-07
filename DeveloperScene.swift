@@ -101,6 +101,8 @@ class DeveloperScene: BaseScene {
                 label.fontName = (option == self.selectedOption) ? highlightFontName : defaultFontName
             })
         }
+        
+        self.assetsCheckSwitch.setFocused(self.selectedOption == .AssetsCheck)
     }
     
     private func labelsForDeveloperOption(option: DeveloperOption) -> [SKLabelNode] {
