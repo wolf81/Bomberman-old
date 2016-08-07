@@ -67,8 +67,9 @@ class DeveloperScene: BaseScene {
         self.levelLabel = SKLabelNode(text: "LEVEL:")
         self.levelLabel.position = CGPoint(x: x, y: y + 50)
         self.addChild(self.levelLabel)
-
-        self.levelChooser = SKLabelNode(text: "0")
+        
+        let index = Settings.initialLevel()
+        self.levelChooser = SKLabelNode(text: "\(index)")
         self.levelChooser.position = CGPoint(x: x + 90, y: y + 50)
         self.addChild(self.levelChooser)
         
@@ -101,19 +102,7 @@ class DeveloperScene: BaseScene {
         
         return labels
     }
-    
-    private func updateMusicSetting(isOn: Bool) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setValue(isOn, forKey: "music")
-        userDefaults.synchronize()
-    }
-    
-    private func musicSetting() -> Bool {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let isOn = userDefaults.boolForKey("music")
-        return isOn
-    }
-    
+        
     // MARK: - Public
     
     override func handleUpPress(forPlayer player: PlayerIndex) {
@@ -152,6 +141,7 @@ class DeveloperScene: BaseScene {
             var index = Int(self.levelChooser.text!)!
             index = max(index - 1, 0)
             self.levelChooser.text = String(index)
+            Settings.setInitialLevel(index)
         default: break
         }
     }
@@ -163,16 +153,24 @@ class DeveloperScene: BaseScene {
             let maxIndex = max(LevelLoader.levelCount - 1, 0)
             index = min(index + 1, maxIndex)
             self.levelChooser.text = String(index)
+            Settings.setInitialLevel(index)
         default: break
         }
     }
     
     override func handleActionPress(forPlayer player: PlayerIndex) {
         switch self.selectedOption {
-        case .Level:
-            print("level")
         case .Back:
             self.developerSceneDelegate?.developerScene(self, optionSelected: self.selectedOption)
+        case .Level:
+            break
         }
+    }
+    
+    // MARK: - Private
+    
+    private func selectedLevelIndex() -> Int {
+        let index = Int(self.levelChooser.text!)!
+        return index
     }
 }

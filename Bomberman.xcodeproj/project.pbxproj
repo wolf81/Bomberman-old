@@ -141,6 +141,8 @@
 		794ADE671CD7307A000AF170 /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADE651CD7307A000AF170 /* Projectile.swift */; };
 		794ADE6C1CD82A0A000AF170 /* HitState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADE6B1CD82A0A000AF170 /* HitState.swift */; };
 		794ADE6D1CD82A0A000AF170 /* HitState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADE6B1CD82A0A000AF170 /* HitState.swift */; };
+		795C61D01D56FDA300220888 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C61CF1D56FDA300220888 /* Settings.swift */; };
+		795C61D11D56FDA300220888 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C61CF1D56FDA300220888 /* Settings.swift */; };
 		79606E871CFE6C2D0034A0A1 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E861CFE6C2D0034A0A1 /* SceneController.swift */; };
 		79606E881CFE6C2D0034A0A1 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E861CFE6C2D0034A0A1 /* SceneController.swift */; };
 		79606E8A1CFEB0780034A0A1 /* PowerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E891CFEB0780034A0A1 /* PowerLoader.swift */; };
@@ -253,6 +255,7 @@
 		794ADE621CD716E8000AF170 /* AttackState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttackState.swift; sourceTree = "<group>"; };
 		794ADE651CD7307A000AF170 /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
 		794ADE6B1CD82A0A000AF170 /* HitState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitState.swift; sourceTree = "<group>"; };
+		795C61CF1D56FDA300220888 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		79606E861CFE6C2D0034A0A1 /* SceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		79606E891CFEB0780034A0A1 /* PowerLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerLoader.swift; sourceTree = "<group>"; };
 		7963F0021D47797500F5076D /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
@@ -369,6 +372,7 @@
 			children = (
 				7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */,
 				79C4E7061D06A2D100A35B37 /* AnimationConfiguration.swift */,
+				795C61CF1D56FDA300220888 /* Settings.swift */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -808,6 +812,7 @@
 				794ADE211CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,
 				7947BC201CCB233500DE7C8A /* Types.swift in Sources */,
 				794ADE5A1CD6F261000AF170 /* StateMachineComponent.swift in Sources */,
+				795C61D01D56FDA300220888 /* Settings.swift in Sources */,
 				7900190F1CF74877001EEF3C /* PowerUp.swift in Sources */,
 				79606E8A1CFEB0780034A0A1 /* PowerLoader.swift in Sources */,
 				79FC6BB41CCA47D400DF7476 /* Game.swift in Sources */,
@@ -905,6 +910,7 @@
 				79C4E7051D069C8E00A35B37 /* DecayState.swift in Sources */,
 				794ADE461CD48313000AF170 /* SpawnState.swift in Sources */,
 				79C4E7081D06A2D100A35B37 /* AnimationConfiguration.swift in Sources */,
+				795C61D11D56FDA300220888 /* Settings.swift in Sources */,
 				794ADE221CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,
 				7963F0041D47797500F5076D /* SettingsScene.swift in Sources */,
 				794ADE491CD4831B000AF170 /* DestroyState.swift in Sources */,

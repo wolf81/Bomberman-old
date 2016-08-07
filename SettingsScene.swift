@@ -72,7 +72,7 @@ class SettingsScene: BaseScene {
         self.musicLabel.position = CGPoint(x: x, y: y + 50)
         self.addChild(self.musicLabel)
         
-        let text = musicSetting() ? "ON" : "OFF"
+        let text = Settings.musicEnabled() ? "ON" : "OFF"
         self.musicSwitch = SKLabelNode(text: text)
         self.musicSwitch.position = CGPoint(x: x + 90, y: y + 50)
         self.addChild(self.musicSwitch)
@@ -101,18 +101,6 @@ class SettingsScene: BaseScene {
         }
         
         return labels
-    }
-    
-    private func updateMusicSetting(isOn: Bool) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setValue(isOn, forKey: "music")
-        userDefaults.synchronize()
-    }
-    
-    private func musicSetting() -> Bool {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let isOn = userDefaults.boolForKey("music")
-        return isOn
     }
     
     // MARK: - Public
@@ -154,8 +142,8 @@ class SettingsScene: BaseScene {
         case .Music:
             self.musicSwitch.text = (self.musicSwitch.text == "OFF") ? "ON" : "OFF"
             
-            let isOn = self.musicSwitch.text == "ON"
-            updateMusicSetting(isOn)
+            let enabled = self.musicSwitch.text == "ON"
+            Settings.setMusicEnabled(enabled)
         }
     }
 }
