@@ -27,7 +27,7 @@ class DeveloperScene: BaseScene {
     
     // TODO: Create proper controls
     private var levelChooser: SKLabelNode!
-    private var assetsCheckSwitch: SKLabelNode!
+    private var assetsCheckSwitch: Switch!
     
     private var selectedOption: DeveloperOption = .Level
     
@@ -76,13 +76,14 @@ class DeveloperScene: BaseScene {
         self.levelChooser.position = CGPoint(x: x + 90, y: y + 100)
         self.addChild(self.levelChooser)
         
-        self.assetsCheckLabel = SKLabelNode(text: "CHECK ASSETS ON START-UP:")
+        self.assetsCheckLabel = SKLabelNode(text: "CHECK ASSETS ON START-UP")
         self.assetsCheckLabel.position = CGPoint(x: x, y: y)
         self.addChild(self.assetsCheckLabel)
         
         let enabled = Settings.assetsCheckEnabled()
-        self.assetsCheckSwitch = SKLabelNode(text: enabled ? "ON" : "OFF")
+        self.assetsCheckSwitch = Switch(size: CGSize(width: 26, height: 26))
         self.assetsCheckSwitch.position = CGPoint(x: x + 265, y: y)
+        self.assetsCheckSwitch.setEnabled(enabled)
         self.addChild(self.assetsCheckSwitch)
         
         self.backLabel = SKLabelNode(text: "BACK")
@@ -111,7 +112,6 @@ class DeveloperScene: BaseScene {
             labels.append(self.levelChooser)
         case .AssetsCheck:
             labels.append(self.assetsCheckLabel)
-            labels.append(self.assetsCheckSwitch)
         case .Back:
             labels.append(self.backLabel)
         }
@@ -202,8 +202,8 @@ class DeveloperScene: BaseScene {
     }
     
     private func toggleAssetsCheckSwitch() -> Bool {
-        self.assetsCheckSwitch.text = (self.assetsCheckSwitch.text == "OFF") ? "ON" : "OFF"
-        let enabled = self.assetsCheckSwitch.text == "ON"
+        let enabled = !self.assetsCheckSwitch.isEnabled()
+        self.assetsCheckSwitch.setEnabled(enabled)
         return enabled
     }
     

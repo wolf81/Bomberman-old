@@ -22,10 +22,8 @@ protocol SettingsSceneDelegate: SKSceneDelegate {
 class SettingsScene: BaseScene {
     private var backLabel: SKLabelNode!
     private var musicLabel: SKLabelNode!
+    private var musicSwitch: Switch!
     
-    // TODO: Should be an actual switch - for dev purposes we can use a label for now.
-    private var musicSwitch: SKLabelNode!
-
     private var selectedOption: SettingsOption = .Music
 
     // Work around to set the subclass delegate.
@@ -68,13 +66,14 @@ class SettingsScene: BaseScene {
         self.backLabel.position = CGPoint(x: x, y: y - 50)
         self.addChild(self.backLabel)
         
-        self.musicLabel = SKLabelNode(text: "MUSIC:")
+        self.musicLabel = SKLabelNode(text: "MUSIC")
         self.musicLabel.position = CGPoint(x: x, y: y + 50)
         self.addChild(self.musicLabel)
         
-        let text = Settings.musicEnabled() ? "ON" : "OFF"
-        self.musicSwitch = SKLabelNode(text: text)
+        let enabled = Settings.musicEnabled()
+        self.musicSwitch = Switch(size: CGSize(width: 25, height: 25))
         self.musicSwitch.position = CGPoint(x: x + 90, y: y + 50)
+        self.musicSwitch.setEnabled(enabled)
         self.addChild(self.musicSwitch)
     }
     
@@ -97,15 +96,14 @@ class SettingsScene: BaseScene {
         case .Back: labels.append(self.backLabel)
         case .Music:
             labels.append(self.musicLabel)
-            labels.append(self.musicSwitch)
         }
         
         return labels
     }
     
     private func toggleMusicSwitch() -> Bool {
-        self.musicSwitch.text = (self.musicSwitch.text == "OFF") ? "ON" : "OFF"
-        let enabled = self.musicSwitch.text == "ON"
+        let enabled = !self.musicSwitch.isEnabled()
+        self.musicSwitch.setEnabled(enabled)
         return enabled
     }
     

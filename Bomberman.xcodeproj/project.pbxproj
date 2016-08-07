@@ -143,6 +143,8 @@
 		794ADE6D1CD82A0A000AF170 /* HitState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794ADE6B1CD82A0A000AF170 /* HitState.swift */; };
 		795C61D01D56FDA300220888 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C61CF1D56FDA300220888 /* Settings.swift */; };
 		795C61D11D56FDA300220888 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C61CF1D56FDA300220888 /* Settings.swift */; };
+		795C61D41D5709A500220888 /* Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C61D31D5709A500220888 /* Switch.swift */; };
+		795C61D51D5709A500220888 /* Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C61D31D5709A500220888 /* Switch.swift */; };
 		79606E871CFE6C2D0034A0A1 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E861CFE6C2D0034A0A1 /* SceneController.swift */; };
 		79606E881CFE6C2D0034A0A1 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E861CFE6C2D0034A0A1 /* SceneController.swift */; };
 		79606E8A1CFEB0780034A0A1 /* PowerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E891CFEB0780034A0A1 /* PowerLoader.swift */; };
@@ -256,6 +258,7 @@
 		794ADE651CD7307A000AF170 /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
 		794ADE6B1CD82A0A000AF170 /* HitState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitState.swift; sourceTree = "<group>"; };
 		795C61CF1D56FDA300220888 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		795C61D31D5709A500220888 /* Switch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Switch.swift; sourceTree = "<group>"; };
 		79606E861CFE6C2D0034A0A1 /* SceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		79606E891CFEB0780034A0A1 /* PowerLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerLoader.swift; sourceTree = "<group>"; };
 		7963F0021D47797500F5076D /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
@@ -482,6 +485,14 @@
 			name = Image;
 			sourceTree = "<group>";
 		};
+		795C61D21D57099700220888 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				795C61D31D5709A500220888 /* Switch.swift */,
+			);
+			name = Controls;
+			sourceTree = "<group>";
+		};
 		79FC6B781CCA2B7500DF7476 = {
 			isa = PBXGroup;
 			children = (
@@ -540,6 +551,7 @@
 		79FC6BB21CCA47C300DF7476 /* Bomberman */ = {
 			isa = PBXGroup;
 			children = (
+				795C61D21D57099700220888 /* Controls */,
 				7904A6991D3F82DE00C3F417 /* Music */,
 				791827CD1D0D23280058848C /* Scenes */,
 				7920A3381D03FE85002C2B16 /* Utility */,
@@ -823,6 +835,7 @@
 				790019191CFB0BBA001EEF3C /* ComponentSystem.swift in Sources */,
 				793FAF481CE0C0C0005F64B1 /* MenuScene.swift in Sources */,
 				790019001CF449DD001EEF3C /* TileLoader.swift in Sources */,
+				795C61D41D5709A500220888 /* Switch.swift in Sources */,
 				790056431CDF4B5D009CDF81 /* AssetManager.swift in Sources */,
 				7947BC3E1CCDD7B200DE7C8A /* RoamState.swift in Sources */,
 				794ADDED1CD088E5000AF170 /* String+Extensions.swift in Sources */,
@@ -919,6 +932,7 @@
 				79FC6BB51CCA47D400DF7476 /* Game.swift in Sources */,
 				794ADDF41CD09026000AF170 /* DataLoader.swift in Sources */,
 				794ADE671CD7307A000AF170 /* Projectile.swift in Sources */,
+				795C61D51D5709A500220888 /* Switch.swift in Sources */,
 				7947BC3C1CCDD59800DE7C8A /* Creature.swift in Sources */,
 				79FC6BBF1CCA4CC700DF7476 /* GameView.swift in Sources */,
 				794ADE5E1CD70A6F000AF170 /* Array+Extensions.swift in Sources */,
