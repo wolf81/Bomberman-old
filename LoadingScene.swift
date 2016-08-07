@@ -59,19 +59,23 @@ class LoadingScene: SKScene, AssetManagerDelegate {
     }
     
     func updateAssetsIfNeeded() throws {
-        let url = NSURL(string: "https://dl.dropboxusercontent.com/s/i4en1xtkrxg8ccm/assets.zip")!
-        
-        self.messageNode.text = "CHECKING FOR UPDATED ASSETS ..."
-        
-        self.remoteEtag = try assetManager.etagForRemoteAssetsArchive(url)
-        let localEtag = assetManager.etagForLocalAssetsArchive()
-        
-        if self.remoteEtag != localEtag {
-            self.messageNode.text = "UPDATING ASSETS ..."
+        if Settings.assetsCheckEnabled() {
+            let url = NSURL(string: "https://dl.dropboxusercontent.com/s/i4en1xtkrxg8ccm/assets.zip")!
             
-            self.assetManager.loadAssets(url)
+            self.messageNode.text = "CHECKING FOR UPDATED ASSETS ..."
+            
+            self.remoteEtag = try assetManager.etagForRemoteAssetsArchive(url)
+            let localEtag = assetManager.etagForLocalAssetsArchive()
+            
+            if self.remoteEtag != localEtag {
+                self.messageNode.text = "UPDATING ASSETS ..."
+                
+                self.assetManager.loadAssets(url)
+            } else {
+                self.loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
+            }            
         } else {
-            self.loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
+            self.loadingSceneDelegate?.loadingSceneDidFinishLoading(self)        
         }
     }
     

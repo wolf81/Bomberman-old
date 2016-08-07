@@ -103,6 +103,12 @@ class SettingsScene: BaseScene {
         return labels
     }
     
+    private func toggleMusicSwitch() -> Bool {
+        self.musicSwitch.text = (self.musicSwitch.text == "OFF") ? "ON" : "OFF"
+        let enabled = self.musicSwitch.text == "ON"
+        return enabled
+    }
+    
     // MARK: - Public
     
     override func handleUpPress(forPlayer player: PlayerIndex) {
@@ -118,6 +124,24 @@ class SettingsScene: BaseScene {
         self.selectedOption = SettingsOption(rawValue: selectionIndex)!
         
         updateUI()
+    }
+    
+    override func handleLeftPress(forPlayer player: PlayerIndex) {
+        switch self.selectedOption {
+        case .Music:
+            let enabled = toggleMusicSwitch()
+            Settings.setMusicEnabled(enabled)
+        default: break
+        }
+    }
+    
+    override func handleRightPress(forPlayer player: PlayerIndex) {
+        switch self.selectedOption {
+        case .Music:
+            let enabled = toggleMusicSwitch()
+            Settings.setMusicEnabled(enabled)
+        default: break
+        }
     }
     
     override func handleDownPress(forPlayer player: PlayerIndex) {
@@ -139,11 +163,8 @@ class SettingsScene: BaseScene {
         switch self.selectedOption {
         case .Back:
             self.settingsSceneDelegate?.settingsScene(self, optionSelected: self.selectedOption)
-        case .Music:
-            self.musicSwitch.text = (self.musicSwitch.text == "OFF") ? "ON" : "OFF"
-            
-            let enabled = self.musicSwitch.text == "ON"
-            Settings.setMusicEnabled(enabled)
+        default:
+            break
         }
     }
 }

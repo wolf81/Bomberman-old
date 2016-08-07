@@ -229,14 +229,11 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     
     private func playMusic() {
         if let level = self.level {
-            // TODO:
-            //  1. make "music" a global key
-            //  2. "music" setting should initially return true (first load of app)
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            let musicSetting = userDefaults.boolForKey("music")
-            
-            // TODO: compare songs in music player - don't play if same song.
-            if musicSetting && MusicPlayer.sharedInstance.isPlaying == false {
+            // TODO: 
+            //  1. Compare songs in music player - don't play if same song.
+            //  2. Music setting should initially return true (first load of app)
+            let musicEnabled = Settings.musicEnabled()
+            if musicEnabled && MusicPlayer.sharedInstance.isPlaying == false {
                 if let music = level.music {
                     do {
                         try MusicPlayer.sharedInstance.playMusic(music)

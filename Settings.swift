@@ -11,6 +11,7 @@ import Foundation
 class Settings {
     static let kLevelKey = "level"
     static let kMusicKey = "music"
+    static let kAssetsCheckKey = "assetsCheck"
     
     static func setInitialLevel(index: Int) {
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -33,6 +34,18 @@ class Settings {
     static func musicEnabled() -> Bool {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         let enabled = userDefaults.boolForKey(kMusicKey)
+        return enabled
+    }
+    
+    static func setAssetsCheckEnabled(enabled: Bool) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setBool(enabled, forKey: kAssetsCheckKey)
+        userDefaults.synchronize()
+    }
+    
+    static func assetsCheckEnabled() -> Bool {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let enabled = userDefaults.boolForKey(kAssetsCheckKey)
         return enabled
     }
 }
