@@ -6,6 +6,17 @@
 //
 //
 
+/*
+ * Used to route all controller input to the current visible scene. We keep a weak reference to the
+ * current scene, which needs to be updated each time the scene changes. Controller input is 
+ * forwarded to the referenced scene. 
+ *
+ * Some properties of input handling can be modified here. In particular we can configure the proxy
+ * class to automatically release a direction button after each press. By setting this property to 
+ * true way we can navigate we can navigate through the menus of the game by a single directional 
+ * press at a time.
+ */
+
 import SpriteKit
 import GameController
 
@@ -106,11 +117,7 @@ class InputProxy {
         controller.playerIndex = player
         
         controller.controllerPausedHandler = { [unowned self] _ in
-            print("pause / resume game")
-            
-            if let scene = self.scene {
-                scene.paused = !scene.paused
-            }
+            self.scene?.handlePausePress(forPlayer: .Player1)
         }
         
         if let dpad = controller.gamepad?.dpad {

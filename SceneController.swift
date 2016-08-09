@@ -58,7 +58,9 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         print("selected: \(optionSelected)")
         
         switch optionSelected {
-        case .NewGame: showLevel(0)
+        case .NewGame:
+            let level = Settings.initialLevel()
+            showLevel(level)
         case .Continue: continueLevel()
         case .Settings: showSettings()
         case .Developer: showDeveloper()
@@ -134,6 +136,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         
         self.gameViewController?.presentScene(scene, withTransition: transition)
         
+        InputProxy.sharedInstance.autoDirectionPressRelease = !(scene is GameScene)
         InputProxy.sharedInstance.scene = scene
     }
 
