@@ -64,12 +64,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.controllers = GCController.controllers()
         
         if self.controllers.count > 0 {
-            self.gameViewController.configureController(self.controllers.first!, forPlayer: .Index1)
+            InputProxy.sharedInstance.configureController(self.controllers.first!, forPlayer: .Index1)
             
             if self.controllers.count > 1 {
-                self.gameViewController.configureController(self.controllers[1], forPlayer: .Index2)
+                InputProxy.sharedInstance.configureController(self.controllers[1], forPlayer: .Index2)
             }
-            
             
             // do something
             

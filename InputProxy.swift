@@ -1,0 +1,175 @@
+//
+//  InputProxy.swift
+//  Bomberman
+//
+//  Created by Wolfgang Schreurs on 08/08/16.
+//
+//
+
+import SpriteKit
+import GameController
+
+class InputProxy {
+    static let sharedInstance = InputProxy()
+
+    weak var scene: BaseScene?
+    
+    private var directionPressed = false
+    
+    var autoDirectionPressRelease = false
+    
+    // MARK: - GameController suppport    
+    
+    #if os(tvOS)
+    
+    func configureController(controller: GCController, forPlayer player: GCControllerPlayerIndex) {
+        controller.playerIndex = player
+        
+        controller.controllerPausedHandler = { [unowned self] _ in
+            print("pause / resume game")
+            
+            if let scene = self.scene {
+                scene.paused = !scene.paused
+            }
+        }
+        
+        let playerIndex: PlayerIndex = player == .Index1 ? .Player1 : .Player2
+        
+        if let profile = controller.microGamepad {
+            profile.allowsRotation = true
+            profile.reportsAbsoluteDpadValues = true
+            profile.buttonX.pressedChangedHandler = { _, value, pressed in
+                if pressed {
+                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.Action)
+                }
+            }
+            
+            profile.dpad.valueChangedHandler = { _, xValue, yValue in
+                let centerOffset: Float = 0.25
+                
+                if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
+                    self.busy = false
+                } else if !self.busy {
+                    self.busy = true
+                    
+                    if fabs(xValue) > fabs(yValue) {
+                        if xValue > 0 {
+                            self.scene?.handleRightPress(forPlayer: playerIndex)
+                        } else {
+                            self.scene?.handleLeftPress(forPlayer: playerIndex)
+                        }
+                    } else {
+                        if yValue > 0 {
+                            self.scene?.handleUpPress(forPlayer: playerIndex)
+                        } else {
+                            self.scene?.handleDownPress(forPlayer: playerIndex)
+                        }
+                    }
+                }
+            }
+        } else if let profile = controller.gamepad {
+            profile.dpad.valueChangedHandler = { _, xValue, yValue in
+                let centerOffset: Float = 0.10
+                
+                if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
+                    self.busy = false
+                } else if !self.busy {
+                    self.busy = true
+                    
+                    if fabs(xValue) > fabs(yValue) {
+                        if xValue > 0 {
+                            self.scene?.handleRightPress(forPlayer: playerIndex)
+                        } else {
+                            self.scene?.handleLeftPress(forPlayer: playerIndex)
+                        }
+                    } else {
+                        if yValue > 0 {
+                            self.scene?.handleUpPress(forPlayer: playerIndex)
+                        } else {
+                            self.scene?.handleDownPress(forPlayer: playerIndex)
+                        }
+                    }
+                }
+            }
+            
+            profile.buttonA.pressedChangedHandler = { _, value, pressed in
+                if pressed {
+                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.Action)
+                }
+            }
+        }
+    }
+    
+    #else
+    
+    func configureController(controller: GCController, forPlayer player: GCControllerPlayerIndex) {
+        controller.playerIndex = player
+        
+        controller.controllerPausedHandler = { [unowned self] _ in
+            print("pause / resume game")
+            
+            if let scene = self.scene {
+                scene.paused = !scene.paused
+            }
+        }
+        
+        if let dpad = controller.gamepad?.dpad {
+            dpad.valueChangedHandler = { _, xValue, yValue in
+                let centerOffset: Float = 0.10
+                
+                if self.autoDirectionPressRelease {
+                    if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
+                        self.directionPressed = false
+                    } else if !self.directionPressed {
+                        self.directionPressed = true
+                        
+                        if fabs(xValue) > fabs(yValue) {
+                            if xValue > 0 {
+                                self.scene?.handleRightPress(forPlayer: .Player1)
+                            } else {
+                                self.scene?.handleLeftPress(forPlayer: .Player1)
+                            }
+                        } else {
+                            if yValue > 0 {
+                                self.scene?.handleUpPress(forPlayer: .Player1)
+                            } else {
+                                self.scene?.handleDownPress(forPlayer: .Player1)
+                            }
+                        }
+                    }
+                } else {
+                    if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
+                        self.scene?.handleRightRelease(forPlayer: .Player1)
+                        self.scene?.handleLeftRelease(forPlayer: .Player1)
+                        self.scene?.handleUpRelease(forPlayer: .Player1)
+                        self.scene?.handleDownRelease(forPlayer: .Player1)                        
+                    } else if !self.directionPressed {
+                        if fabs(xValue) > fabs(yValue) {
+                            if xValue > 0 {
+                                self.scene?.handleRightPress(forPlayer: .Player1)
+                            } else {
+                                self.scene?.handleLeftPress(forPlayer: .Player1)
+                            }
+                        } else {
+                            if yValue > 0 {
+                                self.scene?.handleUpPress(forPlayer: .Player1)
+                            } else {
+                                self.scene?.handleDownPress(forPlayer: .Player1)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        if let buttonA = controller.gamepad?.buttonA {
+            buttonA.pressedChangedHandler = { _, value, pressed in
+                if pressed {
+                    self.scene?.handleActionPress(forPlayer: .Player1)
+                }
+            }
+        }
+    }
+    
+    #endif
+}

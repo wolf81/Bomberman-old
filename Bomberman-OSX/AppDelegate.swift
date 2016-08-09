@@ -87,11 +87,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     func setupControllers(notification: NSNotification) {
         self.controllers = GCController.controllers()
+        
+        print("controllers found: \(self.controllers)")
 
         if self.controllers.count > 0 {
             self.controllers.first?.playerIndex = .Index1
             
-            self.gameViewController.configureController(self.controllers.first!, forPlayer: .Index1)
+            InputProxy.sharedInstance.configureController(self.controllers.first!, forPlayer: .Index1)
                         
             // do something
             

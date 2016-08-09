@@ -21,7 +21,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     
     // Game scene for current game, if any. Used for pause / resume functionality. 
     var pausedGameScene: BaseScene?
-    
+        
     init(gameViewController: GameViewController) {
         self.gameViewController = gameViewController        
     }
@@ -133,6 +133,8 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         }
         
         self.gameViewController?.presentScene(scene, withTransition: transition)
+        
+        InputProxy.sharedInstance.scene = scene
     }
 
     private func loadLevel(levelIndex: Int) throws -> Level {

@@ -7,6 +7,7 @@
 //
 
 import GameplayKit
+import CoreGraphics
 
 class CpuControlComponent: GKComponent {
     private var attackDelay: NSTimeInterval = -1.0

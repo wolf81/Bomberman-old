@@ -64,78 +64,6 @@ class GameViewController: GCEventViewController {
     func presentScene(scene: SKScene, withTransition transition: SKTransition) {
         self.gameView.presentScene(scene, transition: transition)
     }
-    
-    // MARK: - GameController suppport
-    
-    func configureController(controller: GCController, forPlayer player: GCControllerPlayerIndex) {
-        controller.playerIndex = player
-                
-        controller.controllerPausedHandler = { [unowned self] _ in
-            print("pause / resume game")
-            
-            if let scene = self.gameView.scene {
-                scene.paused = !scene.paused
-            }
-        }
-        
-        let playerIndex: PlayerIndex = player == .Index1 ? .Player1 : .Player2
-        
-        if let profile = controller.microGamepad {
-            profile.allowsRotation = true
-            profile.reportsAbsoluteDpadValues = true
-            profile.buttonX.pressedChangedHandler = { _, value, pressed in
-                if pressed {
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.Action)
-                }
-            }
-
-            profile.buttonX.pressedChangedHandler = { _, value, pressed in
-                if pressed {
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.Action)
-                }
-            }
-
-            profile.dpad.valueChangedHandler = { _, xValue, yValue in
-                let centerOffset: Float = 0.25
-                
-                if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
-                                                                   action: PlayerAction.None)
-                } else if fabs(xValue) > fabs(yValue) {
-                    let action: PlayerAction = xValue > 0 ? PlayerAction.Right : PlayerAction.Left
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
-                                                                   action: action)
-                } else {
-                    let action: PlayerAction = yValue > 0 ? PlayerAction.Up : PlayerAction.Down
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
-                                                                   action: action)
-                }
-            }
-        } else if let profile = controller.gamepad {
-            profile.dpad.valueChangedHandler = { _, xValue, yValue in
-                let centerOffset: Float = 0.10
-                
-                if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
-                                                                   action: PlayerAction.None)
-                } else if fabs(xValue) > fabs(yValue) {
-                    let action: PlayerAction = xValue > 0 ? PlayerAction.Right : PlayerAction.Left
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
-                                                                   action: action)
-                } else {
-                    let action: PlayerAction = yValue > 0 ? PlayerAction.Up : PlayerAction.Down
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex,
-                                                                   action: action)
-                }
-            }
-            
-            profile.buttonA.pressedChangedHandler = { _, value, pressed in
-                if pressed {
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.Action)
-                }
-            }
-        }
-    }
 }
 
 #else
@@ -196,49 +124,6 @@ class GameViewController: NSViewController {
     
     func presentScene(scene: SKScene, withTransition transition: SKTransition) {
         self.gameView.presentScene(scene, transition: transition)
-    }
-    
-    // MARK: - GameController suppport
-    
-    func configureController(controller: GCController, forPlayer player: GCControllerPlayerIndex) {
-        controller.playerIndex = player
-        
-        controller.controllerPausedHandler = { [unowned self] _ in
-            print("pause / resume game")
-            
-            if let scene = self.gameView.scene {
-                scene.paused = !scene.paused
-            }
-        }
-        
-        if self.gameView.scene != nil {
-            if let dpad = controller.gamepad?.dpad {
-                dpad.valueChangedHandler = { _, xValue, yValue in
-                    let centerOffset: Float = 0.10
-                    
-                    if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
-                        Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1,
-                                                                       action: PlayerAction.None)
-                    } else if fabs(xValue) > fabs(yValue) {
-                        let action: PlayerAction = xValue > 0 ? PlayerAction.Right : PlayerAction.Left
-                        Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1,
-                                                                       action: action)
-                    } else {
-                        let action: PlayerAction = yValue > 0 ? PlayerAction.Up : PlayerAction.Down
-                        Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1,
-                                                                       action: action)
-                    }
-                }
-            }
-            
-            if let buttonA = controller.gamepad?.buttonA {
-                buttonA.pressedChangedHandler = { _, value, pressed in
-                    if pressed {
-                        Game.sharedInstance.handlePlayerDidStartAction(PlayerIndex.Player1, action: PlayerAction.Action)
-                    }
-                }
-            }
-        }
     }
 }
 
