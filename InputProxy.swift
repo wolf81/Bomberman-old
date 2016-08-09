@@ -17,6 +17,10 @@
  * press at a time.
  */
 
+// NOTE: If we encounter performance issues, perhaps we can use the @inline(__always) attribute on
+//  some functions. These functions will likely be called many times per second. Reducing function
+//  calls might improve performance.
+
 import SpriteKit
 import GameController
 
@@ -37,11 +41,7 @@ class InputProxy {
         controller.playerIndex = player
         
         controller.controllerPausedHandler = { [unowned self] _ in
-            print("pause / resume game")
-            
-            if let scene = self.scene {
-                scene.paused = !scene.paused
-            }
+            togglePause()
         }
         
         let playerIndex: PlayerIndex = player == .Index1 ? .Player1 : .Player2
@@ -117,55 +117,12 @@ class InputProxy {
         controller.playerIndex = player
         
         controller.controllerPausedHandler = { [unowned self] _ in
-            self.scene?.handlePausePress(forPlayer: .Player1)
+            self.handlePausePress()
         }
         
         if let dpad = controller.gamepad?.dpad {
             dpad.valueChangedHandler = { _, xValue, yValue in
-                let centerOffset: Float = 0.10
-                
-                if self.autoDirectionPressRelease {
-                    if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
-                        self.directionPressed = false
-                    } else if !self.directionPressed {
-                        self.directionPressed = true
-                        
-                        if fabs(xValue) > fabs(yValue) {
-                            if xValue > 0 {
-                                self.scene?.handleRightPress(forPlayer: .Player1)
-                            } else {
-                                self.scene?.handleLeftPress(forPlayer: .Player1)
-                            }
-                        } else {
-                            if yValue > 0 {
-                                self.scene?.handleUpPress(forPlayer: .Player1)
-                            } else {
-                                self.scene?.handleDownPress(forPlayer: .Player1)
-                            }
-                        }
-                    }
-                } else {
-                    if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
-                        self.scene?.handleRightRelease(forPlayer: .Player1)
-                        self.scene?.handleLeftRelease(forPlayer: .Player1)
-                        self.scene?.handleUpRelease(forPlayer: .Player1)
-                        self.scene?.handleDownRelease(forPlayer: .Player1)                        
-                    } else if !self.directionPressed {
-                        if fabs(xValue) > fabs(yValue) {
-                            if xValue > 0 {
-                                self.scene?.handleRightPress(forPlayer: .Player1)
-                            } else {
-                                self.scene?.handleLeftPress(forPlayer: .Player1)
-                            }
-                        } else {
-                            if yValue > 0 {
-                                self.scene?.handleUpPress(forPlayer: .Player1)
-                            } else {
-                                self.scene?.handleDownPress(forPlayer: .Player1)
-                            }
-                        }
-                    }
-                }
+                self.handleDpadValueChangedForPlayer(.Player1, xValue: xValue, yValue: yValue, centerOffset: 0.10)
             }
         }
         
@@ -179,4 +136,53 @@ class InputProxy {
     }
     
     #endif
+    
+    // MARK: - Private
+    
+    private func handleDpadValueChangedForPlayer(player: PlayerIndex, xValue: Float, yValue: Float, centerOffset: Float) {
+        if let scene = self.scene {
+            if self.autoDirectionPressRelease {
+                if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
+                    self.directionPressed = false
+                } else if !self.directionPressed {
+                    self.directionPressed = true
+                    
+                    handleDirectionalButtonPressForPlayer(player, scene: scene, xValue: xValue, yValue: yValue)
+                }
+            } else {
+                if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
+                    releaseDirectionalButtonsForPlayer(player, scene: scene)
+                } else if !self.directionPressed {
+                    handleDirectionalButtonPressForPlayer(player, scene: scene, xValue: xValue, yValue: yValue)
+                }
+            }
+        }
+    }
+    
+    private func handleDirectionalButtonPressForPlayer(player: PlayerIndex, scene: BaseScene, xValue: Float, yValue: Float) {
+        if fabs(xValue) > fabs(yValue) {
+            if xValue > 0 {
+                scene.handleRightPress(forPlayer: player)
+            } else {
+                scene.handleLeftPress(forPlayer: player)
+            }
+        } else {
+            if yValue > 0 {
+                scene.handleUpPress(forPlayer: player)
+            } else {
+                scene.handleDownPress(forPlayer: player)
+            }
+        }
+    }
+    
+    private func releaseDirectionalButtonsForPlayer(player: PlayerIndex, scene: BaseScene) {
+        scene.handleRightRelease(forPlayer: player)
+        scene.handleLeftRelease(forPlayer: player)
+        scene.handleUpRelease(forPlayer: player)
+        scene.handleDownRelease(forPlayer: player)
+    }
+    
+    private func handlePausePress() {
+        self.scene?.handlePausePress(forPlayer: .Player1)
+    }
 }
