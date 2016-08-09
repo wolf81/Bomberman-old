@@ -19,7 +19,7 @@
 
 // NOTE: If we encounter performance issues, perhaps we can use the @inline(__always) attribute on
 //  some functions. These functions will likely be called many times per second. Reducing function
-//  calls might improve performance.
+//  calls might improve performance.@inline(__always)
 
 import SpriteKit
 import GameController
@@ -41,71 +41,34 @@ class InputProxy {
         controller.playerIndex = player
         
         controller.controllerPausedHandler = { [unowned self] _ in
-            togglePause()
+            self.handlePausePress()
         }
         
         let playerIndex: PlayerIndex = player == .Index1 ? .Player1 : .Player2
-        
         if let profile = controller.microGamepad {
             profile.allowsRotation = true
             profile.reportsAbsoluteDpadValues = true
             profile.buttonX.pressedChangedHandler = { _, value, pressed in
-                if pressed {
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.Action)
+                if let scene = self.scene {
+                    self.handleActionPressReleaseForPlayer(playerIndex, scene: scene, pressed: pressed)
                 }
             }
             
             profile.dpad.valueChangedHandler = { _, xValue, yValue in
-                let centerOffset: Float = 0.25
-                
-                if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
-                    self.busy = false
-                } else if !self.busy {
-                    self.busy = true
-                    
-                    if fabs(xValue) > fabs(yValue) {
-                        if xValue > 0 {
-                            self.scene?.handleRightPress(forPlayer: playerIndex)
-                        } else {
-                            self.scene?.handleLeftPress(forPlayer: playerIndex)
-                        }
-                    } else {
-                        if yValue > 0 {
-                            self.scene?.handleUpPress(forPlayer: playerIndex)
-                        } else {
-                            self.scene?.handleDownPress(forPlayer: playerIndex)
-                        }
-                    }
+                if let scene = self.scene {
+                    self.handleDpadValueChangedForPlayer(.Player1, scene: scene, xValue: xValue, yValue: yValue, centerOffset: 0.25)
                 }
             }
         } else if let profile = controller.gamepad {
             profile.dpad.valueChangedHandler = { _, xValue, yValue in
-                let centerOffset: Float = 0.10
-                
-                if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
-                    self.busy = false
-                } else if !self.busy {
-                    self.busy = true
-                    
-                    if fabs(xValue) > fabs(yValue) {
-                        if xValue > 0 {
-                            self.scene?.handleRightPress(forPlayer: playerIndex)
-                        } else {
-                            self.scene?.handleLeftPress(forPlayer: playerIndex)
-                        }
-                    } else {
-                        if yValue > 0 {
-                            self.scene?.handleUpPress(forPlayer: playerIndex)
-                        } else {
-                            self.scene?.handleDownPress(forPlayer: playerIndex)
-                        }
-                    }
+                if let scene = self.scene {
+                    self.handleDpadValueChangedForPlayer(.Player1, scene: scene, xValue: xValue, yValue: yValue, centerOffset: 0.10)
                 }
             }
             
             profile.buttonA.pressedChangedHandler = { _, value, pressed in
-                if pressed {
-                    Game.sharedInstance.handlePlayerDidStartAction(playerIndex, action: PlayerAction.Action)
+                if let scene = self.scene {
+                    self.handleActionPressReleaseForPlayer(playerIndex, scene: scene, pressed: pressed)
                 }
             }
         }
@@ -122,14 +85,24 @@ class InputProxy {
         
         if let dpad = controller.gamepad?.dpad {
             dpad.valueChangedHandler = { _, xValue, yValue in
-                self.handleDpadValueChangedForPlayer(.Player1, xValue: xValue, yValue: yValue, centerOffset: 0.10)
+                if let scene = self.scene {
+                    self.handleDpadValueChangedForPlayer(.Player1, scene: scene, xValue: xValue, yValue: yValue, centerOffset: 0.10)
+                }
             }
         }
         
         if let buttonA = controller.gamepad?.buttonA {
             buttonA.pressedChangedHandler = { _, value, pressed in
-                if pressed {
-                    self.scene?.handleActionPress(forPlayer: .Player1)
+                if let scene = self.scene {
+                    self.handleActionPressReleaseForPlayer(.Player1, scene: scene, pressed: pressed)
+                }
+            }
+        }
+        
+        if let buttonX = controller.gamepad?.buttonX {
+            buttonX.pressedChangedHandler = { _, value, pressed in
+                if let scene = self.scene {
+                    self.handleActionPressReleaseForPlayer(.Player1, scene: scene, pressed: pressed)
                 }
             }
         }
@@ -139,22 +112,20 @@ class InputProxy {
     
     // MARK: - Private
     
-    private func handleDpadValueChangedForPlayer(player: PlayerIndex, xValue: Float, yValue: Float, centerOffset: Float) {
-        if let scene = self.scene {
-            if self.autoDirectionPressRelease {
-                if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
-                    self.directionPressed = false
-                } else if !self.directionPressed {
-                    self.directionPressed = true
-                    
-                    handleDirectionalButtonPressForPlayer(player, scene: scene, xValue: xValue, yValue: yValue)
-                }
-            } else {
-                if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
-                    releaseDirectionalButtonsForPlayer(player, scene: scene)
-                } else if !self.directionPressed {
-                    handleDirectionalButtonPressForPlayer(player, scene: scene, xValue: xValue, yValue: yValue)
-                }
+    private func handleDpadValueChangedForPlayer(player: PlayerIndex, scene: BaseScene, xValue: Float, yValue: Float, centerOffset: Float) {
+        if self.autoDirectionPressRelease {
+            if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
+                self.directionPressed = false
+            } else if !self.directionPressed {
+                self.directionPressed = true
+                
+                handleDirectionalButtonPressForPlayer(player, scene: scene, xValue: xValue, yValue: yValue)
+            }
+        } else {
+            if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
+                releaseDirectionalButtonsForPlayer(player, scene: scene)
+            } else if !self.directionPressed {
+                handleDirectionalButtonPressForPlayer(player, scene: scene, xValue: xValue, yValue: yValue)
             }
         }
     }
@@ -172,6 +143,12 @@ class InputProxy {
             } else {
                 scene.handleDownPress(forPlayer: player)
             }
+        }
+    }
+    
+    private func handleActionPressReleaseForPlayer(player: PlayerIndex, scene: BaseScene, pressed: Bool) {
+        if pressed {
+            scene.handleActionPress(forPlayer: .Player1)
         }
     }
     
