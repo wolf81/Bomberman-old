@@ -8,26 +8,15 @@
 
 import SpriteKit
 
-enum MenuOption: Int {
-    case NewGame = 0
-    case Continue
-    case Settings
-    case Developer
-    
-    static let allValues: [MenuOption] = [NewGame, Continue, Settings, Developer]
-}
-
 protocol MenuSceneDelegate: SKSceneDelegate {
     func menuScene(scene: MenuScene, optionSelected: MenuOption)
 }
 
 class MenuScene: BaseScene {
-    private var newGameLabel: SKLabelNode!
-    private var continueGameLabel: SKLabelNode!
-    private var settingsLabel: SKLabelNode!
-    private var developerLabel: SKLabelNode!
+    var options = [MenuOption]()
+    var optionLabels = [SKLabelNode]()
     
-    private var selectedOption: MenuOption = .NewGame
+    private var selectedOption: MenuOption?
     
     // Work around to set the subclass delegate.
     var menuSceneDelegate: MenuSceneDelegate? {
@@ -37,10 +26,13 @@ class MenuScene: BaseScene {
     
     // MARK: - Initialization
     
-    init(size: CGSize, delegate: MenuSceneDelegate) {
+    init(size: CGSize, delegate: MenuSceneDelegate, options: [MenuOption]) {
         super.init(size: size)
         
         self.delegate = delegate
+                
+        self.options = options
+        self.selectedOption = options.first
         
         commonInit()
     }
@@ -67,41 +59,47 @@ class MenuScene: BaseScene {
         let x = self.size.width / 2
         let y = self.size.height / 2
         
-        self.newGameLabel = SKLabelNode(text: "NEW GAME")
-        self.newGameLabel.position = CGPoint(x: x, y: y + 150)
-        self.addChild(self.newGameLabel)
+        let itemCountForHeight = fmaxf(Float(self.options.count - 1), 0)
+        let totalHeight = CGFloat(itemCountForHeight * 100)
+        let originY = y + (totalHeight / 2)
         
-        self.continueGameLabel = SKLabelNode(text: "CONTINUE")
-        self.continueGameLabel.position = CGPoint(x: x, y: y + 50)
-        self.addChild(self.continueGameLabel)
-        
-        self.settingsLabel = SKLabelNode(text: "SETTINGS")
-        self.settingsLabel.position = CGPoint(x: x, y: y - 50)
-        self.addChild(self.settingsLabel)
-        
-        self.developerLabel = SKLabelNode(text: "DEVELOPER")
-        self.developerLabel.position = CGPoint(x: x, y: y - 150)
-        self.addChild(self.developerLabel)        
+        var optionLabels = [SKLabelNode]()
+        for (idx, item) in options.enumerate() {
+            let label = SKLabelNode(text: item.title)
+            let y = CGFloat(originY) - CGFloat(idx * 100)
+            label.position = CGPoint(x: x, y: y)
+            self.addChild(label)
+            optionLabels.append(label)
+        }
+        self.optionLabels = optionLabels
     }
     
     private func updateUI() {
         let defaultFontName = "HelveticaNeue-UltraLight"
         let highlightFontName = "HelveticaNeue-Medium"
         
-        for option in MenuOption.allValues {
-            let label = labelForMenuOption(option)
-            label.fontName = option == self.selectedOption ? highlightFontName : defaultFontName
+        for item in self.options {
+            var fontName = defaultFontName
+
+            if let selectedItem = self.selectedOption {
+                if item === selectedItem {
+                    fontName = highlightFontName
+                }
+            }
+            
+            if let label = labelForMenuOption(item) {
+                label.fontName = fontName
+            }
         }
     }
     
-    private func labelForMenuOption(option: MenuOption) -> SKLabelNode {
-        var label: SKLabelNode
+    private func labelForMenuOption(option: MenuOption) -> SKLabelNode? {
+        var label: SKLabelNode?
         
-        switch option {
-        case .Continue: label = self.continueGameLabel
-        case .Developer: label = self.developerLabel
-        case .NewGame: label = self.newGameLabel
-        case .Settings: label = self.settingsLabel
+        for optionLabel in self.optionLabels {
+            if optionLabel.text == option.title {
+                label = optionLabel
+            }
         }
         
         return label
@@ -112,14 +110,14 @@ class MenuScene: BaseScene {
     override func handleUpPress(forPlayer player: PlayerIndex) {
         var selectionIndex = 0
         
-        for (idx, option) in MenuOption.allValues.enumerate() {
-            if option == self.selectedOption {
+        for (idx, item) in self.options.enumerate() {
+            if item === self.selectedOption {
                 selectionIndex = max(idx - 1, 0)
                 break
             }
         }
         
-        self.selectedOption = MenuOption(rawValue: selectionIndex)!
+        self.selectedOption = self.options[selectionIndex]
         
         updateUI()
     }
@@ -127,19 +125,21 @@ class MenuScene: BaseScene {
     override func handleDownPress(forPlayer player: PlayerIndex) {
         var selectionIndex = 0
         
-        for (idx, option) in MenuOption.allValues.enumerate() {
-            if option == self.selectedOption {
-                selectionIndex = min(idx + 1, MenuOption.allValues.count - 1)
+        for (idx, item) in self.options.enumerate() {
+            if item === self.selectedOption {
+                selectionIndex = min(idx + 1, self.options.count - 1)
                 break
             }
         }
         
-        self.selectedOption = MenuOption(rawValue: selectionIndex)!
+        self.selectedOption = self.options[selectionIndex]
         
         updateUI()
     }
     
     override func handleActionPress(forPlayer player: PlayerIndex) {
-        self.menuSceneDelegate?.menuScene(self, optionSelected: self.selectedOption)
+        if let selectedItem = self.selectedOption {
+            self.menuSceneDelegate?.menuScene(self, optionSelected: selectedItem)
+        }
     }
 }

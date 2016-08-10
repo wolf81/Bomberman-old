@@ -41,14 +41,14 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     func gameSceneDidPause(scene: GameScene) {
         self.pausedGameScene = scene
         
-        let menuScene = MenuScene(size: self.defaultSize, delegate: self)
+        let menuScene = MenuScene(size: self.defaultSize, delegate: self, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Fade)
     }
     
     // MARK: - DeveloperSceneDelegate
     
     func developerScene(scene: DeveloperScene, optionSelected: DeveloperOption) {
-        let menuScene = MenuScene(size: self.defaultSize, delegate: self)
+        let menuScene = MenuScene(size: self.defaultSize, delegate: self, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Pop)
     }
     
@@ -57,20 +57,21 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     func menuScene(scene: MenuScene, optionSelected: MenuOption) {
         print("selected: \(optionSelected)")
         
-        switch optionSelected {
-        case .NewGame:
-            let level = Settings.initialLevel()
-            showLevel(level)
-        case .Continue: continueLevel()
-        case .Settings: showSettings()
-        case .Developer: showDeveloper()
+        // TODO: Consider using a block in a constructor to handle selection actions.
+        
+        switch optionSelected.title {
+        case "NEW GAME": let level = Settings.initialLevel(); showLevel(level)
+        case "CONTINUE": continueLevel()
+        case "SETTINGS": showSettings()
+        case "DEVELOPER": showDeveloper()
+        default: break
         }
     }
     
     // MARK: - LoadingSceneDelegate
     
     func loadingSceneDidFinishLoading(scene: LoadingScene) {
-        let menuScene = MenuScene(size: self.defaultSize, delegate: self)
+        let menuScene = MenuScene(size: self.defaultSize, delegate: self, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Fade)
     }
     
@@ -85,7 +86,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     // MARK: - SettingsSceneDelegate
 
     func settingsScene(scene: SettingsScene, optionSelected: SettingsOption) {
-        let menuScene = MenuScene(size: self.defaultSize, delegate: self)
+        let menuScene = MenuScene(size: self.defaultSize, delegate: self, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Pop)
     }
     
@@ -144,5 +145,14 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         let levelParser = LevelLoader(forGame: Game.sharedInstance)
         let level = try levelParser.loadLevel(levelIndex)
         return level
+    }
+    
+    private func mainMenuOptions() -> [MenuOption] {
+        let newGameItem = MenuOption(title: "NEW GAME")
+        let continueItem = MenuOption(title: "CONTINUE")
+        let settingsItem = MenuOption(title: "SETTINGS")
+        let developerItem = MenuOption(title: "DEVELOPER")
+        
+        return [newGameItem, continueItem, settingsItem, developerItem]
     }
 }
