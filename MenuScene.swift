@@ -72,20 +72,20 @@ class MenuScene: BaseScene {
             self.addChild(label)
             optionLabels.append(label)
             
-            if item.type == .Switch {
-                let switchSize = CGSize(width: 18, height: 18)
-                let optionSwitch = Switch(size: switchSize)
+            if item.type == .Checkbox {
+                let controlSize = CGSize(width: 18, height: 18)
+                let checkbox = Checkbox(size: controlSize)
                 let labelFrame = label.calculateAccumulatedFrame()
-                let yOffset = (labelFrame.size.height - switchSize.height) / 2
+                let yOffset = (labelFrame.size.height - controlSize.height) / 2
                 let xOffset: CGFloat = 30 // TODO: calc using back button half size
                 let padding: CGFloat = 20
-                optionSwitch.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)
+                checkbox.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)
 
                 if let enabled = item.value as? Bool {
-                    optionSwitch.setEnabled(enabled)
+                    checkbox.setEnabled(enabled)
                 }
-                self.addChild(optionSwitch)
-                self.controls.append(optionSwitch)
+                self.addChild(checkbox)
+                self.controls.append(checkbox)
             }
         }
         self.optionLabels = optionLabels
@@ -144,15 +144,10 @@ class MenuScene: BaseScene {
         return controlForOption
     }
     
-    private func toggleSwitch(optionSwitch: Switch) {
-        let enabled = !optionSwitch.isEnabled()
-        optionSwitch.setEnabled(enabled)
-    }
-    
     private func focusControlForSelectedOption() {
         // First clear selection
         for control in self.controls {
-            if let optionSwitch = control as? Switch {
+            if let optionSwitch = control as? Checkbox {
                 optionSwitch.setFocused(false)
             }
         }
@@ -160,8 +155,8 @@ class MenuScene: BaseScene {
         // Focus the correct control for the current label
         if let option = self.selectedOption, control = controlForMenuOption(option) {
             switch option.type {
-            case .Switch:
-                if let optionSwitch = control as? Switch {
+            case .Checkbox:
+                if let optionSwitch = control as? Checkbox {
                     optionSwitch.setFocused(true)
                 }
             default: break
@@ -177,7 +172,7 @@ class MenuScene: BaseScene {
                 let control = controlForMenuOption(option)
                 
                 switch option.type {
-                case .Switch: if let optionSwitch = control as? Switch { toggleSwitch(optionSwitch) }
+                case .Checkbox: if let checkbox = control as? Checkbox { checkbox.toggle() }
                 default: break
                 }
             }
@@ -190,7 +185,7 @@ class MenuScene: BaseScene {
                 let control = controlForMenuOption(option)
                 
                 switch option.type {
-                case .Switch: if let optionSwitch = control as? Switch { toggleSwitch(optionSwitch) }
+                case .Checkbox: if let checkbox = control as? Checkbox { checkbox.toggle() }
                 default: break
                 }
             }

@@ -154,7 +154,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         let developerItem = MenuOption(title: "DEVELOPER")
         
         let enabled = Settings.musicEnabled()
-        let testItem = MenuOption(title: "TEST", type: .Switch, value: enabled)
+        let testItem = MenuOption(title: "TEST", type: .Checkbox, value: enabled)
         
         return [newGameItem, continueItem, settingsItem, developerItem, testItem]
     }

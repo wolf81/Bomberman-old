@@ -27,7 +27,7 @@ class DeveloperScene: BaseScene {
     
     // TODO: Create proper controls
     private var levelChooser: SKLabelNode!
-    private var assetsCheckSwitch: Switch!
+    private var assetsCheckSwitch: Checkbox!
     
     private var selectedOption: DeveloperOption = .Level
     
@@ -93,7 +93,7 @@ class DeveloperScene: BaseScene {
         
         let enabled = Settings.assetsCheckEnabled()
         let switchSize = CGSize(width: 18, height: 18)
-        self.assetsCheckSwitch = Switch(size: switchSize)
+        self.assetsCheckSwitch = Checkbox(size: switchSize)
         let labelFrame = self.assetsCheckLabel.calculateAccumulatedFrame()
         let yOffset = (labelFrame.size.height - switchSize.height) / 2
         self.assetsCheckSwitch.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)

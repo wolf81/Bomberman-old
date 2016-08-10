@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Switch: SKShapeNode {
+class Checkbox: SKShapeNode {
     private var enabled = false
     private var focused = false
         
@@ -42,6 +42,11 @@ class Switch: SKShapeNode {
     
     func isFocused() -> Bool {
         return self.focused
+    }
+    
+    func toggle() {
+        let enabled = !self.isEnabled()
+        setEnabled(enabled)
     }
     
     // MARK: - Private

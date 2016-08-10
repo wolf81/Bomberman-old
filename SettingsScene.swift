@@ -22,7 +22,7 @@ protocol SettingsSceneDelegate: SKSceneDelegate {
 class SettingsScene: BaseScene {
     private var backLabel: SKLabelNode!
     private var musicLabel: SKLabelNode!
-    private var musicSwitch: Switch!
+    private var musicSwitch: Checkbox!
     
     private var selectedOption: SettingsOption = .Music
 
@@ -77,7 +77,7 @@ class SettingsScene: BaseScene {
         
         let enabled = Settings.musicEnabled()
         let switchSize = CGSize(width: 18, height: 18)
-        self.musicSwitch = Switch(size: switchSize)
+        self.musicSwitch = Checkbox(size: switchSize)
         let labelFrame = self.musicLabel.calculateAccumulatedFrame()
         let yOffset = (labelFrame.size.height - switchSize.height) / 2
         self.musicSwitch.position = CGPoint(x: x + xOffset + padding, y: y + 50 + yOffset)

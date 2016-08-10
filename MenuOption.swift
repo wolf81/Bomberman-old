@@ -11,7 +11,7 @@ import Foundation
 enum MenuOptionType {
     case Default
     case NumberChooser
-    case Switch
+    case Checkbox
 }
 
 class MenuOption {
