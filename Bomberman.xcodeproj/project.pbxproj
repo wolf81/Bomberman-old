@@ -368,10 +368,10 @@
 				79606E861CFE6C2D0034A0A1 /* SceneController.swift */,
 				79FC6B881CCA2B9000DF7476 /* GameScene.swift */,
 				793FAF441CE08E22005F64B1 /* LoadingScene.swift */,
-				793FAF471CE0C0C0005F64B1 /* MenuScene.swift */,
 				791827CE1D0D23550058848C /* BaseScene.swift */,
 				7963F0021D47797500F5076D /* SettingsScene.swift */,
 				792D7C671D4C8476003C5FC8 /* DeveloperScene.swift */,
+				793FAF471CE0C0C0005F64B1 /* MenuScene.swift */,
 				79621E8A1D5B1D87002F4235 /* MenuOption.swift */,
 			);
 			name = Scenes;

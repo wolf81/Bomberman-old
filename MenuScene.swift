@@ -15,6 +15,7 @@ protocol MenuSceneDelegate: SKSceneDelegate {
 class MenuScene: BaseScene {
     var options = [MenuOption]()
     var optionLabels = [SKLabelNode]()
+    var controls = [SKNode]()
     
     private var selectedOption: MenuOption?
     
@@ -70,6 +71,22 @@ class MenuScene: BaseScene {
             label.position = CGPoint(x: x, y: y)
             self.addChild(label)
             optionLabels.append(label)
+            
+            if item.type == .Switch {
+                let switchSize = CGSize(width: 18, height: 18)
+                let optionSwitch = Switch(size: switchSize)
+                let labelFrame = label.calculateAccumulatedFrame()
+                let yOffset = (labelFrame.size.height - switchSize.height) / 2
+                let xOffset: CGFloat = 30 // TODO: calc using back button half size
+                let padding: CGFloat = 20
+                optionSwitch.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)
+
+                if let enabled = item.value as? Bool {
+                    optionSwitch.setEnabled(enabled)
+                }
+                self.addChild(optionSwitch)
+                self.controls.append(optionSwitch)
+            }
         }
         self.optionLabels = optionLabels
     }
@@ -91,6 +108,8 @@ class MenuScene: BaseScene {
                 label.fontName = fontName
             }
         }
+        
+        focusControlForSelectedOption()
     }
     
     private func labelForMenuOption(option: MenuOption) -> SKLabelNode? {
@@ -105,13 +124,84 @@ class MenuScene: BaseScene {
         return label
     }
     
+    private func controlForMenuOption(option: MenuOption) -> SKNode? {
+        var controlForOption: SKNode?
+        
+        let label = labelForMenuOption(option)
+        
+        for control in self.controls {
+            var yRange = 0 ..< 0
+            if let labelFrame = label?.calculateAccumulatedFrame() {
+                yRange = Int(labelFrame.minY) ..< Int(labelFrame.maxY)
+            }
+            
+            if yRange.contains(Int(control.position.y)) {
+                controlForOption = control
+                break
+            }
+        }
+        
+        return controlForOption
+    }
+    
+    private func toggleSwitch(optionSwitch: Switch) {
+        let enabled = !optionSwitch.isEnabled()
+        optionSwitch.setEnabled(enabled)
+    }
+    
+    private func focusControlForSelectedOption() {
+        // First clear selection
+        for control in self.controls {
+            if let optionSwitch = control as? Switch {
+                optionSwitch.setFocused(false)
+            }
+        }
+        
+        // Focus the correct control for the current label
+        if let option = self.selectedOption, control = controlForMenuOption(option) {
+            switch option.type {
+            case .Switch:
+                if let optionSwitch = control as? Switch {
+                    optionSwitch.setFocused(true)
+                }
+            default: break
+            }
+        }
+    }
+    
     // MARK: - Public
     
+    override func handleLeftPress(forPlayer player: PlayerIndex) {
+        for option in self.options {
+            if option === selectedOption {
+                let control = controlForMenuOption(option)
+                
+                switch option.type {
+                case .Switch: if let optionSwitch = control as? Switch { toggleSwitch(optionSwitch) }
+                default: break
+                }
+            }
+        }
+    }
+    
+    override func handleRightPress(forPlayer player: PlayerIndex) {
+        for option in self.options {
+            if option === selectedOption {
+                let control = controlForMenuOption(option)
+                
+                switch option.type {
+                case .Switch: if let optionSwitch = control as? Switch { toggleSwitch(optionSwitch) }
+                default: break
+                }
+            }
+        }
+    }
+
     override func handleUpPress(forPlayer player: PlayerIndex) {
         var selectionIndex = 0
         
-        for (idx, item) in self.options.enumerate() {
-            if item === self.selectedOption {
+        for (idx, option) in self.options.enumerate() {
+            if option === self.selectedOption {
                 selectionIndex = max(idx - 1, 0)
                 break
             }
@@ -125,8 +215,8 @@ class MenuScene: BaseScene {
     override func handleDownPress(forPlayer player: PlayerIndex) {
         var selectionIndex = 0
         
-        for (idx, item) in self.options.enumerate() {
-            if item === self.selectedOption {
+        for (idx, option) in self.options.enumerate() {
+            if option === self.selectedOption {
                 selectionIndex = min(idx + 1, self.options.count - 1)
                 break
             }
@@ -138,8 +228,8 @@ class MenuScene: BaseScene {
     }
     
     override func handleActionPress(forPlayer player: PlayerIndex) {
-        if let selectedItem = self.selectedOption {
-            self.menuSceneDelegate?.menuScene(self, optionSelected: selectedItem)
+        if let selectedOption = self.selectedOption {
+            self.menuSceneDelegate?.menuScene(self, optionSelected: selectedOption)
         }
     }
 }
