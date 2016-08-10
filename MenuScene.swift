@@ -14,8 +14,9 @@ protocol MenuSceneDelegate: SKSceneDelegate {
 
 class MenuScene: BaseScene {
     var options = [MenuOption]()
-    var optionLabels = [SKLabelNode]()
+    var labels = [SKLabelNode]()
     var controls = [SKNode]()
+    var alignWithLastItem = false
     
     private var selectedOption: MenuOption?
     
@@ -27,11 +28,15 @@ class MenuScene: BaseScene {
     
     // MARK: - Initialization
     
-    init(size: CGSize, delegate: MenuSceneDelegate, options: [MenuOption]) {
+    convenience init(size: CGSize, delegate: MenuSceneDelegate, options: [MenuOption]) {
+        self.init(size: size, delegate: delegate, options: options, alignWithLastItem: true)
+    }
+    
+    init(size: CGSize, delegate: MenuSceneDelegate, options: [MenuOption], alignWithLastItem: Bool) {
         super.init(size: size)
         
         self.delegate = delegate
-                
+        self.alignWithLastItem = alignWithLastItem
         self.options = options
         self.selectedOption = options.first
         
@@ -57,38 +62,72 @@ class MenuScene: BaseScene {
     // MARK: - Private
     
     private func commonInit() {
+        self.labels = [SKLabelNode]()
+        
+        // Add controls.
+        for option in self.options {
+            let label = SKLabelNode(text: option.title)
+            self.addChild(label)
+            self.labels.append(label)
+            
+            switch option.type {
+            case .Checkbox:
+                let controlSize = CGSize(width: 18, height: 18)
+                let checkbox = Checkbox(size: controlSize)
+                
+                if let enabled = option.value as? Bool {
+                    checkbox.setEnabled(enabled)
+                }
+                
+                self.addChild(checkbox)
+                self.controls.append(checkbox)
+            default:
+                // We use a dummy control in the controls list so we can use the same index as the
+                //  index of it's label.
+                let dummyControl = SKNode()
+                self.controls.append(dummyControl)
+            }
+        }
+        
+        // Position controls and align controls.
         let x = self.size.width / 2
         let y = self.size.height / 2
         
         let itemCountForHeight = fmaxf(Float(self.options.count - 1), 0)
         let totalHeight = CGFloat(itemCountForHeight * 100)
         let originY = y + (totalHeight / 2)
-        
-        var optionLabels = [SKLabelNode]()
-        for (idx, item) in options.enumerate() {
-            let label = SKLabelNode(text: item.title)
+
+        for (idx, option) in self.options.enumerate().reverse() {
             let y = CGFloat(originY) - CGFloat(idx * 100)
-            label.position = CGPoint(x: x, y: y)
-            self.addChild(label)
-            optionLabels.append(label)
+
+            if let label = labelForMenuOption(option) {
+                label.position = CGPoint(x: x, y: y)
+
+                if alignWithLastItem && idx != (self.options.count - 1) {
+                    if let lastLabel = self.labels.last {
+                        let xOffset = lastLabel.calculateAccumulatedFrame().maxX - x
+                        label.position = CGPoint(x: x + xOffset, y: y)
+                    }
+                    
+                    label.horizontalAlignmentMode = .Right
+                }
+            }
             
-            if item.type == .Checkbox {
-                let controlSize = CGSize(width: 18, height: 18)
-                let checkbox = Checkbox(size: controlSize)
-                let labelFrame = label.calculateAccumulatedFrame()
+            if let control = controlForMenuOption(option) {
+                var labelFrame = CGRect()
+                
+                if let label = labelForMenuOption(option) {
+                    labelFrame = label.calculateAccumulatedFrame()
+                }
+                
+                let controlSize = control.calculateAccumulatedFrame().size
+                
                 let yOffset = (labelFrame.size.height - controlSize.height) / 2
                 let xOffset: CGFloat = 30 // TODO: calc using back button half size
                 let padding: CGFloat = 20
-                checkbox.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)
-
-                if let enabled = item.value as? Bool {
-                    checkbox.setEnabled(enabled)
-                }
-                self.addChild(checkbox)
-                self.controls.append(checkbox)
+                control.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)
             }
         }
-        self.optionLabels = optionLabels
     }
     
     private func updateUI() {
@@ -115,7 +154,7 @@ class MenuScene: BaseScene {
     private func labelForMenuOption(option: MenuOption) -> SKLabelNode? {
         var label: SKLabelNode?
         
-        for optionLabel in self.optionLabels {
+        for optionLabel in self.labels {
             if optionLabel.text == option.title {
                 label = optionLabel
             }
@@ -125,23 +164,20 @@ class MenuScene: BaseScene {
     }
     
     private func controlForMenuOption(option: MenuOption) -> SKNode? {
-        var controlForOption: SKNode?
+        let idx = indexOfMenuOption(option)
+        return self.controls[idx]
+    }
+    
+    private func indexOfMenuOption(option: MenuOption) -> Int {
+        var idx = -1
         
-        let label = labelForMenuOption(option)
-        
-        for control in self.controls {
-            var yRange = 0 ..< 0
-            if let labelFrame = label?.calculateAccumulatedFrame() {
-                yRange = Int(labelFrame.minY) ..< Int(labelFrame.maxY)
-            }
-            
-            if yRange.contains(Int(control.position.y)) {
-                controlForOption = control
-                break
+        for (testIdx, testOption) in self.options.enumerate() {
+            if testOption === option {
+                idx = testIdx
             }
         }
-        
-        return controlForOption
+
+        return idx
     }
     
     private func focusControlForSelectedOption() {
@@ -152,7 +188,7 @@ class MenuScene: BaseScene {
             }
         }
         
-        // Focus the correct control for the current label
+        // Focus the control for the current label
         if let option = self.selectedOption, control = controlForMenuOption(option) {
             switch option.type {
             case .Checkbox:
