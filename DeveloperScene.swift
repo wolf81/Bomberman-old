@@ -66,29 +66,41 @@ class DeveloperScene: BaseScene {
     private func commonInit() {
         let x = self.size.width / 2
         let y = self.size.height / 2
+        let padding: CGFloat = 30
+        
+        self.backLabel = SKLabelNode(text: "BACK")
+        self.backLabel.position = CGPoint(x: x, y: y - 100)
+        self.backLabel.horizontalAlignmentMode = .Center
+        self.addChild(self.backLabel)
 
-        self.levelLabel = SKLabelNode(text: "LEVEL:")
-        self.levelLabel.position = CGPoint(x: x, y: y + 100)
+        let xOffset = self.backLabel.calculateAccumulatedFrame().maxX - x
+        
+        self.levelLabel = SKLabelNode(text: "INITIAL LEVEL")
+        self.levelLabel.position = CGPoint(x: x + xOffset, y: y + 100)
+        self.levelLabel.horizontalAlignmentMode = .Right
         self.addChild(self.levelLabel)
         
         let index = Settings.initialLevel()
         self.levelChooser = SKLabelNode(text: "\(index)")
-        self.levelChooser.position = CGPoint(x: x + 90, y: y + 100)
+        self.levelChooser.position = CGPoint(x: x + xOffset + padding, y: y + 100)
+        self.levelChooser.horizontalAlignmentMode = .Left
         self.addChild(self.levelChooser)
         
         self.assetsCheckLabel = SKLabelNode(text: "CHECK ASSETS ON START-UP")
-        self.assetsCheckLabel.position = CGPoint(x: x, y: y)
+        self.assetsCheckLabel.position = CGPoint(x: x + xOffset, y: y)
+        self.assetsCheckLabel.horizontalAlignmentMode = .Right
         self.addChild(self.assetsCheckLabel)
         
         let enabled = Settings.assetsCheckEnabled()
-        self.assetsCheckSwitch = Switch(size: CGSize(width: 26, height: 26))
-        self.assetsCheckSwitch.position = CGPoint(x: x + 265, y: y)
+        let switchSize = CGSize(width: 18, height: 18)
+        self.assetsCheckSwitch = Switch(size: switchSize)
+        let labelFrame = self.assetsCheckLabel.calculateAccumulatedFrame()
+        let yOffset = (labelFrame.size.height - switchSize.height) / 2
+        self.assetsCheckSwitch.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)
         self.assetsCheckSwitch.setEnabled(enabled)
         self.addChild(self.assetsCheckSwitch)
         
-        self.backLabel = SKLabelNode(text: "BACK")
-        self.backLabel.position = CGPoint(x: x, y: y - 100)
-        self.addChild(self.backLabel)
+        print("frame: \(labelFrame) switchSize: \(switchSize)")
     }
     
     private func updateUI() {

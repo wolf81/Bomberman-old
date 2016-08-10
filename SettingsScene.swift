@@ -60,19 +60,27 @@ class SettingsScene: BaseScene {
     
     private func commonInit() {
         let x = self.size.width / 2
-        let y = self.size.height / 2
+        let y = self.size.height / 2        
+        let padding: CGFloat = 30
         
         self.backLabel = SKLabelNode(text: "BACK")
         self.backLabel.position = CGPoint(x: x, y: y - 50)
         self.addChild(self.backLabel)
         
-        self.musicLabel = SKLabelNode(text: "MUSIC")
-        self.musicLabel.position = CGPoint(x: x, y: y + 50)
+        let xOffset = self.backLabel.calculateAccumulatedFrame().maxX - x
+        print("xOffset: \(xOffset)")
+
+        self.musicLabel = SKLabelNode(text: "PLAY MUSIC")
+        self.musicLabel.position = CGPoint(x: x + xOffset, y: y + 50)
+        self.musicLabel.horizontalAlignmentMode = .Right
         self.addChild(self.musicLabel)
         
         let enabled = Settings.musicEnabled()
-        self.musicSwitch = Switch(size: CGSize(width: 25, height: 25))
-        self.musicSwitch.position = CGPoint(x: x + 90, y: y + 50)
+        let switchSize = CGSize(width: 18, height: 18)
+        self.musicSwitch = Switch(size: switchSize)
+        let labelFrame = self.musicLabel.calculateAccumulatedFrame()
+        let yOffset = (labelFrame.size.height - switchSize.height) / 2
+        self.musicSwitch.position = CGPoint(x: x + xOffset + padding, y: y + 50 + yOffset)
         self.musicSwitch.setEnabled(enabled)
         self.addChild(self.musicSwitch)
     }

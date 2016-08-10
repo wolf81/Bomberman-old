@@ -11,7 +11,7 @@ import SpriteKit
 class Switch: SKShapeNode {
     private var enabled = false
     private var focused = false
-    
+        
     init(size: CGSize) {
         super.init()
         
@@ -37,7 +37,7 @@ class Switch: SKShapeNode {
     
     func setFocused(focused: Bool) {
         self.focused = focused
-        self.lineWidth = focused ? 3.0 : 1.0
+        self.lineWidth = focused ? 2.0 : 1.0
     }
     
     func isFocused() -> Bool {
@@ -47,7 +47,6 @@ class Switch: SKShapeNode {
     // MARK: - Private
     
     func commonInit() {
-        self.lineWidth = 4.0
         self.strokeColor = SKColor.whiteColor()
         self.fillColor = SKColor.whiteColor()
     }
