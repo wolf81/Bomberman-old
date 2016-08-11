@@ -153,6 +153,10 @@
 		79621E861D588537002F4235 /* InputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E841D588537002F4235 /* InputProxy.swift */; };
 		79621E8B1D5B1D87002F4235 /* MenuOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E8A1D5B1D87002F4235 /* MenuOption.swift */; };
 		79621E8C1D5B1D87002F4235 /* MenuOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E8A1D5B1D87002F4235 /* MenuOption.swift */; };
+		79621E8E1D5C6753002F4235 /* InfoOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E8D1D5C6753002F4235 /* InfoOverlay.swift */; };
+		79621E8F1D5C6753002F4235 /* InfoOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E8D1D5C6753002F4235 /* InfoOverlay.swift */; };
+		79621E911D5C7B78002F4235 /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E901D5C7B78002F4235 /* NSView+Extensions.swift */; };
+		79621E921D5C7B78002F4235 /* NSView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E901D5C7B78002F4235 /* NSView+Extensions.swift */; };
 		7963F0031D47797500F5076D /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963F0021D47797500F5076D /* SettingsScene.swift */; };
 		7963F0041D47797500F5076D /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963F0021D47797500F5076D /* SettingsScene.swift */; };
 		7994C3E01CFD7C8C00B6F77F /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7900191E1CFC2087001EEF3C /* GameController.framework */; };
@@ -267,6 +271,8 @@
 		79606E891CFEB0780034A0A1 /* PowerLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerLoader.swift; sourceTree = "<group>"; };
 		79621E841D588537002F4235 /* InputProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputProxy.swift; sourceTree = "<group>"; };
 		79621E8A1D5B1D87002F4235 /* MenuOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuOption.swift; sourceTree = "<group>"; };
+		79621E8D1D5C6753002F4235 /* InfoOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoOverlay.swift; sourceTree = "<group>"; };
+		79621E901D5C7B78002F4235 /* NSView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+Extensions.swift"; sourceTree = "<group>"; };
 		7963F0021D47797500F5076D /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		79B35D261D0822DD0002EA99 /* CompleteLevel.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CompleteLevel.caf; sourceTree = "<group>"; };
 		79B35D291D0822F80002EA99 /* GameOver.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GameOver.caf; sourceTree = "<group>"; };
@@ -464,6 +470,7 @@
 				794ADE5C1CD70A6F000AF170 /* Array+Extensions.swift */,
 				790056361CDD4484009CDF81 /* SKAction+Extensions.swift */,
 				793FAF4A1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift */,
+				79621E901D5C7B78002F4235 /* NSView+Extensions.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -497,6 +504,7 @@
 			isa = PBXGroup;
 			children = (
 				795C61D31D5709A500220888 /* Checkbox.swift */,
+				79621E8D1D5C6753002F4235 /* InfoOverlay.swift */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -831,6 +839,7 @@
 				7904A69B1D3F82ED00C3F417 /* MusicPlayer.swift in Sources */,
 				794ADE211CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,
 				7947BC201CCB233500DE7C8A /* Types.swift in Sources */,
+				79621E911D5C7B78002F4235 /* NSView+Extensions.swift in Sources */,
 				794ADE5A1CD6F261000AF170 /* StateMachineComponent.swift in Sources */,
 				79621E851D588537002F4235 /* InputProxy.swift in Sources */,
 				795C61D01D56FDA300220888 /* Settings.swift in Sources */,
@@ -866,6 +875,7 @@
 				7947BC341CCDCE6E00DE7C8A /* StateMachine.swift in Sources */,
 				79C9F1951CD9C14400692D75 /* SpriteNode.swift in Sources */,
 				79C9F1921CD9B7E600692D75 /* Monster.swift in Sources */,
+				79621E8E1D5C6753002F4235 /* InfoOverlay.swift in Sources */,
 				794ADE661CD7307A000AF170 /* Projectile.swift in Sources */,
 				791827CF1D0D23550058848C /* BaseScene.swift in Sources */,
 				794ADE541CD5A5B5000AF170 /* Explosion.swift in Sources */,
@@ -941,6 +951,8 @@
 				794ADE491CD4831B000AF170 /* DestroyState.swift in Sources */,
 				794ADE6D1CD82A0A000AF170 /* HitState.swift in Sources */,
 				7920A32E1D02DCE3002C2B16 /* HudLoader.swift in Sources */,
+				79621E8F1D5C6753002F4235 /* InfoOverlay.swift in Sources */,
+				79621E921D5C7B78002F4235 /* NSView+Extensions.swift in Sources */,
 				79FC6BB51CCA47D400DF7476 /* Game.swift in Sources */,
 				794ADDF41CD09026000AF170 /* DataLoader.swift in Sources */,
 				794ADE671CD7307A000AF170 /* Projectile.swift in Sources */,

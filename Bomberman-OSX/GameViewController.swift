@@ -75,6 +75,7 @@ import Cocoa
 class GameViewController: NSViewController {
     private var sceneController: SceneController!
     private var gameView: GameView!
+    private var infoOverlay: InfoOverlay?
     
     // MARK: - Initialization
     
@@ -111,6 +112,10 @@ class GameViewController: NSViewController {
         self.gameView.showsDrawCount = true
         self.gameView.showsFPS = true
         self.gameView.showsNodeCount = true
+        
+        // TODO: Debug only.
+        self.infoOverlay = InfoOverlay()
+        self.gameView.addSubview(self.infoOverlay!)
     }
     
     override func viewWillAppear() {
@@ -118,8 +123,13 @@ class GameViewController: NSViewController {
         
         let scene = LoadingScene(size: self.gameView.bounds.size, loadingSceneDelegate: self.sceneController)
         self.gameView.presentScene(scene)
+        
+        let bounds = self.view.bounds
+        let height: CGFloat = 80
+        let frame = NSRect(x: 0, y: bounds.height - height, width: bounds.width, height: height)
+        self.infoOverlay?.frame = frame
     }
-
+    
     // MARK: - Public
     
     func presentScene(scene: SKScene, withTransition transition: SKTransition) {
