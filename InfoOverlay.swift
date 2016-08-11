@@ -19,6 +19,9 @@
  * - When a message is added to empty queue, fade in.
  */
 
+// TODO: Consider adding a protocol shared between tvOS and macOS. So we can build against an 
+//  interface, not a class, which can / will differ between tvOS and macOS.
+
 import Foundation
 
 // MARK: - tvOS -
@@ -33,7 +36,7 @@ class InfoOverlay: UIView {
     
 #else
 
-// MARK: - OS X -
+// MARK: - macOS -
 
 import Cocoa
 

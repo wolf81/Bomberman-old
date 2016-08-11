@@ -68,7 +68,7 @@ class GameViewController: GCEventViewController {
 
 #else
 
-// MARK: - OS X -
+// MARK: - macOS -
     
 import Cocoa
 
