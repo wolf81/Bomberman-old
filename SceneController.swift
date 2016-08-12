@@ -14,7 +14,7 @@ enum TransitionAnimation {
     case Pop
 }
 
-class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, SettingsSceneDelegate, DeveloperSceneDelegate {
+class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, DeveloperSceneDelegate {
     let defaultSize = CGSize(width: 1280, height: 720)
     
     weak var gameViewController: GameViewController?
@@ -65,13 +65,6 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, Settin
         } catch let error {
             print("error: \(error)")
         }
-    }
-    
-    // MARK: - SettingsSceneDelegate
-
-    func settingsScene(scene: SettingsScene, optionSelected: SettingsOption) {
-        let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
-        transitionToScene(menuScene, animation: .Pop)
     }
     
     // MARK: - Private
@@ -159,6 +152,17 @@ extension SceneController {
             if let index = newValue as? Int {
                 Settings.setInitialLevel(index)
             }
+        }
+        
+        initialLevelItem.onValidate = { newValue in
+            var isValid = false
+            
+            if let index = newValue as? Int {
+                let maxIndex = max(LevelLoader.levelCount - 1, 0)
+                isValid = (0 ... maxIndex).contains(index)
+            }
+            
+            return isValid
         }
         
         let enabled = Settings.assetsCheckEnabled()

@@ -23,7 +23,9 @@ class MenuOption {
     private(set) var onSelected: (() -> Void)?
     private(set) var onValueChanged: ((newValue: AnyObject?) -> Void)?
     
-    var value: AnyObject? {
+    var onValidate: ((newValue: AnyObject?) -> Bool)?
+    
+    private(set) var value: AnyObject? {
         didSet {
             if let onValueChanged = self.onValueChanged {
                 onValueChanged(newValue: self.value)
@@ -46,5 +48,26 @@ class MenuOption {
     init(title: String, onSelected: (() -> Void)? = nil) {
         self.title = title
         self.onSelected = onSelected
+    }
+    
+    // MARK: - Public 
+    
+    func update(newValue: AnyObject?) -> Bool {
+        var didUpdate = false
+     
+        let updateBlock = {
+            self.value = newValue
+            didUpdate = true
+        }
+
+        if let onValidate = self.onValidate {
+            if onValidate(newValue: newValue) {
+                updateBlock()
+            }
+        } else {
+            updateBlock()
+        }
+        
+        return didUpdate
     }
 }

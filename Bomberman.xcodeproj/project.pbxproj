@@ -161,8 +161,6 @@
 		79621E951D5C909D002F4235 /* NumberChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E931D5C909D002F4235 /* NumberChooser.swift */; };
 		79621E981D5C90D2002F4235 /* Focusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E971D5C90D2002F4235 /* Focusable.swift */; };
 		79621E991D5C90D2002F4235 /* Focusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E971D5C90D2002F4235 /* Focusable.swift */; };
-		7963F0031D47797500F5076D /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963F0021D47797500F5076D /* SettingsScene.swift */; };
-		7963F0041D47797500F5076D /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963F0021D47797500F5076D /* SettingsScene.swift */; };
 		7994C3E01CFD7C8C00B6F77F /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7900191E1CFC2087001EEF3C /* GameController.framework */; };
 		79B35D271D0822DD0002EA99 /* CompleteLevel.caf in Resources */ = {isa = PBXBuildFile; fileRef = 79B35D261D0822DD0002EA99 /* CompleteLevel.caf */; };
 		79B35D281D0822DD0002EA99 /* CompleteLevel.caf in Resources */ = {isa = PBXBuildFile; fileRef = 79B35D261D0822DD0002EA99 /* CompleteLevel.caf */; };
@@ -279,7 +277,6 @@
 		79621E901D5C7B78002F4235 /* NSView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSView+Extensions.swift"; sourceTree = "<group>"; };
 		79621E931D5C909D002F4235 /* NumberChooser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberChooser.swift; sourceTree = "<group>"; };
 		79621E971D5C90D2002F4235 /* Focusable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Focusable.swift; sourceTree = "<group>"; };
-		7963F0021D47797500F5076D /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		79B35D261D0822DD0002EA99 /* CompleteLevel.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CompleteLevel.caf; sourceTree = "<group>"; };
 		79B35D291D0822F80002EA99 /* GameOver.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GameOver.caf; sourceTree = "<group>"; };
 		79B35D2C1D08230B0002EA99 /* HurryUp.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = HurryUp.caf; sourceTree = "<group>"; };
@@ -381,7 +378,6 @@
 				79FC6B881CCA2B9000DF7476 /* GameScene.swift */,
 				793FAF441CE08E22005F64B1 /* LoadingScene.swift */,
 				791827CE1D0D23550058848C /* BaseScene.swift */,
-				7963F0021D47797500F5076D /* SettingsScene.swift */,
 				792D7C671D4C8476003C5FC8 /* DeveloperScene.swift */,
 				793FAF471CE0C0C0005F64B1 /* MenuScene.swift */,
 				79621E8A1D5B1D87002F4235 /* MenuOption.swift */,
@@ -834,7 +830,6 @@
 				794ADDFE1CD0A66E000AF170 /* SpriteLoader.swift in Sources */,
 				79FC6B891CCA2B9000DF7476 /* GameScene.swift in Sources */,
 				7902B0BF1CDC954600298CAC /* PlayerHud.swift in Sources */,
-				7963F0031D47797500F5076D /* SettingsScene.swift in Sources */,
 				793FAF451CE08E22005F64B1 /* LoadingScene.swift in Sources */,
 				794ADE4E1CD4B3AA000AF170 /* State.swift in Sources */,
 				7947BC301CCDCE5500DE7C8A /* CpuControlComponent.swift in Sources */,
@@ -957,7 +952,6 @@
 				79C4E7081D06A2D100A35B37 /* AnimationConfiguration.swift in Sources */,
 				795C61D11D56FDA300220888 /* Settings.swift in Sources */,
 				794ADE221CD1FE03000AF170 /* SKTexture+Extensions.swift in Sources */,
-				7963F0041D47797500F5076D /* SettingsScene.swift in Sources */,
 				794ADE491CD4831B000AF170 /* DestroyState.swift in Sources */,
 				794ADE6D1CD82A0A000AF170 /* HitState.swift in Sources */,
 				7920A32E1D02DCE3002C2B16 /* HudLoader.swift in Sources */,

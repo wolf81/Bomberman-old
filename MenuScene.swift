@@ -90,8 +90,8 @@ class MenuScene: BaseScene {
         let itemCountForHeight = fmaxf(Float(self.options.count - 1), 0)
         let totalHeight = CGFloat(itemCountForHeight * 100)
         let originY = y + (totalHeight / 2)
+        let padding: CGFloat = 30
 
-        var xOffset: CGFloat = 0
         for (idx, option) in self.options.enumerate().reverse() {
             let y = CGFloat(originY) - CGFloat(idx * 100)
             
@@ -100,7 +100,7 @@ class MenuScene: BaseScene {
 
                 if alignWithLastItem && idx != (self.options.count - 1) {
                     if let lastLabel = self.labels.last {
-                        xOffset = lastLabel.calculateAccumulatedFrame().maxX - x
+                        let xOffset = lastLabel.calculateAccumulatedFrame().maxX - x
                         label.position = CGPoint(x: x + xOffset, y: y)
                     }
                     
@@ -116,19 +116,9 @@ class MenuScene: BaseScene {
                 }
                 
                 let controlSize = control.calculateAccumulatedFrame().size
-                print("controlSize: \(controlSize)")
-                
+                let x = labelFrame.maxX
                 let yOffset = (labelFrame.size.height - controlSize.height) / 2
-                let padding: CGFloat = 30
-                
-                if idx == (self.options.count - 1) {
-                    let x = self.labels.last!.calculateAccumulatedFrame().maxX
-                    control.position = CGPoint(x: x + padding, y: y + yOffset)
-                } else {
-                    control.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)
-                }
-                
-                print("control.position: \(control.position)")
+                control.position = CGPoint(x: x + padding, y: y + yOffset)
             }
         }
     }
@@ -180,14 +170,14 @@ class MenuScene: BaseScene {
     }
     
     private func focusControlForSelectedOption() {        
-        // First clear selection
+        // First clear current focus by removing focus on all controls.
         for control in self.controls {
             if let focusableControl = control as? Focusable {
                 focusableControl.setFocused(false)
             }
         }
         
-        // Focus the control for the current label
+        // Focus the control for the current label.
         if let option = self.selectedOption, control = controlForMenuOption(option) {
             if let focusableControl = control as? Focusable {
                 focusableControl.setFocused(true)
@@ -203,9 +193,13 @@ class MenuScene: BaseScene {
             
             switch control {
             case let checkbox as Checkbox:
-                option.value = checkbox.toggle()
+                let value = checkbox.toggle()
+                option.update(value)
             case let numberChooser as NumberChooser:
-                option.value = numberChooser.decrease()
+                let newValue = numberChooser.value - 1
+                if option.update(newValue) {
+                    numberChooser.value = newValue
+                }
             default: break
             }
         }
@@ -216,10 +210,14 @@ class MenuScene: BaseScene {
             let control = controlForMenuOption(option)
             
             switch control {
-            case let checkbox as Checkbox:                
-                option.value = checkbox.toggle()
+            case let checkbox as Checkbox:
+                let value = checkbox.toggle()
+                option.update(value)
             case let numberChooser as NumberChooser:
-                option.value = numberChooser.increase()
+                let newValue = numberChooser.value + 1
+                if option.update(newValue) {
+                    numberChooser.value = newValue
+                }
             default: break
             }
         }
