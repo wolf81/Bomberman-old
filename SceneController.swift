@@ -148,14 +148,31 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     }
     
     private func mainMenuOptions() -> [MenuOption] {
-        let newGameItem = MenuOption(title: "NEW GAME")
-        let continueItem = MenuOption(title: "CONTINUE")
-        let settingsItem = MenuOption(title: "SETTINGS")
-        let developerItem = MenuOption(title: "DEVELOPER")
+        let newGameItem = MenuOption(title: "NEW GAME") { 
+            let level = Settings.initialLevel();
+            self.showLevel(level)
+        }
         
+        let continueItem = MenuOption(title: "CONTINUE") {
+            self.continueLevel()
+        }
+        
+        let settingsItem = MenuOption(title: "SETTINGS") {
+            self.showSettings()
+        }
+        
+        let developerItem = MenuOption(title: "DEVELOPER") {
+            self.showDeveloper()
+        }
+        
+        let levelIdx = Settings.initialLevel()
+        let testItem = MenuOption(title: "LEVEL", type: .NumberChooser, value: levelIdx)
+
         let enabled = Settings.musicEnabled()
-        let testItem = MenuOption(title: "TEST", type: .Checkbox, value: enabled)
-        
-        return [newGameItem, continueItem, settingsItem, developerItem, testItem]
+        let backItem = MenuOption(title: "TEST", type: .Checkbox, value: enabled)
+
+        let backItem2 = MenuOption(title: "BACK")
+
+        return [newGameItem, continueItem, settingsItem, developerItem, testItem, backItem]
     }
 }

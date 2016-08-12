@@ -125,7 +125,7 @@ class GameViewController: NSViewController {
         self.gameView.presentScene(scene)
         
         let bounds = self.view.bounds
-        let height: CGFloat = 80
+        let height: CGFloat = 50
         let frame = NSRect(x: 0, y: bounds.height - height, width: bounds.width, height: height)
         self.infoOverlay?.frame = frame
     }

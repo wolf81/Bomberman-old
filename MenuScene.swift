@@ -81,6 +81,10 @@ class MenuScene: BaseScene {
                 
                 self.addChild(checkbox)
                 self.controls.append(checkbox)
+            case .NumberChooser:
+                let chooser = NumberChooser(initialValue: 0)
+                self.addChild(chooser)
+                self.controls.append(chooser)
             default:
                 // We use a dummy control in the controls list so we can use the same index as the
                 //  index of it's label.
@@ -97,15 +101,16 @@ class MenuScene: BaseScene {
         let totalHeight = CGFloat(itemCountForHeight * 100)
         let originY = y + (totalHeight / 2)
 
+        var xOffset: CGFloat = 0
         for (idx, option) in self.options.enumerate().reverse() {
             let y = CGFloat(originY) - CGFloat(idx * 100)
-
+            
             if let label = labelForMenuOption(option) {
                 label.position = CGPoint(x: x, y: y)
 
                 if alignWithLastItem && idx != (self.options.count - 1) {
                     if let lastLabel = self.labels.last {
-                        let xOffset = lastLabel.calculateAccumulatedFrame().maxX - x
+                        xOffset = lastLabel.calculateAccumulatedFrame().maxX - x
                         label.position = CGPoint(x: x + xOffset, y: y)
                     }
                     
@@ -121,11 +126,19 @@ class MenuScene: BaseScene {
                 }
                 
                 let controlSize = control.calculateAccumulatedFrame().size
+                print("controlSize: \(controlSize)")
                 
                 let yOffset = (labelFrame.size.height - controlSize.height) / 2
-                let xOffset: CGFloat = 30 // TODO: calc using back button half size
-                let padding: CGFloat = 20
-                control.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)
+                let padding: CGFloat = 30
+                
+                if idx == (self.options.count - 1) {
+                    let x = self.labels.last!.calculateAccumulatedFrame().maxX
+                    control.position = CGPoint(x: x + padding, y: y + yOffset)
+                } else {
+                    control.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)
+                }
+                
+                print("control.position: \(control.position)")
             }
         }
     }
@@ -137,10 +150,8 @@ class MenuScene: BaseScene {
         for item in self.options {
             var fontName = defaultFontName
 
-            if let selectedItem = self.selectedOption {
-                if item === selectedItem {
-                    fontName = highlightFontName
-                }
+            if let selectedItem = self.selectedOption where item === selectedItem {
+                fontName = highlightFontName
             }
             
             if let label = labelForMenuOption(item) {
@@ -154,10 +165,8 @@ class MenuScene: BaseScene {
     private func labelForMenuOption(option: MenuOption) -> SKLabelNode? {
         var label: SKLabelNode?
         
-        for optionLabel in self.labels {
-            if optionLabel.text == option.title {
-                label = optionLabel
-            }
+        for optionLabel in self.labels where optionLabel.text == option.title {
+            label = optionLabel
         }
         
         return label
@@ -180,22 +189,18 @@ class MenuScene: BaseScene {
         return idx
     }
     
-    private func focusControlForSelectedOption() {
+    private func focusControlForSelectedOption() {        
         // First clear selection
         for control in self.controls {
-            if let optionSwitch = control as? Checkbox {
-                optionSwitch.setFocused(false)
+            if let focusableControl = control as? Focusable {
+                focusableControl.setFocused(false)
             }
         }
         
         // Focus the control for the current label
         if let option = self.selectedOption, control = controlForMenuOption(option) {
-            switch option.type {
-            case .Checkbox:
-                if let optionSwitch = control as? Checkbox {
-                    optionSwitch.setFocused(true)
-                }
-            default: break
+            if let focusableControl = control as? Focusable {
+                focusableControl.setFocused(true)
             }
         }
     }
@@ -203,27 +208,29 @@ class MenuScene: BaseScene {
     // MARK: - Public
     
     override func handleLeftPress(forPlayer player: PlayerIndex) {
-        for option in self.options {
-            if option === selectedOption {
-                let control = controlForMenuOption(option)
-                
-                switch option.type {
-                case .Checkbox: if let checkbox = control as? Checkbox { checkbox.toggle() }
-                default: break
-                }
+        for option in self.options where option === selectedOption {
+            let control = controlForMenuOption(option)
+            
+            switch control {
+            case let checkbox as Checkbox:
+                checkbox.toggle()
+            case let numberChooser as NumberChooser:
+                numberChooser.decrease()
+            default: break
             }
         }
     }
     
     override func handleRightPress(forPlayer player: PlayerIndex) {
-        for option in self.options {
-            if option === selectedOption {
-                let control = controlForMenuOption(option)
-                
-                switch option.type {
-                case .Checkbox: if let checkbox = control as? Checkbox { checkbox.toggle() }
-                default: break
-                }
+        for option in self.options where option === selectedOption {
+            let control = controlForMenuOption(option)
+            
+            switch control {
+            case let checkbox as Checkbox:
+                checkbox.toggle()
+            case let numberChooser as NumberChooser:
+                numberChooser.increase()                    
+            default: break
             }
         }
     }
@@ -260,7 +267,11 @@ class MenuScene: BaseScene {
     
     override func handleActionPress(forPlayer player: PlayerIndex) {
         if let selectedOption = self.selectedOption {
-            self.menuSceneDelegate?.menuScene(self, optionSelected: selectedOption)
+            if let onSelected = selectedOption.onSelected {
+                onSelected()
+            } else {
+                self.menuSceneDelegate?.menuScene(self, optionSelected: selectedOption)
+            }
         }
     }
 }

@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Checkbox: SKShapeNode {
+class Checkbox: SKShapeNode, Focusable {
     private var enabled = false
     private var focused = false
         

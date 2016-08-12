@@ -22,6 +22,8 @@
 // TODO: Consider adding a protocol shared between tvOS and macOS. So we can build against an 
 //  interface, not a class, which can / will differ between tvOS and macOS.
 
+// TODO: Using notifications here might be ugly, but it's the best solution I can think of for now. 
+
 import Foundation
 
 // MARK: - tvOS -
@@ -77,11 +79,14 @@ class InfoOverlay: NSView {
         self.autoresizingMask = .ViewWidthSizable
         
         self.wantsLayer = true
-        
         self.layer?.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0)
         self.layer?.opacity = 0.0
         
-        update("Bla die bla bla")
+        NSNotificationCenter.defaultCenter().addObserverForName("net.wolftrail.bomberman.message", object: nil, queue: NSOperationQueue.currentQueue(), usingBlock: { notification in
+            if let message = notification.object as? String {
+                self.update(message)
+            }
+        })
     }
         
     // MARK: - Public
@@ -106,3 +111,8 @@ class InfoOverlay: NSView {
 }
     
 #endif
+
+func updateInfoOverlayWithMessage(message: String) {
+    let notification = NSNotification(name: "net.wolftrail.bomberman.message", object: message)
+    NSNotificationCenter.defaultCenter().postNotification(notification)
+}
