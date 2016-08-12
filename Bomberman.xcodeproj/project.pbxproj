@@ -143,8 +143,8 @@
 		795C61D11D56FDA300220888 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C61CF1D56FDA300220888 /* Settings.swift */; };
 		795C61D41D5709A500220888 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C61D31D5709A500220888 /* Checkbox.swift */; };
 		795C61D51D5709A500220888 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C61D31D5709A500220888 /* Checkbox.swift */; };
-		79606E871CFE6C2D0034A0A1 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E861CFE6C2D0034A0A1 /* SceneController.swift */; };
-		79606E881CFE6C2D0034A0A1 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E861CFE6C2D0034A0A1 /* SceneController.swift */; };
+		79606E871CFE6C2D0034A0A1 /* SceneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E861CFE6C2D0034A0A1 /* SceneManager.swift */; };
+		79606E881CFE6C2D0034A0A1 /* SceneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E861CFE6C2D0034A0A1 /* SceneManager.swift */; };
 		79606E8A1CFEB0780034A0A1 /* PowerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E891CFEB0780034A0A1 /* PowerLoader.swift */; };
 		79606E8B1CFEB0780034A0A1 /* PowerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79606E891CFEB0780034A0A1 /* PowerLoader.swift */; };
 		79621E851D588537002F4235 /* InputProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79621E841D588537002F4235 /* InputProxy.swift */; };
@@ -266,7 +266,7 @@
 		794ADE6B1CD82A0A000AF170 /* HitState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitState.swift; sourceTree = "<group>"; };
 		795C61CF1D56FDA300220888 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		795C61D31D5709A500220888 /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
-		79606E861CFE6C2D0034A0A1 /* SceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
+		79606E861CFE6C2D0034A0A1 /* SceneManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneManager.swift; sourceTree = "<group>"; };
 		79606E891CFEB0780034A0A1 /* PowerLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerLoader.swift; sourceTree = "<group>"; };
 		79621E841D588537002F4235 /* InputProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputProxy.swift; sourceTree = "<group>"; };
 		79621E8A1D5B1D87002F4235 /* MenuOption.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuOption.swift; sourceTree = "<group>"; };
@@ -371,7 +371,7 @@
 		791827CD1D0D23280058848C /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				79606E861CFE6C2D0034A0A1 /* SceneController.swift */,
+				79606E861CFE6C2D0034A0A1 /* SceneManager.swift */,
 				79FC6B881CCA2B9000DF7476 /* GameScene.swift */,
 				793FAF441CE08E22005F64B1 /* LoadingScene.swift */,
 				791827CE1D0D23550058848C /* BaseScene.swift */,
@@ -888,7 +888,7 @@
 				7900190C1CF5C4ED001EEF3C /* FloatState.swift in Sources */,
 				794ADDE71CD076CA000AF170 /* Entity.swift in Sources */,
 				794ADE631CD716E8000AF170 /* AttackState.swift in Sources */,
-				79606E871CFE6C2D0034A0A1 /* SceneController.swift in Sources */,
+				79606E871CFE6C2D0034A0A1 /* SceneManager.swift in Sources */,
 				794ADE6C1CD82A0A000AF170 /* HitState.swift in Sources */,
 				794ADDF31CD09026000AF170 /* DataLoader.swift in Sources */,
 				79B35D301D0950500002EA99 /* EntityLayer.swift in Sources */,
@@ -967,7 +967,7 @@
 				7900191A1CFB0BBA001EEF3C /* ComponentSystem.swift in Sources */,
 				794ADE4C1CD4B02A000AF170 /* Bomb.swift in Sources */,
 				794ADE1C1CD1E4A5000AF170 /* Image.swift in Sources */,
-				79606E881CFE6C2D0034A0A1 /* SceneController.swift in Sources */,
+				79606E881CFE6C2D0034A0A1 /* SceneManager.swift in Sources */,
 				790056441CDF4B5D009CDF81 /* AssetManager.swift in Sources */,
 				79606E8B1CFEB0780034A0A1 /* PowerLoader.swift in Sources */,
 				79621E951D5C909D002F4235 /* NumberChooser.swift in Sources */,

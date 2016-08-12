@@ -14,7 +14,7 @@ enum TransitionAnimation {
     case Pop
 }
 
-class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate {
+class SceneManager: NSObject, GameSceneDelegate, LoadingSceneDelegate {
     let defaultSize = CGSize(width: 1280, height: 720)
     
     weak var gameViewController: GameViewController?
@@ -114,7 +114,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate {
 
 // MARK: - Menu options for main menu and sub menus
 
-extension SceneController {
+extension SceneManager {
     private func settingsOptions() -> [MenuOption] {
         let backItem = MenuOption(title: "BACK") {
             let options = self.mainMenuOptions()

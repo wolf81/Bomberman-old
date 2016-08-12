@@ -73,7 +73,7 @@ class GameViewController: GCEventViewController {
 import Cocoa
 
 class GameViewController: NSViewController {
-    private var sceneController: SceneController!
+    private var sceneManager: SceneManager!
     private var gameView: GameView!
     private var infoOverlay: InfoOverlay?
     
@@ -92,7 +92,7 @@ class GameViewController: NSViewController {
     }
 
     private func commonInit() {
-        self.sceneController = SceneController(gameViewController: self)
+        self.sceneManager = SceneManager(gameViewController: self)
     }
 
     // MARK: - View lifecycle
@@ -121,7 +121,7 @@ class GameViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        let scene = LoadingScene(size: self.gameView.bounds.size, loadingSceneDelegate: self.sceneController)
+        let scene = LoadingScene(size: self.gameView.bounds.size, loadingSceneDelegate: self.sceneManager)
         self.gameView.presentScene(scene)
         
         let bounds = self.view.bounds

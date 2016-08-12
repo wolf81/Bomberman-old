@@ -18,7 +18,7 @@ protocol AssetManagerDelegate: class {
 // TODO: The AssetManager should store / load Etags internally. The Etag methods should be private
 //  to simplify the interface.
 
-class AssetManager: NSObject, NSURLSessionDataDelegate {
+class AssetManager: NSObject {
     private let etagKey = "etag"
     
     private let fileManager = NSFileManager.defaultManager()
@@ -85,8 +85,32 @@ class AssetManager: NSObject, NSURLSessionDataDelegate {
         dataTask.resume()
     }
     
-    // MARK: - NSURLSessionDelegate
+    // MARK: - Private
     
+    private func unzipAssets(fromData data: NSData, assetsDestinationURL: NSURL) throws {
+        // Copy the zip file to the destnation path
+        try data.writeToURL(assetsDestinationURL, options: .AtomicWrite)
+        
+        let destinationDirectoryUrl = (assetsDestinationURL.URLByDeletingLastPathComponent)!
+        
+        // Finally we can unzip the archive in the destination directory.
+        try Zip.unzipFile(assetsDestinationURL, destination: destinationDirectoryUrl,
+                          overwrite: true,
+                          password: nil,
+                          progress: { (progress) in
+            print("progress: \(progress)")
+        })
+    }
+    
+    private func prepareForAssetsLoading() {
+        self.buffer = NSMutableData()
+        self.expectedContentLength = 0
+    }
+}
+
+// MARK: - NSURLSessionDataDelegate
+
+extension AssetManager : NSURLSessionDataDelegate {
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
         print("response received: \(response)")
         
@@ -121,33 +145,11 @@ class AssetManager: NSObject, NSURLSessionDataDelegate {
             
             do {
                 try unzipAssets(fromData: self.buffer, assetsDestinationURL: assetsDestinationUrl)
-
+                
                 self.delegate?.assetManagerLoadAssetsSuccess(self)
             } catch let error {
                 self.delegate?.assetManagerLoadAssetsFailure(self, error: error)
             }
         }
-    }
-    
-    // MARK: - Private
-    
-    private func unzipAssets(fromData data: NSData, assetsDestinationURL: NSURL) throws {
-        // Copy the zip file to the destnation path
-        try data.writeToURL(assetsDestinationURL, options: .AtomicWrite)
-        
-        let destinationDirectoryUrl = (assetsDestinationURL.URLByDeletingLastPathComponent)!
-        
-        // Finally we can unzip the archive in the destination directory.
-        try Zip.unzipFile(assetsDestinationURL, destination: destinationDirectoryUrl,
-                          overwrite: true,
-                          password: nil,
-                          progress: { (progress) in
-            print("progress: \(progress)")
-        })
-    }
-    
-    private func prepareForAssetsLoading() {
-        self.buffer = NSMutableData()
-        self.expectedContentLength = 0
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
+class Game: NSObject {
     static let sharedInstance = Game()
     
     // Control systems for the player, computer and generic state machine (e.g.: tiles are not 
@@ -229,7 +229,7 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     
     private func playMusic() {
         if let level = self.level {
-            // TODO: 
+            // TODO: Music improvements.
             //  1. Compare songs in music player - don't play if same song.
             //  2. Music setting should initially return true (first load of app)
             let musicEnabled = Settings.musicEnabled()
@@ -379,6 +379,37 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
         self.playerControlSystem.removeAllComponents()
     }
 
+    // MARK: - Private (Collision Handling)
+    
+    private func handleContactBetweenExplosion(explosion: Explosion, andCreature creature: Creature) {
+        creature.destroy()
+    }
+    
+    private func handleContactBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
+        projectile.hit()
+        
+        if let player = entity as? Player where player.isDestroyed == false {
+            player.hit(projectile.damage)
+        }
+    }
+    
+    private func handleContactBetweenProp(prop: Prop, andPlayer player: Player) {
+        prop.destroy()
+    }
+    
+    private func handleContactBetweenMonster(monster: Monster, andPlayer player: Player) {
+        player.moveInDirection(.None)
+    }
+    
+    private func handleContactBetweenPowerUp(powerUp: PowerUp, andPlayer player: Player) {
+        powerUp.hit()
+        
+        if powerUp.activated == false {
+            powerUp.activate(forPlayer: player)
+            updateHudForPlayer(player)
+        }
+    }
+    
     // MARK: - Public
     
     func addEntity(entity: Entity) {
@@ -419,11 +450,9 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
     func resume() {
         MusicPlayer.sharedInstance.resume()
     }
-}
-
-// MARK: - Entity Search -
-
-extension Game {
+    
+    // MARK: - Public (Entity Search) 
+    
     func playerAtGridPosition(gridPosition: Point) -> Creature? {
         var entity: Creature?
         
@@ -466,7 +495,7 @@ extension Game {
         
         return entity
     }
-
+    
     func tileAtGridPosition(gridPosition: Point) -> Tile? {
         var entity: Tile? = nil
         
@@ -520,9 +549,9 @@ extension Game {
     }
 }
 
-// MARK: - EntityDelegate -
+// MARK: - EntityDelegate
 
-extension Game {
+extension Game : EntityDelegate {
     func entityWillDestroy(entity: Entity) {
         switch entity {
         case is Bomb:
@@ -532,8 +561,9 @@ extension Game {
             } catch let error {
                 print("error: \(error)")
             }
-//            let shake = SKAction.shake(self.gameScene!.world.position, duration: 0.5)
-//            self.gameScene?.world.runAction(shake)
+//            TODO: Currently performance implications of shake are unclear for tvOS.
+//              let shake = SKAction.shake(self.gameScene!.world.position, duration: 0.5)
+//              self.gameScene?.world.runAction(shake)
         case is Tile:
             if let power = self.level?.powerUpAtGridPosition(entity.gridPosition) {
                 addEntity(power)
@@ -649,11 +679,9 @@ extension Game {
     }
 }
 
-// MARK: - Collision Handling -
+// MARK: - SKPhysicsContactDelegate
 
-extension Game {
-    // MARK: SKPhysicsContactDelegate
-    
+extension Game : SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         let firstBody = contact.bodyA.node as! SpriteNode?
         let secondBody = contact.bodyB.node as! SpriteNode?
@@ -667,7 +695,7 @@ extension Game {
             handleContactBetweenProjectile(entity2 as! Projectile, andEntity: entity1!)
         }
         
-        // TODO: Currently there's a bug when player slightly out of range of explosion walks 
+        // TODO: Currently there's a bug when player slightly out of range of explosion walks
         //  inside explosion after animation starts. The player dies. Maybe don't use physicsbody
         //  for tests between player and explosion? Or fix this issue somehow.
         if entity1 is Explosion && entity2 is Creature {
@@ -690,37 +718,5 @@ extension Game {
     }
     
     func didEndContact(contact: SKPhysicsContact) {
-//        print("didEndContact")
     }
-    
-    // MARK: Private
-    
-    private func handleContactBetweenExplosion(explosion: Explosion, andCreature creature: Creature) {
-        creature.destroy()
-    }
-    
-    private func handleContactBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
-        projectile.hit()
-        
-        if let player = entity as? Player where player.isDestroyed == false {
-            player.hit(projectile.damage)
-        }
-    }
-    
-    private func handleContactBetweenProp(prop: Prop, andPlayer player: Player) {
-        prop.destroy()
-    }
-    
-    private func handleContactBetweenMonster(monster: Monster, andPlayer player: Player) {
-        player.moveInDirection(.None)
-    }
-    
-    private func handleContactBetweenPowerUp(powerUp: PowerUp, andPlayer player: Player) {
-        powerUp.hit()
-        
-        if powerUp.activated == false {
-            powerUp.activate(forPlayer: player)
-            updateHudForPlayer(player)            
-        }
-     }
 }
