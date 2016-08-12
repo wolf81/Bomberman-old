@@ -8,10 +8,6 @@
 
 import SpriteKit
 
-protocol MenuSceneDelegate: SKSceneDelegate {
-    func menuScene(scene: MenuScene, optionSelected: MenuOption)
-}
-
 class MenuScene: BaseScene {
     var options = [MenuOption]()
     var labels = [SKLabelNode]()
@@ -20,19 +16,13 @@ class MenuScene: BaseScene {
     
     private var selectedOption: MenuOption?
     
-    // Work around to set the subclass delegate.
-    var menuSceneDelegate: MenuSceneDelegate? {
-        get { return self.delegate as? MenuSceneDelegate }
-        set { self.delegate = newValue }
-    }
-    
     // MARK: - Initialization
     
-    convenience init(size: CGSize, delegate: MenuSceneDelegate, options: [MenuOption]) {
-        self.init(size: size, delegate: delegate, options: options, alignWithLastItem: true)
+    convenience init(size: CGSize, options: [MenuOption]) {
+        self.init(size: size, options: options, alignWithLastItem: false)
     }
     
-    init(size: CGSize, delegate: MenuSceneDelegate, options: [MenuOption], alignWithLastItem: Bool) {
+    init(size: CGSize, options: [MenuOption], alignWithLastItem: Bool) {
         super.init(size: size)
         
         self.delegate = delegate
@@ -269,8 +259,6 @@ class MenuScene: BaseScene {
         if let selectedOption = self.selectedOption {
             if let onSelected = selectedOption.onSelected {
                 onSelected()
-            } else {
-                self.menuSceneDelegate?.menuScene(self, optionSelected: selectedOption)
             }
         }
     }

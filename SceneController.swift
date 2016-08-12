@@ -14,7 +14,7 @@ enum TransitionAnimation {
     case Pop
 }
 
-class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSceneDelegate, SettingsSceneDelegate, DeveloperSceneDelegate {
+class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, SettingsSceneDelegate, DeveloperSceneDelegate {
     let defaultSize = CGSize(width: 1280, height: 720)
     
     weak var gameViewController: GameViewController?
@@ -41,37 +41,21 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     func gameSceneDidPause(scene: GameScene) {
         self.pausedGameScene = scene
         
-        let menuScene = MenuScene(size: self.defaultSize, delegate: self, options: mainMenuOptions())
+        let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Fade)
     }
     
     // MARK: - DeveloperSceneDelegate
     
     func developerScene(scene: DeveloperScene, optionSelected: DeveloperOption) {
-        let menuScene = MenuScene(size: self.defaultSize, delegate: self, options: mainMenuOptions())
+        let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Pop)
-    }
-    
-    // MARK: - MenuSceneDelegate
-    
-    func menuScene(scene: MenuScene, optionSelected: MenuOption) {
-        print("selected: \(optionSelected)")
-        
-        // TODO: Consider using a block in a constructor to handle selection actions.
-        
-        switch optionSelected.title {
-        case "NEW GAME": let level = Settings.initialLevel(); showLevel(level)
-        case "CONTINUE": continueLevel()
-        case "SETTINGS": showSettings()
-        case "DEVELOPER": showDeveloper()
-        default: break
-        }
     }
     
     // MARK: - LoadingSceneDelegate
     
     func loadingSceneDidFinishLoading(scene: LoadingScene) {
-        let menuScene = MenuScene(size: self.defaultSize, delegate: self, options: mainMenuOptions())
+        let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Fade)
     }
     
@@ -86,19 +70,14 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
     // MARK: - SettingsSceneDelegate
 
     func settingsScene(scene: SettingsScene, optionSelected: SettingsOption) {
-        let menuScene = MenuScene(size: self.defaultSize, delegate: self, options: mainMenuOptions())
+        let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Pop)
     }
     
     // MARK: - Private
-
-    private func showDeveloper() {
-        let scene = DeveloperScene(size: self.defaultSize, delegate: self)
-        transitionToScene(scene, animation: .Push)
-    }
     
-    private func showSettings() {
-        let scene = SettingsScene(size: self.defaultSize, delegate: self)
+    private func showSubMenuWithOptions(options: [MenuOption]) {
+        let scene = MenuScene(size: self.defaultSize, options: options, alignWithLastItem: true)
         transitionToScene(scene, animation: .Push)
     }
     
@@ -146,9 +125,42 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         let level = try levelParser.loadLevel(levelIndex)
         return level
     }
+}
+
+// MARK: - Menu options for main menu and sub menus
+
+extension SceneController {
+    private func settingsOptions() -> [MenuOption] {
+        let backItem = MenuOption(title: "BACK") {
+            let options = self.mainMenuOptions()
+            let menuScene = MenuScene(size: self.defaultSize, options: options)
+            self.transitionToScene(menuScene, animation: .Pop)
+        }
+        
+        let enabled = Settings.musicEnabled()
+        let playMusicItem = MenuOption(title: "PLAY MUSIC", type: .Checkbox, value: enabled)
+        
+        return [playMusicItem, backItem]
+    }
+    
+    private func developerOptions() -> [MenuOption] {
+        let backItem = MenuOption(title: "BACK") {
+            let options = self.mainMenuOptions()
+            let menuScene = MenuScene(size: self.defaultSize, options: options)
+            self.transitionToScene(menuScene, animation: .Pop)
+        }
+        
+        let levelIdx = Settings.initialLevel()
+        let initialLevelItem = MenuOption(title: "INITIAL LEVEL", type: .NumberChooser, value: levelIdx)
+        
+        let enabled = false
+        let checkAssetsItem = MenuOption(title: "CHECK ASSETS ON START-UP", type: .Checkbox, value: enabled)
+        
+        return [initialLevelItem, checkAssetsItem, backItem]
+    }
     
     private func mainMenuOptions() -> [MenuOption] {
-        let newGameItem = MenuOption(title: "NEW GAME") { 
+        let newGameItem = MenuOption(title: "NEW GAME") {
             let level = Settings.initialLevel();
             self.showLevel(level)
         }
@@ -158,21 +170,21 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, MenuSc
         }
         
         let settingsItem = MenuOption(title: "SETTINGS") {
-            self.showSettings()
+            let options = self.settingsOptions()
+            self.showSubMenuWithOptions(options)
         }
         
         let developerItem = MenuOption(title: "DEVELOPER") {
-            self.showDeveloper()
+            let options = self.developerOptions()
+            self.showSubMenuWithOptions(options)
         }
         
         let levelIdx = Settings.initialLevel()
         let testItem = MenuOption(title: "LEVEL", type: .NumberChooser, value: levelIdx)
-
+        
         let enabled = Settings.musicEnabled()
         let backItem = MenuOption(title: "TEST", type: .Checkbox, value: enabled)
-
-        let backItem2 = MenuOption(title: "BACK")
-
+        
         return [newGameItem, continueItem, settingsItem, developerItem, testItem, backItem]
     }
 }
