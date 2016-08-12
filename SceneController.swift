@@ -14,7 +14,7 @@ enum TransitionAnimation {
     case Pop
 }
 
-class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, DeveloperSceneDelegate {
+class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate {
     let defaultSize = CGSize(width: 1280, height: 720)
     
     weak var gameViewController: GameViewController?
@@ -44,14 +44,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate, Develo
         let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Fade)
     }
-    
-    // MARK: - DeveloperSceneDelegate
-    
-    func developerScene(scene: DeveloperScene, optionSelected: DeveloperOption) {
-        let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
-        transitionToScene(menuScene, animation: .Pop)
-    }
-    
+        
     // MARK: - LoadingSceneDelegate
     
     func loadingSceneDidFinishLoading(scene: LoadingScene) {

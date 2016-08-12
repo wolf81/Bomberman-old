@@ -53,37 +53,12 @@ class MenuScene: BaseScene {
     
     private func commonInit() {
         self.labels = [SKLabelNode]()
-        
-        // Add controls.
-        for option in self.options {
-            let label = SKLabelNode(text: option.title)
-            self.addChild(label)
-            self.labels.append(label)
-            
-            switch option.type {
-            case .Checkbox:
-                let controlSize = CGSize(width: 18, height: 18)
-                let checkbox = Checkbox(size: controlSize)
-                
-                let enabled = option.value as? Bool ?? false
-                checkbox.enabled = enabled
-                
-                self.addChild(checkbox)
-                self.controls.append(checkbox)
-            case .NumberChooser:
-                let value = option.value as? Int ?? 0
-                let chooser = NumberChooser(initialValue: value)
-                self.addChild(chooser)
-                self.controls.append(chooser)
-            default:
-                // We use a dummy control in the controls list so we can use the same index as the
-                //  index of it's label.
-                let dummyControl = SKNode()
-                self.controls.append(dummyControl)
-            }
-        }
-        
-        // Position controls and align controls.
+
+        addLabelsAndControls()
+        positionLabelsAndControls()
+    }
+    
+    private func positionLabelsAndControls() {
         let x = self.size.width / 2
         let y = self.size.height / 2
         
@@ -91,13 +66,13 @@ class MenuScene: BaseScene {
         let totalHeight = CGFloat(itemCountForHeight * 100)
         let originY = y + (totalHeight / 2)
         let padding: CGFloat = 30
-
+        
         for (idx, option) in self.options.enumerate().reverse() {
             let y = CGFloat(originY) - CGFloat(idx * 100)
             
             if let label = labelForMenuOption(option) {
                 label.position = CGPoint(x: x, y: y)
-
+                
                 if alignWithLastItem && idx != (self.options.count - 1) {
                     if let lastLabel = self.labels.last {
                         let xOffset = lastLabel.calculateAccumulatedFrame().maxX - x
@@ -119,6 +94,35 @@ class MenuScene: BaseScene {
                 let x = labelFrame.maxX
                 let yOffset = (labelFrame.size.height - controlSize.height) / 2
                 control.position = CGPoint(x: x + padding, y: y + yOffset)
+            }
+        }
+    }
+    
+    private func addLabelsAndControls() {
+        for option in self.options {
+            let label = SKLabelNode(text: option.title)
+            self.addChild(label)
+            self.labels.append(label)
+            
+            switch option.type {
+            case .Checkbox:
+                let checkbox = Checkbox()
+                let enabled = option.value as? Bool ?? false
+                checkbox.enabled = enabled
+                
+                self.addChild(checkbox)
+                self.controls.append(checkbox)
+            case .NumberChooser:
+                let value = option.value as? Int ?? 0
+                let chooser = NumberChooser(initialValue: value)
+                
+                self.addChild(chooser)
+                self.controls.append(chooser)
+            default:
+                // We use a dummy control in the controls list so we can use the same index as the
+                //  index of it's label.
+                let dummyControl = SKNode()
+                self.controls.append(dummyControl)
             }
         }
     }

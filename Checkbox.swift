@@ -15,7 +15,11 @@ class Checkbox: SKShapeNode, Focusable {
         }
     }
     private var focused = false
-        
+    
+    convenience override init() {
+        self.init(size: CGSize(width: 18, height: 18))
+    }
+    
     init(size: CGSize) {
         super.init()
         
