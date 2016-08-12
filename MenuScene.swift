@@ -61,11 +61,13 @@ class MenuScene: BaseScene {
     private func positionLabelsAndControls() {
         let x = self.size.width / 2
         let y = self.size.height / 2
-        
+        let padding: CGFloat = 30
+
+        // Each label has 100 pixels in between the mid y positions. The labels are placed in the
+        //  center of the view.
         let itemCountForHeight = fmaxf(Float(self.options.count - 1), 0)
         let totalHeight = CGFloat(itemCountForHeight * 100)
         let originY = y + (totalHeight / 2)
-        let padding: CGFloat = 30
         
         for (idx, option) in self.options.enumerate().reverse() {
             let y = CGFloat(originY) - CGFloat(idx * 100)
@@ -73,6 +75,9 @@ class MenuScene: BaseScene {
             if let label = labelForMenuOption(option) {
                 label.position = CGPoint(x: x, y: y)
                 
+                // When alignWithLastItem is set to true, we will align the last label in center 
+                //  and other labels to the right. The other labels will be positioned accordingly 
+                //  to be aligned with the last label.
                 if alignWithLastItem && idx != (self.options.count - 1) {
                     if let lastLabel = self.labels.last {
                         let xOffset = lastLabel.calculateAccumulatedFrame().maxX - x
@@ -83,6 +88,8 @@ class MenuScene: BaseScene {
                 }
             }
             
+            // Positioning of controls is much easier. We can just look at the maximum x position 
+            //  of the current label and add some padding.
             if let control = controlForMenuOption(option) {
                 var labelFrame = CGRect()
                 
@@ -91,9 +98,8 @@ class MenuScene: BaseScene {
                 }
                 
                 let controlSize = control.calculateAccumulatedFrame().size
-                let x = labelFrame.maxX
                 let yOffset = (labelFrame.size.height - controlSize.height) / 2
-                control.position = CGPoint(x: x + padding, y: y + yOffset)
+                control.position = CGPoint(x: labelFrame.maxX + padding, y: y + yOffset)
             }
         }
     }

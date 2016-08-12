@@ -241,6 +241,8 @@ class Game: NSObject, EntityDelegate, SKPhysicsContactDelegate {
                         // TODO: Proper error handling
                         print(error)
                     }
+                } else {
+                    updateInfoOverlayWithMessage("no music configured for level")
                 }
             } else {
                 MusicPlayer.sharedInstance.stop()

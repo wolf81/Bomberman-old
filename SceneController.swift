@@ -44,7 +44,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate {
         let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Fade)
     }
-        
+    
     // MARK: - LoadingSceneDelegate
     
     func loadingSceneDidFinishLoading(scene: LoadingScene) {
@@ -80,8 +80,7 @@ class SceneController: NSObject, GameSceneDelegate, LoadingSceneDelegate {
     
     private func continueLevel() {
         if let scene = self.pausedGameScene {
-            transitionToScene(scene, animation: .Fade)
-            
+            transitionToScene(scene, animation: .Fade)            
             Game.sharedInstance.resume()
         }
     }
