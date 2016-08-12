@@ -138,7 +138,11 @@ extension SceneController {
         }
         
         let enabled = Settings.musicEnabled()
-        let playMusicItem = MenuOption(title: "PLAY MUSIC", type: .Checkbox, value: enabled)
+        let playMusicItem = MenuOption(title: "PLAY MUSIC", type: .Checkbox, value: enabled) { newValue in
+            if let enabled = newValue as? Bool {
+                Settings.setMusicEnabled(enabled)
+            }
+        }
         
         return [playMusicItem, backItem]
     }
@@ -152,12 +156,16 @@ extension SceneController {
         
         let levelIdx = Settings.initialLevel()
         let initialLevelItem = MenuOption(title: "INITIAL LEVEL", type: .NumberChooser, value: levelIdx) { newValue in
-            print("new value: \(newValue)")
+            if let index = newValue as? Int {
+                Settings.setInitialLevel(index)
+            }
         }
         
-        let enabled = false
-        let checkAssetsItem = MenuOption(title: "CHECK ASSETS ON START-UP", type: .Checkbox, value: enabled) { newValue in 
-            print("new value: \(newValue)")
+        let enabled = Settings.assetsCheckEnabled()
+        let checkAssetsItem = MenuOption(title: "CHECK ASSETS ON START-UP", type: .Checkbox, value: enabled) { newValue in
+            if let enabled = newValue as? Bool {
+                Settings.setAssetsCheckEnabled(enabled)
+            }
         }
         
         return [initialLevelItem, checkAssetsItem, backItem]

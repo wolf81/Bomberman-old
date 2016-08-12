@@ -65,14 +65,14 @@ class MenuScene: BaseScene {
                 let controlSize = CGSize(width: 18, height: 18)
                 let checkbox = Checkbox(size: controlSize)
                 
-                if let enabled = option.value as? Bool {
-                    checkbox.enabled = enabled
-                }
+                let enabled = option.value as? Bool ?? false
+                checkbox.enabled = enabled
                 
                 self.addChild(checkbox)
                 self.controls.append(checkbox)
             case .NumberChooser:
-                let chooser = NumberChooser(initialValue: 0)
+                let value = option.value as? Int ?? 0
+                let chooser = NumberChooser(initialValue: value)
                 self.addChild(chooser)
                 self.controls.append(chooser)
             default:
