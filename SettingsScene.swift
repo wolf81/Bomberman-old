@@ -81,7 +81,7 @@ class SettingsScene: BaseScene {
         let labelFrame = self.musicLabel.calculateAccumulatedFrame()
         let yOffset = (labelFrame.size.height - switchSize.height) / 2
         self.musicSwitch.position = CGPoint(x: x + xOffset + padding, y: y + 50 + yOffset)
-        self.musicSwitch.setEnabled(enabled)
+        self.musicSwitch.enabled = enabled
         self.addChild(self.musicSwitch)
     }
     
@@ -113,7 +113,7 @@ class SettingsScene: BaseScene {
     
     private func toggleMusicSwitch() -> Bool {
         let enabled = !self.musicSwitch.isEnabled()
-        self.musicSwitch.setEnabled(enabled)
+        self.musicSwitch.enabled = enabled
         return enabled
     }
     

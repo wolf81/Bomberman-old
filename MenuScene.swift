@@ -66,7 +66,7 @@ class MenuScene: BaseScene {
                 let checkbox = Checkbox(size: controlSize)
                 
                 if let enabled = option.value as? Bool {
-                    checkbox.setEnabled(enabled)
+                    checkbox.enabled = enabled
                 }
                 
                 self.addChild(checkbox)
@@ -203,9 +203,9 @@ class MenuScene: BaseScene {
             
             switch control {
             case let checkbox as Checkbox:
-                checkbox.toggle()
+                option.value = checkbox.toggle()
             case let numberChooser as NumberChooser:
-                numberChooser.decrease()
+                option.value = numberChooser.decrease()
             default: break
             }
         }
@@ -216,10 +216,10 @@ class MenuScene: BaseScene {
             let control = controlForMenuOption(option)
             
             switch control {
-            case let checkbox as Checkbox:
-                checkbox.toggle()
+            case let checkbox as Checkbox:                
+                option.value = checkbox.toggle()
             case let numberChooser as NumberChooser:
-                numberChooser.increase()                    
+                option.value = numberChooser.increase()
             default: break
             }
         }

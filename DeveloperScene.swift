@@ -97,7 +97,7 @@ class DeveloperScene: BaseScene {
         let labelFrame = self.assetsCheckLabel.calculateAccumulatedFrame()
         let yOffset = (labelFrame.size.height - switchSize.height) / 2
         self.assetsCheckSwitch.position = CGPoint(x: x + xOffset + padding, y: y + yOffset)
-        self.assetsCheckSwitch.setEnabled(enabled)
+        self.assetsCheckSwitch.enabled = enabled
         self.addChild(self.assetsCheckSwitch)
         
         print("frame: \(labelFrame) switchSize: \(switchSize)")
@@ -217,7 +217,7 @@ class DeveloperScene: BaseScene {
     
     private func toggleAssetsCheckSwitch() -> Bool {
         let enabled = !self.assetsCheckSwitch.isEnabled()
-        self.assetsCheckSwitch.setEnabled(enabled)
+        self.assetsCheckSwitch.enabled = enabled
         return enabled
     }
     

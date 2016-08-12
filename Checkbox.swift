@@ -9,7 +9,11 @@
 import SpriteKit
 
 class Checkbox: SKShapeNode, Focusable {
-    private var enabled = false
+    var enabled = false {
+        didSet {
+            self.fillColor = enabled ? SKColor.whiteColor() : SKColor.clearColor()
+        }
+    }
     private var focused = false
         
     init(size: CGSize) {
@@ -26,11 +30,6 @@ class Checkbox: SKShapeNode, Focusable {
         commonInit()
     }
     
-    func setEnabled(enabled: Bool) {
-        self.enabled = enabled        
-        self.fillColor = enabled ? SKColor.whiteColor() : SKColor.clearColor()
-    }
-    
     func isEnabled() -> Bool {
         return self.enabled
     }
@@ -44,9 +43,9 @@ class Checkbox: SKShapeNode, Focusable {
         return self.focused
     }
     
-    func toggle() {
-        let enabled = !self.isEnabled()
-        setEnabled(enabled)
+    func toggle() -> Bool {
+        self.enabled = !self.isEnabled()
+        return self.enabled
     }
     
     // MARK: - Private

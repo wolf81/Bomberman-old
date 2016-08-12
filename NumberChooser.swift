@@ -10,7 +10,7 @@ import SpriteKit
 
 class NumberChooser : SKLabelNode, Focusable {
     private var focused = false
-    private var value: Int = 0
+    private(set) var value: Int = 0
     
     var defaultFontName: String = "HelveticaNeue-UltraLight"
     var highlightFontName: String = "HelveticaNeue-Medium"
@@ -57,13 +57,16 @@ class NumberChooser : SKLabelNode, Focusable {
     
     // MARK: - Public
     
-    func increase() {
+    
+    func increase() -> Int {
         self.value = min(self.value + 1, self.maxValue)
         self.text = String(self.value)
+        return self.value
     }
     
-    func decrease() {
+    func decrease() -> Int {
         self.value = max(self.value - 1, self.minValue)
         self.text = String(self.value)
+        return self.value
     }
 }
