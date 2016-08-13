@@ -15,6 +15,11 @@ enum CreatureType {
     case Undefined
 }
 
+enum AttackDirection {
+    case Axial // only along x-axis & y-axis
+    case Any
+}
+
 class ConfigComponent: GKComponent {
     private(set) var configFilePath: String?
     
@@ -51,7 +56,11 @@ class ConfigComponent: GKComponent {
     
     private(set) var projectile: String?
     
+    // TODO: It's better for creatureType to be irrelevant. Adjusted mechanics should be 
+    //  configurable through the config file instead.
     private(set) var creatureType: CreatureType = .Undefined
+    
+    private(set) var attackDirection: AttackDirection = .Axial
     
     private(set) var states: [State]?
     
@@ -172,28 +181,6 @@ class ConfigComponent: GKComponent {
     
     private func parseCollisionCategoriesJson(json: [String]) {
         self.collisionCategories = EntityCategory.categoriesForStrings(json)
-        print("\(self.collisionCategories)")
-        
-        let bitMask = self.collisionCategories
-        if bitMask & EntityCategory.Monster != 0 {
-            print("collides with monster")
-        }
-        
-        if bitMask & EntityCategory.Player != 0 {
-            print("collides with player")
-        }
-
-        if bitMask & EntityCategory.Wall != 0 {
-            print("collides with wall")
-        }
-        
-        if bitMask & EntityCategory.Tile != 0 {
-            print("collides with tile")
-        }
-
-        if bitMask & EntityCategory.Projectile != 0 {
-            print("collides with projectile")
-        }
     }
     
     private func parseDestroyJson(json: [String: AnyObject]) {
@@ -256,6 +243,18 @@ class ConfigComponent: GKComponent {
 
         if let projectileJson = json["projectile"] as? String {
             self.projectile = projectileJson
+        }
+        
+        if let directionJson = json["direction"] as? String {
+            var attackDirection: AttackDirection
+            
+            switch directionJson {
+            case "any": attackDirection = .Any
+            case "axial": fallthrough
+            default: attackDirection = .Axial
+            }
+            
+            self.attackDirection = attackDirection
         }
     }
     

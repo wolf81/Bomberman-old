@@ -34,15 +34,18 @@ class CpuControlComponent: GKComponent {
                 if let creature = self.entity as! Creature? {
                     if let configComponent = creature.componentForClass(ConfigComponent) {
                         self.attackDelay -= seconds
-                        if self.attackDelay < 0 {
+                        if self.attackDelay < 0 {                            
                             if let projectileName = configComponent.projectile {
-                                if configComponent.creatureType == .Boss {
+                                switch configComponent.attackDirection {
+                                case AttackDirection.Axial:
+                                    if playerInRangeForRangedAttack() {
+                                        creature.attack()
+                                        launchProjectile(projectileName, forCreature: creature)
+                                        self.attackDelay = creature.abilityCooldown
+                                    }
+                                case AttackDirection.Any:
                                     creature.attack()
                                     launchProjectileToPlayer(projectileName, forCreature: creature)
-                                    self.attackDelay = creature.abilityCooldown
-                                } else if playerInRangeForRangedAttack() {
-                                    creature.attack()
-                                    launchProjectile(projectileName, forCreature: creature)
                                     self.attackDelay = creature.abilityCooldown
                                 }
                             } else if playerInRangeForMeleeAttack() {
