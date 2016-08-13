@@ -646,14 +646,6 @@ extension Game : EntityDelegate {
         case is Bomb: entity.decay()
         case is PowerUp: entity.decay()
         case is Explosion: entity.destroy()
-        case is Projectile:
-            if let vc = entity.componentForClass(VisualComponent) {
-                // TODO: Work-around for boss projectiles - find cleaner solution.
-                //  Suggestion: add velocity as property to projectile. 'Smart' projectiles
-                //  might then be able to change directions for more interesting play.
-                let projectile = entity as! Projectile
-                vc.spriteNode.physicsBody?.velocity = projectile.force
-            }
         case is Player:
             if let player = entity as? Player {
                 player.control()

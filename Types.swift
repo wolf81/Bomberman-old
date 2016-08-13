@@ -8,6 +8,8 @@
 
 import Foundation
 
+// TODO: Rename Tile to Block.
+
 struct EntityCategory {
     static let Nothing:     UInt32 = 0
     static let Monster:     UInt32 = 0b1
@@ -16,6 +18,24 @@ struct EntityCategory {
     static let Projectile:  UInt32 = 0b1000
     static let Prop:        UInt32 = 0b10000
     static let Wall:        UInt32 = 0b100000
+    
+    static func categoriesForStrings(strings: [String]) -> UInt32 {
+        var bitMask = Nothing
+        
+        for (_, string) in strings.enumerate() {
+            switch string {
+            case "monster": bitMask |= Monster
+            case "player": bitMask |= Player
+            case "tile": bitMask |= Tile
+            case "projectile": bitMask |= Projectile
+            case "prop": bitMask |= Prop
+            case "wall": bitMask |= Wall
+            default: break
+            }
+        }
+        
+        return bitMask
+    }
 }
 
 @objc public enum PlayerAction: Int {

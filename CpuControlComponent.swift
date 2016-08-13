@@ -69,7 +69,7 @@ class CpuControlComponent: GKComponent {
         
         let force = CGVector(dx: CGFloat(dx) * factor, dy: CGFloat(dy) * factor)
         
-        addProjectileWithName(entityName, toGame: self.game!, withForce: force, gridPosition: gridPosition, collidesWithBlocks: false)
+        addProjectileWithName(entityName, toGame: self.game!, withForce: force, gridPosition: gridPosition)
     }
     
     private func launchProjectile(entityName: String, forCreature creature: Creature) {
@@ -92,21 +92,13 @@ class CpuControlComponent: GKComponent {
         addProjectileWithName(entityName, toGame: self.game!, withForce: force, gridPosition: gridPosition)
     }
 
-    private func addProjectileWithName(name: String, toGame game: Game, withForce force: CGVector, gridPosition: Point, collidesWithBlocks: Bool) {
+    private func addProjectileWithName(name: String, toGame game: Game, withForce force: CGVector, gridPosition: Point) {
         let propLoader = PropLoader(forGame: game)
         
         do {
-            if let projectile = try propLoader.projectileWithName(name, gridPosition: gridPosition) {
-                projectile.force = CGVector(dx: force.dx * projectile.speed, dy: force.dy * projectile.speed)
-                
+            if let projectile = try propLoader.projectileWithName(name, gridPosition: gridPosition, force: force) {
                 if let visualComponent = projectile.componentForClass(VisualComponent) {
                     visualComponent.spriteNode.position = positionForGridPosition(gridPosition)
-                    
-                    if !collidesWithBlocks {
-                        // TODO: consider make this bitmask configurable through config file.
-                        visualComponent.spriteNode.physicsBody?.contactTestBitMask = EntityCategory.Player | EntityCategory.Wall
-                        visualComponent.spriteNode.physicsBody?.collisionBitMask = EntityCategory.Player | EntityCategory.Wall
-                    }
                 }
                 
                 self.game?.addEntity(projectile)
@@ -116,10 +108,6 @@ class CpuControlComponent: GKComponent {
         }
     }
     
-    private func addProjectileWithName(name: String, toGame game: Game, withForce force: CGVector, gridPosition: Point) {
-        addProjectileWithName(name, toGame: game, withForce: force, gridPosition: gridPosition, collidesWithBlocks: false)
-    }
-
     private func playerInRangeForMeleeAttack() -> Bool {
         var playerVisible = false
         

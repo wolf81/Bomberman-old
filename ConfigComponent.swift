@@ -55,6 +55,8 @@ class ConfigComponent: GKComponent {
     
     private(set) var states: [State]?
     
+    private(set) var collisionCategories = EntityCategory.Nothing
+    
     // MARK: - Initialization
     
     convenience init(json: [String: AnyObject], configFileUrl: NSURL) {
@@ -135,6 +137,10 @@ class ConfigComponent: GKComponent {
                 self.destroyAnimation = AnimationConfiguration(json: animationJson)
             }
         }
+        
+        if let collisionCategoriesJson = json["collisionCategories"] as? [String] {
+            parseCollisionCategoriesJson(collisionCategoriesJson)
+        }
     }
     
     // MARK: - Public
@@ -161,6 +167,32 @@ class ConfigComponent: GKComponent {
         
         if states.count > 0 {
             self.states = states
+        }
+    }
+    
+    private func parseCollisionCategoriesJson(json: [String]) {
+        self.collisionCategories = EntityCategory.categoriesForStrings(json)
+        print("\(self.collisionCategories)")
+        
+        let bitMask = self.collisionCategories
+        if bitMask & EntityCategory.Monster != 0 {
+            print("collides with monster")
+        }
+        
+        if bitMask & EntityCategory.Player != 0 {
+            print("collides with player")
+        }
+
+        if bitMask & EntityCategory.Wall != 0 {
+            print("collides with wall")
+        }
+        
+        if bitMask & EntityCategory.Tile != 0 {
+            print("collides with tile")
+        }
+
+        if bitMask & EntityCategory.Projectile != 0 {
+            print("collides with projectile")
         }
     }
     

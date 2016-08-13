@@ -37,12 +37,12 @@ class PropLoader: ConfigurationLoader {
         return bomb
     }
     
-    func projectileWithName(name: String, gridPosition: Point) throws -> Projectile? {
+    func projectileWithName(name: String, gridPosition: Point, force: CGVector) throws -> Projectile? {
         var projectile: Projectile? = nil
         
         let directory = "Projectiles/\(name)"
         if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
-            projectile = Projectile(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition)
+            projectile = Projectile(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, force: force)
         }
         
         return projectile

@@ -9,8 +9,6 @@
 import CoreGraphics
 
 class Projectile: Entity {
-    var force = CGVector()
-    
     var damage: Int {
         var damage = 1
         
@@ -22,18 +20,25 @@ class Projectile: Entity {
         return damage
     }
     
-    init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
+    init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, force: CGVector = CGVector()) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
         if let visualComponent = componentForClass(VisualComponent) {
             visualComponent.spriteNode.zPosition = EntityLayer.Projectile.rawValue
-            
-            if let physicsBody = visualComponent.spriteNode.physicsBody {
-                physicsBody.categoryBitMask = EntityCategory.Projectile
-                physicsBody.contactTestBitMask = EntityCategory.Player | EntityCategory.Tile | EntityCategory.Wall
-                physicsBody.collisionBitMask = EntityCategory.Player | EntityCategory.Tile | EntityCategory.Wall
-                physicsBody.usesPreciseCollisionDetection = true;
-                physicsBody.linearDamping = 0.0;
+
+            if let configComponent = componentForClass(ConfigComponent) {
+                if let physicsBody = visualComponent.spriteNode.physicsBody {
+                    physicsBody.categoryBitMask = EntityCategory.Projectile
+                    physicsBody.usesPreciseCollisionDetection = true;
+                    physicsBody.linearDamping = 0.0;
+                    
+                    let bitMask = configComponent.collisionCategories
+                    physicsBody.contactTestBitMask = bitMask
+                    physicsBody.collisionBitMask = bitMask
+                    
+                    let velocity = CGVector(dx: force.dx * speed, dy: force.dy * speed)
+                    physicsBody.velocity = velocity
+                }
             }
         }
     }    
