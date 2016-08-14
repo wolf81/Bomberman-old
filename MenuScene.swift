@@ -19,7 +19,7 @@ class MenuScene: BaseScene {
     private (set) var options = [MenuOption]()
     private (set) var alignWithLastItem = false
 
-    private var indicators = [SKLabelNode]()
+    private var indicators = [Indicator]()
     private var labels = [SKLabelNode]()
     private var controls = [SKNode]()
     
@@ -60,7 +60,10 @@ class MenuScene: BaseScene {
     
     private func commonInit() {
         addLabelsAndControls()
+        addIndicators()
+        
         positionLabelsAndControls()
+        positionIndicatorsForSelectionOption()
     }
     
     private func positionLabelsAndControls() {
@@ -109,6 +112,38 @@ class MenuScene: BaseScene {
         }
     }
     
+    private func positionIndicatorsForSelectionOption() {
+        if let option = selectedOption {
+            if let control = controlForMenuOption(option) where control.parent != nil {
+                if let label = labelForMenuOption(option) {
+                    let minX = label.calculateAccumulatedFrame().minX
+                    let maxX = control.calculateAccumulatedFrame().maxX
+                    
+                    var y = label.calculateAccumulatedFrame().minY
+                    let labelHeight = label.calculateAccumulatedFrame().height
+                    
+                    if let leftIndicator = indicators.first {
+                        y += (labelHeight - leftIndicator.calculateAccumulatedFrame().height) / 2
+                        
+                        leftIndicator.alpha = 1.0
+                        leftIndicator.position = CGPoint(x: minX - 50, y: y)
+                    }
+                    
+                    if let rightIndicator = indicators.last {
+                        y += (labelHeight - rightIndicator.calculateAccumulatedFrame().height) / 2
+                        
+                        rightIndicator.alpha = 1.0
+                        rightIndicator.position = CGPoint(x: maxX + 30, y: y)
+                    }
+                }
+            } else {
+                for indicator in indicators {
+                    indicator.alpha = 0.0
+                }
+            }
+        }
+    }
+    
     private func addLabelsAndControls() {
         for option in self.options {
             let label = SKLabelNode(text: option.title)
@@ -138,6 +173,17 @@ class MenuScene: BaseScene {
         }
     }
     
+    private func addIndicators() {
+        let leftIndicator = Indicator(direction: .Left)
+        addChild(leftIndicator)
+        let rightIndicator = Indicator(direction: .Right)
+        addChild(rightIndicator)
+        
+        indicators = [leftIndicator, rightIndicator]
+        
+        positionIndicatorsForSelectionOption()
+    }
+    
     private func updateUI() {
         let defaultFontName = "HelveticaNeue-UltraLight"
         let highlightFontName = "HelveticaNeue-Medium"
@@ -155,6 +201,7 @@ class MenuScene: BaseScene {
         }
         
         focusControlForSelectedOption()
+        positionIndicatorsForSelectionOption()
     }
     
     private func labelForMenuOption(option: MenuOption) -> SKLabelNode? {
