@@ -53,25 +53,29 @@ class CpuControlComponent: GKComponent {
         }
     }
     
+    private func distanceBetweenPoint(point: Point, otherPoint: Point) -> (distance: CGFloat, dx: CGFloat, dy: CGFloat) {
+        let dx = CGFloat(point.x - otherPoint.x)
+        let dy = CGFloat(point.y - otherPoint.y)
+        let distance = hypot(dx, dy)
+        
+        return (distance, dx, dy)
+    }
+    
     private func launchProjectileToPlayer(entityName: String, forCreature creature: Creature, direction: AttackDirection) -> Bool {
         var didAttack = false
         
+        let players = [game?.player1, game?.player2].flatMap{ $0 }
+        var distance: CGFloat = CGFloat.max
+        let creaturePos = creature.gridPosition
+        var offset: (dx: CGFloat, dy: CGFloat) = (dx: 0, dy: 0)
+
         switch direction {
         case .Any:
-            let players = [game?.player1, game?.player2].flatMap{ $0 }
-            
-            var distance: CGFloat = CGFloat.max
-            let creaturePos = creature.gridPosition
-            var offset: (dx: CGFloat, dy: CGFloat) = (dx: 0, dy: 0)
-            
             for testPlayer in players {
-                let dx = CGFloat(testPlayer.gridPosition.x - creaturePos.x)
-                let dy = CGFloat(testPlayer.gridPosition.y - creaturePos.y)
-                let playerDistance = hypot(dx, dy)
-                
-                if playerDistance < distance {
-                    distance = playerDistance
-                    offset = (dx: dx, dy: dy)
+                let result = distanceBetweenPoint(testPlayer.gridPosition, otherPoint: creature.gridPosition)
+                if result.distance < distance {
+                    distance = result.distance
+                    offset = (dx: result.dx, dy: result.dy)
                 }
             }
             
@@ -83,37 +87,28 @@ class CpuControlComponent: GKComponent {
             
             didAttack = true
         case .Axial:
-            let players = [game?.player1, game?.player2].flatMap{ $0 }
-            var distance: CGFloat = CGFloat.max
-            let creaturePos = creature.gridPosition
             var playerPos = players.first!.gridPosition
-            var offset: (dx: CGFloat, dy: CGFloat) = (dx: 0, dy: 0)
             
             for testPlayer in players {
-                let dx = CGFloat(testPlayer.gridPosition.x - creaturePos.x)
-                let dy = CGFloat(testPlayer.gridPosition.y - creaturePos.y)
-                let playerDistance = hypot(dx, dy)
-                
-                if playerDistance < distance {
+                let result = distanceBetweenPoint(testPlayer.gridPosition, otherPoint: creature.gridPosition)
+                if result.distance < distance {
                     playerPos = testPlayer.gridPosition
-                    distance = playerDistance
-                    offset = (dx: dx, dy: dy)
+                    distance = result.distance
+                    offset = (dx: result.dx, dy: result.dy)
                 }
             }
             
             if offset.dx == 0 || offset.dy == 0 {
                 let visibleGridPositions = game!.visibleGridPositionsFromGridPosition(creaturePos, inDirection: creature.direction)
 
-                for gridPosition in visibleGridPositions {
-                    if pointEqualToPoint(gridPosition, point2: playerPos) {
-                        let speed = CGFloat(unitLength)
-                        let factor = 1.0 / CGFloat(distance) * speed
-                        let force = CGVector(dx: offset.dx * factor, dy: offset.dy * factor)
-                        
-                        addProjectileWithName(entityName, toGame: game!, withForce: force, gridPosition: creaturePos)
-                        
-                        didAttack = true
-                    }
+                for gridPosition in visibleGridPositions where pointEqualToPoint(gridPosition, point2: playerPos) {
+                    let speed = CGFloat(unitLength)
+                    let factor = 1.0 / CGFloat(distance) * speed
+                    let force = CGVector(dx: offset.dx * factor, dy: offset.dy * factor)
+                    
+                    addProjectileWithName(entityName, toGame: game!, withForce: force, gridPosition: creaturePos)
+                    
+                    didAttack = true
                 }
             }
         }
