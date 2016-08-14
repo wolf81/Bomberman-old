@@ -37,7 +37,7 @@ class Tile: Entity {
 
         visualComponent.spriteNode.zPosition = EntityLayer.Tile.rawValue
 
-        let category = (tileType == .Wall) ? EntityCategory.Wall : EntityCategory.Tile
+        let category = (tileType == .Wall) ? EntityCategory.Wall : EntityCategory.Block
         
         if let physicsBody = visualComponent.spriteNode.physicsBody {
             physicsBody.categoryBitMask = category

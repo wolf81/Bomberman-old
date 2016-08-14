@@ -8,13 +8,11 @@
 
 import Foundation
 
-// TODO: Rename Tile to Block.
-
 struct EntityCategory {
     static let Nothing:     UInt32 = 0
     static let Monster:     UInt32 = 0b1
     static let Player:      UInt32 = 0b10
-    static let Tile:        UInt32 = 0b100
+    static let Block:       UInt32 = 0b100
     static let Projectile:  UInt32 = 0b1000
     static let Prop:        UInt32 = 0b10000
     static let Wall:        UInt32 = 0b100000
@@ -26,7 +24,7 @@ struct EntityCategory {
             switch string {
             case "monster": bitMask |= Monster
             case "player": bitMask |= Player
-            case "tile": bitMask |= Tile
+            case "tile": bitMask |= Block
             case "projectile": bitMask |= Projectile
             case "prop": bitMask |= Prop
             case "wall": bitMask |= Wall
