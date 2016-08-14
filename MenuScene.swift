@@ -6,13 +6,22 @@
 //
 //
 
+/*
+ * A scene that can be used for creating game menus. A scene is configured using a list of menu 
+ * options. The default menu option type generates a simple 'button' (basically a label that can be 
+ * clicked). For other menu option types a label and control is generated. The value of the control 
+ * can be changed by pressing left and right buttons.
+ */
+
 import SpriteKit
 
 class MenuScene: BaseScene {
-    var options = [MenuOption]()
-    var labels = [SKLabelNode]()
-    var controls = [SKNode]()
-    var alignWithLastItem = false
+    private (set) var options = [MenuOption]()
+    private (set) var alignWithLastItem = false
+
+    private var indicators = [SKLabelNode]()
+    private var labels = [SKLabelNode]()
+    private var controls = [SKNode]()
     
     private var selectedOption: MenuOption?
     
@@ -44,16 +53,12 @@ class MenuScene: BaseScene {
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
         
-        updateUI()
-        
-        MusicPlayer.sharedInstance.pause()
+        updateUI()        
     }
     
     // MARK: - Private
     
     private func commonInit() {
-        self.labels = [SKLabelNode]()
-
         addLabelsAndControls()
         positionLabelsAndControls()
     }
@@ -107,8 +112,8 @@ class MenuScene: BaseScene {
     private func addLabelsAndControls() {
         for option in self.options {
             let label = SKLabelNode(text: option.title)
-            self.addChild(label)
-            self.labels.append(label)
+            addChild(label)
+            labels.append(label)
             
             switch option.type {
             case .Checkbox:
@@ -116,19 +121,19 @@ class MenuScene: BaseScene {
                 let enabled = option.value as? Bool ?? false
                 checkbox.enabled = enabled
                 
-                self.addChild(checkbox)
-                self.controls.append(checkbox)
+                addChild(checkbox)
+                controls.append(checkbox)
             case .NumberChooser:
                 let value = option.value as? Int ?? 0
                 let chooser = NumberChooser(initialValue: value)
                 
-                self.addChild(chooser)
-                self.controls.append(chooser)
+                addChild(chooser)
+                controls.append(chooser)
             default:
                 // We use a dummy control in the controls list so we can use the same index as the
                 //  index of it's label.
                 let dummyControl = SKNode()
-                self.controls.append(dummyControl)
+                controls.append(dummyControl)
             }
         }
     }
@@ -137,14 +142,14 @@ class MenuScene: BaseScene {
         let defaultFontName = "HelveticaNeue-UltraLight"
         let highlightFontName = "HelveticaNeue-Medium"
         
-        for item in self.options {
+        for option in options {
             var fontName = defaultFontName
 
-            if let selectedItem = self.selectedOption where item === selectedItem {
+            if let selectedOption = self.selectedOption where option === selectedOption {
                 fontName = highlightFontName
             }
             
-            if let label = labelForMenuOption(item) {
+            if let label = labelForMenuOption(option) {
                 label.fontName = fontName
             }
         }
@@ -155,7 +160,7 @@ class MenuScene: BaseScene {
     private func labelForMenuOption(option: MenuOption) -> SKLabelNode? {
         var label: SKLabelNode?
         
-        for optionLabel in self.labels where optionLabel.text == option.title {
+        for optionLabel in labels where optionLabel.text == option.title {
             label = optionLabel
         }
         
@@ -164,13 +169,13 @@ class MenuScene: BaseScene {
     
     private func controlForMenuOption(option: MenuOption) -> SKNode? {
         let idx = indexOfMenuOption(option)
-        return self.controls[idx]
+        return controls[idx]
     }
     
     private func indexOfMenuOption(option: MenuOption) -> Int {
         var idx = -1
         
-        for (testIdx, testOption) in self.options.enumerate() {
+        for (testIdx, testOption) in options.enumerate() {
             if testOption === option {
                 idx = testIdx
             }
@@ -181,14 +186,14 @@ class MenuScene: BaseScene {
     
     private func focusControlForSelectedOption() {        
         // First clear current focus by removing focus on all controls.
-        for control in self.controls {
+        for control in controls {
             if let focusableControl = control as? Focusable {
                 focusableControl.setFocused(false)
             }
         }
         
         // Focus the control for the current label.
-        if let option = self.selectedOption, control = controlForMenuOption(option) {
+        if let option = selectedOption, control = controlForMenuOption(option) {
             if let focusableControl = control as? Focusable {
                 focusableControl.setFocused(true)
             }
@@ -198,7 +203,7 @@ class MenuScene: BaseScene {
     // MARK: - Public
     
     override func handleLeftPress(forPlayer player: PlayerIndex) {
-        for option in self.options where option === selectedOption {
+        for option in options where option === selectedOption {
             let control = controlForMenuOption(option)
             
             switch control {
@@ -216,7 +221,7 @@ class MenuScene: BaseScene {
     }
     
     override func handleRightPress(forPlayer player: PlayerIndex) {
-        for option in self.options where option === selectedOption {
+        for option in options where option === selectedOption {
             let control = controlForMenuOption(option)
             
             switch control {
@@ -236,14 +241,14 @@ class MenuScene: BaseScene {
     override func handleUpPress(forPlayer player: PlayerIndex) {
         var selectionIndex = 0
         
-        for (idx, option) in self.options.enumerate() {
-            if option === self.selectedOption {
+        for (idx, option) in options.enumerate() {
+            if option === selectedOption {
                 selectionIndex = max(idx - 1, 0)
                 break
             }
         }
         
-        self.selectedOption = self.options[selectionIndex]
+        selectedOption = options[selectionIndex]
         
         updateUI()
     }
@@ -251,21 +256,21 @@ class MenuScene: BaseScene {
     override func handleDownPress(forPlayer player: PlayerIndex) {
         var selectionIndex = 0
         
-        for (idx, option) in self.options.enumerate() {
-            if option === self.selectedOption {
-                selectionIndex = min(idx + 1, self.options.count - 1)
+        for (idx, option) in options.enumerate() {
+            if option === selectedOption {
+                selectionIndex = min(idx + 1, options.count - 1)
                 break
             }
         }
         
-        self.selectedOption = self.options[selectionIndex]
+        selectedOption = options[selectionIndex]
         
         updateUI()
     }
     
     override func handleActionPress(forPlayer player: PlayerIndex) {
-        if let selectedOption = self.selectedOption {
-            if let onSelected = selectedOption.onSelected {
+        if let option = selectedOption {
+            if let onSelected = option.onSelected {
                 onSelected()
             }
         }

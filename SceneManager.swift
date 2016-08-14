@@ -41,6 +41,8 @@ class SceneManager: NSObject, GameSceneDelegate, LoadingSceneDelegate {
     func gameSceneDidPause(scene: GameScene) {
         self.pausedGameScene = scene
         
+        MusicPlayer.sharedInstance.pause()
+
         let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
         transitionToScene(menuScene, animation: .Fade)
     }
