@@ -119,27 +119,25 @@ class MenuScene: BaseScene {
                     let minX = label.calculateAccumulatedFrame().minX
                     let maxX = control.calculateAccumulatedFrame().maxX
                     
-                    var y = label.calculateAccumulatedFrame().minY
+                    let y = label.calculateAccumulatedFrame().minY
                     let labelHeight = label.calculateAccumulatedFrame().height
                     
                     if let leftIndicator = indicators.first {
-                        y += (labelHeight - leftIndicator.calculateAccumulatedFrame().height) / 2
+                        let yOffset = (labelHeight - leftIndicator.size.height) / 2
                         
                         leftIndicator.alpha = 1.0
-                        leftIndicator.position = CGPoint(x: minX - 50, y: y)
+                        leftIndicator.position = CGPoint(x: minX - 35, y: y + yOffset)
                     }
                     
                     if let rightIndicator = indicators.last {
-                        y += (labelHeight - rightIndicator.calculateAccumulatedFrame().height) / 2
+                        let yOffset = (labelHeight - rightIndicator.size.height) / 2
                         
                         rightIndicator.alpha = 1.0
-                        rightIndicator.position = CGPoint(x: maxX + 30, y: y)
+                        rightIndicator.position = CGPoint(x: maxX + 25, y: y + yOffset)
                     }
                 }
             } else {
-                for indicator in indicators {
-                    indicator.alpha = 0.0
-                }
+                indicators.forEach({ indicator in indicator.alpha = 0.0 })
             }
         }
     }
@@ -183,7 +181,7 @@ class MenuScene: BaseScene {
         
         positionIndicatorsForSelectionOption()
         
-        indicators.forEach { indicator in indicator.runScaleAnimation(1.0, toValue: 1.15) }
+        indicators.forEach { indicator in indicator.runScaleAnimation(1.0, toValue: 0.85) }
     }
     
     private func updateUI() {

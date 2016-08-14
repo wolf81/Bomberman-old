@@ -16,10 +16,10 @@ enum IndicatorDirection {
 class Indicator : SKShapeNode {
     private(set) var direction: IndicatorDirection = .Left
     
-    private var size: CGSize = CGSize()
+    private(set) var size: CGSize = CGSize()
     
     convenience init(direction: IndicatorDirection) {
-        self.init(size: CGSize(width: 15, height: 20), direction: direction)
+        self.init(size: CGSize(width: 10, height: 15), direction: direction)
     }
     
     init(size: CGSize, direction: IndicatorDirection) {
@@ -73,11 +73,11 @@ class Indicator : SKShapeNode {
     // MARK: - Public
     
     func runScaleAnimation(fromValue: CGFloat, toValue: CGFloat) {
-        assert(fromValue < toValue, "fromValue should be smaller than toValue")
+        assert(fromValue != toValue, "fromValue should be different from toValue")
         
-        let scaleUp = SKAction.scaleTo(toValue, duration: 1.0)
-        let scaleDown = SKAction.scaleTo(fromValue, duration: 1.0)
-        let sequence = SKAction.sequence([scaleUp, scaleDown])
+        let scaleTo = SKAction.scaleTo(toValue, duration: 1.0)
+        let scaleFrom = SKAction.scaleTo(fromValue, duration: 1.0)
+        let sequence = SKAction.sequence([scaleTo, scaleFrom])
         let scaleRepeat = SKAction.repeatActionForever(sequence)
         runAction(scaleRepeat)
     }
