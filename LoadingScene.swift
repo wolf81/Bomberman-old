@@ -23,8 +23,8 @@ class LoadingScene: SKScene, AssetManagerDelegate {
     
     // Work around to set the subclass delegate.
     var loadingSceneDelegate: LoadingSceneDelegate? {
-        get { return self.delegate as? LoadingSceneDelegate }
-        set { self.delegate = newValue }
+        get { return delegate as? LoadingSceneDelegate }
+        set { delegate = newValue }
     }
     
     init(size: CGSize, loadingSceneDelegate: LoadingSceneDelegate?) {
@@ -32,20 +32,20 @@ class LoadingScene: SKScene, AssetManagerDelegate {
         
         self.loadingSceneDelegate = loadingSceneDelegate
         
-        self.assetManager.delegate = self
+        assetManager.delegate = self
         
-        let y = self.size.height / 2
+        let y = size.height / 2
 
-        self.titleNode.text = "LOADING"
-        self.titleNode.position = CGPoint(x: size.width / 2, y: y + 100)
-        addChild(self.titleNode)
+        titleNode.text = "LOADING"
+        titleNode.position = CGPoint(x: size.width / 2, y: y + 100)
+        addChild(titleNode)
         
-        self.messageNode.text = "-"
-        self.messageNode.position = CGPoint(x: size.width / 2, y: y)
-        addChild(self.messageNode)
+        messageNode.text = "-"
+        messageNode.position = CGPoint(x: size.width / 2, y: y)
+        addChild(messageNode)
         
-        self.percentageNode.position = CGPoint(x: size.width / 2, y: y - 100)
-        addChild(self.percentageNode)
+        percentageNode.position = CGPoint(x: size.width / 2, y: y - 100)
+        addChild(percentageNode)
         
         updateProgress(0)
     }
@@ -55,27 +55,27 @@ class LoadingScene: SKScene, AssetManagerDelegate {
     }
     
     override func didMoveToView(view: SKView) {
-        self.loadingSceneDelegate?.loadingSceneDidMoveToView(self, view: view)
+        loadingSceneDelegate?.loadingSceneDidMoveToView(self, view: view)
     }
     
     func updateAssetsIfNeeded() throws {
         if Settings.assetsCheckEnabled() {
             let url = NSURL(string: "https://dl.dropboxusercontent.com/s/i4en1xtkrxg8ccm/assets.zip")!
             
-            self.messageNode.text = "CHECKING FOR UPDATED ASSETS ..."
+            messageNode.text = "CHECKING FOR UPDATED ASSETS ..."
             
-            self.remoteEtag = try assetManager.etagForRemoteAssetsArchive(url)
+            remoteEtag = try assetManager.etagForRemoteAssetsArchive(url)
             let localEtag = assetManager.etagForLocalAssetsArchive()
             
-            if self.remoteEtag != localEtag {
-                self.messageNode.text = "UPDATING ASSETS ..."
+            if remoteEtag != localEtag {
+                messageNode.text = "UPDATING ASSETS ..."
                 
-                self.assetManager.loadAssets(url)
+                assetManager.loadAssets(url)
             } else {
-                self.loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
+                loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
             }            
         } else {
-            self.loadingSceneDelegate?.loadingSceneDidFinishLoading(self)        
+            loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
         }
     }
     
@@ -84,14 +84,14 @@ class LoadingScene: SKScene, AssetManagerDelegate {
     }
     
     func assetManagerLoadAssetsFailure(assetManager: AssetManager, error: ErrorType) {
-        self.loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
+        loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
     }
 
     func assetManagerLoadAssetsSuccess(assetManager: AssetManager) {
         updateProgress(1.0)
 
-        if let remoteEtag = self.remoteEtag {
-            self.assetManager.storeEtagForLocalAssetsArchive(remoteEtag)
+        if let etag = remoteEtag {
+            assetManager.storeEtagForLocalAssetsArchive(etag)
         }
 
         delay(0.5) {
@@ -103,6 +103,6 @@ class LoadingScene: SKScene, AssetManagerDelegate {
     
     func updateProgress(progress: Float) {
         let percentageString = String(format: "%.0f", progress * 100)
-        self.percentageNode.text = String("\(percentageString) %")
+        percentageNode.text = String("\(percentageString) %")
     }
 }

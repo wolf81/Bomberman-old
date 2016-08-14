@@ -34,10 +34,10 @@ class MenuScene: BaseScene {
     init(size: CGSize, options: [MenuOption], alignWithLastItem: Bool) {
         super.init(size: size)
         
-        self.delegate = delegate
         self.alignWithLastItem = alignWithLastItem
         self.options = options
-        self.selectedOption = options.first
+        
+        selectedOption = options.first
         
         commonInit()
     }
@@ -67,17 +67,17 @@ class MenuScene: BaseScene {
     }
     
     private func positionLabelsAndControls() {
-        let x = self.size.width / 2
-        let y = self.size.height / 2
+        let x = size.width / 2
+        let y = size.height / 2
         let padding: CGFloat = 30
 
         // Each label has 100 pixels in between the mid y positions. The labels are placed in the
         //  center of the view.
-        let itemCountForHeight = fmaxf(Float(self.options.count - 1), 0)
+        let itemCountForHeight = fmaxf(Float(options.count - 1), 0)
         let totalHeight = CGFloat(itemCountForHeight * 100)
         let originY = y + (totalHeight / 2)
         
-        for (idx, option) in self.options.enumerate().reverse() {
+        for (idx, option) in options.enumerate().reverse() {
             let y = CGFloat(originY) - CGFloat(idx * 100)
             
             if let label = labelForMenuOption(option) {
@@ -86,8 +86,8 @@ class MenuScene: BaseScene {
                 // When alignWithLastItem is set to true, we will align the last label in center 
                 //  and other labels to the right. The other labels will be positioned accordingly 
                 //  to be aligned with the last label.
-                if alignWithLastItem && idx != (self.options.count - 1) {
-                    if let lastLabel = self.labels.last {
+                if alignWithLastItem && idx != (options.count - 1) {
+                    if let lastLabel = labels.last {
                         let xOffset = lastLabel.calculateAccumulatedFrame().maxX - x
                         label.position = CGPoint(x: x + xOffset, y: y)
                     }
@@ -143,7 +143,7 @@ class MenuScene: BaseScene {
     }
     
     private func addLabelsAndControls() {
-        for option in self.options {
+        for option in options {
             let label = SKLabelNode(text: option.title)
             addChild(label)
             labels.append(label)

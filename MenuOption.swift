@@ -28,7 +28,7 @@ class MenuOption {
     private(set) var value: AnyObject? {
         didSet {
             if let onValueChanged = self.onValueChanged {
-                onValueChanged(newValue: self.value)
+                onValueChanged(newValue: value)
             }
         }
     }

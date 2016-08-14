@@ -19,13 +19,13 @@ class GameScene: BaseScene {
     private let rootNode: GameSceneNode
     
     var world: SKSpriteNode {
-        return self.rootNode.world
+        return rootNode.world
     }
     
     // Work around to set the subclass delegate.
     var gameSceneDelegate: GameSceneDelegate? {
-        get { return self.delegate as? GameSceneDelegate }
-        set { self.delegate = newValue }
+        get { return delegate as? GameSceneDelegate }
+        set { delegate = newValue }
     }
 
     // MARK: - Initialization
@@ -33,17 +33,17 @@ class GameScene: BaseScene {
     init(level: Level, gameSceneDelegate: GameSceneDelegate?) {
         // TODO: Consider not instantiating with level, but with sizes for panel and world and the 
         //  theme. Scene might not be recreated for every level?
-        self.rootNode = GameSceneNode(withLevel: level)
+        rootNode = GameSceneNode(withLevel: level)
         
-        super.init(size: self.rootNode.frame.size)
+        super.init(size: rootNode.frame.size)
         
-        self.addChild(self.rootNode)
+        addChild(rootNode)
 
         self.level = level
         self.gameSceneDelegate = gameSceneDelegate
-        self.physicsWorld.gravity = CGVector()
         
-        self.scaleMode = .AspectFit
+        scaleMode = .AspectFit
+        physicsWorld.gravity = CGVector()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -54,21 +54,21 @@ class GameScene: BaseScene {
     // MARK: - Public
     
     func updateTimeRemaining(timeRemaining: NSTimeInterval) {
-        self.rootNode.updateTimeRemaining(timeRemaining)
+        rootNode.updateTimeRemaining(timeRemaining)
     }
     
     func updateHudForPlayer(player: Player) {
-        self.rootNode.updateHudForPlayer(player)
+        rootNode.updateHudForPlayer(player)
     }
     
     func levelFinished(level: Level) {
-        if let delegate = self.gameSceneDelegate {
+        if let delegate = gameSceneDelegate {
             delegate.gameSceneDidFinishLevel(self, level: level);
         }
     }
     
     override func didMoveToView(view: SKView) {
-        if let delegate = self.gameSceneDelegate {
+        if let delegate = gameSceneDelegate {
             delegate.gameSceneDidMoveToView(self, view: view)
         }        
     }
@@ -87,9 +87,9 @@ class GameScene: BaseScene {
     }
     
     override func handlePausePress(forPlayer player: PlayerIndex) {
-        self.paused = true
+        paused = true
                 
-        if let delegate = self.gameSceneDelegate {
+        if let delegate = gameSceneDelegate {
             delegate.gameSceneDidPause(self)
         }
     }

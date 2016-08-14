@@ -115,9 +115,9 @@ class InputProxy {
     private func handleDpadValueChangedForPlayer(player: PlayerIndex, scene: BaseScene, xValue: Float, yValue: Float, centerOffset: Float) {
         if self.autoDirectionPressRelease {
             if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
-                self.directionPressed = false
-            } else if !self.directionPressed {
-                self.directionPressed = true
+                directionPressed = false
+            } else if !directionPressed {
+                directionPressed = true
                 
                 handleDirectionalButtonPressForPlayer(player, scene: scene, xValue: xValue, yValue: yValue)
             }
@@ -160,6 +160,6 @@ class InputProxy {
     }
     
     private func handlePausePress() {
-        self.scene?.handlePausePress(forPlayer: .Player1)
+        scene?.handlePausePress(forPlayer: .Player1)
     }
 }

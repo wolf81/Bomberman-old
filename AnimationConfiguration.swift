@@ -25,9 +25,9 @@ struct AnimationConfiguration {
     init(json: [String: AnyObject]) {
         parseRangeFromJson(json)
         
-        self.duration = durationFromJson(json)
-        self.delay = delayFromJson(json) ?? 0.0
-        self.repeatCount = repeatCountFromJson(json) ?? 1
+        duration = durationFromJson(json)
+        delay = delayFromJson(json) ?? 0.0
+        repeatCount = repeatCountFromJson(json) ?? 1
     }
     
     // MARK: - Public
@@ -62,32 +62,32 @@ struct AnimationConfiguration {
         if let rangeJson = json["range"] as? [Int] {
             let range = rangeFromJson(rangeJson)
             
-            self.centerAnimRange = range
-            self.upAnimRange = range
-            self.leftAnimRange = range
-            self.downAnimRange = range
-            self.rightAnimRange = range
+            centerAnimRange = range
+            upAnimRange = range
+            leftAnimRange = range
+            downAnimRange = range
+            rightAnimRange = range
         } else if let rangeJson = json["range"] as? [String: AnyObject] {
             print("json: \(rangeJson)")
      
             if let rangeJson = rangeJson["center"] as? [Int] {
-                self.centerAnimRange = rangeFromJson(rangeJson)
+                centerAnimRange = rangeFromJson(rangeJson)
             }
 
             if let rangeJson = rangeJson["up"] as? [Int] {
-                self.upAnimRange = rangeFromJson(rangeJson)
+                upAnimRange = rangeFromJson(rangeJson)
             }
             
             if let rangeJson = rangeJson["down"] as? [Int] {
-                self.downAnimRange = rangeFromJson(rangeJson)
+                downAnimRange = rangeFromJson(rangeJson)
             }
 
             if let rangeJson = rangeJson["left"] as? [Int] {
-                self.leftAnimRange = rangeFromJson(rangeJson)
+                leftAnimRange = rangeFromJson(rangeJson)
             }
             
             if let rangeJson = rangeJson["right"] as? [Int] {
-                self.rightAnimRange = rangeFromJson(rangeJson)
+                rightAnimRange = rangeFromJson(rangeJson)
             }
         }
     }
