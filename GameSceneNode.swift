@@ -26,30 +26,30 @@ class GameSceneNode: SKShapeNode {
         let floorTile = try! tileLoader.floorTextureForTheme(level.theme)
         let floorTexture = floorTile.tiledTextureWithSize(level.size(), tileSize: tileSize)
 
-        self.world = SKSpriteNode(texture: floorTexture, size: level.size())
-        self.world.position = CGPoint(x: panelWidth, y: 0)
-        self.world.anchorPoint = CGPointZero
-        self.world.blendMode = .Replace
+        world = SKSpriteNode(texture: floorTexture, size: level.size())
+        world.position = CGPoint(x: panelWidth, y: 0)
+        world.anchorPoint = CGPointZero
+        world.blendMode = .Replace
         
         // Create panel node.
         let panelSize = CGSizeMake(panelWidth, size.height)
-        self.gameHud = GameHud(size: panelSize)
-        self.gameHud.position = CGPoint(x: 0, y: 0)
-        self.gameHud.blendMode = .Replace
+        gameHud = GameHud(size: panelSize)
+        gameHud.position = CGPoint(x: 0, y: 0)
+        gameHud.blendMode = .Replace
         
         super.init()
         
+        addChild(world)
+        addChild(gameHud)
+
         // We need to use the designated initializer, therefore we have to set a frame here by
         //  setting the path (we can not use init(withFrame) or similar method.
         let rect = CGRect(origin: CGPointZero, size: size)
-        self.path = CGPathCreateWithRect(rect, nil)
+        path = CGPathCreateWithRect(rect, nil)
         
-        self.addChild(self.world)
-        self.addChild(self.gameHud)
-        
-        self.blendMode = .Replace
-        self.antialiased = false
-        self.lineWidth = 0
+        blendMode = .Replace
+        antialiased = false
+        lineWidth = 0
     }
     
     required init?(coder aDecoder: NSCoder) {

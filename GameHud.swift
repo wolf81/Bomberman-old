@@ -17,27 +17,27 @@ class GameHud: SKSpriteNode {
     
     init(size: CGSize) {
         let infoNodeSize = CGSize(width: 225, height: 380)
-        self.p1Hud = PlayerHud(size: infoNodeSize, forPlayer: .Player1)
-        self.p2Hud = PlayerHud(size: infoNodeSize, forPlayer: .Player2)
+        p1Hud = PlayerHud(size: infoNodeSize, forPlayer: .Player1)
+        p2Hud = PlayerHud(size: infoNodeSize, forPlayer: .Player2)
         
         let texture = SKTexture(imageNamed: "Panel.png")
         super.init(texture: texture, color: SKColor.blackColor(), size: size)
         
-        self.timeNode.zPosition = 10
-        addChild(self.timeNode)
-        self.timeNode.fontName = "TamilSangamMN-Bold"
-        self.timeNode.fontSize = 40
-        self.timeNode.position = CGPoint(x: size.width / 2, y: size.height / 2 - timeNode.frame.height / 2)
+        timeNode.zPosition = 10
+        timeNode.fontName = "TamilSangamMN-Bold"
+        timeNode.fontSize = 40
+        timeNode.position = CGPoint(x: size.width / 2, y: size.height / 2 - timeNode.frame.height / 2)
+        addChild(timeNode)
         
-        addChild(self.p1Hud)
-        self.p1Hud.position = CGPoint(x: 55, y: 590)
+        addChild(p1Hud)
+        p1Hud.position = CGPoint(x: 55, y: 590)
         
-        addChild(self.p2Hud)
-        self.p2Hud.position = CGPoint(x: 55, y: 115)
+        addChild(p2Hud)
+        p2Hud.position = CGPoint(x: 55, y: 115)
         
-        self.anchorPoint = CGPointZero
-        self.position = CGPointZero
-        self.blendMode = .Replace
+        anchorPoint = CGPointZero
+        position = CGPointZero
+        blendMode = .Replace
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,11 +47,11 @@ class GameHud: SKSpriteNode {
     func updateTimeRemaining(timeRemaining: NSTimeInterval) {
         let minutes = String(format: "%02d", Int(timeRemaining / 60))
         let seconds = String(format: "%02d", Int(timeRemaining % 60))
-        self.timeNode.text = "\(minutes):\(seconds)"
+        timeNode.text = "\(minutes):\(seconds)"
     }
     
     func updateForPlayer(player: Player) {
-        let playerInfoNode = player.index == .Player1 ? self.p1Hud : self.p2Hud
+        let playerInfoNode = player.index == .Player1 ? p1Hud : p2Hud
         playerInfoNode.updateLives(player.lives)        
         playerInfoNode.updateHealth(player.health)
         

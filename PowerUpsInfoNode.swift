@@ -19,11 +19,11 @@ class PowerUpsInfoNode: SKShapeNode {
     init(size: CGSize) {
         super.init()
                 
-        self.path = CGPathCreateWithRect(CGRect(origin: CGPointZero, size: size), nil)
+        path = CGPathCreateWithRect(CGRect(origin: CGPointZero, size: size), nil)
         
-        self.antialiased = false
-        self.lineWidth = 0
-        self.blendMode = .Replace
+        antialiased = false
+        lineWidth = 0
+        blendMode = .Replace
         
         updatePowerUpNodes()
     }
@@ -36,9 +36,9 @@ class PowerUpsInfoNode: SKShapeNode {
     
     func updatePower(power: PowerType, setActive isActive: Bool) {
         if isActive {
-            self.activePowers.insert(power)
+            activePowers.insert(power)
         } else {
-            self.activePowers.remove(power)
+            activePowers.remove(power)
         }
         
         updatePowerUpNodes()
@@ -47,17 +47,17 @@ class PowerUpsInfoNode: SKShapeNode {
     // MARK: - Private
     
     private func updatePowerUpNodes() {
-        self.removeAllChildren()
-        self.powerUpNodes.removeAll()
+        removeAllChildren()
+        powerUpNodes.removeAll()
         
         let spriteSize = CGSize(width: 30, height: 30)
-        let sprites = self.hudLoader.powerUpSprites
+        let sprites = hudLoader.powerUpSprites
         
         for i in (0 ..< 5).reverse() {
             var sprite: SKTexture
 
             let powerType = powerTypeForIndex(i)
-            let isPowerActive = self.activePowers.contains(powerType)
+            let isPowerActive = activePowers.contains(powerType)
             
             sprite = sprites[i + (isPowerActive ? 0 : 6)]
 
@@ -66,12 +66,10 @@ class PowerUpsInfoNode: SKShapeNode {
             let spriteNode = SKSpriteNode(texture: sprite, size: spriteSize)
             spriteNode.position = CGPoint(x: xPos, y: yPos)
             spriteNode.anchorPoint = CGPointZero
-            self.powerUpNodes.append(spriteNode)
+            powerUpNodes.append(spriteNode)
         }
 
-        for powerUpNode in self.powerUpNodes {
-            self.addChild(powerUpNode)
-        }
+        powerUpNodes.forEach { powerUpNode in addChild(powerUpNode) }
     }
     
     private func powerTypeForIndex(index: Int) -> PowerType {

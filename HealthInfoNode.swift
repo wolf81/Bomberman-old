@@ -16,13 +16,12 @@ class HealthInfoNode: SKShapeNode {
         
         updateHealth(8)
 
-        self.path = CGPathCreateWithRect(CGRect(origin: CGPointZero, size: size), nil)
+        path = CGPathCreateWithRect(CGRect(origin: CGPointZero, size: size), nil)
 
-        self.antialiased = false
-        self.lineWidth = 0
-        self.blendMode = .Replace
-        
-        self.zPosition = 20
+        antialiased = false
+        lineWidth = 0
+        blendMode = .Replace
+        zPosition = 20
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -38,10 +37,10 @@ class HealthInfoNode: SKShapeNode {
             halfHearts = health % 2
         }
         
-        for heartNode in self.heartNodes {
+        for heartNode in heartNodes {
             heartNode.removeFromParent()
         }
-        self.heartNodes.removeAll()
+        heartNodes.removeAll()
         
         let heartSize = CGSize(width: 40, height: 40)
         
@@ -67,12 +66,10 @@ class HealthInfoNode: SKShapeNode {
                 let heartNode = SKSpriteNode(texture: heartSprite, size: heartSize)
                 heartNode.position = CGPoint(x: xPos, y: yPos)
                 heartNode.anchorPoint = CGPointZero
-                self.heartNodes.append(heartNode)
+                heartNodes.append(heartNode)
             }
         }
         
-        for heartNode in self.heartNodes {
-            self.addChild(heartNode)
-        }
+        heartNodes.forEach { heartNode in addChild(heartNode) }
     }
 }
