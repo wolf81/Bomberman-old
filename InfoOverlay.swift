@@ -63,24 +63,24 @@ class InfoOverlay: NSView {
         
         let inset: CGFloat = 5.0
         let frame = NSInsetRect(self.bounds, inset, inset)
-        self.label.frame = frame
+        label.frame = frame
     }
     
     // MARK: - Private
     
     private func commonInit() {
-        self.label = NSTextView()
-        self.label.backgroundColor = NSColor.clearColor()
-        self.label.font = NSFont.systemFontOfSize(16)
-        self.label.textColor = NSColor.whiteColor()
-        self.label.wantsLayer = true
-        addSubview(self.label)
+        label = NSTextView()
+        label.backgroundColor = NSColor.clearColor()
+        label.font = NSFont.systemFontOfSize(16)
+        label.textColor = NSColor.whiteColor()
+        label.wantsLayer = true
+        addSubview(label)
         
-        self.autoresizingMask = .ViewWidthSizable
+        autoresizingMask = .ViewWidthSizable
         
-        self.wantsLayer = true
-        self.layer?.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0)
-        self.layer?.opacity = 0.0
+        wantsLayer = true
+        layer?.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0)
+        layer?.opacity = 0.0
         
         NSNotificationCenter.defaultCenter().addObserverForName("net.wolftrail.bomberman.message", object: nil, queue: NSOperationQueue.currentQueue(), usingBlock: { notification in
             if let message = notification.object as? String {
@@ -92,17 +92,17 @@ class InfoOverlay: NSView {
     // MARK: - Public
     
     func update(text: String) {
-        if self.isUpdating {
+        if isUpdating {
             return
         }
         
-        self.isUpdating = true
+        isUpdating = true
         
-        self.label.string = text
+        label.string = text
         
         fadeIn(0.5, completion: { 
             delay(2.0) {
-                self.fadeOut(0.5, completion: { 
+                self.fadeOut(0.5, completion: {
                     self.isUpdating = false
                 })
             }

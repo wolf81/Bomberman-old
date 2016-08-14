@@ -25,7 +25,7 @@ class MusicPlayer {
     }
     
     init() {
-        self.fileManager = NSFileManager.defaultManager()
+        fileManager = NSFileManager.defaultManager()
     }
     
     func playMusic(file: String) throws {
@@ -33,10 +33,10 @@ class MusicPlayer {
         
         if let path = try fileManager.pathForFile(file, inBundleSupportSubDirectory: "Music") {
             let url = NSURL(fileURLWithPath: path)
-            try self.audioPlayer = AVAudioPlayer(contentsOfURL: url)
-            self.audioPlayer?.numberOfLoops = -1
-            self.audioPlayer?.prepareToPlay()
-            self.audioPlayer?.play()
+            try audioPlayer = AVAudioPlayer(contentsOfURL: url)
+            audioPlayer?.numberOfLoops = -1
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
         } else {
             // TODO: throw error - file not exists.
             print("failed to load file: \(file)")

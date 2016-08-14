@@ -26,8 +26,8 @@ class NumberChooser : SKLabelNode, Focusable {
     init(initialValue: Int) {
         super.init()
         
-        self.value = initialValue
-        self.text = String(self.value)
+        value = initialValue
+        text = String(self.value)
         
         commonInit()
     }
@@ -41,13 +41,13 @@ class NumberChooser : SKLabelNode, Focusable {
     // MARK: - Private
     
     private func commonInit() {
-        self.horizontalAlignmentMode = .Left
+        horizontalAlignmentMode = .Left
         
         updateForFocus()
     }
     
     private func updateForFocus() {
-        self.fontName = self.focused ? highlightFontName : defaultFontName
+        fontName = focused ? highlightFontName : defaultFontName
     }
     
     // MARK: - Focusable

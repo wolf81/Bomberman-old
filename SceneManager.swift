@@ -29,7 +29,7 @@ class SceneManager: NSObject, GameSceneDelegate, LoadingSceneDelegate {
     // MARK: - GameSceneDelegate
     
     func gameSceneDidMoveToView(scene: GameScene, view: SKView) {
-        if scene != self.pausedGameScene {
+        if scene != pausedGameScene {
             Game.sharedInstance.configureLevel()
         }
     }
@@ -65,7 +65,7 @@ class SceneManager: NSObject, GameSceneDelegate, LoadingSceneDelegate {
     // MARK: - Private
     
     private func showSubMenuWithOptions(options: [MenuOption]) {
-        let scene = MenuScene(size: self.defaultSize, options: options, alignWithLastItem: true)
+        let scene = MenuScene(size: defaultSize, options: options, alignWithLastItem: true)
         transitionToScene(scene, animation: .Push)
     }
     
@@ -81,7 +81,7 @@ class SceneManager: NSObject, GameSceneDelegate, LoadingSceneDelegate {
     }
     
     private func continueLevel() {
-        if let scene = self.pausedGameScene {
+        if let scene = pausedGameScene {
             transitionToScene(scene, animation: .Fade)            
             Game.sharedInstance.resume()
         }
