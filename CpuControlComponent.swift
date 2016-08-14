@@ -36,21 +36,14 @@ class CpuControlComponent: GKComponent {
                         self.attackDelay -= seconds
                         if self.attackDelay < 0 {                            
                             if let projectileName = configComponent.projectile {
-                                switch configComponent.attackDirection {
-                                case AttackDirection.Axial:
-                                    if playerInRangeForRangedAttack() {
-                                        creature.attack()
-                                        launchProjectile(projectileName, forCreature: creature)
-                                        self.attackDelay = creature.abilityCooldown
-                                    }
-                                case AttackDirection.Any:
+                                if launchProjectileToPlayer(projectileName, forCreature: creature, direction: configComponent.attackDirection) {
                                     creature.attack()
-                                    launchProjectileToPlayer(projectileName, forCreature: creature)
-                                    self.attackDelay = creature.abilityCooldown
+                                    
+                                    attackDelay = creature.abilityCooldown
                                 }
                             } else if playerInRangeForMeleeAttack() {
                                 creature.attack()
-                                self.attackDelay = creature.abilityCooldown
+                                attackDelay = creature.abilityCooldown
                             }
                         }
                     }
@@ -59,42 +52,73 @@ class CpuControlComponent: GKComponent {
         }
     }
     
-    private func launchProjectileToPlayer(entityName: String, forCreature creature: Creature) {
-        let playerPos = self.game!.player1!.gridPosition
-        let gridPosition = creature.gridPosition
+    private func launchProjectileToPlayer(entityName: String, forCreature creature: Creature, direction: AttackDirection) -> Bool {
+        var didAttack = false
         
-        let dx = playerPos.x - gridPosition.x
-        let dy = playerPos.y - gridPosition.y
-        
-        let distance = sqrt(pow(Float(dx), 2) + pow(Float(dy), 2))
-        let speed = CGFloat(unitLength)
-        let factor = 1.0 / CGFloat(distance) * speed
-        
-        let force = CGVector(dx: CGFloat(dx) * factor, dy: CGFloat(dy) * factor)
-        
-        addProjectileWithName(entityName, toGame: self.game!, withForce: force, gridPosition: gridPosition)
-    }
-    
-    private func launchProjectile(entityName: String, forCreature creature: Creature) {
-        let gridPosition = creature.gridPosition
+        switch direction {
+        case .Any:
+            let players = [self.game?.player1, self.game?.player2].flatMap{ $0 }
+            var distance: CGFloat = CGFloat.max
+            let creaturePos = creature.gridPosition
+            var offset: (dx: CGFloat, dy: CGFloat) = (dx: 0, dy: 0)
+            
+            for testPlayer in players {
+                let dx = CGFloat(testPlayer.gridPosition.x - creaturePos.x)
+                let dy = CGFloat(testPlayer.gridPosition.y - creaturePos.y)
+                let playerDistance = hypot(dx, dy)
+                
+                if playerDistance < distance {
+                    distance = playerDistance
+                    offset = (dx: dx, dy: dy)
+                }
+            }
+            
+            let speed = CGFloat(unitLength)
+            let factor = 1.0 / CGFloat(distance) * speed
+            let force = CGVector(dx: offset.dx * factor, dy: offset.dy * factor)
+            
+            addProjectileWithName(entityName, toGame: self.game!, withForce: force, gridPosition: creaturePos)
+            
+            didAttack = true
+        case .Axial:
+            let players = [self.game?.player1, self.game?.player2].flatMap{ $0 }
+            var distance: CGFloat = CGFloat.max
+            let creaturePos = creature.gridPosition
+            var playerPos = players.first!.gridPosition
+            var offset: (dx: CGFloat, dy: CGFloat) = (dx: 0, dy: 0)
+            
+            for testPlayer in players {
+                let dx = CGFloat(testPlayer.gridPosition.x - creaturePos.x)
+                let dy = CGFloat(testPlayer.gridPosition.y - creaturePos.y)
+                let playerDistance = hypot(dx, dy)
+                
+                if playerDistance < distance {
+                    playerPos = testPlayer.gridPosition
+                    distance = playerDistance
+                    offset = (dx: dx, dy: dy)
+                }
+            }
+            
+            if offset.dx == 0 || offset.dy == 0 {
+                let visibleGridPositions = self.game!.visibleGridPositionsFromGridPosition(creaturePos, inDirection: creature.direction)
 
-        var dx: CGFloat = 0.0
-        var dy: CGFloat = 0.0
-        let speed = CGFloat(unitLength)
-        
-        switch creature.direction {
-        case .Up: dy = speed
-        case .Down: dy = -speed
-        case .Right: dx = speed
-        case .Left: dx = -speed
-        default: break
+                for gridPosition in visibleGridPositions {
+                    if pointEqualToPoint(gridPosition, point2: playerPos) {
+                        let speed = CGFloat(unitLength)
+                        let factor = 1.0 / CGFloat(distance) * speed
+                        let force = CGVector(dx: offset.dx * factor, dy: offset.dy * factor)
+                        
+                        addProjectileWithName(entityName, toGame: self.game!, withForce: force, gridPosition: creaturePos)
+                        
+                        didAttack = true
+                    }
+                }
+            }
         }
         
-        let force = CGVector(dx: dx, dy: dy)
-
-        addProjectileWithName(entityName, toGame: self.game!, withForce: force, gridPosition: gridPosition)
+        return didAttack
     }
-
+    
     private func addProjectileWithName(name: String, toGame game: Game, withForce force: CGVector, gridPosition: Point) {
         let propLoader = PropLoader(forGame: game)
         
@@ -130,29 +154,6 @@ class CpuControlComponent: GKComponent {
                     
                     if playerVisible {
                         break
-                    }
-                }
-            }
-        }
-        
-        return playerVisible
-    }
-    
-    private func playerInRangeForRangedAttack() -> Bool {
-        var playerVisible = false
-        
-        if let creature = self.creature {
-            let gridPosition = creature.gridPosition
-            let direction = creature.direction
-            
-            if let visibleGridPositions = self.game?.visibleGridPositionsFromGridPosition(gridPosition, inDirection: direction) {
-                for visibleGridPosition in visibleGridPositions {
-                    if let player = self.game?.playerAtGridPosition(visibleGridPosition) {
-                        playerVisible = player.isControllable
-                        
-                        if playerVisible {
-                            break                        
-                        }
                     }
                 }
             }
