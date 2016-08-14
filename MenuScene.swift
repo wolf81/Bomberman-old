@@ -182,6 +182,8 @@ class MenuScene: BaseScene {
         indicators = [leftIndicator, rightIndicator]
         
         positionIndicatorsForSelectionOption()
+        
+        indicators.forEach { indicator in indicator.runScaleAnimation(1.0, toValue: 1.15) }
     }
     
     private func updateUI() {

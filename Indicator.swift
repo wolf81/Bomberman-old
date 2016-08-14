@@ -69,4 +69,16 @@ class Indicator : SKShapeNode {
 
         return path
     }
+    
+    // MARK: - Public
+    
+    func runScaleAnimation(fromValue: CGFloat, toValue: CGFloat) {
+        assert(fromValue < toValue, "fromValue should be smaller than toValue")
+        
+        let scaleUp = SKAction.scaleTo(toValue, duration: 1.0)
+        let scaleDown = SKAction.scaleTo(fromValue, duration: 1.0)
+        let sequence = SKAction.sequence([scaleUp, scaleDown])
+        let scaleRepeat = SKAction.repeatActionForever(sequence)
+        runAction(scaleRepeat)
+    }
 }
