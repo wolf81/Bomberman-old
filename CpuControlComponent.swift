@@ -15,7 +15,7 @@ class CpuControlComponent: GKComponent {
     private(set) weak var game: Game?
     
     private var creature: Creature? {
-        return self.entity as! Creature?
+        return entity as! Creature?
     }
     
     init(game: Game) {
@@ -33,7 +33,8 @@ class CpuControlComponent: GKComponent {
             } else {
                 if let creature = self.entity as! Creature? {
                     if let configComponent = creature.componentForClass(ConfigComponent) {
-                        self.attackDelay -= seconds
+                        attackDelay -= seconds
+                        
                         if self.attackDelay < 0 {                            
                             if let projectileName = configComponent.projectile {
                                 if launchProjectileToPlayer(projectileName, forCreature: creature, direction: configComponent.attackDirection) {
@@ -57,7 +58,8 @@ class CpuControlComponent: GKComponent {
         
         switch direction {
         case .Any:
-            let players = [self.game?.player1, self.game?.player2].flatMap{ $0 }
+            let players = [game?.player1, game?.player2].flatMap{ $0 }
+            
             var distance: CGFloat = CGFloat.max
             let creaturePos = creature.gridPosition
             var offset: (dx: CGFloat, dy: CGFloat) = (dx: 0, dy: 0)
@@ -77,11 +79,11 @@ class CpuControlComponent: GKComponent {
             let factor = 1.0 / CGFloat(distance) * speed
             let force = CGVector(dx: offset.dx * factor, dy: offset.dy * factor)
             
-            addProjectileWithName(entityName, toGame: self.game!, withForce: force, gridPosition: creaturePos)
+            addProjectileWithName(entityName, toGame: game!, withForce: force, gridPosition: creaturePos)
             
             didAttack = true
         case .Axial:
-            let players = [self.game?.player1, self.game?.player2].flatMap{ $0 }
+            let players = [game?.player1, game?.player2].flatMap{ $0 }
             var distance: CGFloat = CGFloat.max
             let creaturePos = creature.gridPosition
             var playerPos = players.first!.gridPosition
@@ -100,7 +102,7 @@ class CpuControlComponent: GKComponent {
             }
             
             if offset.dx == 0 || offset.dy == 0 {
-                let visibleGridPositions = self.game!.visibleGridPositionsFromGridPosition(creaturePos, inDirection: creature.direction)
+                let visibleGridPositions = game!.visibleGridPositionsFromGridPosition(creaturePos, inDirection: creature.direction)
 
                 for gridPosition in visibleGridPositions {
                     if pointEqualToPoint(gridPosition, point2: playerPos) {
@@ -108,7 +110,7 @@ class CpuControlComponent: GKComponent {
                         let factor = 1.0 / CGFloat(distance) * speed
                         let force = CGVector(dx: offset.dx * factor, dy: offset.dy * factor)
                         
-                        addProjectileWithName(entityName, toGame: self.game!, withForce: force, gridPosition: creaturePos)
+                        addProjectileWithName(entityName, toGame: game!, withForce: force, gridPosition: creaturePos)
                         
                         didAttack = true
                     }
@@ -144,12 +146,12 @@ class CpuControlComponent: GKComponent {
             
             var visibleGridPositions: [Point] = [gridPosition]
             
-            if let nextGridPosition = self.game?.nextVisibleGridPositionFromGridPosition(gridPosition, inDirection: direction) {
+            if let nextGridPosition = game?.nextVisibleGridPositionFromGridPosition(gridPosition, inDirection: direction) {
                 visibleGridPositions.append(nextGridPosition)
             }
             
             for visibleGridPosition in visibleGridPositions {
-                if let player = self.game?.playerAtGridPosition(visibleGridPosition){
+                if let player = game?.playerAtGridPosition(visibleGridPosition){
                     playerVisible = player.isControllable
                     
                     if playerVisible {
