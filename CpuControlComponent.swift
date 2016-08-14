@@ -31,26 +31,47 @@ class CpuControlComponent: GKComponent {
             if stateMachineComponent.currentState == nil && stateMachineComponent.canRoam {
                 stateMachineComponent.enterRoamState()
             } else {
-                if let creature = self.entity as! Creature? {
+                if let creature = self.creature {
                     if let configComponent = creature.componentForClass(ConfigComponent) {
                         attackDelay -= seconds
                         
-                        if self.attackDelay < 0 {                            
+                        if attackDelay < 0 {
                             if let projectileName = configComponent.projectile {
-                                if launchProjectileToPlayer(projectileName, forCreature: creature, direction: configComponent.attackDirection) {
-                                    creature.attack()
-                                    
+                                if attemptRangedAttackWithProjectile(projectileName, forCreature: creature, direction: configComponent.attackDirection) {
                                     attackDelay = creature.abilityCooldown
                                 }
-                            } else if playerInRangeForMeleeAttack() {
-                                creature.attack()
-                                attackDelay = creature.abilityCooldown
+                            } else {
+                                if attemptMeleeAttackForCreature(creature) {
+                                    attackDelay = creature.abilityCooldown
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }
+    
+    private func attemptRangedAttackWithProjectile(projectile: String, forCreature creature: Creature, direction: AttackDirection) -> Bool {
+        var didAttack = false
+        
+        if launchProjectileToPlayer(projectile, forCreature: creature, direction: direction) {
+            creature.attack()
+            didAttack = true
+        }
+        
+        return didAttack
+    }
+    
+    private func attemptMeleeAttackForCreature(creature: Creature) -> Bool {
+        var didAttack = false
+        
+        if playerInRangeForMeleeAttack() {
+            creature.attack()
+            didAttack = true
+        }
+        
+        return didAttack
     }
     
     private func distanceBetweenPoint(point: Point, otherPoint: Point) -> (distance: CGFloat, dx: CGFloat, dy: CGFloat) {
@@ -61,59 +82,58 @@ class CpuControlComponent: GKComponent {
         return (distance, dx, dy)
     }
     
+    private func fireProjectile(name: String, withOrigin origin: Point, distance: CGFloat, dx: CGFloat, dy: CGFloat) {
+        let speed = CGFloat(unitLength)
+        let factor = 1.0 / distance * speed
+        let force = CGVector(dx: dx * factor, dy: dy * factor)
+        addProjectileWithName(name, toGame: game!, withForce: force, gridPosition: origin)
+    }
+    
+    private func findClosestPlayerFromPlayers(players: [Player], fromOrigin origin: Point) -> (player: Player, distance: CGFloat, offset: (dx: CGFloat, dy: CGFloat)) {
+        var player: Player = players.first!
+        var distance: CGFloat = CGFloat.max
+        var offset: (dx: CGFloat, dy: CGFloat) = (dx: 0, dy: 0)
+        
+        for testPlayer in players {
+            let result = distanceBetweenPoint(testPlayer.gridPosition, otherPoint: origin)
+            if result.distance < distance {
+                player = testPlayer
+                distance = result.distance
+                offset = (dx: result.dx, dy: result.dy)
+            }
+        }
+        
+        return (player, distance, offset)
+    }
+    
     private func launchProjectileToPlayer(entityName: String, forCreature creature: Creature, direction: AttackDirection) -> Bool {
-        var didAttack = false
+        var didLaunchProjectile = false
         
         let players = [game?.player1, game?.player2].flatMap{ $0 }
-        var distance: CGFloat = CGFloat.max
         let creaturePos = creature.gridPosition
-        var offset: (dx: CGFloat, dy: CGFloat) = (dx: 0, dy: 0)
 
         switch direction {
         case .Any:
-            for testPlayer in players {
-                let result = distanceBetweenPoint(testPlayer.gridPosition, otherPoint: creature.gridPosition)
-                if result.distance < distance {
-                    distance = result.distance
-                    offset = (dx: result.dx, dy: result.dy)
-                }
-            }
+            let result = findClosestPlayerFromPlayers(players, fromOrigin: creature.gridPosition)
             
-            let speed = CGFloat(unitLength)
-            let factor = 1.0 / CGFloat(distance) * speed
-            let force = CGVector(dx: offset.dx * factor, dy: offset.dy * factor)
+            fireProjectile(entityName, withOrigin: creaturePos, distance: result.distance, dx: result.offset.dx, dy: result.offset.dy)
             
-            addProjectileWithName(entityName, toGame: game!, withForce: force, gridPosition: creaturePos)
-            
-            didAttack = true
+            didLaunchProjectile = true
         case .Axial:
-            var playerPos = players.first!.gridPosition
+            let result = findClosestPlayerFromPlayers(players, fromOrigin: creature.gridPosition)
+            let playerPos = result.player.gridPosition
             
-            for testPlayer in players {
-                let result = distanceBetweenPoint(testPlayer.gridPosition, otherPoint: creature.gridPosition)
-                if result.distance < distance {
-                    playerPos = testPlayer.gridPosition
-                    distance = result.distance
-                    offset = (dx: result.dx, dy: result.dy)
-                }
-            }
-            
-            if offset.dx == 0 || offset.dy == 0 {
+            if result.offset.dx == 0 || result.offset.dy == 0 {
                 let visibleGridPositions = game!.visibleGridPositionsFromGridPosition(creaturePos, inDirection: creature.direction)
 
                 for gridPosition in visibleGridPositions where pointEqualToPoint(gridPosition, point2: playerPos) {
-                    let speed = CGFloat(unitLength)
-                    let factor = 1.0 / CGFloat(distance) * speed
-                    let force = CGVector(dx: offset.dx * factor, dy: offset.dy * factor)
-                    
-                    addProjectileWithName(entityName, toGame: game!, withForce: force, gridPosition: creaturePos)
-                    
-                    didAttack = true
+                    fireProjectile(entityName, withOrigin: creaturePos, distance: result.distance, dx: result.offset.dx, dy: result.offset.dy)
+                    didLaunchProjectile = true
                 }
             }
         }
         
-        return didAttack
+        return didLaunchProjectile
     }
     
     private func addProjectileWithName(name: String, toGame game: Game, withForce force: CGVector, gridPosition: Point) {
