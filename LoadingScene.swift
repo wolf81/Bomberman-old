@@ -13,15 +13,15 @@ import SpriteKit
     func loadingSceneDidFinishLoading(scene: LoadingScene)
 }
 
-class LoadingScene: SKScene, AssetManagerDelegate {
+class LoadingScene: SKScene {
     let assetManager = AssetManager()
-    let titleNode = SKLabelNode()
-    let messageNode = SKLabelNode()
-    let percentageNode = SKLabelNode()
+    let titleLabel = SKLabelNode()
+    let messageLabel = SKLabelNode()
+    let percentageLabel = SKLabelNode()
     
     var remoteEtag: String?
     
-    // Work around to set the subclass delegate.
+    // Work-around to set the subclass delegate.
     var loadingSceneDelegate: LoadingSceneDelegate? {
         get { return delegate as? LoadingSceneDelegate }
         set { delegate = newValue }
@@ -36,16 +36,16 @@ class LoadingScene: SKScene, AssetManagerDelegate {
         
         let y = size.height / 2
 
-        titleNode.text = "LOADING"
-        titleNode.position = CGPoint(x: size.width / 2, y: y + 100)
-        addChild(titleNode)
+        titleLabel.text = "LOADING"
+        titleLabel.position = CGPoint(x: size.width / 2, y: y + 100)
+        addChild(titleLabel)
         
-        messageNode.text = "-"
-        messageNode.position = CGPoint(x: size.width / 2, y: y)
-        addChild(messageNode)
+        messageLabel.text = "-"
+        messageLabel.position = CGPoint(x: size.width / 2, y: y)
+        addChild(messageLabel)
         
-        percentageNode.position = CGPoint(x: size.width / 2, y: y - 100)
-        addChild(percentageNode)
+        percentageLabel.position = CGPoint(x: size.width / 2, y: y - 100)
+        addChild(percentageLabel)
         
         updateProgress(0)
     }
@@ -58,17 +58,19 @@ class LoadingScene: SKScene, AssetManagerDelegate {
         loadingSceneDelegate?.loadingSceneDidMoveToView(self, view: view)
     }
     
+    // MARK: - Public
+    
     func updateAssetsIfNeeded() throws {
         if Settings.assetsCheckEnabled() {
             let url = NSURL(string: "https://dl.dropboxusercontent.com/s/i4en1xtkrxg8ccm/assets.zip")!
             
-            messageNode.text = "CHECKING FOR UPDATED ASSETS ..."
+            messageLabel.text = "CHECKING FOR UPDATED ASSETS ..."
             
             remoteEtag = try assetManager.etagForRemoteAssetsArchive(url)
             let localEtag = assetManager.etagForLocalAssetsArchive()
             
             if remoteEtag != localEtag {
-                messageNode.text = "UPDATING ASSETS ..."
+                messageLabel.text = "UPDATING ASSETS ..."
                 
                 assetManager.loadAssets(url)
             } else {
@@ -79,6 +81,17 @@ class LoadingScene: SKScene, AssetManagerDelegate {
         }
     }
     
+    // MARK: - Private
+    
+    func updateProgress(progress: Float) {
+        let percentageString = String(format: "%.0f", progress * 100)
+        percentageLabel.text = String("\(percentageString) %")
+    }
+}
+
+// MARK: - AssetManagerDelegate
+
+extension LoadingScene : AssetManagerDelegate {
     func assetManagerLoadAssetsProgress(assetManager: AssetManager, progress: Float) {
         updateProgress(progress)
     }
@@ -86,23 +99,16 @@ class LoadingScene: SKScene, AssetManagerDelegate {
     func assetManagerLoadAssetsFailure(assetManager: AssetManager, error: ErrorType) {
         loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
     }
-
+    
     func assetManagerLoadAssetsSuccess(assetManager: AssetManager) {
         updateProgress(1.0)
-
+        
         if let etag = remoteEtag {
             assetManager.storeEtagForLocalAssetsArchive(etag)
         }
-
+        
         delay(0.5) {
             self.loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
         }
-    }
-    
-    // MARK: - Private
-    
-    func updateProgress(progress: Float) {
-        let percentageString = String(format: "%.0f", progress * 100)
-        percentageNode.text = String("\(percentageString) %")
     }
 }
