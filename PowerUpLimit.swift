@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias OnValueChanged = () -> ()
+
 struct PowerUpLimit {
     var currentCount: Int = 0
     let maxCount: Int
@@ -17,5 +19,21 @@ struct PowerUpLimit {
         
         self.currentCount = currentCount
         self.maxCount = maxCount
+    }
+    
+    mutating func increase(completion: OnValueChanged? = nil) {
+        if currentCount < maxCount {
+            currentCount += 1
+            
+            completion?()
+        }
+    }
+    
+    mutating func decrease(completion: OnValueChanged? = nil) {
+        if currentCount > 0 {
+            currentCount -= 1
+            
+            completion?()
+        }
     }
 }
