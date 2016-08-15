@@ -90,8 +90,8 @@ class Game: NSObject {
     func update(currentTime: CFTimeInterval) {
         // Make sure the previous update time is never negative (e.g.: due to overflow of time 
         //  interval)
-        if self.previousUpdateTime < 0 {
-            self.previousUpdateTime = currentTime
+        if previousUpdateTime < 0 {
+            previousUpdateTime = currentTime
         }
 
         // Add new entities (e.g. dropped bombs) and remove destroyed entities (e.g. killed monsters)
@@ -105,44 +105,44 @@ class Game: NSObject {
         let loss = monsterAlive && !playerAlive
         
         if win {
-            self.player1?.cheer()
-            self.player2?.cheer()
+            player1?.cheer()
+            player2?.cheer()
         } else if loss {
             finishLevel(false)
         }
         
-        let deltaTime = currentTime - self.previousUpdateTime;
-        self.timeRemaining -= deltaTime
-        self.previousUpdateTime = currentTime;
+        let deltaTime = currentTime - previousUpdateTime;
+        timeRemaining -= deltaTime
+        previousUpdateTime = currentTime;
         
         // Update player movement, monster movement, state machines ...
         updateComponentSystems(deltaTime)
         
-        self.player1?.updateWithDeltaTime(deltaTime)
-        self.player2?.updateWithDeltaTime(deltaTime)
-        self.powerUps.forEach({ $0.updateWithDeltaTime(deltaTime) })
+        player1?.updateWithDeltaTime(deltaTime)
+        player2?.updateWithDeltaTime(deltaTime)
+        powerUps.forEach({ $0.updateWithDeltaTime(deltaTime) })
         
         // Enrage timer. When timer is expired, monsters become more dangerous.
-        if self.timeRemaining > 0 && !self.isLevelCompleted {
-            self.gameScene?.updateTimeRemaining(self.timeRemaining)
+        if timeRemaining > 0 && !isLevelCompleted {
+            gameScene?.updateTimeRemaining(timeRemaining)
             
-            if self.timeRemaining < 30 && self.hurryUpShown == false {
-                self.hurryUpShown = true
+            if timeRemaining < 30 && hurryUpShown == false {
+                hurryUpShown = true
                 
                 let play = SKAction.playSoundFileNamed("HurryUp.caf", waitForCompletion: false)
-                self.gameScene?.runAction(play)
+                gameScene?.runAction(play)
             }
-        } else if !self.timeExpired {
-            self.timeExpired = true
+        } else if !timeExpired {
+            timeExpired = true
             enrageMonsters()
         }
     }
     
     func configureLevel() {
-        self.removeAllEntities()
+        removeAllEntities()
         
-        self.gameScene?.world.removeAllChildren()
-        self.isLevelCompleted = false
+        gameScene?.world.removeAllChildren()
+        isLevelCompleted = false
 
         if let level = self.level {
             for x in 0 ..< level.width {
@@ -166,7 +166,7 @@ class Game: NSObject {
                 }
             }
 
-            self.timeRemaining = level.timer
+            timeRemaining = level.timer
         }
         
         playMusic()
@@ -197,7 +197,7 @@ class Game: NSObject {
         
         switch direction {
         case .Up:
-            for y in gridPosition.y ..< self.level!.height {
+            for y in gridPosition.y ..< level!.height {
                 gridPositions.append(Point(x: gridPosition.x, y: y))
             }
         case .Down:
@@ -209,7 +209,7 @@ class Game: NSObject {
                 gridPositions.append(Point(x: x, y: gridPosition.y))
             }
         case .Right:
-            for x in (gridPosition.x ..< self.level!.width) {
+            for x in (gridPosition.x ..< level!.width) {
                 gridPositions.append(Point(x: x, y: gridPosition.y))
             }
         default: break
@@ -251,7 +251,7 @@ class Game: NSObject {
     }
     
     private func enrageMonsters() {
-        self.creatures
+        creatures
             .filter({ $0 is Monster })
             .forEach({
                 if let visualComponent = $0.componentForClass(VisualComponent) {
@@ -261,26 +261,26 @@ class Game: NSObject {
     }
     
     private func updateHudForPlayer(player: Player) {
-        self.gameScene?.updateHudForPlayer(player)
+        gameScene?.updateHudForPlayer(player)
     }
     
     private func updateComponentSystems(deltaTime: NSTimeInterval) {
-        self.cpuControlSystem.updateWithDeltaTime(deltaTime)
-        self.playerControlSystem.updateWithDeltaTime(deltaTime)
-        self.stateMachineSystem.updateWithDeltaTime(deltaTime)
+        cpuControlSystem.updateWithDeltaTime(deltaTime)
+        playerControlSystem.updateWithDeltaTime(deltaTime)
+        stateMachineSystem.updateWithDeltaTime(deltaTime)
     }
     
     private func updateEntityLists() {
         for entity in self.entitiesToRemove {
             switch entity {
-            case is Explosion: self.explosions.remove(entity as! Explosion)
-            case is Bomb: self.bombs.remove(entity as! Bomb)
-            case is Tile: self.tiles.remove(entity as! Tile)
-            case is Creature: self.creatures.remove(entity as! Creature)
-            case is Projectile: self.projectiles.remove(entity as! Projectile)
-            case is Prop: self.props.remove(entity as! Prop)
-            case is Points: self.points.remove(entity as! Points)
-            case is PowerUp: self.powerUps.remove(entity as! PowerUp)
+            case is Explosion: explosions.remove(entity as! Explosion)
+            case is Bomb: bombs.remove(entity as! Bomb)
+            case is Tile: tiles.remove(entity as! Tile)
+            case is Creature: creatures.remove(entity as! Creature)
+            case is Projectile: projectiles.remove(entity as! Projectile)
+            case is Prop: props.remove(entity as! Prop)
+            case is Points: points.remove(entity as! Points)
+            case is PowerUp: powerUps.remove(entity as! PowerUp)
             default: print("unhandled entity type for instance: \(entity)")
             }
             
@@ -288,42 +288,42 @@ class Game: NSObject {
                 visualComponent.spriteNode.removeFromParent()
             }
             
-            self.playerControlSystem.removeComponentWithEntity(entity)
-            self.cpuControlSystem.removeComponentWithEntity(entity)
-            self.stateMachineSystem.removeComponentWithEntity(entity)
+            playerControlSystem.removeComponentWithEntity(entity)
+            cpuControlSystem.removeComponentWithEntity(entity)
+            stateMachineSystem.removeComponentWithEntity(entity)
         }
         entitiesToRemove.removeAll()
         
-        for entity in self.entitiesToAdd {
+        for entity in entitiesToAdd {
             entity.delegate = self
             
             switch entity {
-            case is Bomb: self.bombs.append(entity as! Bomb)
-            case is Explosion: self.explosions.append(entity as! Explosion)
-            case is Tile: self.tiles.append(entity as! Tile)
-            case is Creature: self.creatures.append(entity as! Creature)
-            case is Projectile: self.projectiles.append(entity as! Projectile)
-            case is Prop: self.props.append(entity as! Prop)
-            case is Points: self.points.append(entity as! Points)
-            case is PowerUp: self.powerUps.append(entity as! PowerUp)
+            case is Bomb: bombs.append(entity as! Bomb)
+            case is Explosion: explosions.append(entity as! Explosion)
+            case is Tile: tiles.append(entity as! Tile)
+            case is Creature: creatures.append(entity as! Creature)
+            case is Projectile: projectiles.append(entity as! Projectile)
+            case is Prop: props.append(entity as! Prop)
+            case is Points: points.append(entity as! Points)
+            case is PowerUp: powerUps.append(entity as! PowerUp)
             default: print("unhandled entity type for instance: \(entity)")
             }
             
             if let visualComponent = entity.componentForClass(VisualComponent) {
                 visualComponent.spriteNode.position = positionForGridPosition(entity.gridPosition)
-                self.gameScene?.world.addChild(visualComponent.spriteNode)
+                gameScene?.world.addChild(visualComponent.spriteNode)
             }
             
-            self.playerControlSystem.addComponentWithEntity(entity)
-            self.cpuControlSystem.addComponentWithEntity(entity)
-            self.stateMachineSystem.addComponentWithEntity(entity)
+            playerControlSystem.addComponentWithEntity(entity)
+            cpuControlSystem.addComponentWithEntity(entity)
+            stateMachineSystem.addComponentWithEntity(entity)
         }
-        self.entitiesToAdd.removeAll()
+        entitiesToAdd.removeAll()
     }
     
     private func finishLevel(didPlayerWin: Bool) {
-        if self.isLevelCompleted == false {
-            self.isLevelCompleted = true
+        if isLevelCompleted == false {
+            isLevelCompleted = true
             
             let delay = 2.0
             
@@ -334,7 +334,7 @@ class Game: NSObject {
             let play = SKAction.playSoundFileNamed(soundFile, waitForCompletion: false)
             let sequence = SKAction.sequence([wait, play, wait]);
             
-            self.gameScene?.runAction(sequence, completion: {
+            gameScene?.runAction(sequence, completion: {
                 // TODO: Maybe remove, since during 'configure' (level loading) we remove all 
                 //  entities anyway.
                 self.removeAllEntities()
@@ -346,37 +346,35 @@ class Game: NSObject {
     private func isMonsterAlive() -> Bool {
         var isMonsterAlive = false
         
-        for creature in self.creatures {
-            if creature.isKindOfClass(Monster) {
-                isMonsterAlive = true
-                break
-            }
+        for creature in creatures where creature.isKindOfClass(Monster) {
+            isMonsterAlive = true
+            break
         }
         
         return isMonsterAlive
     }
     
     private func isPlayerAlive() -> Bool {
-        let isPlayerAlive = self.player1!.lives >= 0 || self.player2!.lives >= 0
+        let isPlayerAlive = player1!.lives >= 0 || player2!.lives >= 0
         return isPlayerAlive
     }
     
     private func removeAllEntities() {
-        self.entitiesToAdd.removeAll()
-        self.entitiesToRemove.removeAll()
+        entitiesToAdd.removeAll()
+        entitiesToRemove.removeAll()
         
-        self.creatures.removeAll()
-        self.props.removeAll()
-        self.bombs.removeAll()
-        self.explosions.removeAll()
-        self.tiles.removeAll()
-        self.projectiles.removeAll()
-        self.points.removeAll()
-        self.powerUps.removeAll()
+        creatures.removeAll()
+        props.removeAll()
+        bombs.removeAll()
+        explosions.removeAll()
+        tiles.removeAll()
+        projectiles.removeAll()
+        points.removeAll()
+        powerUps.removeAll()
         
-        self.stateMachineSystem.removeAllComponents()
-        self.cpuControlSystem.removeAllComponents()
-        self.playerControlSystem.removeAllComponents()
+        stateMachineSystem.removeAllComponents()
+        cpuControlSystem.removeAllComponents()
+        playerControlSystem.removeAllComponents()
     }
 
     // MARK: - Private (Collision Handling)
@@ -416,21 +414,17 @@ class Game: NSObject {
         self.entitiesToAdd.append(entity)
         
         switch entity {
-        case is Tile:
-            let tile = entity as! Tile
-            
+        case let tile as Tile:
             // TODO (workaround): because tile loading uses different path compared to entity
             //  loading and we still need to add a state machine.
             if tile.tileType == .DestructableBlock {
                 let stateMachineComponent = StateMachineComponent(game: self, entity: tile, states: [SpawnState(), DestroyState()])
                 tile.addComponent(stateMachineComponent)
             }
-        case is Player:
-            let player = entity as! Player
-
+        case let player as Player:
             switch player.index {
-            case .Player1: self.player1 = player
-            case .Player2: self.player2 = player
+            case .Player1: player1 = player
+            case .Player2: player2 = player
             }
         
             updateHudForPlayer(player)
@@ -456,11 +450,9 @@ class Game: NSObject {
     func playerAtGridPosition(gridPosition: Point) -> Creature? {
         var entity: Creature?
         
-        for player in [self.player1, self.player2] {
-            if pointEqualToPoint(player!.gridPosition, point2: gridPosition) {
-                entity = player
-                break
-            }
+        for player in [self.player1, self.player2] where pointEqualToPoint(player!.gridPosition, point2: gridPosition) {
+            entity = player
+            break
         }
         
         return entity
@@ -469,11 +461,9 @@ class Game: NSObject {
     func bombAtGridPosition(gridPosition: Point) -> Bomb? {
         var entity: Bomb?
         
-        for bomb in self.bombs {
-            if pointEqualToPoint(bomb.gridPosition, point2: gridPosition) {
-                entity = bomb
-                break
-            }
+        for bomb in self.bombs where pointEqualToPoint(bomb.gridPosition, point2: gridPosition) {
+            entity = bomb
+            break
         }
         
         return entity
@@ -482,8 +472,11 @@ class Game: NSObject {
     func creatureAtGridPosition(gridPosition: Point) -> Creature? {
         var entity: Creature? = nil
         
-        for creature in self.creatures {
+        for creature in creatures {
             if let visualComponent = creature.componentForClass(VisualComponent) {
+                // We don't use the creature grid position property directly, since it's not
+                //  updated until a creature finishes walking to a node. Instead we translate
+                //  the creatures' sprite position to a grid position.
                 let position = visualComponent.spriteNode.position
                 let creatureGridPosition = gridPositionForPosition(position)
                 
@@ -499,11 +492,9 @@ class Game: NSObject {
     func tileAtGridPosition(gridPosition: Point) -> Tile? {
         var entity: Tile? = nil
         
-        for tile in self.tiles {
-            if pointEqualToPoint(tile.gridPosition, point2: gridPosition) {
-                entity = tile
-                break
-            }
+        for tile in tiles where pointEqualToPoint(tile.gridPosition, point2: gridPosition) {
+            entity = tile
+            break
         }
         
         return entity
@@ -512,7 +503,7 @@ class Game: NSObject {
     func bossAtGridPosition(gridPosition: Point) -> Monster? {
         var boss: Monster? = nil
         
-        for creature in self.creatures {
+        for creature in creatures {
             guard
                 let monster = creature as? Monster,
                 let configComponent = monster.componentForClass(ConfigComponent)
@@ -537,11 +528,9 @@ class Game: NSObject {
     func powerAtGridPosition(gridPosition: Point) -> PowerUp? {
         var entity: PowerUp? = nil
         
-        for powerUp in self.powerUps {
-            if pointEqualToPoint(powerUp.gridPosition, point2: gridPosition) {
-                entity = powerUp
-                break
-            }
+        for powerUp in powerUps where pointEqualToPoint(powerUp.gridPosition, point2: gridPosition) {
+            entity = powerUp
+            break
         }
         
         return entity
@@ -553,8 +542,7 @@ class Game: NSObject {
 extension Game : EntityDelegate {
     func entityWillDestroy(entity: Entity) {
         switch entity {
-        case is Bomb:
-            let bomb = entity as! Bomb
+        case let bomb as Bomb:
             do {
                 try bomb.explodeAtGridPosition(entity.gridPosition)
             } catch let error {
@@ -564,7 +552,7 @@ extension Game : EntityDelegate {
 //              let shake = SKAction.shake(self.gameScene!.world.position, duration: 0.5)
 //              self.gameScene?.world.runAction(shake)
         case is Tile:
-            if let power = self.level?.powerUpAtGridPosition(entity.gridPosition) {
+            if let power = level?.powerUpAtGridPosition(entity.gridPosition) {
                 addEntity(power)
             }
         case is Explosion:
