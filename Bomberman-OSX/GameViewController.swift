@@ -16,7 +16,7 @@ import GameController
 import UIKit
 
 class GameViewController: GCEventViewController {
-    private var sceneController: SceneController!
+    private var sceneManager: SceneManager!
     private var gameView: GameView!
     
     // MARK: - Initialization
@@ -34,7 +34,7 @@ class GameViewController: GCEventViewController {
     }
 
     private func commonInit() {
-        self.sceneController = SceneController(gameViewController: self)
+        self.sceneManager = SceneManager(gameViewController: self)
     }
 
     // MARK: - View lifecycle 
@@ -55,7 +55,7 @@ class GameViewController: GCEventViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let scene = LoadingScene(size: self.gameView.bounds.size, loadingSceneDelegate: self.sceneController)
+        let scene = LoadingScene(size: self.gameView.bounds.size, loadingSceneDelegate: self.sceneManager)
         self.gameView.presentScene(scene)
     }
     

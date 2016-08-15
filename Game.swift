@@ -513,22 +513,21 @@ class Game: NSObject {
         var boss: Monster? = nil
         
         for creature in self.creatures {
-            if let monster = creature as? Monster {
-                if let configComponent = monster.componentForClass(ConfigComponent) {
-                    if configComponent.creatureType == CreatureType.Boss {
-                        let wuSize = configComponent.wuSize
-                        let xOffset = (wuSize.width - 1) / 2
-                        let yOffset = (wuSize.height - 1) / 2
-                        
-                        let position = monster.gridPosition
-                        let xRange = position.x - xOffset ... position.x + xOffset
-                        let yRange = position.y - yOffset ... position.y + yOffset
-                        
-                        if xRange.contains(gridPosition.x) && yRange.contains(gridPosition.y) {
-                            boss = monster
-                        }
-                    }
-                }
+            guard
+                let monster = creature as? Monster,
+                let configComponent = monster.componentForClass(ConfigComponent)
+                where configComponent.creatureType == .Boss else { return nil }
+            
+            let wuSize = configComponent.wuSize
+            let xOffset = (wuSize.width - 1) / 2
+            let yOffset = (wuSize.height - 1) / 2
+            
+            let position = monster.gridPosition
+            let xRange = position.x - xOffset ... position.x + xOffset
+            let yRange = position.y - yOffset ... position.y + yOffset
+            
+            if xRange.contains(gridPosition.x) && yRange.contains(gridPosition.y) {
+                boss = monster
             }
         }
         

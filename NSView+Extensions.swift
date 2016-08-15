@@ -6,6 +6,9 @@
 //
 //
 
+
+#if os(OSX)
+
 import Cocoa
 
 extension NSView {
@@ -41,4 +44,6 @@ extension NSView {
         CATransaction.commit()
     }
 }
+
+#endif
 

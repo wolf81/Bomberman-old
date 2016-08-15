@@ -31,20 +31,20 @@ class CpuControlComponent: GKComponent {
             if stateMachineComponent.currentState == nil && stateMachineComponent.canRoam {
                 stateMachineComponent.enterRoamState()
             } else {
-                if let creature = self.creature {
-                    if let configComponent = creature.componentForClass(ConfigComponent) {
-                        attackDelay -= seconds
-                        
-                        if attackDelay < 0 {
-                            if let projectileName = configComponent.projectile {
-                                if attemptRangedAttackWithProjectile(projectileName, forCreature: creature, direction: configComponent.attackDirection) {
-                                    attackDelay = creature.abilityCooldown
-                                }
-                            } else {
-                                if attemptMeleeAttackForCreature(creature) {
-                                    attackDelay = creature.abilityCooldown
-                                }
-                            }
+                guard
+                    let creature = self.creature,
+                    let configComponent = creature.componentForClass(ConfigComponent) else { return }
+                
+                attackDelay -= seconds
+                
+                if attackDelay < 0 {
+                    if let projectileName = configComponent.projectile {
+                        if attemptRangedAttackWithProjectile(projectileName, forCreature: creature, direction: configComponent.attackDirection) {
+                            attackDelay = creature.abilityCooldown
+                        }
+                    } else {
+                        if attemptMeleeAttackForCreature(creature) {
+                            attackDelay = creature.abilityCooldown
                         }
                     }
                 }
@@ -154,7 +154,7 @@ class CpuControlComponent: GKComponent {
     
     private func playerInRangeForMeleeAttack() -> Bool {
         var playerVisible = false
-        
+                
         if let creature = self.creature {
             let gridPosition = creature.gridPosition
             let direction = creature.direction
