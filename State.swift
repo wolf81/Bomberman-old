@@ -50,7 +50,7 @@ class State: GKState {
         let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
         audioNode.autoplayLooped = false
         
-        spriteNode.addChild(audioNode)
+        Game.sharedInstance.gameScene?.addChild(audioNode)
         
         let play = SKAction.runBlock({
             // After switching scenes (e.g. to menu) and returning to the game scene, the audio 
