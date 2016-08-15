@@ -142,6 +142,7 @@ class Player: Creature {
         resetPowerUps()
         
         if self.lives >= 0 {
+            self.direction = .None
             self.addShieldPower(withDuration: 2.0)
             updateForShield()
             

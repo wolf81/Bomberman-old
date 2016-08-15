@@ -645,11 +645,9 @@ extension Game : EntityDelegate {
         case is Bomb: entity.decay()
         case is PowerUp: entity.decay()
         case is Explosion: entity.destroy()
-        case is Player:
-            if let player = entity as? Player {
-                player.control()
-                updateHudForPlayer(player)
-            }
+        case let player as Player:
+            player.control()
+            updateHudForPlayer(player)
         case is Points:
             entity.float()
         default: break
