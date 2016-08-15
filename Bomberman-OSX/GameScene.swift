@@ -13,12 +13,12 @@ protocol GameSceneDelegate: SKSceneDelegate {
     func gameSceneDidPause(scene: GameScene)
 }
 
-class GameScene: BaseScene {
+class GameScene : BaseScene {
     private(set) var level: Level?
     
-    // The previous update time is used to calculate the delta time. Entities, components, etc...
-    //  are updated using the delta time (time difference since last update).
-    private var previousUpdateTime: NSTimeInterval = -1
+    // The previous update time is used to calculate the delta time. The delta time is used to 
+    //  update the Game state.
+    private var lastUpdateTime: NSTimeInterval = 0
 
     private let rootNode: GameSceneNode
     
@@ -78,16 +78,16 @@ class GameScene: BaseScene {
     }
     
     override func update(currentTime: CFTimeInterval) {
-        // Make sure the previous update time is never negative (e.g.: due to overflow of time
-        //  interval)
-        if previousUpdateTime < 0 {
-            previousUpdateTime = currentTime
-        }        
-        
-        let deltaTime = currentTime - previousUpdateTime;
-        previousUpdateTime = currentTime;
-
-        Game.sharedInstance.update(deltaTime)
+        // NOTE: After pausing the game, the last update time is reset to the current time. The 
+        //  next time the update loop is entered, a correct delta time can then be calculated using
+        //  the current time and the last update time.
+        if lastUpdateTime <= 0 {
+            lastUpdateTime = currentTime
+        } else {
+            let deltaTime = currentTime - lastUpdateTime
+            lastUpdateTime = currentTime
+            Game.sharedInstance.update(deltaTime)
+        }
     }
     
     override func handleUpPress(forPlayer player: PlayerIndex) {
@@ -100,7 +100,8 @@ class GameScene: BaseScene {
     
     override func handlePausePress(forPlayer player: PlayerIndex) {
         paused = true
-                
+        lastUpdateTime = 0
+        
         if let delegate = gameSceneDelegate {
             delegate.gameSceneDidPause(self)
         }
