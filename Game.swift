@@ -50,10 +50,6 @@ class Game: NSObject {
     private var entitiesToAdd = [Entity]()
     private var entitiesToRemove = [Entity]()
     
-    // The previous update time is used to calculate the delta time. Entities, components, etc...
-    //  are updated using the delta time (time difference since last update).
-    private var previousUpdateTime: NSTimeInterval = -1
-    
     func configureForGameScene(gameScene: GameScene) {
         self.level = gameScene.level
         self.gameScene = gameScene
@@ -87,13 +83,7 @@ class Game: NSObject {
     }
     
     // The main update loop. Called every frame to update game state.
-    func update(currentTime: CFTimeInterval) {
-        // Make sure the previous update time is never negative (e.g.: due to overflow of time 
-        //  interval)
-        if previousUpdateTime < 0 {
-            previousUpdateTime = currentTime
-        }
-
+    func update(deltaTime: CFTimeInterval) {
         // Add new entities (e.g. dropped bombs) and remove destroyed entities (e.g. killed monsters)
         updateEntityLists()
         
@@ -111,9 +101,7 @@ class Game: NSObject {
             finishLevel(false)
         }
         
-        let deltaTime = currentTime - previousUpdateTime;
         timeRemaining -= deltaTime
-        previousUpdateTime = currentTime;
         
         // Update player movement, monster movement, state machines ...
         updateComponentSystems(deltaTime)

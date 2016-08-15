@@ -16,6 +16,10 @@ protocol GameSceneDelegate: SKSceneDelegate {
 class GameScene: BaseScene {
     private(set) var level: Level?
     
+    // The previous update time is used to calculate the delta time. Entities, components, etc...
+    //  are updated using the delta time (time difference since last update).
+    private var previousUpdateTime: NSTimeInterval = -1
+
     private let rootNode: GameSceneNode
     
     var world: SKSpriteNode {
@@ -74,8 +78,16 @@ class GameScene: BaseScene {
     }
     
     override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
-        Game.sharedInstance.update(currentTime)
+        // Make sure the previous update time is never negative (e.g.: due to overflow of time
+        //  interval)
+        if previousUpdateTime < 0 {
+            previousUpdateTime = currentTime
+        }        
+        
+        let deltaTime = currentTime - previousUpdateTime;
+        previousUpdateTime = currentTime;
+
+        Game.sharedInstance.update(deltaTime)
     }
     
     override func handleUpPress(forPlayer player: PlayerIndex) {
