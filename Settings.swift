@@ -12,40 +12,65 @@ class Settings {
     static let kLevelKey = "level"
     static let kMusicKey = "music"
     static let kAssetsCheckKey = "assetsCheck"
+    static let kShowMenuOnStartupKey = "showMenuOnStartup"
+    
+    // MARK: - Private
+    
+    private static func setBool(flag: Bool, forKey key: String) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setBool(flag, forKey: key)
+        userDefaults.synchronize()
+    }
+    
+    private static func boolForKey(key: String) -> Bool {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let flag = userDefaults.boolForKey(key)
+        return flag
+    }
+    
+    private static func setInteger(int: Int, forKey key: String) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setInteger(int, forKey: key)
+        userDefaults.synchronize()
+    }
+    
+    private static func integerForKey(key: String) -> Int {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let int = userDefaults.integerForKey(key)
+        return int
+    }
+    
+    // MARK: - Public
     
     static func setInitialLevel(index: Int) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setInteger(index, forKey: kLevelKey)
-        userDefaults.synchronize()
+        setInteger(index, forKey: kLevelKey)
     }
     
     static func initialLevel() -> Int {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let level = userDefaults.integerForKey(kLevelKey)
-        return level
+        return integerForKey(kLevelKey)
     }
     
     static func setMusicEnabled(enabled: Bool) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setBool(enabled, forKey: kMusicKey)
-        userDefaults.synchronize()
+        setBool(enabled, forKey: kMusicKey)
     }
     
     static func musicEnabled() -> Bool {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let enabled = userDefaults.boolForKey(kMusicKey)
-        return enabled
+        return boolForKey(kMusicKey)
     }
     
     static func setAssetsCheckEnabled(enabled: Bool) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setBool(enabled, forKey: kAssetsCheckKey)
-        userDefaults.synchronize()
+        setBool(enabled, forKey: kAssetsCheckKey)
     }
     
     static func assetsCheckEnabled() -> Bool {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let enabled = userDefaults.boolForKey(kAssetsCheckKey)
-        return enabled
+        return boolForKey(kAssetsCheckKey)
+    }
+    
+    static func setShowMenuOnStartupEnabled(enabled: Bool) {
+        setBool(enabled, forKey: kShowMenuOnStartupKey)
+    }
+    
+    static func showMenuOnStartupEnabled() -> Bool {
+        return boolForKey(kShowMenuOnStartupKey)
     }
 }

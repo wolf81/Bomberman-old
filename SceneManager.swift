@@ -14,7 +14,7 @@ enum TransitionAnimation {
     case Pop
 }
 
-class SceneManager: NSObject, GameSceneDelegate, LoadingSceneDelegate {
+class SceneManager: NSObject {
     let defaultSize = CGSize(width: 1280, height: 720)
     
     weak var gameViewController: GameViewController?
@@ -26,43 +26,12 @@ class SceneManager: NSObject, GameSceneDelegate, LoadingSceneDelegate {
         self.gameViewController = gameViewController        
     }
     
-    // MARK: - GameSceneDelegate
-    
-    func gameSceneDidMoveToView(scene: GameScene, view: SKView) {
-        if scene != pausedGameScene {
-            Game.sharedInstance.configureLevel()
-        }
-    }
-    
-    func gameSceneDidFinishLevel(scene: GameScene, level: Level) {
-        showLevel(level.index + 1)
-    }
-        
-    func gameSceneDidPause(scene: GameScene) {
-        self.pausedGameScene = scene
-        
-        MusicPlayer.sharedInstance.pause()
-
-        let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
-        transitionToScene(menuScene, animation: .Fade)
-    }
-    
-    // MARK: - LoadingSceneDelegate
-    
-    func loadingSceneDidFinishLoading(scene: LoadingScene) {
-        let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
-        transitionToScene(menuScene, animation: .Fade)
-    }
-    
-    func loadingSceneDidMoveToView(scene: LoadingScene, view: SKView) {
-        do {
-            try scene.updateAssetsIfNeeded()
-        } catch let error {
-            print("error: \(error)")
-        }
-    }
-    
     // MARK: - Private
+    
+    private func showMainMenu(withAnimation animation: TransitionAnimation) {
+        let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
+        self.transitionToScene(menuScene, animation: animation)
+    }
     
     private func showSubMenuWithOptions(options: [MenuOption]) {
         let scene = MenuScene(size: defaultSize, options: options, alignWithLastItem: true)
@@ -114,14 +83,12 @@ class SceneManager: NSObject, GameSceneDelegate, LoadingSceneDelegate {
     }
 }
 
-// MARK: - Menu options for main menu and sub menus
+// MARK: - Menu Options
 
 extension SceneManager {
     private func settingsOptions() -> [MenuOption] {
         let backItem = MenuOption(title: "BACK") {
-            let options = self.mainMenuOptions()
-            let menuScene = MenuScene(size: self.defaultSize, options: options)
-            self.transitionToScene(menuScene, animation: .Pop)
+            self.showMainMenu(withAnimation: .Pop)
         }
         
         let enabled = Settings.musicEnabled()
@@ -136,9 +103,7 @@ extension SceneManager {
     
     private func developerOptions() -> [MenuOption] {
         let backItem = MenuOption(title: "BACK") {
-            let options = self.mainMenuOptions()
-            let menuScene = MenuScene(size: self.defaultSize, options: options)
-            self.transitionToScene(menuScene, animation: .Pop)
+            self.showMainMenu(withAnimation: .Pop)
         }
         
         let levelIdx = Settings.initialLevel()
@@ -159,14 +124,21 @@ extension SceneManager {
             return isValid
         }
         
-        let enabled = Settings.assetsCheckEnabled()
-        let checkAssetsItem = MenuOption(title: "CHECK ASSETS ON START-UP", type: .Checkbox, value: enabled) { newValue in
+        let checkAssets = Settings.assetsCheckEnabled()
+        let checkAssetsItem = MenuOption(title: "CHECK ASSETS ON START-UP", type: .Checkbox, value: checkAssets) { newValue in
             if let enabled = newValue as? Bool {
                 Settings.setAssetsCheckEnabled(enabled)
             }
         }
         
-        return [initialLevelItem, checkAssetsItem, backItem]
+        let showMenu = Settings.showMenuOnStartupEnabled()
+        let showMenuOnStartUpItem = MenuOption(title: "SHOW MENU ON START-UP", type: .Checkbox, value: showMenu) { newValue in
+            if let enabled = newValue as? Bool {
+                Settings.setShowMenuOnStartupEnabled(enabled)
+            }
+        }
+        
+        return [initialLevelItem, checkAssetsItem, showMenuOnStartUpItem, backItem]
     }
     
     private func mainMenuOptions() -> [MenuOption] {
@@ -180,15 +152,55 @@ extension SceneManager {
         }
         
         let settingsItem = MenuOption(title: "SETTINGS") {
-            let options = self.settingsOptions()
-            self.showSubMenuWithOptions(options)
+            self.showSubMenuWithOptions(self.settingsOptions())
         }
         
         let developerItem = MenuOption(title: "DEVELOPER") {
-            let options = self.developerOptions()
-            self.showSubMenuWithOptions(options)
+            self.showSubMenuWithOptions(self.developerOptions())
         }
         
         return [newGameItem, continueItem, settingsItem, developerItem]
+    }
+}
+
+// MARK: - GameSceneDelegate
+
+extension SceneManager: GameSceneDelegate {
+    func gameSceneDidMoveToView(scene: GameScene, view: SKView) {
+        if scene != pausedGameScene {
+            Game.sharedInstance.configureLevel()
+        }
+    }
+    
+    func gameSceneDidFinishLevel(scene: GameScene, level: Level) {
+        showLevel(level.index + 1)
+    }
+    
+    func gameSceneDidPause(scene: GameScene) {
+        self.pausedGameScene = scene
+        
+        MusicPlayer.sharedInstance.pause()
+        
+        showMainMenu(withAnimation: .Fade)
+    }
+}
+
+// MARK: - LoadingSceneDelegate
+
+extension SceneManager : LoadingSceneDelegate {
+    func loadingSceneDidFinishLoading(scene: LoadingScene) {
+        if Settings.showMenuOnStartupEnabled() {
+            showMainMenu(withAnimation: .Fade)
+        } else {
+            showLevel(Settings.initialLevel())
+        }
+    }
+    
+    func loadingSceneDidMoveToView(scene: LoadingScene, view: SKView) {
+        do {
+            try scene.updateAssetsIfNeeded()
+        } catch let error {
+            print("error: \(error)")
+        }
     }
 }
