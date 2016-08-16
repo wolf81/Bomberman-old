@@ -30,7 +30,7 @@ class Creature: Entity {
     }
     
     var position: CGPoint {
-        var position = positionForGridPosition(self.gridPosition)
+        var position = positionForGridPosition(gridPosition)
         
         if let visualComponent = componentForClass(VisualComponent) {
             position = visualComponent.spriteNode.position
@@ -42,8 +42,8 @@ class Creature: Entity {
     // MARK: - Initialization 
     
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
-        self.lives = configComponent.lives
-        self.health = configComponent.health
+        lives = configComponent.lives
+        health = configComponent.health
         
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
     }
@@ -54,8 +54,6 @@ class Creature: Entity {
         var directions = [(direction: Direction, gridPosition: Point)]()
         
         if let game = self.game {
-            let gridPosition = self.gridPosition
-            
             let upGridPosition = Point(x: gridPosition.x, y: gridPosition.y + 1)
             if canMoveToGridPosition(upGridPosition, forGame: game) {
                 directions.append((.Up, upGridPosition))
@@ -111,7 +109,7 @@ class Creature: Entity {
     }    
     
     override func hit(damage: Int) {
-        if self.health <= 0 {
+        if health <= 0 {
             destroy()
         } else {
             super.hit(damage)

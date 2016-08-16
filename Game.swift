@@ -435,10 +435,12 @@ class Game: NSObject {
     
     // MARK: - Public (Entity Search) 
     
-    func playerAtGridPosition(gridPosition: Point) -> Creature? {
-        var entity: Creature?
+    func playerAtGridPosition(gridPosition: Point) -> Player? {
+        var entity: Player?
         
-        for player in [self.player1, self.player2] where pointEqualToPoint(player!.gridPosition, point2: gridPosition) {
+        let players = [player1, player2].flatMap{ $0 }
+        
+        for player in players where pointEqualToPoint(player.gridPosition, point2: gridPosition) {
             entity = player
             break
         }

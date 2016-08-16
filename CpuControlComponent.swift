@@ -66,8 +66,13 @@ class CpuControlComponent: GKComponent {
     private func attemptMeleeAttackForCreature(creature: Creature) -> Bool {
         var didAttack = false
         
-        if playerInRangeForMeleeAttack() {
+        if let player = playerInRangeForMeleeAttack() {
             creature.attack()
+            
+            if let configComponent = creature.componentForClass(ConfigComponent) {
+                player.hit(configComponent.hitDamage)
+            }
+            
             didAttack = true
         }
         
@@ -112,20 +117,18 @@ class CpuControlComponent: GKComponent {
         let players = [game?.player1, game?.player2].flatMap{ $0 }
         let creaturePos = creature.gridPosition
 
+        let result = findClosestPlayerFromPlayers(players, fromOrigin: creature.gridPosition)
+
         switch direction {
         case .Any:
-            let result = findClosestPlayerFromPlayers(players, fromOrigin: creature.gridPosition)
-            
             fireProjectile(entityName, withOrigin: creaturePos, distance: result.distance, dx: result.offset.dx, dy: result.offset.dy)
             
             didLaunchProjectile = true
         case .Axial:
-            let result = findClosestPlayerFromPlayers(players, fromOrigin: creature.gridPosition)
-            let playerPos = result.player.gridPosition
-            
             if result.offset.dx == 0 || result.offset.dy == 0 {
                 let visibleGridPositions = game!.visibleGridPositionsFromGridPosition(creaturePos, inDirection: creature.direction)
 
+                let playerPos = result.player.gridPosition
                 for gridPosition in visibleGridPositions where pointEqualToPoint(gridPosition, point2: playerPos) {
                     fireProjectile(entityName, withOrigin: creaturePos, distance: result.distance, dx: result.offset.dx, dy: result.offset.dy)
                     didLaunchProjectile = true
@@ -152,8 +155,8 @@ class CpuControlComponent: GKComponent {
         }
     }
     
-    private func playerInRangeForMeleeAttack() -> Bool {
-        var playerVisible = false
+    private func playerInRangeForMeleeAttack() -> Player? {
+        var player: Player?
                 
         if let creature = self.creature {
             let gridPosition = creature.gridPosition
@@ -166,16 +169,13 @@ class CpuControlComponent: GKComponent {
             }
             
             for visibleGridPosition in visibleGridPositions {
-                if let player = game?.playerAtGridPosition(visibleGridPosition){
-                    playerVisible = player.isControllable
-                    
-                    if playerVisible {
-                        break
-                    }
+                if let nearbyPlayer = game?.playerAtGridPosition(visibleGridPosition) where nearbyPlayer.isControllable {
+                    player = nearbyPlayer
+                    break
                 }
             }
         }
         
-        return playerVisible
+        return player
     }
 }
