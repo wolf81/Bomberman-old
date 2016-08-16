@@ -27,7 +27,7 @@ class CpuControlComponent: GKComponent {
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
         super.updateWithDeltaTime(seconds)
         
-        if let stateMachineComponent = self.entity?.componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = entity?.componentForClass(StateMachineComponent) {
             if stateMachineComponent.currentState == nil && stateMachineComponent.canRoam {
                 stateMachineComponent.enterRoamState()
             } else {
@@ -35,16 +35,18 @@ class CpuControlComponent: GKComponent {
                     let creature = self.creature,
                     let configComponent = creature.componentForClass(ConfigComponent) else { return }
                 
-                attackDelay -= seconds
-                
-                if attackDelay < 0 {
-                    if let projectileName = configComponent.projectile {
-                        if attemptRangedAttackWithProjectile(projectileName, forCreature: creature, direction: configComponent.attackDirection) {
-                            attackDelay = creature.abilityCooldown
-                        }
-                    } else {
-                        if attemptMeleeAttackForCreature(creature) {
-                            attackDelay = creature.abilityCooldown
+                if creature.isDestroyed == false {                
+                    attackDelay -= seconds
+                    
+                    if attackDelay < 0 {
+                        if let projectileName = configComponent.projectile {
+                            if attemptRangedAttackWithProjectile(projectileName, forCreature: creature, direction: configComponent.attackDirection) {
+                                attackDelay = creature.abilityCooldown
+                            }
+                        } else {
+                            if attemptMeleeAttackForCreature(creature) {
+                                attackDelay = creature.abilityCooldown
+                            }
                         }
                     }
                 }
