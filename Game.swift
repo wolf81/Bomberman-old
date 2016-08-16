@@ -94,9 +94,15 @@ class Game: NSObject {
         let win = playerAlive && !monsterAlive
         let loss = monsterAlive && !playerAlive
         
+        // TODO: It's ugly that finishLevel() is both called after cheer state and in case of loss.
+        //  If we call finishLevel() on both win and loss, it should be clear here. Perhaps cheer
+        //  should be called in some other, indirect way (e.g.: when player is not moving, cheer 
+        //  if level is finished.
         if win {
-            player1?.cheer()
-            player2?.cheer()
+            if isLevelCompleted == false {
+                player1?.cheer()
+                player2?.cheer()
+            }
         } else if loss {
             finishLevel(false)
         }
@@ -566,6 +572,10 @@ extension Game : EntityDelegate {
     
     func entityDidCheer(entity: Entity) {
         finishLevel(true)
+        
+        if let player = entity as? Player {
+            player.control()
+        }
     }
     
     func entityDidDecay(entity: Entity) {

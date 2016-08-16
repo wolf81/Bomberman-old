@@ -10,32 +10,30 @@ import SpriteKit
 
 class FloatState: State {
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        if !self.updating {
-            self.updating = true
+        if !updating {
+            updating = true
             
             var actions = [SKAction]()
             
-            if let entity = self.entity {
-                if let visualComponent = entity.componentForClass(VisualComponent),
-                    let configComponent = entity.componentForClass(ConfigComponent) {
-                    
-                    visualComponent.spriteNode.removeAllActions()
-                    
-                    let floatAnim = SKAction.animation(forEntity: entity,
-                                                         configuration: configComponent.floatAnimation,
-                                                         state: self)
-                    floatAnim.forEach({ actions.append($0) })
+            if let entity = self.entity,
+                let visualComponent = entity.componentForClass(VisualComponent),
+                let configComponent = entity.componentForClass(ConfigComponent) {
+                visualComponent.spriteNode.removeAllActions()
+                
+                let floatAnim = SKAction.animation(forEntity: entity,
+                                                     configuration: configComponent.floatAnimation,
+                                                     state: self)
+                floatAnim.forEach({ actions.append($0) })
 
-                    let completion = {
-                        self.updating = false
-                        entity.delegate?.entityDidFloat(entity)
-                    }
-                    
-                    if actions.count > 0 {
-                        visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
-                    } else {
-                        completion()
-                    }
+                let completion = {
+                    self.updating = false
+                    entity.delegate?.entityDidFloat(entity)
+                }
+                
+                if actions.count > 0 {
+                    visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+                } else {
+                    completion()
                 }
             }
         }
