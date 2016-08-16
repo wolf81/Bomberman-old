@@ -6,6 +6,14 @@
 //
 //
 
+/*
+ * TODO: Improvements for the MusicPlayer class.
+ *  - Loading files and playing music should be seperated into 2 functions.
+ *  - After stop() is called, resume() should actually have the same result as play()
+ *  - After pause() is called, resume() should continue from the last paused moment in the song.
+ *  - Consider removing resume() and let play() automatically do the right thing.
+ */
+
 import AVFoundation
 
 class MusicPlayer {

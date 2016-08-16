@@ -430,7 +430,11 @@ class Game: NSObject {
     }
     
     func resume() {
-        MusicPlayer.sharedInstance.resume()
+        if Settings.musicEnabled() {
+            MusicPlayer.sharedInstance.resume()
+        } else {            
+            MusicPlayer.sharedInstance.stop()
+        }
     }
     
     // MARK: - Public (Entity Search) 
