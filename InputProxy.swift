@@ -112,6 +112,9 @@ class InputProxy {
     
     // MARK: - Private
     
+    private init() {
+    }
+    
     private func handleDpadValueChangedForPlayer(player: PlayerIndex, scene: BaseScene, xValue: Float, yValue: Float, centerOffset: Float) {
         if self.autoDirectionPressRelease {
             if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {

@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-class Game: NSObject {
+class Game : NSObject {
     static let sharedInstance = Game()
     
     // Control systems for the player, computer and generic state machine (e.g.: tiles are not 

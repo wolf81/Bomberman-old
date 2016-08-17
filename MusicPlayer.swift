@@ -21,7 +21,7 @@ class MusicPlayer {
     
     private var audioPlayer: AVAudioPlayer?
     private var fileManager: NSFileManager
-        
+    
     var isPlaying: Bool {
         var isPlaying = false
         
@@ -32,9 +32,13 @@ class MusicPlayer {
         return isPlaying
     }
     
-    init() {
+    // MARK: Private
+    
+    private init() {
         fileManager = NSFileManager.defaultManager()
     }
+    
+    // MARK: - Public
     
     func playMusic(file: String) throws {
         stop()
