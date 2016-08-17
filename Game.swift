@@ -475,7 +475,7 @@ class Game: NSObject {
     func bombAtGridPosition(gridPosition: Point) -> Bomb? {
         var entity: Bomb?
         
-        for bomb in self.bombs where pointEqualToPoint(bomb.gridPosition, point2: gridPosition) {
+        for bomb in bombs where pointEqualToPoint(bomb.gridPosition, point2: gridPosition) {
             entity = bomb
             break
         }
@@ -589,16 +589,15 @@ extension Game : EntityDelegate {
     
     func entityDidDecay(entity: Entity) {
         switch entity {
-        case is Bomb: entity.destroy()
-        case is PowerUp: entity.destroy()
+        case is Bomb: fallthrough
+        case is PowerUp:
+            entity.destroy()
         default: break
         }
     }
     
     func entityDidDestroy(entity: Entity) {
         switch entity {
-        case is Bomb:
-            removeEntity(entity)
         case let player as Player:
             updateHudForPlayer(player)
             player.spawn()
@@ -606,12 +605,9 @@ extension Game : EntityDelegate {
             if player.lives < 0 {
                 removeEntity(entity)
             }
-        case let creature as Creature:
-            if creature.lives < 0 {
-                removeEntity(entity)
-            }
-        case is Tile:
-            removeEntity(entity)
+        case let creature as Creature where creature.lives < 0: fallthrough
+        case is Bomb: fallthrough
+        case is Tile: fallthrough
         default:
             removeEntity(entity)
         }
@@ -624,8 +620,7 @@ extension Game : EntityDelegate {
                 player.control()
             }
             updateHudForPlayer(player)
-        case is Projectile:
-            entity.destroy()
+        case is Projectile: fallthrough
         case is PowerUp:
             entity.destroy()
         default: break
@@ -641,8 +636,9 @@ extension Game : EntityDelegate {
     
     func entityDidSpawn(entity: Entity) {
         switch entity {
-        case is Bomb: entity.decay()
-        case is PowerUp: entity.decay()
+        case is Bomb: fallthrough
+        case is PowerUp:
+            entity.decay()
         case is Explosion: entity.destroy()
         case let player as Player:
             player.control()
