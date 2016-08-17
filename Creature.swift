@@ -98,12 +98,26 @@ class Creature: Entity {
     }
 
     func moveInRandomDirection() {
-        let validDirections = movementDirectionsFromCurrentGridPosition()
+        var validDirections = movementDirectionsFromCurrentGridPosition()
+
+        // Filter out any tiles a monster stands on, but if player is standing on a tile, can move.
+        validDirections = validDirections.filter { (direction, gridPosition) -> Bool in
+            var canMove = true
+
+            for creature in game!.creatures where creature is Monster {
+                if pointEqualToPoint(creature.gridPosition, point2: gridPosition) || pointEqualToPoint(creature.nextGridPosition, point2: gridPosition) {
+                    canMove = false
+                }
+            }
+            
+            return canMove
+        }
         
         let count = validDirections.count
         if count > 0 {
             let randomIndex = Int(arc4random() % UInt32(count))
             let randomDirection = validDirections[randomIndex]
+            
             moveToGridPosition(randomDirection.gridPosition, direction: randomDirection.direction)
         }
     }    
