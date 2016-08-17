@@ -399,6 +399,30 @@ class Game: NSObject {
         }
         
         if coinsInLevel.count == 0 && timeRemaining > 0 {
+            let monsters = creatures.filter({ (creature) -> Bool in
+                return creature is Monster
+            })
+            
+            let creatureLoader = CreatureLoader(forGame: self)
+            var aliens = [Creature]()
+            
+            for monster in monsters {
+                do {
+                    if let alien = try creatureLoader.monsterWithName("Alien", gridPosition: monster.gridPosition) {
+                        aliens.append(alien)
+                        
+                        if let monsterVc = monster.componentForClass(VisualComponent), let alienVc = alien.componentForClass(VisualComponent) {
+                            alienVc.spriteNode.position = monsterVc.spriteNode.position
+                        }
+                        
+                        removeEntity(monster)
+                        addEntity(alien)
+                    }
+                } catch let error {
+                    updateInfoOverlayWithMessage("\(error)")
+                }
+            }
+            
             print("change monsters into blobs")
         }
     }
