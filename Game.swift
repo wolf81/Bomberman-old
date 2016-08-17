@@ -27,10 +27,13 @@ class Game : NSObject {
     
     // Enrage timer for monsters.
     private var timeRemaining: NSTimeInterval = 0
+    private var extraGameTime: NSTimeInterval = NSTimeInterval.NaN
     private var timeExpired = false
     private var hurryUpShown = false
     
     private(set) var gameScene: GameScene? = nil
+    
+    private(set) var monsterForAlienMap = [Creature: Creature]()
     
     // List of entities currently active in the game. These lists are updated each game loop.
     private(set) var creatures = [Creature]()
@@ -109,6 +112,15 @@ class Game : NSObject {
         }
         
         timeRemaining -= deltaTime
+        
+        if extraGameTime.isNaN == false {
+            extraGameTime -= deltaTime
+            
+            if extraGameTime <= 0 {
+                replaceAliensWithMonsters()
+                extraGameTime = NSTimeInterval.NaN
+            }
+        }
         
         // Update player movement, monster movement, state machines ...
         updateComponentSystems(deltaTime)
@@ -308,6 +320,8 @@ class Game : NSObject {
             default: print("unhandled entity type for instance: \(entity)")
             }
             
+            print("ADD: \(entity)")
+            
             if let visualComponent = entity.componentForClass(VisualComponent) {
                 visualComponent.spriteNode.position = positionForGridPosition(entity.gridPosition)
                 gameScene?.world.addChild(visualComponent.spriteNode)
@@ -376,6 +390,61 @@ class Game : NSObject {
         cpuControlSystem.removeAllComponents()
         playerControlSystem.removeAllComponents()
     }
+    
+    private func replaceMonstersWithAliens() {
+        let monsters = creatures.filter({ (creature) -> Bool in
+            return creature is Monster && creature.isDestroyed == false
+        })
+        
+        let creatureLoader = CreatureLoader(forGame: self)
+        var aliens = [Creature]()
+        
+        for monster in monsters {
+            do {
+                if let alien = try creatureLoader.monsterWithName("Alien", gridPosition: monster.gridPosition) {
+                    monsterForAlienMap[alien] = monster
+
+                    aliens.append(alien)
+                    
+                    if let monsterVc = monster.componentForClass(VisualComponent), let alienVc = alien.componentForClass(VisualComponent) {
+                        alienVc.spriteNode.position = monsterVc.spriteNode.position
+                        monsterVc.spriteNode.removeFromParent()
+                    }
+
+                    addEntity(alien)
+                    
+                    creatures.remove(monster)
+                }
+            } catch let error {
+                updateInfoOverlayWithMessage("\(error)")
+            }
+        }
+
+        extraGameTime = 10
+    }
+    
+    private func replaceAliensWithMonsters() {        
+        for alien in monsterForAlienMap.keys where alien.isDestroyed == false {
+            if let monster = monsterForAlienMap[alien] {
+                creatures.append(monster)
+                
+                monster.gridPosition = alien.gridPosition
+
+                if let monsterVc = monster.componentForClass(VisualComponent),
+                    let alienVc = alien.componentForClass(VisualComponent) {
+                    alienVc.spriteNode.removeFromParent()
+                    monsterVc.spriteNode.position = alienVc.spriteNode.position
+                    gameScene?.world.addChild(monsterVc.spriteNode)
+                }
+                
+                alien.destroy()
+            }
+            
+            creatures.remove(alien)
+        }
+        
+        monsterForAlienMap.removeAll()
+    }
 
     // MARK: - Private (Collision Handling)
     
@@ -399,31 +468,7 @@ class Game : NSObject {
         }
         
         if coinsInLevel.count == 0 && timeRemaining > 0 {
-            let monsters = creatures.filter({ (creature) -> Bool in
-                return creature is Monster
-            })
-            
-            let creatureLoader = CreatureLoader(forGame: self)
-            var aliens = [Creature]()
-            
-            for monster in monsters {
-                do {
-                    if let alien = try creatureLoader.monsterWithName("Alien", gridPosition: monster.gridPosition) {
-                        aliens.append(alien)
-                        
-                        if let monsterVc = monster.componentForClass(VisualComponent), let alienVc = alien.componentForClass(VisualComponent) {
-                            alienVc.spriteNode.position = monsterVc.spriteNode.position
-                        }
-                        
-                        removeEntity(monster)
-                        addEntity(alien)
-                    }
-                } catch let error {
-                    updateInfoOverlayWithMessage("\(error)")
-                }
-            }
-            
-            print("change monsters into blobs")
+            replaceMonstersWithAliens()
         }
     }
     
