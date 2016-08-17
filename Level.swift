@@ -28,6 +28,7 @@ class Level : NSObject {
     private(set) var creatures = [Creature?]()
     private(set) var props = [Prop?]()
     private(set) var powerUps = [PowerUp?]()
+    private(set) var coins = [Coin?]()
     
     private(set) var timer: NSTimeInterval = 60
     
@@ -76,6 +77,10 @@ class Level : NSObject {
         
         if let powersJson = json["powers"] as? [String: AnyObject] {
             try parsePowerUps(forGame: game, json: powersJson)
+        }
+        
+        if let coinsJson = json["coins"] as? [NSArray] {
+            try parseCoins(forGame: game, json: coinsJson)
         }
     }
     
@@ -126,6 +131,16 @@ class Level : NSObject {
         return entity
     }
     
+    func coinAtGridPosition(gridPosition: Point) -> Coin? {
+        var entity: Coin?
+        
+        if let index = indexForGridPosition(gridPosition) {
+            entity = self.coins[index]
+        }
+        
+        return entity
+    }
+    
     // MARK: - Private
     
     private func indexForGridPosition(gridPosition: Point) -> Int? {
@@ -171,6 +186,7 @@ extension Level {
                     self.creatures.append(nil)
                     self.props.append(nil)
                     self.powerUps.append(nil)
+                    self.coins.append(nil)
                 }
             }
         }
@@ -218,6 +234,22 @@ extension Level {
         tile = try tileLoader.wallTileForTheme(self.theme, type: wallTextureType, gridPosition: gridPosition)
         
         return tile
+    }
+    
+    private func parseCoins(forGame game: Game, json: [NSArray]) throws {
+        let coinLoader = CoinLoader(forGame: game)
+
+        for position in json {
+            let colIndex = position.objectAtIndex(0) as! Int
+            let rowIndex = position.objectAtIndex(1) as! Int
+            
+            let position = Point(x: colIndex, y: rowIndex)
+            let index = indexForGridPosition(position)!
+            
+            if let coin = try coinLoader.coinWithGridPosition(position) {
+                self.coins[index] = coin
+            }
+        }
     }
     
     private func parsePowerUps(forGame game: Game, json: [String: AnyObject]) throws {

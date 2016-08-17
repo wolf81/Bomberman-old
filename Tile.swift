@@ -9,7 +9,7 @@
 import GameplayKit
 import SpriteKit
 
-class Tile: Entity {
+class Tile : Entity {
     let tileType: TileType
     
     // MARK: - Initialization
@@ -47,5 +47,11 @@ class Tile: Entity {
         
         self.gridPosition = gridPosition
         self.value = PointsType.Fifty
+    }
+    
+    override func destroy() {
+        removePhysicsBody()
+        
+        super.destroy()
     }
 }

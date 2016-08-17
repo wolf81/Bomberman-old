@@ -100,7 +100,7 @@ class Creature: Entity {
     func moveInRandomDirection() {
         var validDirections = movementDirectionsFromCurrentGridPosition()
 
-        // Filter out any tiles a monster stands on, but if player is standing on a tile, can move.
+        // Filter out any tiles a monster stands on or will move to (ignore players).
         validDirections = validDirections.filter { (direction, gridPosition) -> Bool in
             var canMove = true
 
@@ -128,6 +128,14 @@ class Creature: Entity {
         } else {
             super.hit(damage)
         }
+    }
+    
+    override func destroy() {
+        if lives == 0 {
+            removePhysicsBody()
+        }
+        
+        super.destroy()
     }
     
     // MARK: - Private

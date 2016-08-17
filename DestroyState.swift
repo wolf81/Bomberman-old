@@ -31,16 +31,6 @@ class DestroyState: State {
             if let entity = self.entity {
                 if let visualComponent = entity.componentForClass(VisualComponent) {
                     visualComponent.spriteNode.removeAllActions()
-
-                    if let creature = entity as? Creature {
-                        // Creatures that are destroyed should no longer collide with projectiles,
-                        //  bombs, etc..
-                        if creature.lives < 0 {
-                            visualComponent.spriteNode.physicsBody = nil
-                        }
-                    } else {
-                        visualComponent.spriteNode.physicsBody = nil
-                    }
                     
                     if let configComponent = entity.componentForClass(ConfigComponent) {
                         if let destroySound = configComponent.destroySound {

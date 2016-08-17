@@ -57,6 +57,10 @@
 		7902B0C61CDC9B2B00298CAC /* Prop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7902B0C41CDC9B2B00298CAC /* Prop.swift */; };
 		7904A69B1D3F82ED00C3F417 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904A69A1D3F82ED00C3F417 /* MusicPlayer.swift */; };
 		7904A69C1D3F82ED00C3F417 /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904A69A1D3F82ED00C3F417 /* MusicPlayer.swift */; };
+		790554601D6456C000C9694C /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7905545F1D6456C000C9694C /* Coin.swift */; };
+		790554611D6456C000C9694C /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7905545F1D6456C000C9694C /* Coin.swift */; };
+		790554631D6457E100C9694C /* CoinLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790554621D6457E100C9694C /* CoinLoader.swift */; };
+		790554641D6457E100C9694C /* CoinLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790554621D6457E100C9694C /* CoinLoader.swift */; };
 		791827CF1D0D23550058848C /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791827CE1D0D23550058848C /* BaseScene.swift */; };
 		791827D01D0D23550058848C /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791827CE1D0D23550058848C /* BaseScene.swift */; };
 		7920A32A1D02C1CB002C2B16 /* HealthInfoNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */; };
@@ -224,6 +228,8 @@
 		7902B0BE1CDC954600298CAC /* PlayerHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerHud.swift; sourceTree = "<group>"; };
 		7902B0C41CDC9B2B00298CAC /* Prop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prop.swift; sourceTree = "<group>"; };
 		7904A69A1D3F82ED00C3F417 /* MusicPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
+		7905545F1D6456C000C9694C /* Coin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
+		790554621D6457E100C9694C /* CoinLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoinLoader.swift; sourceTree = "<group>"; };
 		791827CE1D0D23550058848C /* BaseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 		7920A3291D02C1CB002C2B16 /* HealthInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthInfoNode.swift; sourceTree = "<group>"; };
 		7920A32C1D02DCDE002C2B16 /* HudLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HudLoader.swift; sourceTree = "<group>"; };
@@ -441,6 +447,7 @@
 				7900190E1CF74877001EEF3C /* PowerUp.swift */,
 				7902B0C41CDC9B2B00298CAC /* Prop.swift */,
 				790019081CF5999C001EEF3C /* Points.swift */,
+				7905545F1D6456C000C9694C /* Coin.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -458,6 +465,7 @@
 				790019141CF7A9DB001EEF3C /* ConfigurationLoader.swift */,
 				79606E891CFEB0780034A0A1 /* PowerLoader.swift */,
 				7920A32C1D02DCDE002C2B16 /* HudLoader.swift */,
+				790554621D6457E100C9694C /* CoinLoader.swift */,
 			);
 			name = Loaders;
 			sourceTree = "<group>";
@@ -876,6 +884,7 @@
 				794ADE4B1CD4B02A000AF170 /* Bomb.swift in Sources */,
 				7947BC341CCDCE6E00DE7C8A /* StateMachine.swift in Sources */,
 				79C9F1951CD9C14400692D75 /* SpriteNode.swift in Sources */,
+				790554631D6457E100C9694C /* CoinLoader.swift in Sources */,
 				79C9F1921CD9B7E600692D75 /* Monster.swift in Sources */,
 				79621E8E1D5C6753002F4235 /* InfoOverlay.swift in Sources */,
 				794ADE661CD7307A000AF170 /* Projectile.swift in Sources */,
@@ -898,6 +907,7 @@
 				79B35D301D0950500002EA99 /* EntityLayer.swift in Sources */,
 				79621E981D5C90D2002F4235 /* Focusable.swift in Sources */,
 				79621E9B1D603FAE002F4235 /* Indicator.swift in Sources */,
+				790554601D6456C000C9694C /* Coin.swift in Sources */,
 				79FC6B871CCA2B9000DF7476 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -933,6 +943,7 @@
 				790019101CF74877001EEF3C /* PowerUp.swift in Sources */,
 				7900191D1CFBCCFD001EEF3C /* CheerState.swift in Sources */,
 				791827D01D0D23550058848C /* BaseScene.swift in Sources */,
+				790554641D6457E100C9694C /* CoinLoader.swift in Sources */,
 				7902B0C01CDC954600298CAC /* PlayerHud.swift in Sources */,
 				79FC6B9C1CCA2B9C00DF7476 /* AppDelegate.swift in Sources */,
 				793FAF4C1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift in Sources */,
@@ -976,6 +987,7 @@
 				79606E881CFE6C2D0034A0A1 /* SceneManager.swift in Sources */,
 				790056441CDF4B5D009CDF81 /* AssetManager.swift in Sources */,
 				79606E8B1CFEB0780034A0A1 /* PowerLoader.swift in Sources */,
+				790554611D6456C000C9694C /* Coin.swift in Sources */,
 				79621E951D5C909D002F4235 /* NumberChooser.swift in Sources */,
 				7900190A1CF5999C001EEF3C /* Points.swift in Sources */,
 				7902B0A31CDAFBD400298CAC /* ControlState.swift in Sources */,

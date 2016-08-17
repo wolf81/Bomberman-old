@@ -41,6 +41,7 @@ class Game: NSObject {
     private(set) var projectiles = [Projectile]()
     private(set) var points = [Points]()
     private(set) var powerUps = [PowerUp]()
+    private(set) var coins = [Coin]()
     
     // Players are referenced from the creatures array as it contains both players and monsters.
     private(set) weak var player1: Player?
@@ -154,6 +155,10 @@ class Game: NSObject {
                         addEntity(creature)
                     }
                     
+                    if let coin = level.coinAtGridPosition(gridPosition) {
+                        addEntity(coin)
+                    }
+                    
                     // NOTE: We don't parse powers here, instead power entites are added when tiles 
                     //  are destroyed. The reason for this is that powers need to self-destruct 
                     //  after a set amount of time and self destruct is triggered after spawn state.
@@ -209,11 +214,9 @@ class Game: NSObject {
         default: break
         }
         
-        for (index, gridPosition) in gridPositions.enumerate() {
-            if tileAtGridPosition(gridPosition) != nil {
-                gridPositions.removeRange(index ..< gridPositions.count)
-                break
-            }
+        for (index, gridPosition) in gridPositions.enumerate() where tileAtGridPosition(gridPosition) != nil {
+            gridPositions.removeRange(index ..< gridPositions.count)
+            break
         }
         
         return gridPositions
@@ -272,6 +275,7 @@ class Game: NSObject {
             case is Tile: tiles.remove(entity as! Tile)
             case is Creature: creatures.remove(entity as! Creature)
             case is Projectile: projectiles.remove(entity as! Projectile)
+            case is Coin: coins.remove(entity as! Coin)
             case is Prop: props.remove(entity as! Prop)
             case is Points: points.remove(entity as! Points)
             case is PowerUp: powerUps.remove(entity as! PowerUp)
@@ -297,6 +301,7 @@ class Game: NSObject {
             case is Tile: tiles.append(entity as! Tile)
             case is Creature: creatures.append(entity as! Creature)
             case is Projectile: projectiles.append(entity as! Projectile)
+            case is Coin: coins.append(entity as! Coin)
             case is Prop: props.append(entity as! Prop)
             case is Points: points.append(entity as! Points)
             case is PowerUp: powerUps.append(entity as! PowerUp)
@@ -349,8 +354,8 @@ class Game: NSObject {
     }
     
     private func isPlayerAlive() -> Bool {
-        let isPlayerAlive = player1!.lives >= 0 || player2!.lives >= 0
-        return isPlayerAlive
+        let players = [player1, player2].flatMap{ $0 }.filter{ $0.lives >= 0 }
+        return players.count > 0
     }
     
     private func removeAllEntities() {
@@ -365,6 +370,7 @@ class Game: NSObject {
         projectiles.removeAll()
         points.removeAll()
         powerUps.removeAll()
+        coins.removeAll()
         
         stateMachineSystem.removeAllComponents()
         cpuControlSystem.removeAllComponents()
@@ -387,6 +393,14 @@ class Game: NSObject {
     
     private func handleContactBetweenProp(prop: Prop, andPlayer player: Player) {
         prop.destroy()
+        
+        let coinsInLevel = coins.filter { (coin) -> Bool in
+            coin.isDestroyed == false
+        }
+        
+        if coinsInLevel.count == 0 && timeRemaining > 0 {
+            print("change monsters into blobs")
+        }
     }
     
     private func handleContactBetweenMonster(monster: Monster, andPlayer player: Player) {
@@ -405,7 +419,7 @@ class Game: NSObject {
     // MARK: - Public
     
     func addEntity(entity: Entity) {
-        self.entitiesToAdd.append(entity)
+        entitiesToAdd.append(entity)
         
         switch entity {
         case let tile as Tile:
@@ -427,11 +441,11 @@ class Game: NSObject {
     }
     
     func removeEntity(entity: Entity) {
-        self.entitiesToRemove.append(entity)
+        entitiesToRemove.append(entity)
     }
     
     func bombCountForPlayer(player: PlayerIndex) -> Int {
-        let count = self.bombs.filter { $0.player == player }.count
+        let count = bombs.filter { $0.player == player }.count
         return count
     }
     
@@ -555,11 +569,6 @@ extension Game : EntityDelegate {
             if let power = level?.powerUpAtGridPosition(entity.gridPosition) {
                 addEntity(power)
             }
-        case is Explosion:
-            // We only want explosions to interact with other entities during spawn. 
-            //  After spawning, other entities (e.g. players) should be able to walk through the 
-            //  explosion animation.
-            entity.removePhysicsBody()
         default: break
         }
                 
@@ -590,15 +599,14 @@ extension Game : EntityDelegate {
         switch entity {
         case is Bomb:
             removeEntity(entity)
-        case is Creature: fallthrough
-        case is Player:
-            let creature = entity as! Creature
-
-            if let player = creature as? Player {
-                updateHudForPlayer(player)
-                player.spawn()
-            }
+        case let player as Player:
+            updateHudForPlayer(player)
+            player.spawn()
             
+            if player.lives < 0 {
+                removeEntity(entity)
+            }
+        case let creature as Creature:
             if creature.lives < 0 {
                 removeEntity(entity)
             }
@@ -611,8 +619,7 @@ extension Game : EntityDelegate {
     
     func entityDidHit(entity: Entity) {
         switch entity {
-        case is Player:
-            let player = entity as! Player
+        case let player as Player:
             if !player.isDestroyed {
                 player.control()
             }
@@ -651,11 +658,10 @@ extension Game : EntityDelegate {
     }
     
     func entityWillSpawn(entity: Entity) {
-        if entity is Player {
-            if let visualComponent = entity.componentForClass(VisualComponent) {
-                let position = positionForGridPosition(entity.gridPosition)
-                visualComponent.spriteNode.position = position
-            }
+        if entity is Player,
+            let visualComponent = entity.componentForClass(VisualComponent) {
+            let position = positionForGridPosition(entity.gridPosition)
+            visualComponent.spriteNode.position = position
         }
     }
 }

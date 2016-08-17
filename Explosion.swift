@@ -25,4 +25,10 @@ class Explosion: Entity {
             }
         }
     }
+    
+    override func destroy() {
+        removePhysicsBody()
+        
+        super.destroy()
+    }
 }

@@ -45,7 +45,10 @@ class SceneManager: NSObject {
             Game.sharedInstance.configureForGameScene(scene)
             transitionToScene(scene, animation: .Fade)
         } catch let error {
+            updateInfoOverlayWithMessage("\(error)")
             print("error: \(error)")
+            
+            showMainMenu(withAnimation: .Fade)
         }
     }
     
