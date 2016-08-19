@@ -141,7 +141,7 @@ class Creature: Entity {
         
         super.destroy()
     }
-    
+        
     // MARK: - Private
     
     private func moveToGridPosition(gridPosition: Point, direction: Direction, completion: (() -> Void)?) {

@@ -46,6 +46,8 @@ class AttackState: State {
         return false
     }
     
+    // MARK: - Private
+    
     private func attackAnimRangeForCurrentDirection() -> Range<Int> {
         var animRange = 0 ..< 0
         
