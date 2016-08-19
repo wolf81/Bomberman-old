@@ -35,7 +35,7 @@ class CpuControlComponent: GKComponent {
                     let creature = self.creature,
                     let configComponent = creature.componentForClass(ConfigComponent) else { return }
                 
-                if creature.isDestroyed == false {                
+                if creature.canAttack && creature.isDestroyed == false {
                     attackDelay -= seconds
                     
                     if attackDelay < 0 {
@@ -84,7 +84,7 @@ class CpuControlComponent: GKComponent {
     private func distanceBetweenPoint(point: Point, otherPoint: Point) -> (distance: CGFloat, dx: CGFloat, dy: CGFloat) {
         let dx = CGFloat(point.x - otherPoint.x)
         let dy = CGFloat(point.y - otherPoint.y)
-        let distance = hypot(dx, dy)
+        let distance = fmax(hypot(dx, dy), 1.0)
         
         return (distance, dx, dy)
     }

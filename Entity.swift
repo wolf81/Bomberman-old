@@ -24,6 +24,8 @@ protocol EntityDelegate: class {
 }
 
 class Entity: GKEntity {
+    private (set) var uuid = NSUUID().UUIDString
+    
     var gridPosition = Point(x: 0, y: 0)
     var value: PointsType?
     var spawnTimeAdjustment: NSTimeInterval = 0.0
@@ -63,6 +65,16 @@ class Entity: GKEntity {
         }
         
         return canRoam
+    }
+    
+    var canAttack: Bool {
+        var canAttack = false
+        
+        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+            canAttack = stateMachineComponent.canAttack
+        }
+        
+        return canAttack
     }
     
     var isDestroyed: Bool {

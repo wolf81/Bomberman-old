@@ -13,7 +13,7 @@ class CreatureLoader: ConfigurationLoader {
     
     func monsterWithName(name: String, gridPosition: Point) throws -> Creature? {
         var entity: Creature? = nil
-        
+                
         let directory = "Creatures/\(name)"
         if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             switch configComponent.creatureType {

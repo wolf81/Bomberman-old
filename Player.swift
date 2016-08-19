@@ -113,11 +113,11 @@ class Player: Creature {
     func dropBomb() throws -> Bool {
         var didDropBomb = false
 
-        if let visualComponent = self.componentForClass(VisualComponent), let game = self.game where game.bombCountForPlayer(self.index) < self.bombPowerLimit.currentCount {
+        if let visualComponent = self.componentForClass(VisualComponent), let game = self.game where game.bombCountForPlayer(index) < self.bombPowerLimit.currentCount {
 
             let gridPosition = gridPositionForPosition(visualComponent.spriteNode.position)
             if game.bombAtGridPosition(gridPosition) == nil,
-                let bomb = try propLoader.bombWithGridPosition(gridPosition, player: self.index) {
+                let bomb = try propLoader.bombWithGridPosition(gridPosition, player: index) {
                 bomb.range = explosionPowerLimit.currentCount
                 bomb.spawnTimeAdjustment = -1 * Double(bombTriggerPowerLimit.currentCount) * 1
                 game.addEntity(bomb)

@@ -49,16 +49,16 @@ class PowerUp: Entity {
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
         super.updateWithDeltaTime(seconds)
         
-        self.destroyDelay -= seconds
+        destroyDelay -= seconds
         
         if destroyDelay <= 0 {
-            self.destroy()
+            destroy()
         }
     }
     
     func activate(forPlayer player: Player) {
-        if self.activated == false {
-            self.activated = true
+        if activated == false {
+            activated = true
             
             switch self.power {
             case .ExplosionSize:
@@ -76,9 +76,11 @@ class PowerUp: Entity {
             case .MoveSpeed:
                 player.addMoveSpeedPower(withDuration: 15.0)
             case .DestroyBlocks:
-                self.game?.tiles.forEach({ $0.destroy() })
+                game?.tiles.filter({ (tile) -> Bool in
+                    tile.tileType != .Wall && tile.tileType != .IndestructableBlock
+                }).forEach({ $0.destroy() })
             case .DestroyMonsters:
-                self.game?.creatures
+                game?.creatures
                     .filter({ $0 is Monster })
                     .forEach({ $0.destroy() })
             default: break

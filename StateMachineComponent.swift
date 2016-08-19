@@ -20,6 +20,12 @@ class StateMachineComponent: GKComponent {
         canRoam = self.stateMachine.stateForClass(RoamState) != nil        
         return canRoam
     }
+
+    var canAttack: Bool {
+        var canAttack = false
+        canAttack = self.stateMachine.stateForClass(AttackState) != nil
+        return canAttack
+    }
     
     init(game: Game, entity: Entity, states: [State]) {
         self.stateMachine = StateMachine(game: game, entity: entity, states: states)

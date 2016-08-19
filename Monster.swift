@@ -15,7 +15,7 @@ class Monster: Creature {
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, createPhysicsBody: Bool, collidesWithPlayer: Bool) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
-        self.value = PointsType.Hundred
+        value = PointsType.Hundred
         
         let cpuControlComponent = CpuControlComponent(game: game)
         addComponent(cpuControlComponent)

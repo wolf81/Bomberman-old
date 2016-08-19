@@ -33,7 +33,7 @@ class Game : NSObject {
     
     private(set) var gameScene: GameScene? = nil
     
-    private(set) var monsterForAlienMap = [Creature: Creature]()
+    private(set) var monsterForAlienMap = [String: Creature]()
     
     // List of entities currently active in the game. These lists are updated each game loop.
     private(set) var creatures = [Creature]()
@@ -53,6 +53,14 @@ class Game : NSObject {
     // Lists of entities to be added or removed in the next update.
     private var entitiesToAdd = [Entity]()
     private var entitiesToRemove = [Entity]()
+    
+    private var creatureLoader: CreatureLoader?
+    
+    override init() {
+        super.init()
+        
+        creatureLoader = CreatureLoader(forGame: self)
+    }
     
     func configureForGameScene(gameScene: GameScene) {
         self.level = gameScene.level
@@ -323,7 +331,11 @@ class Game : NSObject {
             print("ADD: \(entity)")
             
             if let visualComponent = entity.componentForClass(VisualComponent) {
-                visualComponent.spriteNode.position = positionForGridPosition(entity.gridPosition)
+                // Only calculate a position based on gridPosition if no position is already set.
+                if CGPointEqualToPoint(visualComponent.spriteNode.position, CGPointZero) {
+                    visualComponent.spriteNode.position = positionForGridPosition(entity.gridPosition)
+                }
+                
                 gameScene?.world.addChild(visualComponent.spriteNode)
             }
             
@@ -396,24 +408,17 @@ class Game : NSObject {
             return creature is Monster && creature.isDestroyed == false
         })
         
-        let creatureLoader = CreatureLoader(forGame: self)
-        var aliens = [Creature]()
-        
         for monster in monsters {
             do {
-                if let alien = try creatureLoader.monsterWithName("Alien", gridPosition: monster.gridPosition) {
-                    monsterForAlienMap[alien] = monster
-
-                    aliens.append(alien)
+                if let alien = try creatureLoader!.monsterWithName("Alien", gridPosition: monster.gridPosition) {
+                    monsterForAlienMap[alien.uuid] = monster
                     
                     if let monsterVc = monster.componentForClass(VisualComponent), let alienVc = alien.componentForClass(VisualComponent) {
                         alienVc.spriteNode.position = monsterVc.spriteNode.position
-                        monsterVc.spriteNode.removeFromParent()
                     }
 
                     addEntity(alien)
-                    
-                    creatures.remove(monster)
+                    removeEntity(monster)
                 }
             } catch let error {
                 updateInfoOverlayWithMessage("\(error)")
@@ -423,24 +428,25 @@ class Game : NSObject {
         extraGameTime = 10
     }
     
-    private func replaceAliensWithMonsters() {        
-        for alien in monsterForAlienMap.keys where alien.isDestroyed == false {
-            if let monster = monsterForAlienMap[alien] {
-                creatures.append(monster)
-                
-                monster.gridPosition = alien.gridPosition
+    private func replaceAliensWithMonsters() {
+        let aliens = creatures.filter({ (creature) -> Bool in
+            return creature is Monster && creature.isDestroyed == false
+        })
 
-                if let monsterVc = monster.componentForClass(VisualComponent),
-                    let alienVc = alien.componentForClass(VisualComponent) {
-                    alienVc.spriteNode.removeFromParent()
-                    monsterVc.spriteNode.position = alienVc.spriteNode.position
-                    gameScene?.world.addChild(monsterVc.spriteNode)
-                }
+        for alien in aliens {
+            if let monster = monsterForAlienMap[alien.uuid],
+                let name = monster.name {
                 
-                alien.destroy()
+                do {
+                    if let monster = try creatureLoader!.monsterWithName(name, gridPosition: alien.gridPosition) {
+                        addEntity(monster)
+                    }
+                } catch let error {
+                    updateInfoOverlayWithMessage("\(error)")
+                }
+
+                removeEntity(alien)
             }
-            
-            creatures.remove(alien)
         }
         
         monsterForAlienMap.removeAll()
@@ -453,7 +459,7 @@ class Game : NSObject {
     }
     
     private func handleContactBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
-        projectile.hit()
+        projectile.destroy()
         
         if let player = entity as? Player where player.isDestroyed == false {
             player.hit(projectile.damage)
@@ -674,7 +680,13 @@ extension Game : EntityDelegate {
             if player.lives < 0 {
                 removeEntity(entity)
             }
-        case let creature as Creature where creature.lives < 0: fallthrough
+        case let creature as Creature where creature.lives < 0:
+            removeEntity(entity)
+            
+            // If an alien is killed, remove the related monster.
+            if let monster = monsterForAlienMap[entity.uuid] {
+                removeEntity(monster)
+            }
         case is Bomb: fallthrough
         case is Tile: fallthrough
         default:
@@ -741,9 +753,9 @@ extension Game : SKPhysicsContactDelegate {
         let entity1 = firstBody?.entity
         let entity2 = secondBody?.entity
                 
-        if entity1 is Projectile  {
+        if entity1 is Projectile && entity2 != nil  {
             handleContactBetweenProjectile(entity1 as! Projectile, andEntity: entity2!)
-        } else if entity2 is Projectile {
+        } else if entity2 is Projectile && entity1 != nil {
             handleContactBetweenProjectile(entity2 as! Projectile, andEntity: entity1!)
         }
         

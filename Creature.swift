@@ -12,6 +12,7 @@ import SpriteKit
 class Creature: Entity {
     var health: Int = 1
     var lives: Int = 1
+    var name: String?
     
     // Used by monsters as shooting delay, for players as refill time for bombs.
     let abilityCooldown: NSTimeInterval = 2.0
@@ -44,6 +45,11 @@ class Creature: Entity {
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point) {
         lives = configComponent.lives
         health = configComponent.health
+        
+        if let path = configComponent.configFilePath {
+            let url = NSURL(fileURLWithPath: path)
+            self.name = url.lastPathComponent
+        }
         
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
     }
