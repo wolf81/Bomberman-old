@@ -41,5 +41,12 @@ class Projectile: Entity {
                 }
             }
         }
-    }    
+    }
+    
+    func clone() -> Projectile {
+        let game = self.game!
+        let configComponent = componentForClass(ConfigComponent)!
+        
+        return Projectile(forGame: game, configComponent: configComponent, gridPosition: Point(x: 0, y: 0))
+    }
 }

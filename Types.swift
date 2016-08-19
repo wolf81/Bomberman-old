@@ -74,9 +74,19 @@ public struct Size {
 public struct Point {
     var x: Int
     var y: Int
+    
+    public init() {
+        self.x = 0
+        self.y = 0
+    }
+    
+    public init(x: Int, y: Int) {
+        self.x = x
+        self.y = y
+    }
 }
 
-func pointEqualToPoint(point1: Point, point2: Point) -> Bool {
+func pointEqualToPoint(point1: Point, _ point2: Point) -> Bool {
     return point1.x == point2.x && point1.y == point2.y
 }
 

@@ -169,9 +169,9 @@ class Player: Creature {
 
         let movementDirections = super.movementDirectionsFromCurrentGridPosition()
         for direction in movementDirections {
-            if pointEqualToPoint(direction.gridPosition, point2: otherPlayer.gridPosition) && otherPlayer.isDestroyed == false {
+            if pointEqualToPoint(direction.gridPosition, otherPlayer.gridPosition) && otherPlayer.isDestroyed == false {
                 continue
-            } else if pointEqualToPoint(direction.gridPosition, point2: otherPlayer.nextGridPosition) && otherPlayer.isDestroyed == false {
+            } else if pointEqualToPoint(direction.gridPosition, otherPlayer.nextGridPosition) && otherPlayer.isDestroyed == false {
                 continue
             } else {
                 adjustedMovementDirections.append(direction)

@@ -109,7 +109,7 @@ class Creature: Entity {
             var canMove = true
 
             for creature in game!.creatures where creature is Monster {
-                if pointEqualToPoint(creature.gridPosition, point2: gridPosition) || pointEqualToPoint(creature.nextGridPosition, point2: gridPosition) {
+                if pointEqualToPoint(creature.gridPosition, gridPosition) || pointEqualToPoint(creature.nextGridPosition, gridPosition) {
                     canMove = false
                 }
             }

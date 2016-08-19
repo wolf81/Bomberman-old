@@ -131,7 +131,7 @@ class CpuControlComponent: GKComponent {
                 let visibleGridPositions = game!.visibleGridPositionsFromGridPosition(creaturePos, inDirection: creature.direction)
 
                 let playerPos = result.player.gridPosition
-                for gridPosition in visibleGridPositions where pointEqualToPoint(gridPosition, point2: playerPos) {
+                for gridPosition in visibleGridPositions where pointEqualToPoint(gridPosition, playerPos) {
                     fireProjectile(entityName, withOrigin: creaturePos, distance: result.distance, dx: result.offset.dx, dy: result.offset.dy)
                     didLaunchProjectile = true
                 }

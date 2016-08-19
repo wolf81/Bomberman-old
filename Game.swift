@@ -539,7 +539,7 @@ class Game : NSObject {
         
         let players = [player1, player2].flatMap{ $0 }
         
-        for player in players where pointEqualToPoint(player.gridPosition, point2: gridPosition) {
+        for player in players where pointEqualToPoint(player.gridPosition, gridPosition) {
             entity = player
             break
         }
@@ -550,7 +550,7 @@ class Game : NSObject {
     func bombAtGridPosition(gridPosition: Point) -> Bomb? {
         var entity: Bomb?
         
-        for bomb in bombs where pointEqualToPoint(bomb.gridPosition, point2: gridPosition) {
+        for bomb in bombs where pointEqualToPoint(bomb.gridPosition, gridPosition) {
             entity = bomb
             break
         }
@@ -569,7 +569,7 @@ class Game : NSObject {
                 let position = visualComponent.spriteNode.position
                 let creatureGridPosition = gridPositionForPosition(position)
                 
-                if pointEqualToPoint(creatureGridPosition, point2: gridPosition) {
+                if pointEqualToPoint(creatureGridPosition, gridPosition) {
                     entity = creature
                 }
             }
@@ -581,7 +581,7 @@ class Game : NSObject {
     func tileAtGridPosition(gridPosition: Point) -> Tile? {
         var entity: Tile? = nil
         
-        for tile in tiles where pointEqualToPoint(tile.gridPosition, point2: gridPosition) {
+        for tile in tiles where pointEqualToPoint(tile.gridPosition, gridPosition) {
             entity = tile
             break
         }
@@ -617,7 +617,7 @@ class Game : NSObject {
     func powerAtGridPosition(gridPosition: Point) -> PowerUp? {
         var entity: PowerUp? = nil
         
-        for powerUp in powerUps where pointEqualToPoint(powerUp.gridPosition, point2: gridPosition) {
+        for powerUp in powerUps where pointEqualToPoint(powerUp.gridPosition, gridPosition) {
             entity = powerUp
             break
         }
