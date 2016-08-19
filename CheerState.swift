@@ -13,7 +13,7 @@ class CheerState: State {
         return !(stateClass is CheerState.Type)
     }
     
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
         var actions = [SKAction]()
         
         if let cheerSound = configComponent.cheerSound {
@@ -22,16 +22,13 @@ class CheerState: State {
             actions.append(play)
         }
         
-        let move = visualComponent.spriteNode.actionForKey("move")
-        move?.speed = 0
-        
         let cheerAnim = SKAction.animation(forEntity: entity,
                                            configuration: configComponent.cheerAnimation,
                                            state: self)
         cheerAnim.forEach({ actions.append($0) })
         
         let completion = {
-            self.updating = false
+            didUpdate()
             
             entity.delegate?.entityDidCheer(entity)
         }
@@ -41,5 +38,9 @@ class CheerState: State {
         } else {
             completion()
         }
+    }
+    
+    override func canMoveDuringUpdate() -> Bool {
+        return false
     }
 }

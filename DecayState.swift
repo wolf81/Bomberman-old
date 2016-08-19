@@ -10,33 +10,23 @@ import GameplayKit
 import SpriteKit
 
 class DecayState : State {
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        if !updating {
-            updating = true
-            
-            var actions = [SKAction]()
-            
-            if let entity = self.entity {
-                if let configComponent = entity.componentForClass(ConfigComponent),
-                    let visualComponent = entity.componentForClass(VisualComponent) {
-                    
-                    let decayAnim = SKAction.animation(forEntity: entity,
-                                                       configuration: configComponent.decayAnimation,
-                                                       state: self)
-                    decayAnim.forEach({ actions.append($0) })
-                    
-                    let completion = {
-                        self.updating = false
-                        entity.delegate?.entityDidDecay(entity)
-                    }
-                    
-                    if actions.count > 0 {
-                        visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
-                    } else {
-                        completion()
-                    }
-                }
-            }
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
+        var actions = [SKAction]()
+        
+        let decayAnim = SKAction.animation(forEntity: entity,
+                                           configuration: configComponent.decayAnimation,
+                                           state: self)
+        decayAnim.forEach({ actions.append($0) })
+        
+        let completion = {
+            didUpdate()
+            entity.delegate?.entityDidDecay(entity)
+        }
+        
+        if actions.count > 0 {
+            visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+        } else {
+            completion()
         }
     }
     

@@ -33,7 +33,7 @@ class SpawnState: State {
         return !didSpawn
     }
     
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
         var actions = [SKAction]()
         
         if let spawnSound = configComponent.spawnSound {
@@ -52,7 +52,7 @@ class SpawnState: State {
         
         let completion = {
             self.didSpawn = true
-            self.updating = false
+            didUpdate()
             entity.delegate?.entityDidSpawn(entity)
         }
         

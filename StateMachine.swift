@@ -27,7 +27,7 @@ class StateMachine: GKStateMachine {
     override func updateWithDeltaTime(sec: NSTimeInterval) {
         super.updateWithDeltaTime(sec)
         
-        if self.currentState == nil {
+        if currentState == nil {
             enterState(SpawnState)
         }
     }

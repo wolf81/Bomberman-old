@@ -22,7 +22,7 @@ class DestroyState: State {
         }
     }
     
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
         var actions = [SKAction]()
         
         visualComponent.spriteNode.removeAllActions()
@@ -42,7 +42,7 @@ class DestroyState: State {
 //        actions.append(fadeOut)
         
         let completion = {
-            self.updating = false
+            didUpdate()
             entity.delegate?.entityDidDestroy(entity)
         }
         

@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 
 class State: GKState {
-    var updating = false
+    private var updating = false
     
     override func willExitWithNextState(nextState: GKState) {
         super.willExitWithNextState(nextState)
@@ -53,7 +53,20 @@ class State: GKState {
             if let entity = self.entity,
                 let visualComponent = entity.componentForClass(VisualComponent),
                 let configComponent = entity.componentForClass(ConfigComponent) {
-                updateForEntity(entity, configComponent: configComponent, visualComponent: visualComponent)
+                
+                var move: SKAction?
+                if !canMoveDuringUpdate() {
+                    move = visualComponent.spriteNode.actionForKey("move")
+                    move?.speed = 0
+                }
+                
+                updateForEntity(entity, configComponent: configComponent, visualComponent: visualComponent, didUpdate: {
+                    if !self.canMoveDuringUpdate() {
+                        move?.speed = 1
+                    }
+                    
+                    self.updating = false
+                })
             }
         }
     }
@@ -62,8 +75,11 @@ class State: GKState {
         return true
     }
     
-    func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+    func canMoveDuringUpdate() -> Bool {
+        return true
+    }
     
+    func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
     }
     
     func playAction(forFileAtPath filePath: String, spriteNode: SKSpriteNode) -> SKAction {

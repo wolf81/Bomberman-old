@@ -10,11 +10,8 @@ import GameplayKit
 import SpriteKit
 
 class HitState: State {
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
         var actions = [SKAction]()
-        
-        let move = visualComponent.spriteNode.actionForKey("move")
-        move?.speed = 0
         
         if let hitSound = configComponent.hitSound {
             let filePath = configComponent.configFilePath.stringByAppendingPathComponent(hitSound)
@@ -52,9 +49,7 @@ class HitState: State {
         let completion = {
             // TODO: Does not work correctly when player has a speed boost. Speed boost
             //  is removed on hit.
-            move?.speed = 1.0
-            
-            self.updating = false
+            didUpdate()
             entity.delegate?.entityDidHit(entity)
         }
         
@@ -63,5 +58,9 @@ class HitState: State {
         } else {
             completion()
         }
+    }
+    
+    override func canMoveDuringUpdate() -> Bool {
+        return false
     }
 }

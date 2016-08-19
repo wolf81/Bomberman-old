@@ -9,7 +9,7 @@
 import SpriteKit
 
 class FloatState: State {
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
         var actions = [SKAction]()
         
         visualComponent.spriteNode.removeAllActions()
@@ -20,7 +20,7 @@ class FloatState: State {
         floatAnim.forEach({ actions.append($0) })
         
         let completion = {
-            self.updating = false
+            didUpdate()
             entity.delegate?.entityDidFloat(entity)
         }
         

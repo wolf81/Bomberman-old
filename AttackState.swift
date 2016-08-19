@@ -10,12 +10,8 @@ import SpriteKit
 import GameplayKit
 
 class AttackState: State {
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
         var actions = [SKAction]()
-        
-        // allow move?
-        let move = visualComponent.spriteNode.actionForKey("move")
-        move?.speed = 0
         
         // append sound
         if let attackSound = configComponent.attackSound {
@@ -35,9 +31,7 @@ class AttackState: State {
         }
         
         let completion = {
-            move?.speed = 1
-            
-            self.updating = false
+            didUpdate()
             entity.delegate?.entityDidAttack(entity)
         }
         
@@ -46,6 +40,10 @@ class AttackState: State {
         } else {
             completion()
         }
+    }
+    
+    override func canMoveDuringUpdate() -> Bool {
+        return false
     }
     
     private func attackAnimRangeForCurrentDirection() -> Range<Int> {

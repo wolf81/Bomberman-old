@@ -25,10 +25,10 @@ class RoamState: State {
         return true
     }
     
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
-        if let creature = entity as? Creature where !visualComponent.spriteNode.hasActions() {            
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
+        if let creature = entity as? Creature where !visualComponent.spriteNode.hasActions() {
             let completion = {
-                self.updating = false
+                didUpdate()
                 entity.delegate?.entityDidSpawn(entity)
             }
             
