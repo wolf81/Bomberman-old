@@ -16,7 +16,7 @@ class Tile : Entity {
 
     convenience init(gridPosition: Point, configComponent: ConfigComponent, tileType: TileType) {
         // TODO: make more safe, currently will crash if no config exists.
-        let basePath = configComponent.configFilePath!
+        let basePath = configComponent.configFilePath
         let filePath = basePath.stringByAppendingPathComponent(configComponent.textureFile)
         let imageData = NSData(contentsOfFile: filePath)
         let image = Image(data: imageData!)

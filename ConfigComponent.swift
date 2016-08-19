@@ -21,7 +21,7 @@ enum AttackDirection {
 }
 
 class ConfigComponent: GKComponent {
-    private(set) var configFilePath: String?
+    private(set) var configFilePath: String
     
     private(set) var textureFile = String()
     private(set) var spriteSize = CGSize()
@@ -68,13 +68,9 @@ class ConfigComponent: GKComponent {
     
     // MARK: - Initialization
     
-    convenience init(json: [String: AnyObject], configFileUrl: NSURL) {
-        self.init(json: json)
+    init(json: [String: AnyObject], configFileUrl: NSURL) {
+        self.configFilePath = configFileUrl.URLByDeletingLastPathComponent!.path!
 
-        self.configFilePath = configFileUrl.URLByDeletingLastPathComponent?.path        
-    }
-
-    init(json: [String: AnyObject]) {
         super.init()
         
         if let moveJson = json["movement"] as? [String: AnyObject] {
@@ -113,7 +109,7 @@ class ConfigComponent: GKComponent {
         
         if let cheerJson = json["cheer"] as? [String: AnyObject] {
             parseCheerJson(cheerJson)
-
+            
             if let animationJson = cheerJson["animation"] as? [String: AnyObject] {
                 self.cheerAnimation = AnimationConfiguration(json: animationJson)
             }
@@ -138,7 +134,7 @@ class ConfigComponent: GKComponent {
                 self.decayAnimation = AnimationConfiguration(json: animationJson)
             }
         }
-
+        
         if let destroyJson = json["destroy"] as? [String: AnyObject] {
             parseDestroyJson(destroyJson)
             

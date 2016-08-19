@@ -46,10 +46,8 @@ class Creature: Entity {
         lives = configComponent.lives
         health = configComponent.health
         
-        if let path = configComponent.configFilePath {
-            let url = NSURL(fileURLWithPath: path)
-            self.name = url.lastPathComponent
-        }
+        let url = NSURL(fileURLWithPath: configComponent.configFilePath)
+        self.name = url.lastPathComponent
         
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
     }

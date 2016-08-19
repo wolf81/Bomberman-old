@@ -17,44 +17,44 @@ class HitState: State {
             var actions = [SKAction]()
             
             if let entity = self.entity,
-                let visualComponent = entity.componentForClass(VisualComponent) {
+                let visualComponent = entity.componentForClass(VisualComponent),
+                let configComponent = entity.componentForClass(ConfigComponent) {
                 let move = visualComponent.spriteNode.actionForKey("move")
                 move?.speed = 0
                 
-                if let configComponent = entity.componentForClass(ConfigComponent) {
-                    if let hitSound = configComponent.hitSound,
-                        let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(hitSound) {
-                        let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
-                        actions.append(play)
-                    }
+                if let hitSound = configComponent.hitSound {
+                    let filePath = configComponent.configFilePath.stringByAppendingPathComponent(hitSound)
+                    let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
+                    actions.append(play)
+                }
+                
+                let hitAnim = configComponent.hitAnimation
+                if hitAnim.delay > 0 {
+                    let wait = SKAction.waitForDuration(hitAnim.delay)
+                    actions.append(wait)
+                }
+                
+                let animRange = configComponent.hitAnimation.animRangeForDirection(entity.direction)
+                
+                if animRange.count > 0 {
+                    let sprites = Array(visualComponent.sprites[animRange])
+                    let timePerFrame = hitAnim.duration / Double(animRange.count * hitAnim.repeatCount)
+                    let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)                            
+                    let wait = SKAction.waitForDuration(hitAnim.duration)
                     
-                    let hitAnim = configComponent.hitAnimation
-                    if hitAnim.delay > 0 {
-                        let wait = SKAction.waitForDuration(hitAnim.delay)
-                        actions.append(wait)
-                    }
-                    
-                    let animRange = configComponent.hitAnimation.animRangeForDirection(entity.direction)
-                    
-                    if animRange.count > 0 {
-                        let sprites = Array(visualComponent.sprites[animRange])
-                        let timePerFrame = hitAnim.duration / Double(animRange.count * hitAnim.repeatCount)
-                        let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)                            
-                        let wait = SKAction.waitForDuration(hitAnim.duration)
-                        
-                        if hitAnim.repeatCount > 1 {
-                            let repeatAnim = SKAction.repeatAction(anim, count: hitAnim.repeatCount)
-                            actions.append(SKAction.group([wait, repeatAnim]))
-                        } else {
-                            actions.append(SKAction.group([wait, anim]))
-                        }
-                    }
-                    
-                    if let lastSprite = visualComponent.spriteNode.texture {
-                        let update = SKAction.setTexture(lastSprite)
-                        actions.append(update)
+                    if hitAnim.repeatCount > 1 {
+                        let repeatAnim = SKAction.repeatAction(anim, count: hitAnim.repeatCount)
+                        actions.append(SKAction.group([wait, repeatAnim]))
+                    } else {
+                        actions.append(SKAction.group([wait, anim]))
                     }
                 }
+                
+                if let lastSprite = visualComponent.spriteNode.texture {
+                    let update = SKAction.setTexture(lastSprite)
+                    actions.append(update)
+                }
+
                 
                 let completion = {
                     // TODO: Does not work correctly when player has a speed boost. Speed boost 

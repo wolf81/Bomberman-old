@@ -23,8 +23,8 @@ class AttackState: State {
                 let move = visualComponent.spriteNode.actionForKey("move")
                 move?.speed = 0
 
-                if let attackSound = configComponent.attackSound,
-                    let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(attackSound) {
+                if let attackSound = configComponent.attackSound {
+                    let filePath = configComponent.configFilePath.stringByAppendingPathComponent(attackSound)
                     let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
                     actions.append(play)
                 }

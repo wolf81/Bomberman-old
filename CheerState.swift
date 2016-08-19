@@ -23,8 +23,8 @@ class CheerState: State {
                 let configComponent = entity.componentForClass(ConfigComponent),
                 let visualComponent = entity.componentForClass(VisualComponent) {
                     
-                if let cheerSound = configComponent.cheerSound,
-                    let filePath = configComponent.configFilePath?.stringByAppendingPathComponent(cheerSound) {
+                if let cheerSound = configComponent.cheerSound {
+                    let filePath = configComponent.configFilePath.stringByAppendingPathComponent(cheerSound)
                     let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
                     actions.append(play)
                 }

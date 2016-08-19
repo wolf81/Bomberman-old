@@ -130,14 +130,10 @@ class Entity: GKEntity {
         
         // TODO: when game starts for first time, just copy files in bundle to assets directory
         //  and read from this location always. Or keep this code only for debug / devel purposes?
-        if let basePath = configComponent.configFilePath {
-            let filePath = basePath.stringByAppendingPathComponent(configComponent.textureFile)
-            let imageData = NSData(contentsOfFile: filePath)
-            let image = Image(data: imageData!)
-            texture = SKTexture(image: image!)
-        } else {
-            texture = SKTexture(imageNamed: configComponent.textureFile)
-        }
+        let filePath = configComponent.configFilePath.stringByAppendingPathComponent(configComponent.textureFile)
+        let imageData = NSData(contentsOfFile: filePath)
+        let image = Image(data: imageData!)
+        texture = SKTexture(image: image!)
         
         let sprites = SpriteLoader.spritesFromTexture(texture, withSpriteSize: configComponent.spriteSize)
         let wu_size = configComponent.wuSize
