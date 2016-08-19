@@ -93,7 +93,7 @@ class Creature: Entity {
         let validDirections = movementDirectionsFromCurrentGridPosition()
         if let validDirection = (validDirections.filter { $0.direction == direction }).first {
             if validDirection.direction != .None {
-                moveToGridPosition(validDirection.gridPosition, direction: validDirection.direction)
+                moveToGridPosition(validDirection.gridPosition, direction: validDirection.direction, completion: nil)
                 didMove = true
             }
         }
@@ -101,7 +101,7 @@ class Creature: Entity {
         return didMove
     }
 
-    func moveInRandomDirection() {
+    func moveInRandomDirection(completion: () -> Void) {
         var validDirections = movementDirectionsFromCurrentGridPosition()
 
         // Filter out any tiles a monster stands on or will move to (ignore players).
@@ -122,7 +122,7 @@ class Creature: Entity {
             let randomIndex = Int(arc4random() % UInt32(count))
             let randomDirection = validDirections[randomIndex]
             
-            moveToGridPosition(randomDirection.gridPosition, direction: randomDirection.direction)
+            moveToGridPosition(randomDirection.gridPosition, direction: randomDirection.direction, completion: completion)
         }
     }    
     
@@ -144,7 +144,7 @@ class Creature: Entity {
     
     // MARK: - Private
     
-    private func moveToGridPosition(gridPosition: Point, direction: Direction) {
+    private func moveToGridPosition(gridPosition: Point, direction: Direction, completion: (() -> Void)?) {
         if let visualComponent = componentForClass(VisualComponent) {
             self.direction = direction
             self.nextGridPosition = gridPosition
@@ -152,6 +152,10 @@ class Creature: Entity {
             let location = positionForGridPosition(gridPosition)
             visualComponent.moveInDirection(direction, toPosition: location, completion: {
                 self.gridPosition = gridPosition
+                
+                if let completionBlock = completion {
+                    completionBlock()
+                }
             })
         }
     }

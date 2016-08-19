@@ -11,8 +11,8 @@ import SpriteKit
 
 class DecayState : State {
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        if !self.updating {
-            self.updating = true
+        if !updating {
+            updating = true
             
             var actions = [SKAction]()
             

@@ -29,43 +29,37 @@ class SpawnState: State {
         }
     }
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        super.updateWithDeltaTime(seconds)
+    override func canUpdate() -> Bool {
+        return !didSpawn
+    }
+    
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+        var actions = [SKAction]()
         
-        if !didSpawn && !updating {
-            updating = true
-            
-            var actions = [SKAction]()
-
-            if let entity = self.entity,
-                let visualComponent = entity.componentForClass(VisualComponent),
-                let configComponent = entity.componentForClass(ConfigComponent) {
-
-                if let spawnSound = configComponent.spawnSound {
-                    let filePath = configComponent.configFilePath.stringByAppendingPathComponent(spawnSound)
-                    let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
-                    actions.append(play)
-                }
-                
-                configComponent.spawnAnimation.duration += entity.spawnTimeAdjustment
-                
-                let spawnAnim = SKAction.animation(forEntity: entity,
-                                                     configuration: configComponent.spawnAnimation,
-                                                     state: self)
-                spawnAnim.forEach({ actions.append($0) })
-                
-                let completion = {
-                    self.didSpawn = true
-                    self.updating = false
-                    entity.delegate?.entityDidSpawn(entity)
-                }
-                
-                if actions.count > 0 {
-                    visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
-                } else {
-                    completion()
-                }
-            }
+        if let spawnSound = configComponent.spawnSound {
+            let filePath = configComponent.configFilePath.stringByAppendingPathComponent(spawnSound)
+            let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
+            actions.append(play)
+        }
+        
+        // TODO: Should not edit config, instead adjust the SKAction with the time adjustment.
+        configComponent.spawnAnimation.duration += entity.spawnTimeAdjustment
+        
+        let spawnAnim = SKAction.animation(forEntity: entity,
+                                           configuration: configComponent.spawnAnimation,
+                                           state: self)
+        spawnAnim.forEach({ actions.append($0) })
+        
+        let completion = {
+            self.didSpawn = true
+            self.updating = false
+            entity.delegate?.entityDidSpawn(entity)
+        }
+        
+        if actions.count > 0 {
+            visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+        } else {
+            completion()
         }
     }
 }

@@ -11,7 +11,7 @@ import GameplayKit
 
 class State: GKState {
     var updating = false
-
+    
     override func willExitWithNextState(nextState: GKState) {
         super.willExitWithNextState(nextState)
     }
@@ -45,6 +45,26 @@ class State: GKState {
     }
     
     // MARK: - Public
+    
+    override func updateWithDeltaTime(seconds: NSTimeInterval) {
+        if !updating && canUpdate() {
+            updating = true
+            
+            if let entity = self.entity,
+                let visualComponent = entity.componentForClass(VisualComponent),
+                let configComponent = entity.componentForClass(ConfigComponent) {
+                updateForEntity(entity, configComponent: configComponent, visualComponent: visualComponent)
+            }
+        }
+    }
+    
+    func canUpdate() -> Bool {
+        return true
+    }
+    
+    func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+    
+    }
     
     func playAction(forFileAtPath filePath: String, spriteNode: SKSpriteNode) -> SKAction {
         let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))

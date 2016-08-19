@@ -13,42 +13,33 @@ class CheerState: State {
         return !(stateClass is CheerState.Type)
     }
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        if !updating {
-            updating = true
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+        var actions = [SKAction]()
+        
+        if let cheerSound = configComponent.cheerSound {
+            let filePath = configComponent.configFilePath.stringByAppendingPathComponent(cheerSound)
+            let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
+            actions.append(play)
+        }
+        
+        let move = visualComponent.spriteNode.actionForKey("move")
+        move?.speed = 0
+        
+        let cheerAnim = SKAction.animation(forEntity: entity,
+                                           configuration: configComponent.cheerAnimation,
+                                           state: self)
+        cheerAnim.forEach({ actions.append($0) })
+        
+        let completion = {
+            self.updating = false
             
-            var actions = [SKAction]()
-            
-            if let entity = self.entity,
-                let configComponent = entity.componentForClass(ConfigComponent),
-                let visualComponent = entity.componentForClass(VisualComponent) {
-                    
-                if let cheerSound = configComponent.cheerSound {
-                    let filePath = configComponent.configFilePath.stringByAppendingPathComponent(cheerSound)
-                    let play = playAction(forFileAtPath: filePath, spriteNode: visualComponent.spriteNode)
-                    actions.append(play)
-                }
-                
-                let move = visualComponent.spriteNode.actionForKey("move")
-                move?.speed = 0
-                
-                let cheerAnim = SKAction.animation(forEntity: entity,
-                                                   configuration: configComponent.cheerAnimation,
-                                                   state: self)
-                cheerAnim.forEach({ actions.append($0) })
-                
-                let completion = {
-                    self.updating = false
-                    
-                    entity.delegate?.entityDidCheer(entity)
-                }
-                
-                if actions.count > 0 {
-                    visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
-                } else {
-                    completion()
-                }
-            }
+            entity.delegate?.entityDidCheer(entity)
+        }
+        
+        if actions.count > 0 {
+            visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+        } else {
+            completion()
         }
     }
 }

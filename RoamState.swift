@@ -21,14 +21,18 @@ class RoamState: State {
         print("exit roam state")
     }
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        super.updateWithDeltaTime(seconds)
-        
-        if let creature = entity as! Creature?,
-            let visualComponent = creature.componentForClass(VisualComponent)
-            where !visualComponent.spriteNode.hasActions() {
+    override func canUpdate() -> Bool {
+        return true
+    }
+    
+    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent) {
+        if let creature = entity as? Creature where !visualComponent.spriteNode.hasActions() {            
+            let completion = {
+                self.updating = false
+                entity.delegate?.entityDidSpawn(entity)
+            }
             
-            creature.moveInRandomDirection()
+            creature.moveInRandomDirection(completion)
         }
     }
 }
