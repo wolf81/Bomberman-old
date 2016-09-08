@@ -17,7 +17,7 @@ class StateMachineComponent: GKComponent {
     
     var canRoam: Bool {
         var canRoam = false
-        canRoam = self.stateMachine.stateForClass(RoamState) != nil        
+        canRoam = self.stateMachine.stateForClass(MoveState) != nil
         return canRoam
     }
 
@@ -40,7 +40,7 @@ class StateMachineComponent: GKComponent {
     }
 
     func enterRoamState() {
-        self.stateMachine.enterState(RoamState)
+        self.stateMachine.enterState(MoveState)
     }
     
     func enterAttackState() {

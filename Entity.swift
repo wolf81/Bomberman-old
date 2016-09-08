@@ -44,7 +44,7 @@ class Entity: GKEntity {
             frame = visualComponent.spriteNode.frame
         }
         
-        return frame
+        return frame.integral
     }
     
     var speed: CGFloat {

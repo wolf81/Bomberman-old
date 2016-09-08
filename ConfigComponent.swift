@@ -157,7 +157,7 @@ class ConfigComponent: GKComponent {
         
         for stateJson in json {
             switch stateJson {
-            case "roam": states.append(RoamState())
+            case "roam": states.append(MoveState())
             case "destroy": states.append(DestroyState())
             case "spawn": states.append(SpawnState())
             case "attack": states.append(AttackState())

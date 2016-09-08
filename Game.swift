@@ -478,6 +478,11 @@ class Game : NSObject {
         }
     }
     
+    private func handleContactBetweenMonster(monster: Monster, andMonster otherMonster: Monster) {
+        monster.stop()
+        otherMonster.stop()
+    }
+    
     private func handleContactBetweenMonster(monster: Monster, andPlayer player: Player) {
         player.moveInDirection(.None)
     }
@@ -778,6 +783,8 @@ extension Game : SKPhysicsContactDelegate {
             handleContactBetweenMonster(entity2 as! Monster, andPlayer: entity1 as! Player)
         } else if entity2 is Player && entity1 is Monster {
             handleContactBetweenMonster(entity1 as! Monster, andPlayer: entity2 as! Player)
+        } else if entity1 is Monster && entity2 is Monster {
+            handleContactBetweenMonster(entity1 as! Monster, andMonster: entity2 as! Monster)
         }
     }
     

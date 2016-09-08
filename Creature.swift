@@ -65,7 +65,7 @@ class Creature: Entity {
 
             let leftGridPosition = Point(x: gridPosition.x - 1, y: gridPosition.y)
             if canMoveToGridPosition(leftGridPosition, forGame: game) {
-                directions.append((.Left, leftGridPosition))
+                directions.append((.Left, leftGridPosition))                
             }
             
             let downGridPosition = Point(x: gridPosition.x, y: gridPosition.y - 1)
@@ -157,6 +157,13 @@ class Creature: Entity {
                     completionBlock()
                 }
             })
+        }
+    }
+    
+    func stop() {
+        if let visualComponent = componentForClass(VisualComponent) {
+            visualComponent.spriteNode.removeAllActions()
+            self.direction = .None
         }
     }
     

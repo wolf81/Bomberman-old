@@ -73,6 +73,8 @@
 		7920A3341D02F805002C2B16 /* Bonus Icons.png in Resources */ = {isa = PBXBuildFile; fileRef = 7920A3321D02F805002C2B16 /* Bonus Icons.png */; };
 		7920A3361D03FE70002C2B16 /* PowerUpLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */; };
 		7920A3371D03FE70002C2B16 /* PowerUpLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */; };
+		792EE0961D6EFD82007C7491 /* MoveState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792EE0951D6EFD82007C7491 /* MoveState.swift */; };
+		792EE0971D6EFD82007C7491 /* MoveState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792EE0951D6EFD82007C7491 /* MoveState.swift */; };
 		793FAF451CE08E22005F64B1 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF441CE08E22005F64B1 /* LoadingScene.swift */; };
 		793FAF461CE08E22005F64B1 /* LoadingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF441CE08E22005F64B1 /* LoadingScene.swift */; };
 		793FAF481CE0C0C0005F64B1 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793FAF471CE0C0C0005F64B1 /* MenuScene.swift */; };
@@ -236,6 +238,7 @@
 		7920A32F1D02EDAD002C2B16 /* PowerUpsInfoNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpsInfoNode.swift; sourceTree = "<group>"; };
 		7920A3321D02F805002C2B16 /* Bonus Icons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bonus Icons.png"; sourceTree = "<group>"; };
 		7920A3351D03FE70002C2B16 /* PowerUpLimit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUpLimit.swift; sourceTree = "<group>"; };
+		792EE0951D6EFD82007C7491 /* MoveState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveState.swift; sourceTree = "<group>"; };
 		793FAF441CE08E22005F64B1 /* LoadingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScene.swift; sourceTree = "<group>"; };
 		793FAF471CE0C0C0005F64B1 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		793FAF4A1CE1E5EF005F64B1 /* NSURLSession+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSession+Extensions.swift"; sourceTree = "<group>"; };
@@ -428,6 +431,7 @@
 				7900190B1CF5C4ED001EEF3C /* FloatState.swift */,
 				7900191B1CFBCCFD001EEF3C /* CheerState.swift */,
 				79C4E7031D069C8E00A35B37 /* DecayState.swift */,
+				792EE0951D6EFD82007C7491 /* MoveState.swift */,
 			);
 			name = StateMachine;
 			sourceTree = "<group>";
@@ -866,6 +870,7 @@
 				795C61D41D5709A500220888 /* Checkbox.swift in Sources */,
 				79621E8B1D5B1D87002F4235 /* MenuOption.swift in Sources */,
 				790056431CDF4B5D009CDF81 /* AssetManager.swift in Sources */,
+				792EE0961D6EFD82007C7491 /* MoveState.swift in Sources */,
 				7947BC3E1CCDD7B200DE7C8A /* RoamState.swift in Sources */,
 				794ADDED1CD088E5000AF170 /* String+Extensions.swift in Sources */,
 				794ADDEA1CD088B9000AF170 /* NSFileManager+Extensions.swift in Sources */,
@@ -994,6 +999,7 @@
 				794ADDF11CD08912000AF170 /* CreatureLoader.swift in Sources */,
 				794ADDEB1CD088B9000AF170 /* NSFileManager+Extensions.swift in Sources */,
 				7947BC2D1CCB879500DE7C8A /* VisualComponent.swift in Sources */,
+				792EE0971D6EFD82007C7491 /* MoveState.swift in Sources */,
 				7947BC451CCE371E00DE7C8A /* PlayerControlComponent.swift in Sources */,
 				7947BC4F1CCF1DFD00DE7C8A /* LevelLoader.swift in Sources */,
 			);

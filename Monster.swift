@@ -26,7 +26,7 @@ class Monster: Creature {
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = EntityCategory.Monster
                 physicsBody.collisionBitMask = collidesWithPlayer ? EntityCategory.Player : EntityCategory.Nothing
-                physicsBody.contactTestBitMask = collidesWithPlayer ? EntityCategory.Player : EntityCategory.Nothing
+                physicsBody.contactTestBitMask = collidesWithPlayer ? EntityCategory.Player | EntityCategory.Monster : EntityCategory.Monster
             }
         }
     }

@@ -14,6 +14,8 @@ class CpuControlComponent: GKComponent {
     
     private(set) weak var game: Game?
     
+    private var didRoam = false
+    
     private var creature: Creature? {
         return entity as! Creature?
     }
@@ -29,29 +31,107 @@ class CpuControlComponent: GKComponent {
         
         if let stateMachineComponent = entity?.componentForClass(StateMachineComponent) {
             if stateMachineComponent.currentState == nil && stateMachineComponent.canRoam {
-                stateMachineComponent.enterRoamState()
+                if !didRoam {
+                    stateMachineComponent.enterRoamState()
+                    didRoam = true
+                }
             } else {
-                guard
-                    let creature = self.creature,
-                    let configComponent = creature.componentForClass(ConfigComponent) else { return }
+                guard let creature = self.creature else { return }
                 
-                if creature.canAttack && creature.isDestroyed == false {
-                    attackDelay -= seconds
-                    
-                    if attackDelay < 0 {
-                        if let projectileName = configComponent.projectile {
-                            if attemptRangedAttackWithProjectile(projectileName, forCreature: creature, direction: configComponent.attackDirection) {
-                                attackDelay = creature.abilityCooldown
+                if creature.direction == .None {
+                    let direction = randomDirectionForCreature(creature)
+                    creature.direction = direction
+                    creature.roam()                    
+               } else {
+                    for monster in Game.sharedInstance.creatures where monster is Monster {
+                        if monster != creature {
+                            guard
+                                let monsterVc = monster.componentForClass(VisualComponent),
+                                let creatureVc = creature.componentForClass(VisualComponent) else {
+                                    continue
                             }
-                        } else {
-                            if attemptMeleeAttackForCreature(creature) {
-                                attackDelay = creature.abilityCooldown
+                            
+                            let offset = CGFloat(10.0)
+                            var creatureRect = creatureVc.spriteNode.frame
+                            creatureRect = CGRectInset(creatureRect, -offset, -offset)
+                            
+                            let monsterRect = monsterVc.spriteNode.frame
+                            if CGRectIntersectsRect(creatureRect, monsterRect) {
+//                                creature.stop()
+                                let direction = randomDirectionForCreature(creature)
+                                creature.direction = direction
+                                creature.roam()
                             }
+                        }
+                    }
+                }
+                
+//                if creature.canAttack && creature.isDestroyed == false {
+//                    attackDelay -= seconds
+//                    
+//                    if attackDelay < 0 {
+//                        if let projectileName = configComponent.projectile {
+//                            if attemptRangedAttackWithProjectile(projectileName, forCreature: creature, direction: configComponent.attackDirection) {
+//                                attackDelay = creature.abilityCooldown
+//                            }
+//                        } else {
+//                            if attemptMeleeAttackForCreature(creature) {
+//                                attackDelay = creature.abilityCooldown
+//                            }
+//                        }
+//                    }
+//                }
+            }
+        }
+    }
+    
+    private func randomDirectionForCreature(creature: Creature) -> Direction {
+        var direction: Direction = .None
+        
+        guard let creatureVc = creature.componentForClass(VisualComponent) else {
+            return .None
+        }
+        
+        var directions = creature.movementDirectionsFromCurrentGridPosition()
+
+        for monster in Game.sharedInstance.creatures where monster is Monster {
+            if monster != creature {
+                guard
+                    let monsterVc = monster.componentForClass(VisualComponent) else {
+                    continue
+                }
+                
+                // 1. bereken volgende frame voor creature gebaseerd op direction
+                // 2. bereken volgende frame voor monster gebaseerd op direction
+                // 3. als creature frame botst met monster frame, remove
+                
+                let offset = CGFloat(10.0)
+                var creatureRect = creatureVc.spriteNode.frame
+                creatureRect = CGRectInset(creatureRect, -offset, -offset)
+                
+                let monsterRect = monsterVc.spriteNode.frame
+                if CGRectIntersectsRect(creatureRect, monsterRect) {
+                    for (idx, direction) in directions.enumerate() {
+                        let origin = positionForGridPosition(direction.gridPosition)
+                        let size = CGSize(width: unitLength, height: unitLength)
+                        let rect = CGRect(origin: origin, size: size)
+                        if CGRectIntersectsRect(rect, monsterRect) {
+                            directions.removeAtIndex(idx)
+                            break
                         }
                     }
                 }
             }
         }
+        
+        if directions.count > 0 {
+            let idx = arc4random() % UInt32(directions.count)
+            direction = directions[Int(idx)].direction
+        } else {
+            creature.stop()
+        }
+        
+        return direction
     }
     
     private func attemptRangedAttackWithProjectile(projectile: String, forCreature creature: Creature, direction: AttackDirection) -> Bool {
