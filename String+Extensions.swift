@@ -9,8 +9,8 @@
 import Foundation
 
 extension String {
-    func stringByAppendingPathComponent(path: String) -> String {
+    func stringByAppendingPathComponent(_ path: String) -> String {
         let nsString = self as NSString
-        return nsString.stringByAppendingPathComponent(path)
+        return nsString.appendingPathComponent(path)
     }
 }

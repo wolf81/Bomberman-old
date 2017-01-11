@@ -9,16 +9,15 @@
 import SpriteKit
 
 class MoveState : State {
-    private var isMoving = false
+    fileprivate var isMoving = false
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
+    override func update(deltaTime seconds: TimeInterval) {
         // check if other monster at next grid position. If yes: stop move.
         
         guard
             let creature = self.entity as? Creature,
-            let configComponent = creature.componentForClass(ConfigComponent),
-            let visualComponent = creature.componentForClass(VisualComponent)
-            where creature.direction != .None else {
+            let configComponent = creature.component(ofType: ConfigComponent.self),
+            let visualComponent = creature.component(ofType: VisualComponent.self), creature.direction != .none else {
             return
         }
         
@@ -35,27 +34,27 @@ class MoveState : State {
         var actions = [SKAction]()
         
         let position = visualComponent.spriteNode.position
-        var toPosition = CGPointMake(position.x, position.y)
+        var toPosition = CGPoint(x: position.x, y: position.y)
         var gridPosition: Point = creature.gridPosition
         
         let xOffset = Int(ceil(position.x)) % unitLength
-        let yOffset = unitLength / 2 + Int(ceil(position.y)) % unitLength
+        _ = unitLength / 2 + Int(ceil(position.y)) % unitLength
         print("xOffset: \(xOffset)")
         
         switch creature.direction {
-        case .Up:
+        case .up:
             toPosition.y += CGFloat(unitLength)
             gridPosition.y += 1
-        case .Down:
+        case .down:
             toPosition.y -= CGFloat(unitLength)
             gridPosition.y -= 1
-        case .Left:
+        case .left:
             toPosition.x -= CGFloat(unitLength)
             gridPosition.x -= 1
-        case .Right:
+        case .right:
             toPosition.x += CGFloat(unitLength)
             gridPosition.x += 1
-        case .None: break
+        case .none: break
         }
         
         let testPos = positionForGridPosition(gridPosition)
@@ -63,15 +62,15 @@ class MoveState : State {
         print("dX: \(dX)")
 
         
-        if creature.direction != .None {
-            let duration: NSTimeInterval = 1.0 // = dX == 0 ? 1.0 : 72 / Double(fabs(dX))
-            let move = SKAction.moveTo(toPosition, duration: duration)
+        if creature.direction != .none {
+            let duration: TimeInterval = 1.0 // = dX == 0 ? 1.0 : 72 / Double(fabs(dX))
+            let move = SKAction.move(to: toPosition, duration: duration)
             
             let animRange = configComponent.moveAnimation.animRangeForDirection(creature.direction)
-            if animRange.endIndex > 0 {
+            if animRange.upperBound > 0 {
                 let textures = Array(visualComponent.sprites[animRange])
                 let timePerFrame = duration / Double(textures.count)
-                let animate = SKAction.animateWithTextures(textures, timePerFrame: timePerFrame)
+                let animate = SKAction.animate(with: textures, timePerFrame: timePerFrame)
                 actions.append(SKAction.group([move, animate]))
             } else {
                 actions.append(move)
@@ -82,12 +81,12 @@ class MoveState : State {
         
         let completion = {
             creature.gridPosition = gridPositionForPosition(toPosition)
-            creature.direction = .None
+            creature.direction = .none
             self.isMoving = false
         }
         
         if actions.count > 0 {
-            visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+            visualComponent.spriteNode.run(SKAction.sequence(actions), completion: completion)
         }
     }
 }

@@ -9,7 +9,7 @@
 import SpriteKit
 
 class NumberChooser : SKLabelNode, Focusable {
-    private var focused = false
+    fileprivate var focused = false
     
     var value: Int = 0 {
         didSet {
@@ -40,19 +40,19 @@ class NumberChooser : SKLabelNode, Focusable {
     
     // MARK: - Private
     
-    private func commonInit() {
-        horizontalAlignmentMode = .Left
+    fileprivate func commonInit() {
+        horizontalAlignmentMode = .left
         
         updateForFocus()
     }
     
-    private func updateForFocus() {
+    fileprivate func updateForFocus() {
         fontName = focused ? highlightFontName : defaultFontName
     }
     
     // MARK: - Focusable
     
-    func setFocused(focused: Bool) {
+    func setFocused(_ focused: Bool) {
         self.focused = focused
         
         updateForFocus()

@@ -26,7 +26,7 @@ class GameView: SKView {
         commonInit()
     }
 
-    override func viewWillMoveToSuperview(newSuperview: NSView?) {
+    override func viewWillMove(toSuperview newSuperview: NSView?) {
         if let view = newSuperview {
             frame = view.bounds
         }
@@ -41,7 +41,7 @@ class GameView: SKView {
     func commonInit() {
         #if os(tvOS)
         #else
-        self.autoresizingMask = [.ViewWidthSizable, .ViewHeightSizable]
+        self.autoresizingMask = [.viewWidthSizable, .viewHeightSizable]
         #endif
         
         /* Sprite Kit applies additional optimizations to improve rendering performance */

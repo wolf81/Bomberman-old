@@ -16,14 +16,14 @@
 import SpriteKit
 
 class MenuScene: BaseScene {
-    private (set) var options = [MenuOption]()
-    private (set) var alignWithLastItem = false
+    fileprivate (set) var options = [MenuOption]()
+    fileprivate (set) var alignWithLastItem = false
 
-    private var indicators = [Indicator]()
-    private var labels = [SKLabelNode]()
-    private var controls = [SKNode]()
+    fileprivate var indicators = [Indicator]()
+    fileprivate var labels = [SKLabelNode]()
+    fileprivate var controls = [SKNode]()
     
-    private var selectedOption: MenuOption?
+    fileprivate var selectedOption: MenuOption?
     
     // MARK: - Initialization
     
@@ -50,15 +50,15 @@ class MenuScene: BaseScene {
     
     // MARK: - View lifecycle
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         
         updateUI()        
     }
     
     // MARK: - Private
     
-    private func commonInit() {
+    fileprivate func commonInit() {
         addLabelsAndControls()
         addIndicators()
         
@@ -66,7 +66,7 @@ class MenuScene: BaseScene {
         positionIndicatorsForSelectionOption()
     }
     
-    private func positionLabelsAndControls() {
+    fileprivate func positionLabelsAndControls() {
         let x = size.width / 2
         let y = size.height / 2
         let padding: CGFloat = 30
@@ -77,7 +77,7 @@ class MenuScene: BaseScene {
         let totalHeight = CGFloat(itemCountForHeight * 100)
         let originY = y + (totalHeight / 2)
         
-        for (idx, option) in options.enumerate().reverse() {
+        for (idx, option) in options.enumerated().reversed() {
             let y = CGFloat(originY) - CGFloat(idx * 100)
             
             if let label = labelForMenuOption(option) {
@@ -92,7 +92,7 @@ class MenuScene: BaseScene {
                         label.position = CGPoint(x: x + xOffset, y: y)
                     }
                     
-                    label.horizontalAlignmentMode = .Right
+                    label.horizontalAlignmentMode = .right
                 }
             }
             
@@ -112,9 +112,9 @@ class MenuScene: BaseScene {
         }
     }
     
-    private func positionIndicatorsForSelectionOption() {
+    fileprivate func positionIndicatorsForSelectionOption() {
         if let option = selectedOption {
-            if let control = controlForMenuOption(option) where control.parent != nil {
+            if let control = controlForMenuOption(option), control.parent != nil {
                 if let label = labelForMenuOption(option) {
                     let minX = label.calculateAccumulatedFrame().minX
                     let maxX = control.calculateAccumulatedFrame().maxX
@@ -142,21 +142,21 @@ class MenuScene: BaseScene {
         }
     }
     
-    private func addLabelsAndControls() {
+    fileprivate func addLabelsAndControls() {
         for option in options {
             let label = SKLabelNode(text: option.title)
             addChild(label)
             labels.append(label)
             
             switch option.type {
-            case .Checkbox:
+            case .checkbox:
                 let checkbox = Checkbox()
                 let enabled = option.value as? Bool ?? false
                 checkbox.enabled = enabled
                 
                 addChild(checkbox)
                 controls.append(checkbox)
-            case .NumberChooser:
+            case .numberChooser:
                 let value = option.value as? Int ?? 0
                 let chooser = NumberChooser(initialValue: value)
                 
@@ -171,10 +171,10 @@ class MenuScene: BaseScene {
         }
     }
     
-    private func addIndicators() {
-        let leftIndicator = Indicator(direction: .Left)
+    fileprivate func addIndicators() {
+        let leftIndicator = Indicator(direction: .left)
         addChild(leftIndicator)
-        let rightIndicator = Indicator(direction: .Right)
+        let rightIndicator = Indicator(direction: .right)
         addChild(rightIndicator)
         
         indicators = [leftIndicator, rightIndicator]
@@ -184,14 +184,14 @@ class MenuScene: BaseScene {
         indicators.forEach { indicator in indicator.runScaleAnimation(1.0, toValue: 0.85) }
     }
     
-    private func updateUI() {
+    fileprivate func updateUI() {
         let defaultFontName = "HelveticaNeue-UltraLight"
         let highlightFontName = "HelveticaNeue-Medium"
         
         for option in options {
             var fontName = defaultFontName
 
-            if let selectedOption = self.selectedOption where option === selectedOption {
+            if let selectedOption = self.selectedOption, option === selectedOption {
                 fontName = highlightFontName
             }
             
@@ -204,7 +204,7 @@ class MenuScene: BaseScene {
         positionIndicatorsForSelectionOption()
     }
     
-    private func labelForMenuOption(option: MenuOption) -> SKLabelNode? {
+    fileprivate func labelForMenuOption(_ option: MenuOption) -> SKLabelNode? {
         var label: SKLabelNode?
         
         for optionLabel in labels where optionLabel.text == option.title {
@@ -214,15 +214,15 @@ class MenuScene: BaseScene {
         return label
     }
     
-    private func controlForMenuOption(option: MenuOption) -> SKNode? {
+    fileprivate func controlForMenuOption(_ option: MenuOption) -> SKNode? {
         let idx = indexOfMenuOption(option)
         return controls[idx]
     }
     
-    private func indexOfMenuOption(option: MenuOption) -> Int {
+    fileprivate func indexOfMenuOption(_ option: MenuOption) -> Int {
         var idx = -1
         
-        for (testIdx, testOption) in options.enumerate() {
+        for (testIdx, testOption) in options.enumerated() {
             if testOption === option {
                 idx = testIdx
             }
@@ -231,7 +231,7 @@ class MenuScene: BaseScene {
         return idx
     }
     
-    private func focusControlForSelectedOption() {        
+    fileprivate func focusControlForSelectedOption() {        
         // First clear current focus by removing focus on all controls.
         for control in controls {
             if let focusableControl = control as? Focusable {
@@ -240,7 +240,7 @@ class MenuScene: BaseScene {
         }
         
         // Focus the control for the current label.
-        if let option = selectedOption, control = controlForMenuOption(option) {
+        if let option = selectedOption, let control = controlForMenuOption(option) {
             if let focusableControl = control as? Focusable {
                 focusableControl.setFocused(true)
             }
@@ -256,10 +256,10 @@ class MenuScene: BaseScene {
             switch control {
             case let checkbox as Checkbox:
                 let value = checkbox.toggle()
-                option.update(value)
+                _ = option.update(value as AnyObject?)
             case let numberChooser as NumberChooser:
                 let newValue = numberChooser.value - 1
-                if option.update(newValue) {
+                if option.update(newValue as AnyObject?) {
                     numberChooser.value = newValue
                 }
             default: break
@@ -274,10 +274,10 @@ class MenuScene: BaseScene {
             switch control {
             case let checkbox as Checkbox:
                 let value = checkbox.toggle()
-                option.update(value)
+                _ = option.update(value as AnyObject?)
             case let numberChooser as NumberChooser:
                 let newValue = numberChooser.value + 1
-                if option.update(newValue) {
+                if option.update(newValue as AnyObject?) {
                     numberChooser.value = newValue
                 }
             default: break
@@ -288,7 +288,7 @@ class MenuScene: BaseScene {
     override func handleUpPress(forPlayer player: PlayerIndex) {
         var selectionIndex = 0
         
-        for (idx, option) in options.enumerate() {
+        for (idx, option) in options.enumerated() {
             if option === selectedOption {
                 selectionIndex = max(idx - 1, 0)
                 break
@@ -303,7 +303,7 @@ class MenuScene: BaseScene {
     override func handleDownPress(forPlayer player: PlayerIndex) {
         var selectionIndex = 0
         
-        for (idx, option) in options.enumerate() {
+        for (idx, option) in options.enumerated() {
             if option === selectedOption {
                 selectionIndex = min(idx + 1, options.count - 1)
                 break

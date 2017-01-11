@@ -9,8 +9,8 @@
 import Foundation
 
 struct AnimationConfiguration {
-    var duration: NSTimeInterval = 1.0
-    var delay: NSTimeInterval = 0.0
+    var duration: TimeInterval = 1.0
+    var delay: TimeInterval = 0.0
     var repeatCount: Int = 1
     
     var centerAnimRange = 0 ..< 0
@@ -32,15 +32,15 @@ struct AnimationConfiguration {
     
     // MARK: - Public
     
-    func animRangeForDirection(direction: Direction) -> Range<Int> {
+    func animRangeForDirection(_ direction: Direction) -> CountableRange<Int> {
         var animRange = 0 ..< 0
         
         switch direction {
-        case .Up: animRange = self.upAnimRange
-        case .Down: animRange = self.downAnimRange
-        case .Left: animRange = self.leftAnimRange
-        case .Right: animRange = self.rightAnimRange
-        case .None: animRange = self.centerAnimRange
+        case .up: animRange = self.upAnimRange
+        case .down: animRange = self.downAnimRange
+        case .left: animRange = self.leftAnimRange
+        case .right: animRange = self.rightAnimRange
+        case .none: animRange = self.centerAnimRange
         }
         
         return animRange
@@ -48,7 +48,7 @@ struct AnimationConfiguration {
     
     // MARK: - Private
     
-    private mutating func parseRangeFromJson(json: [String: AnyObject]) {
+    fileprivate mutating func parseRangeFromJson(_ json: [String: AnyObject]) {
         if let rangeJson = json["range"] {
             switch rangeJson {
             case is NSArray:
@@ -92,29 +92,29 @@ struct AnimationConfiguration {
         }
     }
     
-    private func rangeFromJson(json: [Int]) -> Range<Int> {
-        var range = 0 ..< 0
+    fileprivate func rangeFromJson(_ json: [Int]) -> CountableRange<Int> {
+        var range = CountableRange<Int>(uncheckedBounds:(lower: 0, upper: 0))
         
         if json.count == 2 {
             let location = json[0]
             let length = json[1]
-            range = Range(location ..< (location + length))
+            range = CountableRange(location ..< (location + length))
         }
         
         return range
     }
     
-    private func durationFromJson(json: [String: AnyObject]) -> NSTimeInterval {
-        var duration: NSTimeInterval = 1.0
+    fileprivate func durationFromJson(_ json: [String: AnyObject]) -> TimeInterval {
+        var duration: TimeInterval = 1.0
         
-        if let durationJson = json["duration"] as? NSTimeInterval {
+        if let durationJson = json["duration"] as? TimeInterval {
             duration = durationJson
         }
         
         return duration
     }
     
-    private func repeatCountFromJson(json: [String: AnyObject]) -> Int? {
+    fileprivate func repeatCountFromJson(_ json: [String: AnyObject]) -> Int? {
         var repeatCount: Int?
         
         if let repeatJson = json["repeat"] as? Int {
@@ -124,10 +124,10 @@ struct AnimationConfiguration {
         return repeatCount
     }
     
-    private func delayFromJson(json: [String: AnyObject]) -> NSTimeInterval? {
-        var delay: NSTimeInterval?
+    fileprivate func delayFromJson(_ json: [String: AnyObject]) -> TimeInterval? {
+        var delay: TimeInterval?
         
-        if let delayJson = json["delay"] as? NSTimeInterval {
+        if let delayJson = json["delay"] as? TimeInterval {
             delay = delayJson
         }
         

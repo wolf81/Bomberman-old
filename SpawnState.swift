@@ -10,21 +10,21 @@ import GameplayKit
 import SpriteKit
 
 class SpawnState: State {
-    private var didSpawn = false
+    fileprivate var didSpawn = false
         
-    override func didEnterWithPreviousState(previousState: GKState?) {
-        super.didEnterWithPreviousState(previousState)
+    override func didEnter(from previousState: GKState?) {
+        super.didEnter(from: previousState)
         
         didSpawn = false
         
         if let entity = self.entity {
             entity.delegate?.entityWillSpawn(entity)
             
-            if let visualComponent = entity.componentForClass(VisualComponent),
-                let configComponent = entity.componentForClass(ConfigComponent) {
+            if let visualComponent = entity.component(ofType: VisualComponent.self),
+                let configComponent = entity.component(ofType: ConfigComponent.self) {
                 
                 let animRange = configComponent.spawnAnimation.animRangeForDirection(entity.direction)
-                visualComponent.spriteNode.texture = visualComponent.sprites[animRange.startIndex]
+                visualComponent.spriteNode.texture = visualComponent.sprites[animRange.lowerBound]
             }
         }
     }
@@ -33,7 +33,7 @@ class SpawnState: State {
         return !didSpawn
     }
     
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
+    override func updateForEntity(_ entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: @escaping () -> Void) {
         var actions = [SKAction]()
         
         if let spawnSound = configComponent.spawnSound {
@@ -57,7 +57,7 @@ class SpawnState: State {
         }
         
         if actions.count > 0 {
-            visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+            visualComponent.spriteNode.run(SKAction.sequence(actions), completion: completion)
         } else {
             completion()
         }

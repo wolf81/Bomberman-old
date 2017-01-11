@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 
 class AttackState: State {
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
+    override func updateForEntity(_ entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: @escaping () -> Void) {
         var actions = [SKAction]()
         
         // append sound
@@ -26,7 +26,7 @@ class AttackState: State {
             let totalTime: Double = 1.0
             let sprites = Array(visualComponent.sprites[attackAnimRange])
             let timePerFrame = totalTime / Double(sprites.count)
-            let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
+            let anim = SKAction.animate(with: sprites, timePerFrame: timePerFrame)
             actions.append(anim)
         }
         
@@ -36,7 +36,7 @@ class AttackState: State {
         }
         
         if actions.count > 0 {
-            visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+            visualComponent.spriteNode.run(SKAction.sequence(actions), completion: completion)
         } else {
             completion()
         }
@@ -48,10 +48,10 @@ class AttackState: State {
     
     // MARK: - Private
     
-    private func attackAnimRangeForCurrentDirection() -> Range<Int> {
+    fileprivate func attackAnimRangeForCurrentDirection() -> CountableRange<Int> {
         var animRange = 0 ..< 0
         
-        if let entity = self.entity, let configComponent = entity.componentForClass(ConfigComponent) {
+        if let entity = self.entity, let configComponent = entity.component(ofType: ConfigComponent.self) {
             animRange = configComponent.attackAnimation.animRangeForDirection(entity.direction)
         }
         

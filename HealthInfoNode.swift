@@ -9,18 +9,18 @@
 import SpriteKit
 
 class HealthInfoNode: SKShapeNode {
-    private var heartNodes = [SKSpriteNode]()
+    fileprivate var heartNodes = [SKSpriteNode]()
     
     init(size: CGSize) {
         super.init()
         
         updateHealth(8)
 
-        path = CGPathCreateWithRect(CGRect(origin: CGPointZero, size: size), nil)
+        path = CGPath(rect: CGRect(origin: CGPoint.zero, size: size), transform: nil)
 
-        antialiased = false
+        isAntialiased = false
         lineWidth = 0
-        blendMode = .Replace
+        blendMode = .replace
         zPosition = 20
     }
     
@@ -28,7 +28,7 @@ class HealthInfoNode: SKShapeNode {
         super.init(coder: aDecoder)
     }
     
-    func updateHealth(health: Int) {
+    func updateHealth(_ health: Int) {
         var fullHearts = health / 2
         var halfHearts = health - fullHearts
         
@@ -47,7 +47,7 @@ class HealthInfoNode: SKShapeNode {
         let hudLoader = HudLoader()
         let heartSprites = hudLoader.heartSprites
         
-        for y in (0 ..< 2).reverse() {
+        for y in (0 ..< 2).reversed() {
             for x in 0 ..< 4 {
                 var heartSprite: SKTexture
                 
@@ -65,7 +65,7 @@ class HealthInfoNode: SKShapeNode {
                 let yPos = (y * Int(heartSize.height + 5)) + 15
                 let heartNode = SKSpriteNode(texture: heartSprite, size: heartSize)
                 heartNode.position = CGPoint(x: xPos, y: yPos)
-                heartNode.anchorPoint = CGPointZero
+                heartNode.anchorPoint = CGPoint.zero
                 heartNodes.append(heartNode)
             }
         }

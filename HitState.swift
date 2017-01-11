@@ -10,7 +10,7 @@ import GameplayKit
 import SpriteKit
 
 class HitState: State {
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
+    override func updateForEntity(_ entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: @escaping () -> Void) {
         var actions = [SKAction]()
         
         if let hitSound = configComponent.hitSound {
@@ -21,7 +21,7 @@ class HitState: State {
         
         let hitAnim = configComponent.hitAnimation
         if hitAnim.delay > 0 {
-            let wait = SKAction.waitForDuration(hitAnim.delay)
+            let wait = SKAction.wait(forDuration: hitAnim.delay)
             actions.append(wait)
         }
         
@@ -30,11 +30,11 @@ class HitState: State {
         if animRange.count > 0 {
             let sprites = Array(visualComponent.sprites[animRange])
             let timePerFrame = hitAnim.duration / Double(animRange.count * hitAnim.repeatCount)
-            let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
-            let wait = SKAction.waitForDuration(hitAnim.duration)
+            let anim = SKAction.animate(with: sprites, timePerFrame: timePerFrame)
+            let wait = SKAction.wait(forDuration: hitAnim.duration)
             
             if hitAnim.repeatCount > 1 {
-                let repeatAnim = SKAction.repeatAction(anim, count: hitAnim.repeatCount)
+                let repeatAnim = SKAction.repeat(anim, count: hitAnim.repeatCount)
                 actions.append(SKAction.group([wait, repeatAnim]))
             } else {
                 actions.append(SKAction.group([wait, anim]))
@@ -54,7 +54,7 @@ class HitState: State {
         }
         
         if actions.count > 0 {
-            visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+            visualComponent.spriteNode.run(SKAction.sequence(actions), completion: completion)
         } else {
             completion()
         }

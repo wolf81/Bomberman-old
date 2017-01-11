@@ -10,13 +10,13 @@ import GameplayKit
 import CoreGraphics
 
 class CpuControlComponent: GKComponent {
-    private var attackDelay: NSTimeInterval = -1.0
+    fileprivate var attackDelay: TimeInterval = -1.0
     
-    private(set) weak var game: Game?
+    fileprivate(set) weak var game: Game?
     
-    private var didRoam = false
+    fileprivate var didRoam = false
     
-    private var creature: Creature? {
+    fileprivate var creature: Creature? {
         return entity as! Creature?
     }
     
@@ -25,11 +25,15 @@ class CpuControlComponent: GKComponent {
         
         super.init()
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        super.updateWithDeltaTime(seconds)
+    override func update(deltaTime seconds: TimeInterval) {
+        super.update(deltaTime: seconds)
         
-        if let stateMachineComponent = entity?.componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = entity?.component(ofType: StateMachineComponent.self) {
             if stateMachineComponent.currentState == nil && stateMachineComponent.canRoam {
                 if !didRoam {
                     stateMachineComponent.enterRoamState()
@@ -38,7 +42,7 @@ class CpuControlComponent: GKComponent {
             } else {
                 guard let creature = self.creature else { return }
                 
-                if creature.direction == .None {
+                if creature.direction == .none {
                     let direction = randomDirectionForCreature(creature)
                     creature.direction = direction
                     creature.roam()                    
@@ -46,17 +50,17 @@ class CpuControlComponent: GKComponent {
                     for monster in Game.sharedInstance.creatures where monster is Monster {
                         if monster != creature {
                             guard
-                                let monsterVc = monster.componentForClass(VisualComponent),
-                                let creatureVc = creature.componentForClass(VisualComponent) else {
+                                let monsterVc = monster.component(ofType: VisualComponent.self),
+                                let creatureVc = creature.component(ofType: VisualComponent.self) else {
                                     continue
                             }
                             
                             let offset = CGFloat(10.0)
                             var creatureRect = creatureVc.spriteNode.frame
-                            creatureRect = CGRectInset(creatureRect, -offset, -offset)
+                            creatureRect = creatureRect.insetBy(dx: -offset, dy: -offset)
                             
                             let monsterRect = monsterVc.spriteNode.frame
-                            if CGRectIntersectsRect(creatureRect, monsterRect) {
+                            if creatureRect.intersects(monsterRect) {
 //                                creature.stop()
                                 let direction = randomDirectionForCreature(creature)
                                 creature.direction = direction
@@ -85,11 +89,11 @@ class CpuControlComponent: GKComponent {
         }
     }
     
-    private func randomDirectionForCreature(creature: Creature) -> Direction {
-        var direction: Direction = .None
+    fileprivate func randomDirectionForCreature(_ creature: Creature) -> Direction {
+        var direction: Direction = .none
         
-        guard let creatureVc = creature.componentForClass(VisualComponent) else {
-            return .None
+        guard let creatureVc = creature.component(ofType: VisualComponent.self) else {
+            return .none
         }
         
         var directions = creature.movementDirectionsFromCurrentGridPosition()
@@ -97,7 +101,7 @@ class CpuControlComponent: GKComponent {
         for monster in Game.sharedInstance.creatures where monster is Monster {
             if monster != creature {
                 guard
-                    let monsterVc = monster.componentForClass(VisualComponent) else {
+                    let monsterVc = monster.component(ofType: VisualComponent.self) else {
                     continue
                 }
                 
@@ -107,16 +111,16 @@ class CpuControlComponent: GKComponent {
                 
                 let offset = CGFloat(10.0)
                 var creatureRect = creatureVc.spriteNode.frame
-                creatureRect = CGRectInset(creatureRect, -offset, -offset)
+                creatureRect = creatureRect.insetBy(dx: -offset, dy: -offset)
                 
                 let monsterRect = monsterVc.spriteNode.frame
-                if CGRectIntersectsRect(creatureRect, monsterRect) {
-                    for (idx, direction) in directions.enumerate() {
+                if creatureRect.intersects(monsterRect) {
+                    for (idx, direction) in directions.enumerated() {
                         let origin = positionForGridPosition(direction.gridPosition)
                         let size = CGSize(width: unitLength, height: unitLength)
                         let rect = CGRect(origin: origin, size: size)
-                        if CGRectIntersectsRect(rect, monsterRect) {
-                            directions.removeAtIndex(idx)
+                        if rect.intersects(monsterRect) {
+                            directions.remove(at: idx)
                             break
                         }
                     }
@@ -134,7 +138,7 @@ class CpuControlComponent: GKComponent {
         return direction
     }
     
-    private func attemptRangedAttackWithProjectile(projectile: String, forCreature creature: Creature, direction: AttackDirection) -> Bool {
+    fileprivate func attemptRangedAttackWithProjectile(_ projectile: String, forCreature creature: Creature, direction: AttackDirection) -> Bool {
         var didAttack = false
         
         if launchProjectileToPlayer(projectile, forCreature: creature, direction: direction) {
@@ -145,13 +149,13 @@ class CpuControlComponent: GKComponent {
         return didAttack
     }
     
-    private func attemptMeleeAttackForCreature(creature: Creature) -> Bool {
+    fileprivate func attemptMeleeAttackForCreature(_ creature: Creature) -> Bool {
         var didAttack = false
         
         if let player = playerInRangeForMeleeAttack() {
             creature.attack()
             
-            if let configComponent = creature.componentForClass(ConfigComponent) {
+            if let configComponent = creature.component(ofType: ConfigComponent.self) {
                 player.hit(configComponent.hitDamage)
             }
             
@@ -161,7 +165,7 @@ class CpuControlComponent: GKComponent {
         return didAttack
     }
     
-    private func distanceBetweenPoint(point: Point, otherPoint: Point) -> (distance: CGFloat, dx: CGFloat, dy: CGFloat) {
+    fileprivate func distanceBetweenPoint(_ point: Point, otherPoint: Point) -> (distance: CGFloat, dx: CGFloat, dy: CGFloat) {
         let dx = CGFloat(point.x - otherPoint.x)
         let dy = CGFloat(point.y - otherPoint.y)
         let distance = fmax(hypot(dx, dy), 1.0)
@@ -169,16 +173,16 @@ class CpuControlComponent: GKComponent {
         return (distance, dx, dy)
     }
     
-    private func fireProjectile(name: String, withOrigin origin: Point, distance: CGFloat, dx: CGFloat, dy: CGFloat) {
+    fileprivate func fireProjectile(_ name: String, withOrigin origin: Point, distance: CGFloat, dx: CGFloat, dy: CGFloat) {
         let speed = CGFloat(unitLength)
         let factor = 1.0 / distance * speed
         let force = CGVector(dx: dx * factor, dy: dy * factor)
         addProjectileWithName(name, toGame: game!, withForce: force, gridPosition: origin)
     }
     
-    private func findClosestPlayerFromPlayers(players: [Player], fromOrigin origin: Point) -> (player: Player, distance: CGFloat, offset: (dx: CGFloat, dy: CGFloat)) {
+    fileprivate func findClosestPlayerFromPlayers(_ players: [Player], fromOrigin origin: Point) -> (player: Player, distance: CGFloat, offset: (dx: CGFloat, dy: CGFloat)) {
         var player: Player = players.first!
-        var distance: CGFloat = CGFloat.max
+        var distance: CGFloat = CGFloat.greatestFiniteMagnitude
         var offset: (dx: CGFloat, dy: CGFloat) = (dx: 0, dy: 0)
         
         for testPlayer in players {
@@ -193,7 +197,7 @@ class CpuControlComponent: GKComponent {
         return (player, distance, offset)
     }
     
-    private func launchProjectileToPlayer(entityName: String, forCreature creature: Creature, direction: AttackDirection) -> Bool {
+    fileprivate func launchProjectileToPlayer(_ entityName: String, forCreature creature: Creature, direction: AttackDirection) -> Bool {
         var didLaunchProjectile = false
         
         let players = [game?.player1, game?.player2].flatMap{ $0 }
@@ -202,11 +206,11 @@ class CpuControlComponent: GKComponent {
         let result = findClosestPlayerFromPlayers(players, fromOrigin: creature.gridPosition)
 
         switch direction {
-        case .Any:
+        case .radial:
             fireProjectile(entityName, withOrigin: creaturePos, distance: result.distance, dx: result.offset.dx, dy: result.offset.dy)
             
             didLaunchProjectile = true
-        case .Axial:
+        case .axial:
             if result.offset.dx == 0 || result.offset.dy == 0 {
                 let visibleGridPositions = game!.visibleGridPositionsFromGridPosition(creaturePos, inDirection: creature.direction)
 
@@ -221,12 +225,12 @@ class CpuControlComponent: GKComponent {
         return didLaunchProjectile
     }
     
-    private func addProjectileWithName(name: String, toGame game: Game, withForce force: CGVector, gridPosition: Point) {
+    fileprivate func addProjectileWithName(_ name: String, toGame game: Game, withForce force: CGVector, gridPosition: Point) {
         let propLoader = PropLoader(forGame: game)
         
         do {
             if let projectile = try propLoader.projectileWithName(name, gridPosition: gridPosition, force: force) {
-                if let visualComponent = projectile.componentForClass(VisualComponent) {
+                if let visualComponent = projectile.component(ofType: VisualComponent.self) {
                     visualComponent.spriteNode.position = positionForGridPosition(gridPosition)
                 }
                 
@@ -237,7 +241,7 @@ class CpuControlComponent: GKComponent {
         }
     }
     
-    private func playerInRangeForMeleeAttack() -> Player? {
+    fileprivate func playerInRangeForMeleeAttack() -> Player? {
         var player: Player?
                 
         if let creature = self.creature {
@@ -251,7 +255,7 @@ class CpuControlComponent: GKComponent {
             }
             
             for visibleGridPosition in visibleGridPositions {
-                if let nearbyPlayer = game?.playerAtGridPosition(visibleGridPosition) where nearbyPlayer.isControllable {
+                if let nearbyPlayer = game?.playerAtGridPosition(visibleGridPosition), nearbyPlayer.isControllable {
                     player = nearbyPlayer
                     break
                 }

@@ -43,20 +43,20 @@ import AppKit
 
 extension SKTexture {
 
-    func tiledTextureWithSize(size: CGSize, tileSize: CGSize) -> SKTexture {
-        let tileImage = NSImage(CGImage: self.CGImage(), size: tileSize)
+    func tiledTextureWithSize(_ size: CGSize, tileSize: CGSize) -> SKTexture {
+        let tileImage = NSImage(cgImage: self.cgImage(), size: tileSize)
         
         // stretch tile image to actual tile size
         let adjustedTileImage = NSImage(size: tileSize)
         adjustedTileImage.lockFocus()
-        tileImage.drawInRect(NSRect(x: 0, y: 0, width: tileSize.width, height: tileSize.height))
+        tileImage.draw(in: NSRect(x: 0, y: 0, width: tileSize.width, height: tileSize.height))
         adjustedTileImage.unlockFocus()
         
         // create a new tiled background image
         let tiledImage = NSImage(size: size)
         tiledImage.lockFocus()
         SKColor(patternImage: adjustedTileImage).set()
-        NSBezierPath.fillRect(NSRect(x: 0, y: 0, width: size.width, height: size.height))
+        NSBezierPath.fill(NSRect(x: 0, y: 0, width: size.width, height: size.height))
         tiledImage.unlockFocus()
 
         let texture = SKTexture(image: tiledImage)

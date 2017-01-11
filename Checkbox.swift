@@ -11,10 +11,10 @@ import SpriteKit
 class Checkbox: SKShapeNode, Focusable {
     var enabled = false {
         didSet {
-            fillColor = enabled ? SKColor.whiteColor() : SKColor.clearColor()
+            fillColor = enabled ? SKColor.white : SKColor.clear
         }
     }
-    private var focused = false
+    fileprivate var focused = false
     
     convenience override init() {
         self.init(size: CGSize(width: 18, height: 18))
@@ -23,7 +23,7 @@ class Checkbox: SKShapeNode, Focusable {
     init(size: CGSize) {
         super.init()
         
-        path = CGPathCreateWithEllipseInRect(CGRect(origin: CGPointZero, size: size), nil)
+        path = CGPath(ellipseIn: CGRect(origin: CGPoint.zero, size: size), transform: nil)
         
         commonInit()
     }
@@ -38,7 +38,7 @@ class Checkbox: SKShapeNode, Focusable {
         return enabled
     }
     
-    func setFocused(focused: Bool) {
+    func setFocused(_ focused: Bool) {
         self.focused = focused
         
         lineWidth = focused ? 2.0 : 1.0
@@ -56,7 +56,7 @@ class Checkbox: SKShapeNode, Focusable {
     // MARK: - Private
     
     func commonInit() {
-        strokeColor = SKColor.whiteColor()
-        fillColor = SKColor.whiteColor()
+        strokeColor = SKColor.white
+        fillColor = SKColor.white
     }
 }

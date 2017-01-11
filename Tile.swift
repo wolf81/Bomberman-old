@@ -18,7 +18,7 @@ class Tile : Entity {
         // TODO: make more safe, currently will crash if no config exists.
         let basePath = configComponent.configFilePath
         let filePath = basePath.stringByAppendingPathComponent(configComponent.textureFile)
-        let imageData = NSData(contentsOfFile: filePath)
+        let imageData = try? Data(contentsOf: URL(fileURLWithPath: filePath))
         let image = Image(data: imageData!)
         let texture = SKTexture(image: image!)
         
@@ -35,9 +35,9 @@ class Tile : Entity {
 
         super.init(visualComponent: visualComponent)
 
-        visualComponent.spriteNode.zPosition = EntityLayer.Tile.rawValue
+        visualComponent.spriteNode.zPosition = EntityLayer.tile.rawValue
 
-        let category = (tileType == .Wall) ? EntityCategory.Wall : EntityCategory.Block
+        let category = (tileType == .wall) ? EntityCategory.Wall : EntityCategory.Block
         
         if let physicsBody = visualComponent.spriteNode.physicsBody {
             physicsBody.categoryBitMask = category
@@ -46,7 +46,11 @@ class Tile : Entity {
         }
         
         self.gridPosition = gridPosition
-        self.value = PointsType.Fifty
+        self.value = PointsType.fifty
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func destroy() {

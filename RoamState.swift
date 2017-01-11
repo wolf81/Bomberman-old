@@ -9,14 +9,14 @@
 import GameplayKit
 
 class RoamState: State {
-    override func didEnterWithPreviousState(previousState: GKState?) {
-        super.didEnterWithPreviousState(previousState)
+    override func didEnter(from previousState: GKState?) {
+        super.didEnter(from: previousState)
         
         print("enter roam state: \(self.entity)")
     }
     
-    override func willExitWithNextState(nextState: GKState) {
-        super.willExitWithNextState(nextState)
+    override func willExit(to nextState: GKState) {
+        super.willExit(to: nextState)
         
         print("exit roam state")
     }
@@ -25,8 +25,8 @@ class RoamState: State {
         return true
     }
     
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
-        if let creature = entity as? Creature where !visualComponent.spriteNode.hasActions() {
+    override func updateForEntity(_ entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: @escaping () -> Void) {
+        if let creature = entity as? Creature, !visualComponent.spriteNode.hasActions() {
             let completion = {
                 didUpdate()
                 entity.delegate?.entityDidSpawn(entity)

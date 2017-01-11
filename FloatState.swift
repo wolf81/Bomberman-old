@@ -9,7 +9,7 @@
 import SpriteKit
 
 class FloatState: State {
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
+    override func updateForEntity(_ entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: @escaping () -> Void) {
         var actions = [SKAction]()
         
         visualComponent.spriteNode.removeAllActions()
@@ -25,15 +25,15 @@ class FloatState: State {
         }
         
         if actions.count > 0 {
-            visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+            visualComponent.spriteNode.run(SKAction.sequence(actions), completion: completion)
         } else {
             completion()
         }
     }
     
-    override func defaultAnimation(withDuration duration: NSTimeInterval, repeatCount: Int) -> SKAction {
-        let move = SKAction.moveByX(0, y: CGFloat(unitLength), duration: duration)
-        let fade = SKAction.fadeOutWithDuration(duration)
+    override func defaultAnimation(withDuration duration: TimeInterval, repeatCount: Int) -> SKAction {
+        let move = SKAction.moveBy(x: 0, y: CGFloat(unitLength), duration: duration)
+        let fade = SKAction.fadeOut(withDuration: duration)
         let anim = SKAction.group([move, fade])
         return anim
     }

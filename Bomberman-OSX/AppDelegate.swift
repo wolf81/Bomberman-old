@@ -17,13 +17,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     var controllers: [GCController]!
     
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         let windowRect = self.windowRectWithSize(CGSize(width: 1280, height: 720))
-        let styleMask = NSResizableWindowMask | NSTitledWindowMask | NSClosableWindowMask
+        let styleMask: NSWindowStyleMask = [.resizable, .titled, .closable]
 
-        NSApplication.sharedApplication().mainMenu = createMenu()
+        NSApplication.shared().mainMenu = createMenu()
         
-        self.window = NSWindow(contentRect: windowRect, styleMask: styleMask, backing: .Buffered, defer: false)
+        self.window = NSWindow(contentRect: windowRect, styleMask: styleMask, backing: .buffered, defer: false)
         self.window.delegate = self
         self.window.minSize = windowRect.size
         
@@ -32,31 +32,31 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         self.window.makeKeyAndOrderFront(nil)
         
         // Game controller support.
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: #selector(setupControllers), name: GCControllerDidConnectNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(setupControllers), name: GCControllerDidDisconnectNotification, object: nil)
-        GCController.startWirelessControllerDiscoveryWithCompletionHandler { 
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(setupControllers), name: NSNotification.Name.GCControllerDidConnect, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(setupControllers), name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
+        GCController.startWirelessControllerDiscovery { 
             print("discovered controller ...")
         }
     }
     
-    func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool {
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
     
-    func windowRectWithSize(size: CGSize) -> CGRect {
-        let screenSize = NSScreen.mainScreen()?.frame.size;
+    func windowRectWithSize(_ size: CGSize) -> CGRect {
+        let screenSize = NSScreen.main()?.frame.size;
         let x = fmax((screenSize!.width - size.width) / 2, 0);
         let y = fmax((screenSize!.height - size.height) / 2, 0);
         return CGRect(x: x, y: y, width: size.width, height: size.height);
     }
     
-    func windowWillResize(sender: NSWindow, toSize frameSize: NSSize) -> NSSize {
+    func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
         // TODO: pause game
         return frameSize
     }
     
-    func windowDidResize(notification: NSNotification) {
+    func windowDidResize(_ notification: Notification) {
         // TODO: unpause game
     }
     
@@ -66,7 +66,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         menuBar.addItem(appMenuItem)
         
         let appMenu = NSMenu()
-        let appName = NSProcessInfo.processInfo().processName
+        let appName = ProcessInfo.processInfo.processName
         let quitTitle = "Quit \(appName)"
         let quitMenuItem = NSMenuItem(
             title: quitTitle,
@@ -79,21 +79,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         return menuBar
     }
     
-    func quit(send: AnyObject?) {
-        NSApplication.sharedApplication().terminate(nil)
+    func quit(_ send: AnyObject?) {
+        NSApplication.shared().terminate(nil)
     }
     
     // Game controller support.
     
-    func setupControllers(notification: NSNotification) {
+    func setupControllers(_ notification: Notification) {
         self.controllers = GCController.controllers()
         
         print("controllers found: \(self.controllers)")
 
         if self.controllers.count > 0 {
-            self.controllers.first?.playerIndex = .Index1
+            self.controllers.first?.playerIndex = .index1
             
-            InputProxy.sharedInstance.configureController(self.controllers.first!, forPlayer: .Index1)
+            InputProxy.sharedInstance.configureController(self.controllers.first!, forPlayer: .index1)
                         
             // do something
             

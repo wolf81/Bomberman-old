@@ -17,11 +17,11 @@ class GameHud: SKSpriteNode {
     
     init(size: CGSize) {
         let infoNodeSize = CGSize(width: 225, height: 380)
-        p1Hud = PlayerHud(size: infoNodeSize, forPlayer: .Player1)
-        p2Hud = PlayerHud(size: infoNodeSize, forPlayer: .Player2)
+        p1Hud = PlayerHud(size: infoNodeSize, forPlayer: .player1)
+        p2Hud = PlayerHud(size: infoNodeSize, forPlayer: .player2)
         
         let texture = SKTexture(imageNamed: "Panel.png")
-        super.init(texture: texture, color: SKColor.blackColor(), size: size)
+        super.init(texture: texture, color: SKColor.black, size: size)
         
         timeNode.zPosition = 10
         timeNode.fontName = "TamilSangamMN-Bold"
@@ -35,39 +35,39 @@ class GameHud: SKSpriteNode {
         addChild(p2Hud)
         p2Hud.position = CGPoint(x: 55, y: 115)
         
-        anchorPoint = CGPointZero
-        position = CGPointZero
-        blendMode = .Replace
+        anchorPoint = CGPoint.zero
+        position = CGPoint.zero
+        blendMode = .replace
     }
     
     required init?(coder aDecoder: NSCoder) {
         return nil
     }
     
-    func updateTimeRemaining(timeRemaining: NSTimeInterval) {
+    func updateTimeRemaining(_ timeRemaining: TimeInterval) {
         let minutes = String(format: "%02d", Int(timeRemaining / 60))
-        let seconds = String(format: "%02d", Int(timeRemaining % 60))
+        let seconds = String(format: "%02d", Int(timeRemaining.truncatingRemainder(dividingBy: 60)))
         timeNode.text = "\(minutes):\(seconds)"
     }
     
-    func updateForPlayer(player: Player) {
-        let playerInfoNode = player.index == .Player1 ? p1Hud : p2Hud
+    func updateForPlayer(_ player: Player) {
+        let playerInfoNode = player.index == .player1 ? p1Hud : p2Hud
         playerInfoNode.updateLives(player.lives)        
         playerInfoNode.updateHealth(player.health)
         
         let explosionPowerActive = player.explosionPowerLimit.currentCount > 0
-        playerInfoNode.updatePower(PowerType.ExplosionSize, setActive: explosionPowerActive)
+        playerInfoNode.updatePower(PowerType.explosionSize, setActive: explosionPowerActive)
         
         let bombPowerActive = player.bombPowerLimit.currentCount > 0
-        playerInfoNode.updatePower(PowerType.BombAdd, setActive: bombPowerActive)
+        playerInfoNode.updatePower(PowerType.bombAdd, setActive: bombPowerActive)
         
         let triggerPowerActive = player.bombTriggerPowerLimit.currentCount > 0
-        playerInfoNode.updatePower(PowerType.BombSpeed, setActive: triggerPowerActive)
+        playerInfoNode.updatePower(PowerType.bombSpeed, setActive: triggerPowerActive)
         
         let shieldPowerActive = player.shieldPowerLimit.currentCount > 0
-        playerInfoNode.updatePower(PowerType.Shield, setActive: shieldPowerActive)
+        playerInfoNode.updatePower(PowerType.shield, setActive: shieldPowerActive)
 
         let movePowerActive = player.moveSpeedPowerLimit.currentCount > 0
-        playerInfoNode.updatePower(PowerType.MoveSpeed, setActive: movePowerActive)
+        playerInfoNode.updatePower(PowerType.moveSpeed, setActive: movePowerActive)
     }
 }

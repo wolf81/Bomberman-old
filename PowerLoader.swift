@@ -11,7 +11,7 @@ import Foundation
 class PowerUpLoader: ConfigurationLoader {
     let configFile = "config.json"
     
-    func powerUpWithName(name: String, gridPosition: Point) throws -> PowerUp? {
+    func powerUpWithName(_ name: String, gridPosition: Point) throws -> PowerUp? {
         var powerUp: PowerUp? = nil
         
         let directory = "Powers/\(name)"
@@ -27,20 +27,20 @@ class PowerUpLoader: ConfigurationLoader {
     
     // MARK: - Private
     
-    private func powerTypeForName(name: String) -> PowerType {
+    fileprivate func powerTypeForName(_ name: String) -> PowerType {
         var power: PowerType
         
         switch name {
-        case "Explosion":       power = .ExplosionSize
-        case "Heal":            power = .Heal
-        case "HealAll":         power = .HealAll
-        case "BombAdd":         power = .BombAdd
-        case "BombSpeed":       power = .BombSpeed
-        case "MoveSpeed":       power = .MoveSpeed
-        case "Shield":          power = .Shield
-        case "DestroyMonsters": power = .DestroyMonsters
-        case "DestroyBlocks":   power = .DestroyBlocks
-        default:                power = .Unknown
+        case "Explosion":       power = .explosionSize
+        case "Heal":            power = .heal
+        case "HealAll":         power = .healAll
+        case "BombAdd":         power = .bombAdd
+        case "BombSpeed":       power = .bombSpeed
+        case "MoveSpeed":       power = .moveSpeed
+        case "Shield":          power = .shield
+        case "DestroyMonsters": power = .destroyMonsters
+        case "DestroyBlocks":   power = .destroyBlocks
+        default:                power = .unknown
         }
         
         return power

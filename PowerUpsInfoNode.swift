@@ -9,21 +9,21 @@
 import SpriteKit
 
 class PowerUpsInfoNode: SKShapeNode {
-    private let hudLoader = HudLoader()
+    fileprivate let hudLoader = HudLoader()
     
-    private var powerUpNodes = [SKSpriteNode]()
-    private var activePowers = Set<PowerType>()
+    fileprivate var powerUpNodes = [SKSpriteNode]()
+    fileprivate var activePowers = Set<PowerType>()
 
     // MARK: - Initilization
     
     init(size: CGSize) {
         super.init()
                 
-        path = CGPathCreateWithRect(CGRect(origin: CGPointZero, size: size), nil)
+        path = CGPath(rect: CGRect(origin: CGPoint.zero, size: size), transform: nil)
         
-        antialiased = false
+        isAntialiased = false
         lineWidth = 0
-        blendMode = .Replace
+        blendMode = .replace
         
         updatePowerUpNodes()
     }
@@ -34,7 +34,7 @@ class PowerUpsInfoNode: SKShapeNode {
     
     // MARK: - Public
     
-    func updatePower(power: PowerType, setActive isActive: Bool) {
+    func updatePower(_ power: PowerType, setActive isActive: Bool) {
         if isActive {
             activePowers.insert(power)
         } else {
@@ -46,14 +46,14 @@ class PowerUpsInfoNode: SKShapeNode {
     
     // MARK: - Private
     
-    private func updatePowerUpNodes() {
+    fileprivate func updatePowerUpNodes() {
         removeAllChildren()
         powerUpNodes.removeAll()
         
         let spriteSize = CGSize(width: 30, height: 30)
         let sprites = hudLoader.powerUpSprites
         
-        for i in (0 ..< 5).reverse() {
+        for i in (0 ..< 5).reversed() {
             var sprite: SKTexture
 
             let powerType = powerTypeForIndex(i)
@@ -65,23 +65,23 @@ class PowerUpsInfoNode: SKShapeNode {
             let yPos = 45
             let spriteNode = SKSpriteNode(texture: sprite, size: spriteSize)
             spriteNode.position = CGPoint(x: xPos, y: yPos)
-            spriteNode.anchorPoint = CGPointZero
+            spriteNode.anchorPoint = CGPoint.zero
             powerUpNodes.append(spriteNode)
         }
 
         powerUpNodes.forEach { powerUpNode in addChild(powerUpNode) }
     }
     
-    private func powerTypeForIndex(index: Int) -> PowerType {
+    fileprivate func powerTypeForIndex(_ index: Int) -> PowerType {
         var powerType: PowerType
         
         switch index {
-        case 0: powerType = .BombAdd
-        case 1: powerType = .BombSpeed
-        case 2: powerType = .ExplosionSize
-        case 3: powerType = .Shield
-        case 4: powerType = .MoveSpeed
-        default: powerType = .Unknown
+        case 0: powerType = .bombAdd
+        case 1: powerType = .bombSpeed
+        case 2: powerType = .explosionSize
+        case 3: powerType = .shield
+        case 4: powerType = .moveSpeed
+        default: powerType = .unknown
         }
         
         return powerType

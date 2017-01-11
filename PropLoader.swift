@@ -9,9 +9,9 @@
 import CoreGraphics
 
 class PropLoader: ConfigurationLoader {
-    private let configFile = "config.json"
+    fileprivate let configFile = "config.json"
         
-    func explosionWithGridPosition(gridPosition: Point, direction: Direction) throws -> Explosion? {
+    func explosionWithGridPosition(_ gridPosition: Point, direction: Direction) throws -> Explosion? {
         var explosion: Explosion?
         
         let directory = "Props/Explosion"
@@ -23,7 +23,7 @@ class PropLoader: ConfigurationLoader {
         return explosion
     }
     
-    func bombWithGridPosition(gridPosition: Point, player: PlayerIndex) throws -> Bomb? {
+    func bombWithGridPosition(_ gridPosition: Point, player: PlayerIndex) throws -> Bomb? {
         var bomb: Bomb? = nil
         
         let directory = "Props/Bomb"
@@ -37,7 +37,7 @@ class PropLoader: ConfigurationLoader {
         return bomb
     }
     
-    func projectileWithName(name: String, gridPosition: Point, force: CGVector) throws -> Projectile? {
+    func projectileWithName(_ name: String, gridPosition: Point, force: CGVector) throws -> Projectile? {
         var projectile: Projectile? = nil
         
         let directory = "Projectiles/\(name)"
@@ -48,7 +48,7 @@ class PropLoader: ConfigurationLoader {
         return projectile
     }
     
-    func pointsWithType(pointsType: PointsType, gridPosition: Point) throws -> Points? {
+    func pointsWithType(_ pointsType: PointsType, gridPosition: Point) throws -> Points? {
         var points: Points? = nil
         
         let directory = "Props/Points10"
@@ -59,7 +59,7 @@ class PropLoader: ConfigurationLoader {
         return points
     }
     
-    func propWithName(propName: String, gridPosition: Point) throws -> Prop? {
+    func propWithName(_ propName: String, gridPosition: Point) throws -> Prop? {
         var prop: Prop? = nil
         
         let directory = "Props/\(propName)"

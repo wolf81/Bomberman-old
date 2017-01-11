@@ -28,14 +28,14 @@ class GameSceneNode: SKShapeNode {
 
         world = SKSpriteNode(texture: floorTexture, size: level.size())
         world.position = CGPoint(x: panelWidth, y: 0)
-        world.anchorPoint = CGPointZero
-        world.blendMode = .Replace
+        world.anchorPoint = CGPoint.zero
+        world.blendMode = .replace
         
         // Create panel node.
-        let panelSize = CGSizeMake(panelWidth, size.height)
+        let panelSize = CGSize(width: panelWidth, height: size.height)
         gameHud = GameHud(size: panelSize)
         gameHud.position = CGPoint(x: 0, y: 0)
-        gameHud.blendMode = .Replace
+        gameHud.blendMode = .replace
         
         super.init()
         
@@ -44,11 +44,11 @@ class GameSceneNode: SKShapeNode {
 
         // We need to use the designated initializer, therefore we have to set a frame here by
         //  setting the path (we can not use init(withFrame) or similar method.
-        let rect = CGRect(origin: CGPointZero, size: size)
-        path = CGPathCreateWithRect(rect, nil)
+        let rect = CGRect(origin: CGPoint.zero, size: size)
+        path = CGPath(rect: rect, transform: nil)
         
-        blendMode = .Replace
-        antialiased = false
+        blendMode = .replace
+        isAntialiased = false
         lineWidth = 0
     }
     
@@ -56,11 +56,11 @@ class GameSceneNode: SKShapeNode {
         return nil
     }
     
-    func updateHudForPlayer(player: Player) {
+    func updateHudForPlayer(_ player: Player) {
         self.gameHud.updateForPlayer(player)
     }
     
-    func updateTimeRemaining(timeRemaining: NSTimeInterval) {
+    func updateTimeRemaining(_ timeRemaining: TimeInterval) {
         self.gameHud.updateTimeRemaining(timeRemaining)
     }
 }

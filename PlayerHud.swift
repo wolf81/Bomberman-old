@@ -19,15 +19,15 @@ class PlayerHud: SKShapeNode {
     // MARK: - Initialization
     
     init(size: CGSize, forPlayer player: PlayerIndex) {
-        let imageName = player == .Player1 ? "Player 1 Head.png" : "Player 2 Head.png"
+        let imageName = player == .player1 ? "Player 1 Head.png" : "Player 2 Head.png"
         let headTexture = SKTexture(imageNamed: imageName)
-        headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
+        headNode = SKSpriteNode(texture: headTexture, color: SKColor.purple, size: headTexture.size())
         healthNode = HealthInfoNode(size: CGSize(width: 205, height: 110))
         powerUpsNode = PowerUpsInfoNode(size: CGSize(width: 205, height: 80))
 
         super.init()
         
-        path = CGPathCreateWithRect(CGRect(origin: CGPointZero, size: size), nil)
+        path = CGPath(rect: CGRect(origin: CGPoint.zero, size: size), transform: nil)
         
         let x = size.width / 2
         
@@ -58,18 +58,18 @@ class PlayerHud: SKShapeNode {
         scoreValueNode.fontSize = 35
         addChild(scoreValueNode)
         
-        antialiased = false
+        isAntialiased = false
 //        self.lineWidth = 4
 //        self.strokeColor = SKColor.redColor()
 //        self.fillColor = SKColor.blueColor()
-        blendMode = .Replace
+        blendMode = .replace
         
         zPosition = 15
     }
 
     required init?(coder aDecoder: NSCoder) {
         let headTexture = SKTexture(imageNamed: "Player 1 Head.png")
-        headNode = SKSpriteNode(texture: headTexture, color: SKColor.purpleColor(), size: headTexture.size())
+        headNode = SKSpriteNode(texture: headTexture, color: SKColor.purple, size: headTexture.size())
         healthNode = HealthInfoNode(size: CGSize(width: 150, height: 100))
         powerUpsNode = PowerUpsInfoNode(size: CGSize(width: 205, height: 110))
         
@@ -78,15 +78,15 @@ class PlayerHud: SKShapeNode {
 
     // MARK: - Public
     
-    func updateLives(lives: Int) {
+    func updateLives(_ lives: Int) {
         livesNode.text = String(format: "x\(lives + 1)")
     }
     
-    func updateHealth(health: Int) {
+    func updateHealth(_ health: Int) {
         healthNode.updateHealth(health)
     }
     
-    func updatePower(power: PowerType, setActive isActive: Bool) {
+    func updatePower(_ power: PowerType, setActive isActive: Bool) {
         powerUpsNode.updatePower(power, setActive: isActive)
     }    
 }

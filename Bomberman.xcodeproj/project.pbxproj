@@ -612,12 +612,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 79FC6B921CCA2B9100DF7476 /* Build configuration list for PBXNativeTarget "Bomberman-OSX" */;
 			buildPhases = (
-				AF9EE2DE9FCCDE93A80704F8 /* 📦 Check Pods Manifest.lock */,
+				AF9EE2DE9FCCDE93A80704F8 /* [CP] Check Pods Manifest.lock */,
 				79FC6B7F1CCA2B9000DF7476 /* Sources */,
 				79FC6B801CCA2B9000DF7476 /* Frameworks */,
 				79FC6B811CCA2B9000DF7476 /* Resources */,
-				42E7ABB921DD016CD01B870F /* 📦 Embed Pods Frameworks */,
-				C50D1A3E3F45BEE8D730E590 /* 📦 Copy Pods Resources */,
+				42E7ABB921DD016CD01B870F /* [CP] Embed Pods Frameworks */,
+				C50D1A3E3F45BEE8D730E590 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -632,12 +632,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 79FC6BAB1CCA2B9C00DF7476 /* Build configuration list for PBXNativeTarget "Bomberman-tvOS" */;
 			buildPhases = (
-				73E0292F10A6F07D35454608 /* 📦 Check Pods Manifest.lock */,
+				73E0292F10A6F07D35454608 /* [CP] Check Pods Manifest.lock */,
 				79FC6B951CCA2B9C00DF7476 /* Sources */,
 				79FC6B961CCA2B9C00DF7476 /* Frameworks */,
 				79FC6B971CCA2B9C00DF7476 /* Resources */,
-				6A9F1958B41BA466F9B1D9AF /* 📦 Embed Pods Frameworks */,
-				0C9113139E7B9C09C38E2D9A /* 📦 Copy Pods Resources */,
+				6A9F1958B41BA466F9B1D9AF /* [CP] Embed Pods Frameworks */,
+				0C9113139E7B9C09C38E2D9A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -655,11 +655,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				TargetAttributes = {
 					79FC6B821CCA2B9000DF7476 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = Q97F9KZ3J6;
+						LastSwiftMigration = 0820;
 					};
 					79FC6B981CCA2B9C00DF7476 = {
 						CreatedOnToolsVersion = 7.3;
@@ -735,14 +736,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0C9113139E7B9C09C38E2D9A /* 📦 Copy Pods Resources */ = {
+		0C9113139E7B9C09C38E2D9A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -750,14 +751,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bomberman-tvOS/Pods-Bomberman-tvOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		42E7ABB921DD016CD01B870F /* 📦 Embed Pods Frameworks */ = {
+		42E7ABB921DD016CD01B870F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -765,14 +766,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bomberman-OSX/Pods-Bomberman-OSX-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6A9F1958B41BA466F9B1D9AF /* 📦 Embed Pods Frameworks */ = {
+		6A9F1958B41BA466F9B1D9AF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -780,44 +781,44 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bomberman-tvOS/Pods-Bomberman-tvOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		73E0292F10A6F07D35454608 /* 📦 Check Pods Manifest.lock */ = {
+		73E0292F10A6F07D35454608 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		AF9EE2DE9FCCDE93A80704F8 /* 📦 Check Pods Manifest.lock */ = {
+		AF9EE2DE9FCCDE93A80704F8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		C50D1A3E3F45BEE8D730E590 /* 📦 Copy Pods Resources */ = {
+		C50D1A3E3F45BEE8D730E590 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1011,14 +1012,51 @@
 		79FC6B7D1CCA2B7500DF7476 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		79FC6B7E1CCA2B7500DF7476 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1026,6 +1064,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0429261688BD91C772522007 /* Pods-Bomberman-OSX.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1065,7 +1104,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Bomberman-OSX/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = net.wolftrail.Bomberman;
@@ -1073,6 +1112,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1080,6 +1120,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 30807C1FC6D878FE8E33C87A /* Pods-Bomberman-OSX.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1113,12 +1154,13 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Bomberman-OSX/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = net.wolftrail.Bomberman;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -1126,6 +1168,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 61199FE864ABFA28E0027D08 /* Pods-Bomberman-tvOS.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1179,6 +1222,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B57343F7D5B11696B7FB91D2 /* Pods-Bomberman-tvOS.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

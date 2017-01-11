@@ -17,13 +17,13 @@ class StateMachineComponent: GKComponent {
     
     var canRoam: Bool {
         var canRoam = false
-        canRoam = self.stateMachine.stateForClass(MoveState) != nil
+        canRoam = self.stateMachine.state(forClass: MoveState.self) != nil
         return canRoam
     }
 
     var canAttack: Bool {
         var canAttack = false
-        canAttack = self.stateMachine.stateForClass(AttackState) != nil
+        canAttack = self.stateMachine.state(forClass: AttackState.self) != nil
         return canAttack
     }
     
@@ -32,48 +32,52 @@ class StateMachineComponent: GKComponent {
         
         super.init()
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        super.updateWithDeltaTime(seconds)
+    override func update(deltaTime seconds: TimeInterval) {
+        super.update(deltaTime: seconds)
         
-        self.stateMachine.updateWithDeltaTime(seconds)
+        self.stateMachine.update(deltaTime: seconds)
     }
 
     func enterRoamState() {
-        self.stateMachine.enterState(MoveState)
+        self.stateMachine.enter(MoveState.self)
     }
     
     func enterAttackState() {
-        self.stateMachine.enterState(AttackState)
+        self.stateMachine.enter(AttackState.self)
     }
     
     func enterSpawnState() {
         if (self.stateMachine.currentState is SpawnState) == false {
-            if let creature = self.entity as? Creature where creature.lives >= 0 {
-                if let configComponent = creature.componentForClass(ConfigComponent) {
+            if let creature = self.entity as? Creature, creature.lives >= 0 {
+                if let configComponent = creature.component(ofType: ConfigComponent.self) {
                     creature.health = configComponent.health
                 }
             }
 
-            self.stateMachine.enterState(SpawnState)
+            self.stateMachine.enter(SpawnState.self)
         }
     }
         
     func enterCheerState() {
         if (self.stateMachine.currentState is CheerState) == false {
-            self.stateMachine.enterState(CheerState)
+            self.stateMachine.enter(CheerState.self)
         }
     }
     
     func enterFloatState() {
         if (self.stateMachine.currentState is FloatState) == false {
-            self.stateMachine.enterState(FloatState)
+            self.stateMachine.enter(FloatState.self)
         }
     }
 
     func enterDecayState() {
         if (self.stateMachine.currentState is DecayState) == false {
-            self.stateMachine.enterState(DecayState)
+            self.stateMachine.enter(DecayState.self)
         }
     }
 
@@ -85,23 +89,23 @@ class StateMachineComponent: GKComponent {
                 }
             }
 
-            self.stateMachine.enterState(DestroyState)
+            self.stateMachine.enter(DestroyState.self)
         }
     }
     
-    func enterHitState(damage: Int = 1) {
+    func enterHitState(_ damage: Int = 1) {
         if (self.stateMachine.currentState is HitState) == false {
             if let creature = self.entity as? Creature {
                 creature.health -= damage
             }
             
-            self.stateMachine.enterState(HitState)        
+            self.stateMachine.enter(HitState.self)        
         }
     }
     
     func enterControlState() {
         if (self.stateMachine.currentState is ControlState) == false {
-            self.stateMachine.enterState(ControlState)
+            self.stateMachine.enter(ControlState.self)
         }
     }
 }

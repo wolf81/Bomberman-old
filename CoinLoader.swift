@@ -9,9 +9,9 @@
 import Foundation
 
 class CoinLoader : ConfigurationLoader {
-    private let configFile = "config.json"
+    fileprivate let configFile = "config.json"
 
-    func coinWithGridPosition(gridPosition: Point) throws -> Coin? {
+    func coinWithGridPosition(_ gridPosition: Point) throws -> Coin? {
         var coin: Coin? = nil
         
         let directory = "Coins/Coin"

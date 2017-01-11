@@ -9,22 +9,22 @@
 import SpriteKit
 
 enum PowerType: Int {
-    case ExplosionSize = 0
-    case HealAll
-    case Heal
-    case BombAdd
-    case BombSpeed
-    case MoveSpeed
-    case Shield
-    case DestroyMonsters
-    case DestroyBlocks
-    case Unknown
+    case explosionSize = 0
+    case healAll
+    case heal
+    case bombAdd
+    case bombSpeed
+    case moveSpeed
+    case shield
+    case destroyMonsters
+    case destroyBlocks
+    case unknown
 }
 
 class PowerUp: Entity {
-    private(set) var destroyDelay: NSTimeInterval = 8.0
-    private(set) var activated = false
-    private(set) var power: PowerType
+    fileprivate(set) var destroyDelay: TimeInterval = 8.0
+    fileprivate(set) var activated = false
+    fileprivate(set) var power: PowerType
     
     // MARK: - Initialization
     
@@ -33,8 +33,8 @@ class PowerUp: Entity {
         
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition, createPhysicsBody: true)
         
-        if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = EntityLayer.PowerUp.rawValue
+        if let visualComponent = component(ofType: VisualComponent.self) {
+            visualComponent.spriteNode.zPosition = EntityLayer.powerUp.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = EntityCategory.Prop
@@ -44,10 +44,14 @@ class PowerUp: Entity {
         }
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Public
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        super.updateWithDeltaTime(seconds)
+    override func update(deltaTime seconds: TimeInterval) {
+        super.update(deltaTime: seconds)
         
         destroyDelay -= seconds
         
@@ -61,25 +65,25 @@ class PowerUp: Entity {
             activated = true
             
             switch self.power {
-            case .ExplosionSize:
+            case .explosionSize:
                 player.addExplosionPower()
-            case .Heal:
+            case .heal:
                 player.health += 4
-            case .HealAll:
+            case .healAll:
                 player.health = 16
-            case .BombAdd:
+            case .bombAdd:
                 player.addBombPower()
-            case .BombSpeed:
+            case .bombSpeed:
                 player.addBombTriggerPower()
-            case .Shield:
+            case .shield:
                 player.addShieldPower(withDuration: 10.0)
-            case .MoveSpeed:
+            case .moveSpeed:
                 player.addMoveSpeedPower(withDuration: 15.0)
-            case .DestroyBlocks:
+            case .destroyBlocks:
                 game?.tiles.filter({ (tile) -> Bool in
-                    tile.tileType != .Wall && tile.tileType != .IndestructableBlock
+                    tile.tileType != .wall && tile.tileType != .indestructableBlock
                 }).forEach({ $0.destroy() })
-            case .DestroyMonsters:
+            case .destroyMonsters:
                 game?.creatures
                     .filter({ $0 is Monster })
                     .forEach({ $0.destroy() })

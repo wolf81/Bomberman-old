@@ -9,9 +9,9 @@
 import SpriteKit
 
 enum TransitionAnimation {
-    case Fade
-    case Push
-    case Pop
+    case fade
+    case push
+    case pop
 }
 
 class SceneManager: NSObject {
@@ -28,49 +28,49 @@ class SceneManager: NSObject {
     
     // MARK: - Private
     
-    private func showMainMenu(withAnimation animation: TransitionAnimation) {
+    fileprivate func showMainMenu(withAnimation animation: TransitionAnimation) {
         let menuScene = MenuScene(size: self.defaultSize, options: mainMenuOptions())
         self.transitionToScene(menuScene, animation: animation)
     }
     
-    private func showSubMenuWithOptions(options: [MenuOption]) {
+    fileprivate func showSubMenuWithOptions(_ options: [MenuOption]) {
         let scene = MenuScene(size: defaultSize, options: options, alignWithLastItem: true)
-        transitionToScene(scene, animation: .Push)
+        transitionToScene(scene, animation: .push)
     }
     
-    private func showLevel(levelIndex: Int) {
+    fileprivate func showLevel(_ levelIndex: Int) {
         do {
             let level = try loadLevel(levelIndex)
             let scene = GameScene(level: level, gameSceneDelegate: self)
             Game.sharedInstance.configureForGameScene(scene)
-            transitionToScene(scene, animation: .Fade)
+            transitionToScene(scene, animation: .fade)
         } catch let error {
             updateInfoOverlayWithMessage("\(error)")
             print("error: \(error)")
             
-            showMainMenu(withAnimation: .Fade)
+            showMainMenu(withAnimation: .fade)
         }
     }
     
-    private func continueLevel() {
+    fileprivate func continueLevel() {
         if let scene = pausedGameScene {
-            transitionToScene(scene, animation: .Fade)            
+            transitionToScene(scene, animation: .fade)            
             Game.sharedInstance.resume()
         }
     }
     
-    private func transitionToScene(scene: BaseScene, animation: TransitionAnimation) {
+    fileprivate func transitionToScene(_ scene: BaseScene, animation: TransitionAnimation) {
         var transition: SKTransition
         
         let duration = 0.5
         
         switch animation {
-        case .Fade:
-            transition = SKTransition.fadeWithDuration(duration)
-        case .Push:
-            transition = SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: duration)
-        case .Pop:
-            transition = SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: duration)
+        case .fade:
+            transition = SKTransition.fade(withDuration: duration)
+        case .push:
+            transition = SKTransition.push(with: SKTransitionDirection.left, duration: duration)
+        case .pop:
+            transition = SKTransition.push(with: SKTransitionDirection.right, duration: duration)
         }
         
         self.gameViewController?.presentScene(scene, withTransition: transition)
@@ -79,7 +79,7 @@ class SceneManager: NSObject {
         InputProxy.sharedInstance.scene = scene
     }
 
-    private func loadLevel(levelIndex: Int) throws -> Level {
+    fileprivate func loadLevel(_ levelIndex: Int) throws -> Level {
         let levelParser = LevelLoader(forGame: Game.sharedInstance)
         let level = try levelParser.loadLevel(levelIndex)
         return level
@@ -89,13 +89,13 @@ class SceneManager: NSObject {
 // MARK: - Menu Options
 
 extension SceneManager {
-    private func settingsOptions() -> [MenuOption] {
+    fileprivate func settingsOptions() -> [MenuOption] {
         let backItem = MenuOption(title: "BACK") {
-            self.showMainMenu(withAnimation: .Pop)
+            self.showMainMenu(withAnimation: .pop)
         }
         
         let enabled = Settings.musicEnabled()
-        let playMusicItem = MenuOption(title: "PLAY MUSIC", type: .Checkbox, value: enabled) { newValue in
+        let playMusicItem = MenuOption(title: "PLAY MUSIC", type: .checkbox, value: enabled as AnyObject?) { newValue in
             if let enabled = newValue as? Bool {
                 Settings.setMusicEnabled(enabled)
             }
@@ -104,13 +104,13 @@ extension SceneManager {
         return [playMusicItem, backItem]
     }
     
-    private func developerOptions() -> [MenuOption] {
+    fileprivate func developerOptions() -> [MenuOption] {
         let backItem = MenuOption(title: "BACK") {
-            self.showMainMenu(withAnimation: .Pop)
+            self.showMainMenu(withAnimation: .pop)
         }
         
         let levelIdx = Settings.initialLevel()
-        let initialLevelItem = MenuOption(title: "INITIAL LEVEL", type: .NumberChooser, value: levelIdx) { newValue in
+        let initialLevelItem = MenuOption(title: "INITIAL LEVEL", type: .numberChooser, value: levelIdx as AnyObject?) { newValue in
             if let index = newValue as? Int {
                 Settings.setInitialLevel(index)
             }
@@ -128,14 +128,14 @@ extension SceneManager {
         }
         
         let checkAssets = Settings.assetsCheckEnabled()
-        let checkAssetsItem = MenuOption(title: "CHECK ASSETS ON START-UP", type: .Checkbox, value: checkAssets) { newValue in
+        let checkAssetsItem = MenuOption(title: "CHECK ASSETS ON START-UP", type: .checkbox, value: checkAssets as AnyObject?) { newValue in
             if let enabled = newValue as? Bool {
                 Settings.setAssetsCheckEnabled(enabled)
             }
         }
         
         let showMenu = Settings.showMenuOnStartupEnabled()
-        let showMenuOnStartUpItem = MenuOption(title: "SHOW MENU ON START-UP", type: .Checkbox, value: showMenu) { newValue in
+        let showMenuOnStartUpItem = MenuOption(title: "SHOW MENU ON START-UP", type: .checkbox, value: showMenu as AnyObject?) { newValue in
             if let enabled = newValue as? Bool {
                 Settings.setShowMenuOnStartupEnabled(enabled)
             }
@@ -144,7 +144,7 @@ extension SceneManager {
         return [initialLevelItem, checkAssetsItem, showMenuOnStartUpItem, backItem]
     }
     
-    private func mainMenuOptions() -> [MenuOption] {
+    fileprivate func mainMenuOptions() -> [MenuOption] {
         let newGameItem = MenuOption(title: "NEW GAME") {
             let level = Settings.initialLevel();
             self.showLevel(level)
@@ -169,37 +169,37 @@ extension SceneManager {
 // MARK: - GameSceneDelegate
 
 extension SceneManager: GameSceneDelegate {
-    func gameSceneDidMoveToView(scene: GameScene, view: SKView) {
+    func gameSceneDidMoveToView(_ scene: GameScene, view: SKView) {
         if scene != pausedGameScene {
             Game.sharedInstance.configureLevel()
         }
     }
     
-    func gameSceneDidFinishLevel(scene: GameScene, level: Level) {
+    func gameSceneDidFinishLevel(_ scene: GameScene, level: Level) {
         showLevel(level.index + 1)
     }
     
-    func gameSceneDidPause(scene: GameScene) {
+    func gameSceneDidPause(_ scene: GameScene) {
         self.pausedGameScene = scene
         
         MusicPlayer.sharedInstance.pause()
         
-        showMainMenu(withAnimation: .Fade)
+        showMainMenu(withAnimation: .fade)
     }
 }
 
 // MARK: - LoadingSceneDelegate
 
 extension SceneManager : LoadingSceneDelegate {
-    func loadingSceneDidFinishLoading(scene: LoadingScene) {
+    func loadingSceneDidFinishLoading(_ scene: LoadingScene) {
         if Settings.showMenuOnStartupEnabled() {
-            showMainMenu(withAnimation: .Fade)
+            showMainMenu(withAnimation: .fade)
         } else {
             showLevel(Settings.initialLevel())
         }
     }
     
-    func loadingSceneDidMoveToView(scene: LoadingScene, view: SKView) {
+    func loadingSceneDidMoveToView(_ scene: LoadingScene, view: SKView) {
         do {
             try scene.updateAssetsIfNeeded()
         } catch let error {

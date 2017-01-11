@@ -68,21 +68,21 @@ class InfoOverlay: NSView {
     
     // MARK: - Private
     
-    private func commonInit() {
+    fileprivate func commonInit() {
         label = NSTextView()
-        label.backgroundColor = NSColor.clearColor()
-        label.font = NSFont.systemFontOfSize(16)
-        label.textColor = NSColor.whiteColor()
+        label.backgroundColor = NSColor.clear
+        label.font = NSFont.systemFont(ofSize: 16)
+        label.textColor = NSColor.white
         label.wantsLayer = true
         addSubview(label)
         
-        autoresizingMask = .ViewWidthSizable
+        autoresizingMask = .viewWidthSizable
         
         wantsLayer = true
-        layer?.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0)
+        layer?.backgroundColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1.0)
         layer?.opacity = 0.0
         
-        NSNotificationCenter.defaultCenter().addObserverForName("net.wolftrail.bomberman.message", object: nil, queue: NSOperationQueue.currentQueue(), usingBlock: { notification in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "net.wolftrail.bomberman.message"), object: nil, queue: OperationQueue.current, using: { notification in
             if let message = notification.object as? String {
                 self.update(message)
             }
@@ -91,7 +91,7 @@ class InfoOverlay: NSView {
         
     // MARK: - Public
     
-    func update(text: String) {
+    func update(_ text: String) {
         if isUpdating {
             return
         }
@@ -112,7 +112,7 @@ class InfoOverlay: NSView {
     
 #endif
 
-func updateInfoOverlayWithMessage(message: String) {
-    let notification = NSNotification(name: "net.wolftrail.bomberman.message", object: message)
-    NSNotificationCenter.defaultCenter().postNotification(notification)
+func updateInfoOverlayWithMessage(_ message: String) {
+    let notification = Notification(name: Notification.Name(rawValue: "net.wolftrail.bomberman.message"), object: message)
+    NotificationCenter.default.post(notification)
 }

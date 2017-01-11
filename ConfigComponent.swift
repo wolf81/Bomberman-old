@@ -10,66 +10,66 @@ import GameplayKit
 import CoreGraphics
 
 enum CreatureType {
-    case Monster
-    case Boss
-    case Undefined
+    case monster
+    case boss
+    case undefined
 }
 
 enum AttackDirection {
-    case Axial // only along x-axis & y-axis
-    case Any
+    case axial // only along x-axis & y-axis
+    case radial
 }
 
 class ConfigComponent: GKComponent {
-    private(set) var configFilePath: String
+    fileprivate(set) var configFilePath: String
     
-    private(set) var textureFile = String()
-    private(set) var spriteSize = CGSize()
+    fileprivate(set) var textureFile = String()
+    fileprivate(set) var spriteSize = CGSize()
     
     // World unit size of the entity - used for sprites that are bigger than 1 world unit.
-    private(set) var wuSize = Size(width: 1, height: 1)
+    fileprivate(set) var wuSize = Size(width: 1, height: 1)
     
-    private(set) var speed: CGFloat = 1.0
+    fileprivate(set) var speed: CGFloat = 1.0
     
-    private(set) var lives: Int = 0
-    private(set) var health: Int = 0
+    fileprivate(set) var lives: Int = 0
+    fileprivate(set) var health: Int = 0
 
-    private(set) var hitDamage: Int = 1
+    fileprivate(set) var hitDamage: Int = 1
     
     // TODO: We need to modify spawn timers for bombs, therefore this property can be modified. 
     //  Figure out cleaner solution.
     var spawnAnimation = AnimationConfiguration()
     
-    private(set) var floatAnimation = AnimationConfiguration()
-    private(set) var destroyAnimation = AnimationConfiguration()
-    private(set) var hitAnimation = AnimationConfiguration()
-    private(set) var cheerAnimation = AnimationConfiguration()
-    private(set) var decayAnimation = AnimationConfiguration()
-    private(set) var moveAnimation = AnimationConfiguration()
-    private(set) var attackAnimation = AnimationConfiguration()
+    fileprivate(set) var floatAnimation = AnimationConfiguration()
+    fileprivate(set) var destroyAnimation = AnimationConfiguration()
+    fileprivate(set) var hitAnimation = AnimationConfiguration()
+    fileprivate(set) var cheerAnimation = AnimationConfiguration()
+    fileprivate(set) var decayAnimation = AnimationConfiguration()
+    fileprivate(set) var moveAnimation = AnimationConfiguration()
+    fileprivate(set) var attackAnimation = AnimationConfiguration()
     
-    private(set) var destroySound: String?
-    private(set) var attackSound: String?
-    private(set) var spawnSound: String?
-    private(set) var hitSound: String?
-    private(set) var cheerSound: String?
+    fileprivate(set) var destroySound: String?
+    fileprivate(set) var attackSound: String?
+    fileprivate(set) var spawnSound: String?
+    fileprivate(set) var hitSound: String?
+    fileprivate(set) var cheerSound: String?
     
-    private(set) var projectile: String?
+    fileprivate(set) var projectile: String?
     
     // TODO: It's better for creatureType to be irrelevant. Adjusted mechanics should be 
     //  configurable through the config file instead.
-    private(set) var creatureType: CreatureType = .Undefined
+    fileprivate(set) var creatureType: CreatureType = .undefined
     
-    private(set) var attackDirection: AttackDirection = .Axial
+    fileprivate(set) var attackDirection: AttackDirection = .axial
     
-    private(set) var states: [State]?
+    fileprivate(set) var states: [State]?
     
-    private(set) var collisionCategories = EntityCategory.Nothing
+    fileprivate(set) var collisionCategories = EntityCategory.Nothing
     
     // MARK: - Initialization
     
-    init(json: [String: AnyObject], configFileUrl: NSURL) {
-        self.configFilePath = configFileUrl.URLByDeletingLastPathComponent!.path!
+    init(json: [String: AnyObject], configFileUrl: URL) {
+        self.configFilePath = configFileUrl.deletingLastPathComponent().path
 
         super.init()
         
@@ -147,12 +147,16 @@ class ConfigComponent: GKComponent {
             parseCollisionCategoriesJson(collisionCategoriesJson)
         }
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Public
     
     // MARK: - Private
 
-    private func parseStatesJson(json: [String]) {
+    fileprivate func parseStatesJson(_ json: [String]) {
         var states = [State]()
         
         for stateJson in json {
@@ -175,28 +179,28 @@ class ConfigComponent: GKComponent {
         }
     }
     
-    private func parseCollisionCategoriesJson(json: [String]) {
+    fileprivate func parseCollisionCategoriesJson(_ json: [String]) {
         self.collisionCategories = EntityCategory.categoriesForStrings(json)
     }
     
-    private func parseDestroyJson(json: [String: AnyObject]) {
+    fileprivate func parseDestroyJson(_ json: [String: AnyObject]) {
         self.destroySound = soundFromJson(json)
     }
     
-    private func parseHitJson(json: [String: AnyObject]) {
+    fileprivate func parseHitJson(_ json: [String: AnyObject]) {
         self.hitSound = soundFromJson(json)        
         self.hitDamage = json["damage"] as? Int ?? 1
     }
     
-    private func parseCheerJson(json: [String: AnyObject]) {
+    fileprivate func parseCheerJson(_ json: [String: AnyObject]) {
         self.cheerSound = soundFromJson(json)
     }
 
-    private func parseSpawnJson(json: [String: AnyObject]) {
+    fileprivate func parseSpawnJson(_ json: [String: AnyObject]) {
         self.spawnSound = soundFromJson(json)
     }
     
-    private func parseCreatureJson(json: [String: AnyObject]) {
+    fileprivate func parseCreatureJson(_ json: [String: AnyObject]) {
         if let livesJson = json["lives"] as? Int {
             self.lives = max(livesJson - 1, 0) // 3 lives => life 0, life 1, life 2
         }
@@ -207,14 +211,14 @@ class ConfigComponent: GKComponent {
         
         if let typeJson = json["type"] as? String {
             switch typeJson {
-            case "monster": self.creatureType = .Monster
-            case "boss": self.creatureType = .Boss
-            default: self.creatureType = .Undefined
+            case "monster": self.creatureType = .monster
+            case "boss": self.creatureType = .boss
+            default: self.creatureType = .undefined
             }
         }
     }
     
-    private func parseSpriteJson(json: [String: AnyObject]) {
+    fileprivate func parseSpriteJson(_ json: [String: AnyObject]) {
         if let atlasJson = json["atlas"] as? String {
             self.textureFile = atlasJson
         }
@@ -234,7 +238,7 @@ class ConfigComponent: GKComponent {
         self.wuSize = Size(width: wu_width ?? 1, height: wu_height ?? 1)
     }
     
-    private func parseAttackJson(json: [String: AnyObject]) {
+    fileprivate func parseAttackJson(_ json: [String: AnyObject]) {
         self.attackSound = soundFromJson(json)
 
         if let projectileJson = json["projectile"] as? String {
@@ -245,16 +249,16 @@ class ConfigComponent: GKComponent {
             var attackDirection: AttackDirection
             
             switch directionJson {
-            case "any": attackDirection = .Any
+            case "any": attackDirection = .radial
             case "axial": fallthrough
-            default: attackDirection = .Axial
+            default: attackDirection = .axial
             }
             
             self.attackDirection = attackDirection
         }
     }
     
-    private func soundFromJson(json: [String: AnyObject]) -> String? {
+    fileprivate func soundFromJson(_ json: [String: AnyObject]) -> String? {
         var sound: String?
         
         if let soundJson = json["sound"] as? String {
@@ -264,7 +268,8 @@ class ConfigComponent: GKComponent {
         return sound
     }
 
-    private func animRangeFromJson(json: [String: AnyObject]) -> Range<Int> {
+    // Returned a CountableRange before.
+    fileprivate func animRangeFromJson(_ json: [String: AnyObject]) -> Range<Int> {
         var range = Range(0 ..< 0)
         
         if let animJson = json["anim"] as? [Int] {

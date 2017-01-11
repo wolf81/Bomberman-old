@@ -10,14 +10,14 @@ import SpriteKit
 import GameplayKit
 
 class State: GKState {
-    private var updating = false
+    fileprivate var updating = false
     
-    override func willExitWithNextState(nextState: GKState) {
-        super.willExitWithNextState(nextState)
+    override func willExit(to nextState: GKState) {
+        super.willExit(to: nextState)
     }
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
-        super.didEnterWithPreviousState(previousState)
+    override func didEnter(from previousState: GKState?) {
+        super.didEnter(from: previousState)
     }
     
     var entity: Entity? {
@@ -32,8 +32,8 @@ class State: GKState {
     
     // MARK: - Private
     
-    private func restartAudioNodeEngineIfNeeded(forAudioNode audioNode: SKAudioNode) {
-        if let engine = audioNode.avAudioNode?.engine where engine.running == false {
+    fileprivate func restartAudioNodeEngineIfNeeded(forAudioNode audioNode: SKAudioNode) {
+        if let engine = audioNode.avAudioNode?.engine, engine.isRunning == false {
             engine.prepare()
             
             do {
@@ -46,17 +46,17 @@ class State: GKState {
     
     // MARK: - Public
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
+    override func update(deltaTime seconds: TimeInterval) {
         if !updating && canUpdate() {
             updating = true
             
             if let entity = self.entity,
-                let visualComponent = entity.componentForClass(VisualComponent),
-                let configComponent = entity.componentForClass(ConfigComponent) {
+                let visualComponent = entity.component(ofType: VisualComponent.self),
+                let configComponent = entity.component(ofType: ConfigComponent.self) {
                 
                 var move: SKAction?
                 if !canMoveDuringUpdate() {
-                    move = visualComponent.spriteNode.actionForKey("move")
+                    move = visualComponent.spriteNode.action(forKey: "move")
                     move?.speed = 0
                 }
                 
@@ -79,27 +79,27 @@ class State: GKState {
         return true
     }
     
-    func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
+    func updateForEntity(_ entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: @escaping () -> Void) {
     }
     
     func playAction(forFileAtPath filePath: String, spriteNode: SKSpriteNode) -> SKAction {
-        let audioNode = SKAudioNode(URL: NSURL(fileURLWithPath: filePath))
+        let audioNode = SKAudioNode(url: URL(fileURLWithPath: filePath))
         audioNode.autoplayLooped = false
         
         Game.sharedInstance.gameScene?.addChild(audioNode)
         
-        let play = SKAction.runBlock({
+        let play = SKAction.run({
             // After switching scenes (e.g. to menu) and returning to the game scene, the audio 
             //  engine apparantly needs a restart - no restart results in a crash.
             self.restartAudioNodeEngineIfNeeded(forAudioNode: audioNode)
             
-            audioNode.runAction(SKAction.play())
+            audioNode.run(SKAction.play())
         })
     
         return play
     }
     
-    func defaultAnimation(withDuration duration: NSTimeInterval, repeatCount: Int) -> SKAction {
-        return SKAction.waitForDuration(duration)
+    func defaultAnimation(withDuration duration: TimeInterval, repeatCount: Int) -> SKAction {
+        return SKAction.wait(forDuration: duration)
     }
 }

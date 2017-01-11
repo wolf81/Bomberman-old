@@ -9,9 +9,9 @@
 import SpriteKit
 
 enum PointsType: Int {
-    case Ten = 10
-    case Fifty = 50
-    case Hundred = 100
+    case ten = 10
+    case fifty = 50
+    case hundred = 100
 }
 
 class Points: Entity {
@@ -26,7 +26,7 @@ class Points: Entity {
         // TODO: when game starts for first time, just copy files in bundle to assets directory
         //  and read from this location always. Or keep this code only for debug / devel purposes?
         let filePath = configComponent.configFilePath.stringByAppendingPathComponent(configComponent.textureFile)
-        let imageData = NSData(contentsOfFile: filePath)
+        let imageData = try? Data(contentsOf: URL(fileURLWithPath: filePath))
         let image = Image(data: imageData!)
         texture = SKTexture(image: image!)
         
@@ -36,20 +36,24 @@ class Points: Entity {
         let visualComponent = VisualComponent(sprites: [sprite], createPhysicsBody: false)
         visualComponent.spriteNode.speed = configComponent.speed
         
-        visualComponent.spriteNode.zPosition = EntityLayer.Points.rawValue
+        visualComponent.spriteNode.zPosition = EntityLayer.points.rawValue
         
         addComponent(visualComponent)
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Private
     
-    private func spriteIndex(forPointsType type: PointsType) -> Int {
+    fileprivate func spriteIndex(forPointsType type: PointsType) -> Int {
         var spriteIndex: Int
         
         switch type {
-        case .Ten: spriteIndex = 0
-        case .Fifty: spriteIndex = 1
-        case .Hundred: spriteIndex = 2
+        case .ten: spriteIndex = 0
+        case .fifty: spriteIndex = 1
+        case .hundred: spriteIndex = 2
         }
         
         return spriteIndex

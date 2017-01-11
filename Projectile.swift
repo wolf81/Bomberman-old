@@ -7,12 +7,13 @@
 //
 
 import CoreGraphics
+import Foundation
 
 class Projectile: Entity {
     var damage: Int {
         var damage = 1
         
-        if let configComponent = componentForClass(ConfigComponent) {
+        if let configComponent = component(ofType: ConfigComponent.self) {
             // TODO: check for explicit animation action, cause just sounds are also possible
             damage = configComponent.hitDamage
         }
@@ -23,10 +24,10 @@ class Projectile: Entity {
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, force: CGVector = CGVector()) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
-        if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = EntityLayer.Projectile.rawValue
+        if let visualComponent = component(ofType: VisualComponent.self) {
+            visualComponent.spriteNode.zPosition = EntityLayer.projectile.rawValue
 
-            if let configComponent = componentForClass(ConfigComponent) {
+            if let configComponent = component(ofType: ConfigComponent.self) {
                 if let physicsBody = visualComponent.spriteNode.physicsBody {
                     physicsBody.categoryBitMask = EntityCategory.Projectile
                     physicsBody.usesPreciseCollisionDetection = true;
@@ -43,9 +44,13 @@ class Projectile: Entity {
         }
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func clone() -> Projectile {
         let game = self.game!
-        let configComponent = componentForClass(ConfigComponent)!
+        let configComponent = component(ofType: ConfigComponent.self)!
         
         return Projectile(forGame: game, configComponent: configComponent, gridPosition: Point(x: 0, y: 0))
     }

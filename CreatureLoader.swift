@@ -9,17 +9,17 @@
 import Foundation
 
 class CreatureLoader: ConfigurationLoader {
-    private let configFile = "config.json"
+    fileprivate let configFile = "config.json"
     
-    func monsterWithName(name: String, gridPosition: Point) throws -> Creature? {
+    func monsterWithName(_ name: String, gridPosition: Point) throws -> Creature? {
         var entity: Creature? = nil
                 
         let directory = "Creatures/\(name)"
         if let configComponent = try loadConfiguration(configFile, bundleSupportSubDirectory: directory) {
             switch configComponent.creatureType {
-            case .Boss:
+            case .boss:
                 entity = Monster(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, createPhysicsBody: true, collidesWithPlayer: true)
-            case .Monster: fallthrough
+            case .monster: fallthrough
             default:
                 entity = Monster(forGame: self.game, configComponent: configComponent, gridPosition: gridPosition, createPhysicsBody: false, collidesWithPlayer: false)
             }
@@ -28,14 +28,14 @@ class CreatureLoader: ConfigurationLoader {
         return entity
     }
     
-    func playerWithIndex(index: PlayerIndex, gridPosition: Point) throws -> Player? {
+    func playerWithIndex(_ index: PlayerIndex, gridPosition: Point) throws -> Player? {
         var entity: Player? = nil
         
         var name: String
         
         switch index {
-        case .Player1: name = "Player1"
-        case .Player2: name = "Player2"
+        case .player1: name = "Player1"
+        case .player2: name = "Player2"
         }
         
         let directory = "Creatures/\(name)"

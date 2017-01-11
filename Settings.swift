@@ -16,33 +16,33 @@ class Settings {
     
     // MARK: - Private
     
-    private static func setBool(flag: Bool, forKey key: String) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setBool(flag, forKey: key)
+    fileprivate static func setBool(_ flag: Bool, forKey key: String) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(flag, forKey: key)
         userDefaults.synchronize()
     }
     
-    private static func boolForKey(key: String) -> Bool {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let flag = userDefaults.boolForKey(key)
+    fileprivate static func boolForKey(_ key: String) -> Bool {
+        let userDefaults = UserDefaults.standard
+        let flag = userDefaults.bool(forKey: key)
         return flag
     }
     
-    private static func setInteger(int: Int, forKey key: String) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setInteger(int, forKey: key)
+    fileprivate static func setInteger(_ int: Int, forKey key: String) {
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(int, forKey: key)
         userDefaults.synchronize()
     }
     
-    private static func integerForKey(key: String) -> Int {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let int = userDefaults.integerForKey(key)
+    fileprivate static func integerForKey(_ key: String) -> Int {
+        let userDefaults = UserDefaults.standard
+        let int = userDefaults.integer(forKey: key)
         return int
     }
     
     // MARK: - Public
     
-    static func setInitialLevel(index: Int) {
+    static func setInitialLevel(_ index: Int) {
         setInteger(index, forKey: kLevelKey)
     }
     
@@ -50,7 +50,7 @@ class Settings {
         return integerForKey(kLevelKey)
     }
     
-    static func setMusicEnabled(enabled: Bool) {
+    static func setMusicEnabled(_ enabled: Bool) {
         setBool(enabled, forKey: kMusicKey)
     }
     
@@ -58,7 +58,7 @@ class Settings {
         return boolForKey(kMusicKey)
     }
     
-    static func setAssetsCheckEnabled(enabled: Bool) {
+    static func setAssetsCheckEnabled(_ enabled: Bool) {
         setBool(enabled, forKey: kAssetsCheckKey)
     }
     
@@ -66,7 +66,7 @@ class Settings {
         return boolForKey(kAssetsCheckKey)
     }
     
-    static func setShowMenuOnStartupEnabled(enabled: Bool) {
+    static func setShowMenuOnStartupEnabled(_ enabled: Bool) {
         setBool(enabled, forKey: kShowMenuOnStartupKey)
     }
     

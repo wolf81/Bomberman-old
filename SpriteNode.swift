@@ -9,5 +9,5 @@
 import SpriteKit
 
 class SpriteNode: SKSpriteNode {
-    weak var entity: Entity?
+//    weak var entity: Entity?
 }

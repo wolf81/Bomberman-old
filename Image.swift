@@ -34,24 +34,36 @@ extension UIImage {
     
 import AppKit
 
-class Image: NSImage {}
+class Image: NSImage {
+    override public init(size: NSSize) {
+        super.init(size: size)
+    }
+    
+    required public init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    required init?(pasteboardPropertyList propertyList: Any, ofType type: String) {
+        fatalError("init(pasteboardPropertyList:ofType:) has not been implemented")
+    }
+}
     
 extension NSImage {
-    var CGImage: CGImageRef? {
+    var CGImage: CGImage? {
         get {
-            var imageRef: CGImageRef? = nil
+            var imageRef: CGImage? = nil
             
-            var imageRect:CGRect = CGRectMake(0, 0, self.size.width, self.size.height)
-            imageRef = self.CGImageForProposedRect(&imageRect, context: nil, hints: nil)
+            var imageRect:CGRect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
+            imageRef = self.cgImage(forProposedRect: &imageRect, context: nil, hints: nil)
             
             return imageRef
         }
     }
     
-    class func imageWithColor(color: SKColor, size: CGSize) -> NSImage {
+    class func imageWithColor(_ color: SKColor, size: CGSize) -> NSImage {
         let image = NSImage(size: size)
         image.lockFocus()
-        color.drawSwatchInRect(NSMakeRect(0, 0, size.width, size.height))
+        color.drawSwatch(in: NSMakeRect(0, 0, size.width, size.height))
         image.unlockFocus()
         return image
     }

@@ -9,11 +9,11 @@
 import SpriteKit
 
 class CheerState: State {
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         return !(stateClass is CheerState.Type)
     }
     
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
+    override func updateForEntity(_ entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: @escaping () -> Void) {
         var actions = [SKAction]()
         
         if let cheerSound = configComponent.cheerSound {
@@ -34,7 +34,7 @@ class CheerState: State {
         }
         
         if actions.count > 0 {
-            visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+            visualComponent.spriteNode.run(SKAction.sequence(actions), completion: completion)
         } else {
             completion()
         }

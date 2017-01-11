@@ -10,19 +10,19 @@ import GameplayKit
 import SpriteKit
 
 class DestroyState: State {
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         return (stateClass is SpawnState.Type)
     }
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
-        super.didEnterWithPreviousState(previousState)
+    override func didEnter(from previousState: GKState?) {
+        super.didEnter(from: previousState)
         
         if let entity = self.entity {
             entity.delegate?.entityWillDestroy(entity)
         }
     }
     
-    override func updateForEntity(entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: () -> Void) {
+    override func updateForEntity(_ entity: Entity, configComponent: ConfigComponent, visualComponent: VisualComponent, didUpdate: @escaping () -> Void) {
         var actions = [SKAction]()
         
         visualComponent.spriteNode.removeAllActions()
@@ -47,7 +47,7 @@ class DestroyState: State {
         }
         
         if actions.count > 0 {
-            visualComponent.spriteNode.runAction(SKAction.sequence(actions), completion: completion)
+            visualComponent.spriteNode.run(SKAction.sequence(actions), completion: completion)
         } else {
             completion()
         }

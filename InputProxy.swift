@@ -29,7 +29,7 @@ class InputProxy {
 
     weak var scene: BaseScene?
     
-    private var directionPressed = false
+    fileprivate var directionPressed = false
     
     var autoDirectionPressRelease = false
     
@@ -76,7 +76,7 @@ class InputProxy {
     
     #else
     
-    func configureController(controller: GCController, forPlayer player: GCControllerPlayerIndex) {
+    func configureController(_ controller: GCController, forPlayer player: GCControllerPlayerIndex) {
         controller.playerIndex = player
         
         controller.controllerPausedHandler = { [unowned self] _ in
@@ -86,7 +86,7 @@ class InputProxy {
         if let dpad = controller.gamepad?.dpad {
             dpad.valueChangedHandler = { _, xValue, yValue in
                 if let scene = self.scene {
-                    self.handleDpadValueChangedForPlayer(.Player1, scene: scene, xValue: xValue, yValue: yValue, centerOffset: 0.10)
+                    self.handleDpadValueChangedForPlayer(.player1, scene: scene, xValue: xValue, yValue: yValue, centerOffset: 0.10)
                 }
             }
         }
@@ -94,7 +94,7 @@ class InputProxy {
         if let buttonA = controller.gamepad?.buttonA {
             buttonA.pressedChangedHandler = { _, value, pressed in
                 if let scene = self.scene {
-                    self.handleActionPressReleaseForPlayer(.Player1, scene: scene, pressed: pressed)
+                    self.handleActionPressReleaseForPlayer(.player1, scene: scene, pressed: pressed)
                 }
             }
         }
@@ -102,7 +102,7 @@ class InputProxy {
         if let buttonX = controller.gamepad?.buttonX {
             buttonX.pressedChangedHandler = { _, value, pressed in
                 if let scene = self.scene {
-                    self.handleActionPressReleaseForPlayer(.Player1, scene: scene, pressed: pressed)
+                    self.handleActionPressReleaseForPlayer(.player1, scene: scene, pressed: pressed)
                 }
             }
         }
@@ -112,10 +112,10 @@ class InputProxy {
     
     // MARK: - Private
     
-    private init() {
+    fileprivate init() {
     }
     
-    private func handleDpadValueChangedForPlayer(player: PlayerIndex, scene: BaseScene, xValue: Float, yValue: Float, centerOffset: Float) {
+    fileprivate func handleDpadValueChangedForPlayer(_ player: PlayerIndex, scene: BaseScene, xValue: Float, yValue: Float, centerOffset: Float) {
         if self.autoDirectionPressRelease {
             if fabs(xValue) < centerOffset && fabs(yValue) < centerOffset {
                 directionPressed = false
@@ -133,7 +133,7 @@ class InputProxy {
         }
     }
     
-    private func handleDirectionalButtonPressForPlayer(player: PlayerIndex, scene: BaseScene, xValue: Float, yValue: Float) {
+    fileprivate func handleDirectionalButtonPressForPlayer(_ player: PlayerIndex, scene: BaseScene, xValue: Float, yValue: Float) {
         if fabs(xValue) > fabs(yValue) {
             if xValue > 0 {
                 scene.handleRightPress(forPlayer: player)
@@ -149,20 +149,20 @@ class InputProxy {
         }
     }
     
-    private func handleActionPressReleaseForPlayer(player: PlayerIndex, scene: BaseScene, pressed: Bool) {
+    fileprivate func handleActionPressReleaseForPlayer(_ player: PlayerIndex, scene: BaseScene, pressed: Bool) {
         if pressed {
-            scene.handleActionPress(forPlayer: .Player1)
+            scene.handleActionPress(forPlayer: .player1)
         }
     }
     
-    private func releaseDirectionalButtonsForPlayer(player: PlayerIndex, scene: BaseScene) {
+    fileprivate func releaseDirectionalButtonsForPlayer(_ player: PlayerIndex, scene: BaseScene) {
         scene.handleRightRelease(forPlayer: player)
         scene.handleLeftRelease(forPlayer: player)
         scene.handleUpRelease(forPlayer: player)
         scene.handleDownRelease(forPlayer: player)
     }
     
-    private func handlePausePress() {
-        scene?.handlePausePress(forPlayer: .Player1)
+    fileprivate func handlePausePress() {
+        scene?.handlePausePress(forPlayer: .player1)
     }
 }

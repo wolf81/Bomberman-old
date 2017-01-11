@@ -9,6 +9,6 @@
 import Foundation
 
 protocol Focusable {
-    func setFocused(focused: Bool)
+    func setFocused(_ focused: Bool)
     func isFocused() -> Bool
 }

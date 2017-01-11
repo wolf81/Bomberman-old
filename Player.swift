@@ -12,10 +12,10 @@ import SpriteKit
 class Player: Creature {
     let index: PlayerIndex
     
-    private var shieldDuration: NSTimeInterval = 0
-    private var moveSpeedDuration: NSTimeInterval = 0
+    fileprivate var shieldDuration: TimeInterval = 0
+    fileprivate var moveSpeedDuration: TimeInterval = 0
     
-    private let propLoader: PropLoader
+    fileprivate let propLoader: PropLoader
 
     override var direction: Direction {
         set(newDirection) {
@@ -27,12 +27,12 @@ class Player: Creature {
         }
     }
         
-    private(set) var explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
-    private(set) var bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
-    private(set) var shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
-    private(set) var moveSpeedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
-    private(set) var bombPowerLimit = PowerUpLimit(currentCount: 4, maxCount: 6)
-    private(set) var speedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+    fileprivate(set) var explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
+    fileprivate(set) var bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+    fileprivate(set) var shieldPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+    fileprivate(set) var moveSpeedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
+    fileprivate(set) var bombPowerLimit = PowerUpLimit(currentCount: 4, maxCount: 6)
+    fileprivate(set) var speedPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)
     
     // MARK: - Initialization
     
@@ -42,8 +42,8 @@ class Player: Creature {
         
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
 
-        if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = EntityLayer.Player.rawValue
+        if let visualComponent = component(ofType: VisualComponent.self) {
+            visualComponent.spriteNode.zPosition = EntityLayer.player.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = EntityCategory.Player
@@ -52,16 +52,20 @@ class Player: Creature {
             }
         }
         
-        removeComponentForClass(CpuControlComponent)
+        removeComponent(ofType: CpuControlComponent.self)
         
         let playerControlComponent = PlayerControlComponent(player: self)
         addComponent(playerControlComponent)
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Public
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        super.updateWithDeltaTime(seconds)
+    override func update(deltaTime seconds: TimeInterval) {
+        super.update(deltaTime: seconds)
         
         if shieldPowerLimit.currentCount > 0 {
             shieldDuration -= seconds
@@ -96,14 +100,14 @@ class Player: Creature {
         bombTriggerPowerLimit.increase()
     }
     
-    func addMoveSpeedPower(withDuration duration: NSTimeInterval) {
+    func addMoveSpeedPower(withDuration duration: TimeInterval) {
         moveSpeedPowerLimit.increase { 
             self.moveSpeedDuration = duration
             self.updateForMoveSpeed(speedAdjustment: 0.8)
         }
     }
     
-    func addShieldPower(withDuration duration: NSTimeInterval) {
+    func addShieldPower(withDuration duration: TimeInterval) {
         shieldPowerLimit.increase() {
             self.shieldDuration = duration
             self.updateForShield()
@@ -113,7 +117,7 @@ class Player: Creature {
     func dropBomb() throws -> Bool {
         var didDropBomb = false
 
-        if let visualComponent = self.componentForClass(VisualComponent), let game = self.game where game.bombCountForPlayer(index) < self.bombPowerLimit.currentCount {
+        if let visualComponent = self.component(ofType: VisualComponent.self), let game = self.game, game.bombCountForPlayer(index) < self.bombPowerLimit.currentCount {
 
             let gridPosition = gridPositionForPosition(visualComponent.spriteNode.position)
             if game.bombAtGridPosition(gridPosition) == nil,
@@ -132,7 +136,7 @@ class Player: Creature {
         resetPowerUps()
         
         if lives >= 0 {
-            direction = .None
+            direction = .none
             addShieldPower(withDuration: 2.0)
             updateForShield()
             
@@ -140,7 +144,7 @@ class Player: Creature {
         }
     }
     
-    override func hit(damage: Int) {
+    override func hit(_ damage: Int) {
         if shieldPowerLimit.currentCount == 0 {
             super.hit(damage)
         }
@@ -163,8 +167,8 @@ class Player: Creature {
         var otherPlayer: Player
         
         switch self.index {
-        case .Player1: otherPlayer = game!.player2!
-        case .Player2: otherPlayer = game!.player1!
+        case .player1: otherPlayer = game!.player2!
+        case .player2: otherPlayer = game!.player1!
         }
 
         let movementDirections = super.movementDirectionsFromCurrentGridPosition()
@@ -181,13 +185,13 @@ class Player: Creature {
         return adjustedMovementDirections
     }
     
-    override func updateForDirection(direction: Direction) {
+    override func updateForDirection(_ direction: Direction) {
         updateForShield()
     }
 
    // MARK: - Private
     
-    private func decreasePowerUpLimitWhenExpired(inout powerUpLimit: PowerUpLimit, timeRemaining: NSTimeInterval = -1.0) -> Bool {
+    fileprivate func decreasePowerUpLimitWhenExpired(_ powerUpLimit: inout PowerUpLimit, timeRemaining: TimeInterval = -1.0) -> Bool {
         var didDecrease = false
         
         if timeRemaining < 0 && powerUpLimit.currentCount > 0 {
@@ -200,45 +204,45 @@ class Player: Creature {
     
     // TODO: When hit by bullet after getting movement speed boost, speed is slowed down, even if 
     //  there is time remaining.
-    private func updateForMoveSpeed(speedAdjustment adjustment: CGFloat) {
-        if let visualComponent = componentForClass(VisualComponent),
-            configComponent = componentForClass(ConfigComponent) {
+    fileprivate func updateForMoveSpeed(speedAdjustment adjustment: CGFloat) {
+        if let visualComponent = component(ofType: VisualComponent.self),
+            let configComponent = component(ofType: ConfigComponent.self) {
             visualComponent.spriteNode.speed = configComponent.speed + adjustment
         }
     }
     
     // TODO: When picking-up shield just after respawn, the full new shield should be added.
-    private func updateForShield() {
+    fileprivate func updateForShield() {
         game?.gameScene?.updateHudForPlayer(self)
         
         // TODO 1: Clean-up the code for getting shield texture. Should be more dynamic,
         //  like entities. Perhaps the shield can be parsed as prop.
         //
         // TODO 2: Shield positioning seems wrong when respawning.
-        if let visualComponent = componentForClass(VisualComponent) {
+        if let visualComponent = component(ofType: VisualComponent.self) {
             if shieldPowerLimit.currentCount > 0 {
                 let shieldTexture = SKTexture(imageNamed: "Shield.png")
-                let spriteSize = CGSizeMake(32, 32)
+                let spriteSize = CGSize(width: 32, height: 32)
                 let shieldSprites = SpriteLoader.spritesFromTexture(shieldTexture, withSpriteSize: spriteSize)
                 
                 var shieldSprite: SKTexture
                 
                 switch direction {
-                case .Left: shieldSprite = shieldSprites[2]
-                case .Right: shieldSprite = shieldSprites[1]
+                case .left: shieldSprite = shieldSprites[2]
+                case .right: shieldSprite = shieldSprites[1]
                 default: shieldSprite = shieldSprites[0]
                 }
 
-                if let shieldNode = visualComponent.spriteNode.childNodeWithName("shield") {
+                if let shieldNode = visualComponent.spriteNode.childNode(withName: "shield") {
                     let updateTexture = SKAction.setTexture(shieldSprite)
-                    shieldNode.runAction(updateTexture)
+                    shieldNode.run(updateTexture)
                     
                     if shieldDuration < 2.0 {
-                        let fadeIn = SKAction.fadeAlphaTo(0.0, duration: 0.5)
-                        let fadeOut = SKAction.fadeAlphaTo(0.5, duration: 0.5)
+                        let fadeIn = SKAction.fadeAlpha(to: 0.0, duration: 0.5)
+                        let fadeOut = SKAction.fadeAlpha(to: 0.5, duration: 0.5)
                         let fadeAnim = SKAction.sequence([fadeIn, fadeOut])
-                        let anim = SKAction.repeatActionForever(fadeAnim)
-                        shieldNode.runAction(anim)
+                        let anim = SKAction.repeatForever(fadeAnim)
+                        shieldNode.run(anim)
                     }
                 } else {
                     let shieldNode = SKSpriteNode(texture: shieldSprite, size: visualComponent.spriteNode.size)
@@ -253,7 +257,7 @@ class Player: Creature {
         }
     }
     
-    private func resetPowerUps() {
+    fileprivate func resetPowerUps() {
         if lives >= 0 {
             explosionPowerLimit = PowerUpLimit(currentCount: 2, maxCount: 5)
             bombTriggerPowerLimit = PowerUpLimit(currentCount: 0, maxCount: 1)

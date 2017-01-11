@@ -19,14 +19,14 @@ import AVFoundation
 class MusicPlayer {
     static let sharedInstance = MusicPlayer()
     
-    private var audioPlayer: AVAudioPlayer?
-    private var fileManager: NSFileManager
+    fileprivate var audioPlayer: AVAudioPlayer?
+    fileprivate var fileManager: FileManager
     
     var isPlaying: Bool {
         var isPlaying = false
         
         if let audioPlayer = self.audioPlayer {
-            isPlaying = audioPlayer.playing
+            isPlaying = audioPlayer.isPlaying
         }
         
         return isPlaying
@@ -34,18 +34,18 @@ class MusicPlayer {
     
     // MARK: Private
     
-    private init() {
-        fileManager = NSFileManager.defaultManager()
+    fileprivate init() {
+        fileManager = FileManager.default
     }
     
     // MARK: - Public
     
-    func playMusic(file: String) throws {
+    func playMusic(_ file: String) throws {
         stop()
         
         if let path = try fileManager.pathForFile(file, inBundleSupportSubDirectory: "Music") {
-            let url = NSURL(fileURLWithPath: path)
-            try audioPlayer = AVAudioPlayer(contentsOfURL: url)
+            let url = URL(fileURLWithPath: path)
+            try audioPlayer = AVAudioPlayer(contentsOf: url)
             audioPlayer?.numberOfLoops = -1
             audioPlayer?.prepareToPlay()
             audioPlayer?.play()
@@ -55,7 +55,7 @@ class MusicPlayer {
         }
     }
     
-    func fadeOut(duration: Double) {
+    func fadeOut(_ duration: Double) {
         print("fadeOut start")
         
         if let audioPlayer = self.audioPlayer {
@@ -66,8 +66,8 @@ class MusicPlayer {
                 let delay = Double(step) * (duration / Double(steps))
                 
                 let delta = delay * Double(NSEC_PER_SEC)
-                let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delta))
-                dispatch_after(popTime, dispatch_get_main_queue(), {
+                let popTime = DispatchTime.now() + Double(Int64(delta)) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: popTime, execute: {
                     let fraction = Float(step) / Float(steps)
                     
                     audioPlayer.volume = volume + (0 - volume) * Float(fraction)

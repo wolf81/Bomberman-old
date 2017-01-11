@@ -8,7 +8,7 @@
 
 import GameplayKit
 
-class ComponentSystem: GKComponentSystem {
+class ComponentSystem: GKComponentSystem<GKComponent> {
     func removeAllComponents() {
         let components = self.components
         

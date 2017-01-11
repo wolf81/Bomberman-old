@@ -8,19 +8,19 @@
 import SpriteKit
 
 protocol GameSceneDelegate: SKSceneDelegate {
-    func gameSceneDidMoveToView(scene: GameScene, view: SKView)
-    func gameSceneDidFinishLevel(scene: GameScene, level: Level)
-    func gameSceneDidPause(scene: GameScene)
+    func gameSceneDidMoveToView(_ scene: GameScene, view: SKView)
+    func gameSceneDidFinishLevel(_ scene: GameScene, level: Level)
+    func gameSceneDidPause(_ scene: GameScene)
 }
 
 class GameScene : BaseScene {
-    private(set) var level: Level?
+    fileprivate(set) var level: Level?
     
     // The previous update time is used to calculate the delta time. The delta time is used to 
     //  update the Game state.
-    private var lastUpdateTime: NSTimeInterval = 0
+    fileprivate var lastUpdateTime: TimeInterval = 0
 
-    private let rootNode: GameSceneNode
+    fileprivate let rootNode: GameSceneNode
     
     var world: SKSpriteNode {
         return rootNode.world
@@ -46,7 +46,7 @@ class GameScene : BaseScene {
         self.level = level
         self.gameSceneDelegate = gameSceneDelegate
         
-        scaleMode = .AspectFit
+        scaleMode = .aspectFit
         physicsWorld.gravity = CGVector()
     }
 
@@ -57,27 +57,27 @@ class GameScene : BaseScene {
     
     // MARK: - Public
     
-    func updateTimeRemaining(timeRemaining: NSTimeInterval) {
+    func updateTimeRemaining(_ timeRemaining: TimeInterval) {
         rootNode.updateTimeRemaining(timeRemaining)
     }
     
-    func updateHudForPlayer(player: Player) {
+    func updateHudForPlayer(_ player: Player) {
         rootNode.updateHudForPlayer(player)
     }
     
-    func levelFinished(level: Level) {
+    func levelFinished(_ level: Level) {
         if let delegate = gameSceneDelegate {
             delegate.gameSceneDidFinishLevel(self, level: level);
         }
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         if let delegate = gameSceneDelegate {
             delegate.gameSceneDidMoveToView(self, view: view)
         }        
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         // NOTE: After pausing the game, the last update time is reset to the current time. The 
         //  next time the update loop is entered, a correct delta time can then be calculated using
         //  the current time and the last update time.
@@ -91,15 +91,15 @@ class GameScene : BaseScene {
     }
     
     override func handleUpPress(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: .Up)
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .up)
     }
     
     override func handleDownPress(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: .Down)
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .down)
     }
     
     override func handlePausePress(forPlayer player: PlayerIndex) {
-        paused = true
+        isPaused = true
         lastUpdateTime = 0
         
         if let delegate = gameSceneDelegate {
@@ -108,31 +108,31 @@ class GameScene : BaseScene {
     }
     
     override func handleLeftPress(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: .Left)
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .left)
     }
     
     override func handleRightPress(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: .Right)
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .right)
     }
     
     override func handleActionPress(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStartAction(player, action: .Action)
+        Game.sharedInstance.handlePlayerDidStartAction(player, action: .action)
     }
 
     override func handleUpRelease(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: .Up)
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .up)
     }
     
     override func handleDownRelease(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: .Down)
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .down)
     }
     
     override func handleLeftRelease(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: .Left)
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .left)
     }
     
     override func handleRightRelease(forPlayer player: PlayerIndex) {
-        Game.sharedInstance.handlePlayerDidStopAction(player, action: .Right)
+        Game.sharedInstance.handlePlayerDidStopAction(player, action: .right)
     }
     
     override func handleActionRelease(forPlayer player: PlayerIndex) {

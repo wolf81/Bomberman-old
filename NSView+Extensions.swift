@@ -12,7 +12,7 @@
 import Cocoa
 
 extension NSView {
-    func fadeOut(duration: NSTimeInterval, completion: () -> Void) {
+    func fadeOut(_ duration: TimeInterval, completion: @escaping () -> Void) {
         assert(self.layer != nil, "Make sure wantsLayer is set to true. This animation happens on the layer of the view.")
         
         CATransaction.begin()
@@ -22,13 +22,13 @@ extension NSView {
         fadeOut.fromValue = 1.0
         fadeOut.toValue = 0.0
         fadeOut.duration = duration
-        self.layer?.addAnimation(fadeOut, forKey: nil)
+        self.layer?.add(fadeOut, forKey: nil)
         self.layer?.opacity = 0.0
         
         CATransaction.commit()
     }
     
-    func fadeIn(duration: NSTimeInterval, completion: () -> Void) {
+    func fadeIn(_ duration: TimeInterval, completion: @escaping () -> Void) {
         assert(self.layer != nil, "Make sure wantsLayer is set to true. This animation happens on the layer of the view.")
 
         CATransaction.begin()
@@ -38,7 +38,7 @@ extension NSView {
         fadeIn.fromValue = 0.0
         fadeIn.toValue = 1.0
         fadeIn.duration = duration
-        self.layer?.addAnimation(fadeIn, forKey: nil)
+        self.layer?.add(fadeIn, forKey: nil)
         self.layer?.opacity = 1.0
 
         CATransaction.commit()

@@ -11,35 +11,39 @@ import GameplayKit
 class PlayerControlComponent: GKComponent {
     weak var player: Player?
     
-    private var actions = Set<PlayerAction>()
+    fileprivate var actions = Set<PlayerAction>()
     
     init (player: Player) {
         super.init()
 
         self.player = player
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    func addAction(action: PlayerAction) {
-        if action == PlayerAction.None {
-            self.actions.remove(.Down)
-            self.actions.remove(.Left)
-            self.actions.remove(.Up)
-            self.actions.remove(.Right)
+    func addAction(_ action: PlayerAction) {
+        if action == PlayerAction.none {
+            self.actions.remove(.down)
+            self.actions.remove(.left)
+            self.actions.remove(.up)
+            self.actions.remove(.right)
         } else {
             self.actions.insert(action)
         }
     }
     
-    func removeAction(action: PlayerAction) {
+    func removeAction(_ action: PlayerAction) {
         self.actions.remove(action)
     }
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
-        if let player = self.player where player.isControllable {
+    override func update(deltaTime seconds: TimeInterval) {
+        if let player = self.player, player.isControllable {
             for action in actions {
-                if action == PlayerAction.Action {
+                if action == PlayerAction.action {
                     do {
-                        try player.dropBomb()
+                        _ = try player.dropBomb()
                     } catch let error {
                         print("error: \(error)")
                     }
@@ -49,10 +53,10 @@ class PlayerControlComponent: GKComponent {
             }
             
             if !player.isMoving {
-                var direction = Direction.None
+                var direction = Direction.none
                 
                 for action in actions {
-                    if action == PlayerAction.Action {
+                    if action == PlayerAction.action {
                         continue
                     }
                     
@@ -60,22 +64,22 @@ class PlayerControlComponent: GKComponent {
                     break
                 }
                 
-                if (direction != .None) {
-                    player.moveInDirection(direction)
+                if (direction != .none) {
+                    _ = player.moveInDirection(direction)
                 }
             }
         }
     }
     
-    private func movementDirectionForPlayerAction(action: PlayerAction) -> Direction {
+    fileprivate func movementDirectionForPlayerAction(_ action: PlayerAction) -> Direction {
         var direction: Direction
         
         switch action {
-        case .Up: direction = .Up
-        case .Down: direction = .Down
-        case .Left: direction = .Left
-        case .Right: direction = .Right
-        default: direction = .None
+        case .up: direction = .up
+        case .down: direction = .down
+        case .left: direction = .left
+        case .right: direction = .right
+        default: direction = .none
         }
         
         return direction

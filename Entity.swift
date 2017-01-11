@@ -10,37 +10,37 @@ import GameplayKit
 import SpriteKit
 
 protocol EntityDelegate: class {
-    func entityWillSpawn(entity: Entity)
-    func entityDidSpawn(entity: Entity)
+    func entityWillSpawn(_ entity: Entity)
+    func entityDidSpawn(_ entity: Entity)
     
-    func entityWillDestroy(entity: Entity)
-    func entityDidDestroy(entity: Entity)
+    func entityWillDestroy(_ entity: Entity)
+    func entityDidDestroy(_ entity: Entity)
     
-    func entityDidAttack(entity: Entity)    
-    func entityDidFloat(entity: Entity)
-    func entityDidHit(entity: Entity)
-    func entityDidCheer(entity: Entity)
-    func entityDidDecay(entity: Entity)
+    func entityDidAttack(_ entity: Entity)    
+    func entityDidFloat(_ entity: Entity)
+    func entityDidHit(_ entity: Entity)
+    func entityDidCheer(_ entity: Entity)
+    func entityDidDecay(_ entity: Entity)
 }
 
 class Entity: GKEntity {
-    private (set) var uuid = NSUUID().UUIDString
+    fileprivate (set) var uuid = UUID().uuidString
     
     var gridPosition = Point(x: 0, y: 0)
     var value: PointsType?
-    var spawnTimeAdjustment: NSTimeInterval = 0.0
+    var spawnTimeAdjustment: TimeInterval = 0.0
     
     // The movement direction of the creature.
-    var direction = Direction.None
+    var direction = Direction.none
 
     weak var game: Game?
 
     weak var delegate: EntityDelegate?
     
     var frame: CGRect {
-        var frame = CGRectNull
+        var frame = CGRect.null
         
-        if let visualComponent = componentForClass(VisualComponent) {
+        if let visualComponent = component(ofType: VisualComponent.self) {
             frame = visualComponent.spriteNode.frame
         }
         
@@ -50,7 +50,7 @@ class Entity: GKEntity {
     var speed: CGFloat {
         var speed: CGFloat = 1.0
         
-        if let configComponent = componentForClass(ConfigComponent) {
+        if let configComponent = component(ofType: ConfigComponent.self) {
             speed = configComponent.speed
         }
         
@@ -60,7 +60,7 @@ class Entity: GKEntity {
     var canRoam: Bool {
         var canRoam = false
         
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             canRoam = stateMachineComponent.canRoam
         }
         
@@ -70,7 +70,7 @@ class Entity: GKEntity {
     var canAttack: Bool {
         var canAttack = false
         
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             canAttack = stateMachineComponent.canAttack
         }
         
@@ -80,7 +80,7 @@ class Entity: GKEntity {
     var isDestroyed: Bool {
         var isDestroyed = false
         
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             isDestroyed = stateMachineComponent.currentState is DestroyState
         }
 
@@ -90,7 +90,7 @@ class Entity: GKEntity {
     var isControllable: Bool {
         var isControllable = false
         
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             isControllable = stateMachineComponent.currentState is ControlState
         }
         
@@ -100,7 +100,7 @@ class Entity: GKEntity {
     var isHit: Bool {
         var isHit = false
         
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             isHit = stateMachineComponent.currentState is HitState
         }
         
@@ -131,7 +131,7 @@ class Entity: GKEntity {
         // TODO: when game starts for first time, just copy files in bundle to assets directory
         //  and read from this location always. Or keep this code only for debug / devel purposes?
         let filePath = configComponent.configFilePath.stringByAppendingPathComponent(configComponent.textureFile)
-        let imageData = NSData(contentsOfFile: filePath)
+        let imageData = try? Data(contentsOf: URL(fileURLWithPath: filePath))
         let image = Image(data: imageData!)
         texture = SKTexture(image: image!)
         
@@ -148,63 +148,67 @@ class Entity: GKEntity {
             addComponent(stateMachineComponent)
         }        
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func removePhysicsBody() {
-        if let visualComponent = componentForClass(VisualComponent) {
+        if let visualComponent = component(ofType: VisualComponent.self) {
             visualComponent.spriteNode.physicsBody = nil
         }
     }
     
     func destroy() {
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             stateMachineComponent.enterDestroyState()
         }
     }
     
-    func hit(damage: Int = 1) {
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+    func hit(_ damage: Int = 1) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             stateMachineComponent.enterHitState(damage)
         }    
     }
         
     func cheer() {
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             stateMachineComponent.enterCheerState()
         }
     }
     
     func float() {
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             stateMachineComponent.enterFloatState()
         }
     }
     
     func decay() {
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             stateMachineComponent.enterDecayState()
         }
     }
     
     func spawn() {
-        if let stateMachineComponent = self.componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = self.component(ofType: StateMachineComponent.self) {
             stateMachineComponent.enterSpawnState()
         }
     }
     
     func control() {
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             stateMachineComponent.enterControlState()
         }
     }
     
     func roam() {
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             stateMachineComponent.enterRoamState()
         }
     }
         
     func attack() {
-        if let stateMachineComponent = componentForClass(StateMachineComponent) {
+        if let stateMachineComponent = component(ofType: StateMachineComponent.self) {
             stateMachineComponent.enterAttackState()
         }
     }    

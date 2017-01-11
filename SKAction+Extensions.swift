@@ -9,7 +9,7 @@
 import SpriteKit
 
 extension SKAction {
-    class func shake(initialPosition:CGPoint, duration:Float, amplitudeX:Int = 12, amplitudeY:Int = 3) -> SKAction {
+    class func shake(_ initialPosition:CGPoint, duration:Float, amplitudeX:Int = 12, amplitudeY:Int = 3) -> SKAction {
         let startingX = initialPosition.x
         let startingY = initialPosition.y
         let numberOfShakes = duration / 0.015
@@ -17,9 +17,9 @@ extension SKAction {
         for _ in 1...Int(numberOfShakes) {
             let newXPos = startingX + CGFloat(arc4random_uniform(UInt32(amplitudeX))) - CGFloat(amplitudeX / 2)
             let newYPos = startingY + CGFloat(arc4random_uniform(UInt32(amplitudeY))) - CGFloat(amplitudeY / 2)
-            actionsArray.append(SKAction.moveTo(CGPointMake(newXPos, newYPos), duration: 0.015))
+            actionsArray.append(SKAction.move(to: CGPoint(x: newXPos, y: newYPos), duration: 0.015))
         }
-        actionsArray.append(SKAction.moveTo(initialPosition, duration: 0.015))
+        actionsArray.append(SKAction.move(to: initialPosition, duration: 0.015))
         return SKAction.sequence(actionsArray)
     }
     
@@ -28,9 +28,9 @@ extension SKAction {
                                    state: State) -> [SKAction] {
         var actions = [SKAction]()
         
-        if let visualComponent = entity.componentForClass(VisualComponent) {
+        if let visualComponent = entity.component(ofType: VisualComponent.self) {
             if configuration.delay > 0 {
-                let wait = SKAction.waitForDuration(configuration.delay)
+                let wait = SKAction.wait(forDuration: configuration.delay)
                 actions.append(wait)
             }
             
@@ -41,10 +41,10 @@ extension SKAction {
                 let timePerFrame = configuration.duration / Double(frameCount)
                 
                 let sprites = Array(visualComponent.sprites[animRange])
-                let anim = SKAction.animateWithTextures(sprites, timePerFrame: timePerFrame)
+                let anim = SKAction.animate(with: sprites, timePerFrame: timePerFrame)
                 
                 if configuration.repeatCount > 1 {
-                    let repeatAnim = SKAction.repeatAction(anim, count: configuration.repeatCount)
+                    let repeatAnim = SKAction.repeat(anim, count: configuration.repeatCount)
                     actions.append(repeatAnim)
                 } else {
                     actions.append(anim)

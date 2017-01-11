@@ -8,10 +8,23 @@
 
 import GameplayKit
 import SpriteKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class VisualComponent: GKComponent {
-    private(set) var sprites: [SKTexture]
-    private(set) var spriteNode: SpriteNode
+    fileprivate(set) var sprites: [SKTexture]
+    fileprivate(set) var spriteNode: SpriteNode
     
     init(sprites: [SKTexture], createPhysicsBody: Bool = true, wu_size: Size = Size(width: 1, height: 1)) {
         self.sprites = sprites
@@ -40,10 +53,10 @@ class VisualComponent: GKComponent {
                 }
             }
         } else {
-            sprite = SpriteNode(color: SKColor.redColor(), size: size)
+            sprite = SpriteNode(color: SKColor.red, size: size)
             
             if createPhysicsBody {
-                sprite.physicsBody = SKPhysicsBody(rectangleOfSize: size)
+                sprite.physicsBody = SKPhysicsBody(rectangleOf: size)
             }
         }
         
@@ -53,31 +66,35 @@ class VisualComponent: GKComponent {
 
         super.init()
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
         
-    func moveInDirection(direction: Direction, toPosition: CGPoint, completion: () -> Void) {
+    func moveInDirection(_ direction: Direction, toPosition: CGPoint, completion: @escaping () -> Void) {
         if let entity = self.entity as? Entity,
-            let configComponent = self.entity?.componentForClass(ConfigComponent) {
+            let configComponent = self.entity?.component(ofType: ConfigComponent.self) {
             
             let animRange = configComponent.moveAnimation.animRangeForDirection(entity.direction)
             
             var actions = [SKAction]()
             
-            let duration: NSTimeInterval = 1.0
+            let duration: TimeInterval = 1.0
             
-            let move = SKAction.moveTo(toPosition, duration: duration)
+            let move = SKAction.move(to: toPosition, duration: duration)
             actions.append(move)
             
-            if animRange.endIndex > 0 {
+            if animRange.upperBound > 0 {
                 let textures = Array(self.sprites[animRange])
                 let timePerFrame = duration / Double(textures.count)
-                let animate = SKAction.animateWithTextures(textures, timePerFrame: timePerFrame)
+                let animate = SKAction.animate(with: textures, timePerFrame: timePerFrame)
                 actions.append(animate)
             }
             
             let group = SKAction.group(actions)
-            let sequence = SKAction.sequence([group, SKAction.runBlock(completion)])            
+            let sequence = SKAction.sequence([group, SKAction.run(completion)])            
             
-            self.spriteNode.runAction(sequence, withKey: "move")
+            self.spriteNode.run(sequence, withKey: "move")
         }
     }    
 }

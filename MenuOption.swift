@@ -9,26 +9,26 @@
 import Foundation
 
 enum MenuOptionType {
-    case Default
-    case NumberChooser
-    case Checkbox
+    case `default`
+    case numberChooser
+    case checkbox
 }
 
 // TODO: Perhaps can use generics here. A simple implementation would default to number chooser for 
 //  Int value type, checkbox for Bool value type, etcetera.
 
 class MenuOption {
-    private(set) var title: String
-    private(set) var type = MenuOptionType.Default
-    private(set) var onSelected: (() -> Void)?
-    private(set) var onValueChanged: ((newValue: AnyObject?) -> Void)?
+    fileprivate(set) var title: String
+    fileprivate(set) var type = MenuOptionType.default
+    fileprivate(set) var onSelected: (() -> Void)?
+    fileprivate(set) var onValueChanged: ((_ newValue: AnyObject?) -> Void)?
     
-    var onValidate: ((newValue: AnyObject?) -> Bool)?
+    var onValidate: ((_ newValue: AnyObject?) -> Bool)?
     
-    private(set) var value: AnyObject? {
+    fileprivate(set) var value: AnyObject? {
         didSet {
             if let onValueChanged = self.onValueChanged {
-                onValueChanged(newValue: value)
+                onValueChanged(value)
             }
         }
     }
@@ -36,8 +36,8 @@ class MenuOption {
     // TODO: Figure out if we can use a cleaner solution than this assert. Static factory methods 
     //  for checkbox and number chooser could be one approach, but seems to not be idiomatic Swift.
     //  Another option could be using a builder class.
-    init(title: String, type: MenuOptionType, value: AnyObject?, onValueChanged: ((newValue: AnyObject?) -> Void)? = nil) {
-        assert(type != .Default, "Menu type of default can not have a value or value changed handler - use the other constructor.")
+    init(title: String, type: MenuOptionType, value: AnyObject?, onValueChanged: ((_ newValue: AnyObject?) -> Void)? = nil) {
+        assert(type != .default, "Menu type of default can not have a value or value changed handler - use the other constructor.")
         
         self.title = title
         self.type = type
@@ -52,7 +52,7 @@ class MenuOption {
     
     // MARK: - Public 
     
-    func update(newValue: AnyObject?) -> Bool {
+    func update(_ newValue: AnyObject?) -> Bool {
         var didUpdate = false
      
         let updateBlock = {
@@ -61,7 +61,7 @@ class MenuOption {
         }
 
         if let onValidate = self.onValidate {
-            if onValidate(newValue: newValue) {
+            if onValidate(newValue) {
                 updateBlock()
             }
         } else {

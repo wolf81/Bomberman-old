@@ -73,13 +73,13 @@ class GameViewController: GCEventViewController {
 import Cocoa
 
 class GameViewController: NSViewController {
-    private var sceneManager: SceneManager!
-    private var gameView: GameView!
-    private var infoOverlay: InfoOverlay?
+    fileprivate var sceneManager: SceneManager!
+    fileprivate var gameView: GameView!
+    fileprivate var infoOverlay: InfoOverlay?
     
     // MARK: - Initialization
     
-    override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init?(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         commonInit()
@@ -91,7 +91,7 @@ class GameViewController: NSViewController {
         commonInit()
     }
 
-    private func commonInit() {
+    fileprivate func commonInit() {
         self.sceneManager = SceneManager(gameViewController: self)
     }
 
@@ -132,7 +132,7 @@ class GameViewController: NSViewController {
     
     // MARK: - Public
     
-    func presentScene(scene: SKScene, withTransition transition: SKTransition) {
+    func presentScene(_ scene: SKScene, withTransition transition: SKTransition) {
         self.gameView.presentScene(scene, transition: transition)
     }
 }

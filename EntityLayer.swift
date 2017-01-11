@@ -10,13 +10,13 @@ import CoreGraphics
 
 // zPositions of entities.
 enum EntityLayer: CGFloat {
-    case Bomb = 1
-    case Explosion
-    case Tile
-    case Prop
-    case PowerUp
-    case Monster
-    case Projectile
-    case Player
-    case Points
+    case bomb = 1
+    case explosion
+    case tile
+    case prop
+    case powerUp
+    case monster
+    case projectile
+    case player
+    case points
 }

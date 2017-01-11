@@ -15,46 +15,46 @@ class Game : NSObject {
     
     // Control systems for the player, computer and generic state machine (e.g.: tiles are not 
     //  'played' by the CPU, but can still have several states - some tiles can be destroyed).
-    private let cpuControlSystem = ComponentSystem(componentClass: CpuControlComponent.self)
-    private let playerControlSystem = ComponentSystem(componentClass: PlayerControlComponent.self)
-    private let stateMachineSystem = ComponentSystem(componentClass: StateMachineComponent.self)
+    fileprivate let cpuControlSystem = ComponentSystem(componentClass: CpuControlComponent.self)
+    fileprivate let playerControlSystem = ComponentSystem(componentClass: PlayerControlComponent.self)
+    fileprivate let stateMachineSystem = ComponentSystem(componentClass: StateMachineComponent.self)
     
     // The current level. After the level is assigned, we add all entities of the level to the 
     //  entity lists of the game.
-    private var level: Level? = nil
+    fileprivate var level: Level? = nil
     
-    private var isLevelCompleted = false
+    fileprivate var isLevelCompleted = false
     
     // Enrage timer for monsters.
-    private var timeRemaining: NSTimeInterval = 0
-    private var extraGameTime: NSTimeInterval = NSTimeInterval.NaN
-    private var timeExpired = false
-    private var hurryUpShown = false
+    fileprivate var timeRemaining: TimeInterval = 0
+    fileprivate var extraGameTime: TimeInterval = TimeInterval.nan
+    fileprivate var timeExpired = false
+    fileprivate var hurryUpShown = false
     
-    private(set) var gameScene: GameScene? = nil
+    fileprivate(set) var gameScene: GameScene? = nil
     
-    private(set) var monsterForAlienMap = [String: Creature]()
+    fileprivate(set) var monsterForAlienMap = [String: Creature]()
     
     // List of entities currently active in the game. These lists are updated each game loop.
-    private(set) var creatures = [Creature]()
-    private(set) var props = [Entity]()
-    private(set) var bombs = [Bomb]()
-    private(set) var explosions = [Explosion]()
-    private(set) var tiles = [Tile]()
-    private(set) var projectiles = [Projectile]()
-    private(set) var points = [Points]()
-    private(set) var powerUps = [PowerUp]()
-    private(set) var coins = [Coin]()
+    fileprivate(set) var creatures = [Creature]()
+    fileprivate(set) var props = [Entity]()
+    fileprivate(set) var bombs = [Bomb]()
+    fileprivate(set) var explosions = [Explosion]()
+    fileprivate(set) var tiles = [Tile]()
+    fileprivate(set) var projectiles = [Projectile]()
+    fileprivate(set) var points = [Points]()
+    fileprivate(set) var powerUps = [PowerUp]()
+    fileprivate(set) var coins = [Coin]()
     
     // Players are referenced from the creatures array as it contains both players and monsters.
-    private(set) weak var player1: Player?
-    private(set) weak var player2: Player?
+    fileprivate(set) weak var player1: Player?
+    fileprivate(set) weak var player2: Player?
     
     // Lists of entities to be added or removed in the next update.
-    private var entitiesToAdd = [Entity]()
-    private var entitiesToRemove = [Entity]()
+    fileprivate var entitiesToAdd = [Entity]()
+    fileprivate var entitiesToRemove = [Entity]()
     
-    private var creatureLoader: CreatureLoader?
+    fileprivate var creatureLoader: CreatureLoader?
     
     override init() {
         super.init()
@@ -62,40 +62,40 @@ class Game : NSObject {
         creatureLoader = CreatureLoader(forGame: self)
     }
     
-    func configureForGameScene(gameScene: GameScene) {
+    func configureForGameScene(_ gameScene: GameScene) {
         self.level = gameScene.level
         self.gameScene = gameScene
         self.gameScene?.physicsWorld.contactDelegate = self
     }
         
-    func handlePlayerDidStartAction(player: PlayerIndex, action: PlayerAction) {
+    func handlePlayerDidStartAction(_ player: PlayerIndex, action: PlayerAction) {
         switch player {
-        case .Player1:
-            if let playerControlComponent = level?.player1?.componentForClass(PlayerControlComponent) {
+        case .player1:
+            if let playerControlComponent = level?.player1?.component(ofType: PlayerControlComponent.self) {
                 playerControlComponent.addAction(action)
             }
-        case .Player2:
-            if let playerControlComponent = level?.player2?.componentForClass(PlayerControlComponent) {
+        case .player2:
+            if let playerControlComponent = level?.player2?.component(ofType: PlayerControlComponent.self) {
                 playerControlComponent.addAction(action)
             }
         }
     }
     
-    func handlePlayerDidStopAction(player: PlayerIndex, action: PlayerAction) {
+    func handlePlayerDidStopAction(_ player: PlayerIndex, action: PlayerAction) {
         switch player {
-        case .Player1:
-            if let playerControlComponent = level?.player1?.componentForClass(PlayerControlComponent) {
+        case .player1:
+            if let playerControlComponent = level?.player1?.component(ofType: PlayerControlComponent.self) {
                 playerControlComponent.removeAction(action)
             }
-        case .Player2:
-            if let playerControlComponent = level?.player2?.componentForClass(PlayerControlComponent) {
+        case .player2:
+            if let playerControlComponent = level?.player2?.component(ofType: PlayerControlComponent.self) {
                 playerControlComponent.removeAction(action)
             }
         }
     }
     
     // The main update loop. Called every frame to update game state.
-    func update(deltaTime: CFTimeInterval) {
+    func update(_ deltaTime: CFTimeInterval) {
         // Add new entities (e.g. dropped bombs) and remove destroyed entities (e.g. killed monsters)
         updateEntityLists()
         
@@ -126,16 +126,16 @@ class Game : NSObject {
             
             if extraGameTime <= 0 {
                 replaceAliensWithMonsters()
-                extraGameTime = NSTimeInterval.NaN
+                extraGameTime = TimeInterval.nan
             }
         }
         
         // Update player movement, monster movement, state machines ...
         updateComponentSystems(deltaTime)
         
-        player1?.updateWithDeltaTime(deltaTime)
-        player2?.updateWithDeltaTime(deltaTime)
-        powerUps.forEach({ $0.updateWithDeltaTime(deltaTime) })
+        player1?.update(deltaTime: deltaTime)
+        player2?.update(deltaTime: deltaTime)
+        powerUps.forEach({ $0.update(deltaTime: deltaTime) })
         
         // Enrage timer. When timer is expired, monsters become more dangerous.
         if timeRemaining > 0 && !isLevelCompleted {
@@ -145,7 +145,7 @@ class Game : NSObject {
                 hurryUpShown = true
                 
                 let play = SKAction.playSoundFileNamed("HurryUp.caf", waitForCompletion: false)
-                gameScene?.runAction(play)
+                gameScene?.run(play)
             }
         } else if !timeExpired {
             timeExpired = true
@@ -191,14 +191,14 @@ class Game : NSObject {
         playMusic()
     }
     
-    func nextVisibleGridPositionFromGridPosition(gridPosition: Point, inDirection direction: Direction) -> Point? {
+    func nextVisibleGridPositionFromGridPosition(_ gridPosition: Point, inDirection direction: Direction) -> Point? {
         var nextGridPosition: Point?
         
         switch direction {
-        case .Up: nextGridPosition = Point(x: gridPosition.x, y: gridPosition.y + 1)
-        case .Down: nextGridPosition = Point(x: gridPosition.x, y: gridPosition.y - 1)
-        case .Left: nextGridPosition = Point(x: gridPosition.x - 1, y: gridPosition.y)
-        case .Right: nextGridPosition = Point(x: gridPosition.x + 1, y: gridPosition.y)
+        case .up: nextGridPosition = Point(x: gridPosition.x, y: gridPosition.y + 1)
+        case .down: nextGridPosition = Point(x: gridPosition.x, y: gridPosition.y - 1)
+        case .left: nextGridPosition = Point(x: gridPosition.x - 1, y: gridPosition.y)
+        case .right: nextGridPosition = Point(x: gridPosition.x + 1, y: gridPosition.y)
         default: break
         }
     
@@ -211,31 +211,31 @@ class Game : NSObject {
         return nextGridPosition
     }
     
-    func visibleGridPositionsFromGridPosition(gridPosition: Point, inDirection direction: Direction) -> [Point] {
+    func visibleGridPositionsFromGridPosition(_ gridPosition: Point, inDirection direction: Direction) -> [Point] {
         var gridPositions = [Point]()
         
         switch direction {
-        case .Up:
+        case .up:
             for y in gridPosition.y ..< level!.height {
                 gridPositions.append(Point(x: gridPosition.x, y: y))
             }
-        case .Down:
-            for y in (0 ..< gridPosition.y).reverse() {
+        case .down:
+            for y in (0 ..< gridPosition.y).reversed() {
                 gridPositions.append(Point(x: gridPosition.x, y: y))
             }
-        case .Left:
-            for x in (0 ..< gridPosition.x).reverse() {
+        case .left:
+            for x in (0 ..< gridPosition.x).reversed() {
                 gridPositions.append(Point(x: x, y: gridPosition.y))
             }
-        case .Right:
+        case .right:
             for x in (gridPosition.x ..< level!.width) {
                 gridPositions.append(Point(x: x, y: gridPosition.y))
             }
         default: break
         }
         
-        for (index, gridPosition) in gridPositions.enumerate() where tileAtGridPosition(gridPosition) != nil {
-            gridPositions.removeRange(index ..< gridPositions.count)
+        for (index, gridPosition) in gridPositions.enumerated() where tileAtGridPosition(gridPosition) != nil {
+            gridPositions.removeSubrange(index ..< gridPositions.count)
             break
         }
         
@@ -244,7 +244,7 @@ class Game : NSObject {
     
     // MARK: - Private
     
-    private func playMusic() {
+    fileprivate func playMusic() {
         if let level = self.level {
             // TODO: Music improvements.
             //  1. Compare songs in music player - don't play if same song.
@@ -267,27 +267,27 @@ class Game : NSObject {
         }
     }
     
-    private func enrageMonsters() {
+    fileprivate func enrageMonsters() {
         creatures
             .filter({ $0 is Monster })
             .forEach({
-                if let visualComponent = $0.componentForClass(VisualComponent) {
+                if let visualComponent = $0.component(ofType: VisualComponent.self) {
                     visualComponent.spriteNode.speed *= 1.6
                 }
             })
     }
     
-    private func updateHudForPlayer(player: Player) {
+    fileprivate func updateHudForPlayer(_ player: Player) {
         gameScene?.updateHudForPlayer(player)
     }
     
-    private func updateComponentSystems(deltaTime: NSTimeInterval) {
-        cpuControlSystem.updateWithDeltaTime(deltaTime)
-        playerControlSystem.updateWithDeltaTime(deltaTime)
-        stateMachineSystem.updateWithDeltaTime(deltaTime)
+    fileprivate func updateComponentSystems(_ deltaTime: TimeInterval) {
+        cpuControlSystem.update(deltaTime: deltaTime)
+        playerControlSystem.update(deltaTime: deltaTime)
+        stateMachineSystem.update(deltaTime: deltaTime)
     }
     
-    private func updateEntityLists() {
+    fileprivate func updateEntityLists() {
         for entity in self.entitiesToRemove {
             switch entity {
             case is Explosion: explosions.remove(entity as! Explosion)
@@ -302,13 +302,13 @@ class Game : NSObject {
             default: print("unhandled entity type for instance: \(entity)")
             }
             
-            if let visualComponent = entity.componentForClass(VisualComponent) {
+            if let visualComponent = entity.component(ofType: VisualComponent.self) {
                 visualComponent.spriteNode.removeFromParent()
             }
             
-            playerControlSystem.removeComponentWithEntity(entity)
-            cpuControlSystem.removeComponentWithEntity(entity)
-            stateMachineSystem.removeComponentWithEntity(entity)
+            playerControlSystem.removeComponent(foundIn: entity)
+            cpuControlSystem.removeComponent(foundIn: entity)
+            stateMachineSystem.removeComponent(foundIn: entity)
         }
         entitiesToRemove.removeAll()
         
@@ -330,23 +330,23 @@ class Game : NSObject {
             
             print("ADD: \(entity)")
             
-            if let visualComponent = entity.componentForClass(VisualComponent) {
+            if let visualComponent = entity.component(ofType: VisualComponent.self) {
                 // Only calculate a position based on gridPosition if no position is already set.
-                if CGPointEqualToPoint(visualComponent.spriteNode.position, CGPointZero) {
+                if visualComponent.spriteNode.position.equalTo(CGPoint.zero) {
                     visualComponent.spriteNode.position = positionForGridPosition(entity.gridPosition)
                 }
                 
                 gameScene?.world.addChild(visualComponent.spriteNode)
             }
             
-            playerControlSystem.addComponentWithEntity(entity)
-            cpuControlSystem.addComponentWithEntity(entity)
-            stateMachineSystem.addComponentWithEntity(entity)
+            playerControlSystem.addComponent(foundIn: entity)
+            cpuControlSystem.addComponent(foundIn: entity)
+            stateMachineSystem.addComponent(foundIn: entity)
         }
         entitiesToAdd.removeAll()
     }
     
-    private func finishLevel(didPlayerWin: Bool) {
+    fileprivate func finishLevel(_ didPlayerWin: Bool) {
         if isLevelCompleted == false {
             isLevelCompleted = true
             
@@ -354,12 +354,12 @@ class Game : NSObject {
             
             MusicPlayer.sharedInstance.fadeOut(delay)
 
-            let wait = SKAction.waitForDuration(delay)
+            let wait = SKAction.wait(forDuration: delay)
             let soundFile = didPlayerWin ? "CompleteLevel.caf" : "GameOver.caf"
             let play = SKAction.playSoundFileNamed(soundFile, waitForCompletion: false)
             let sequence = SKAction.sequence([wait, play, wait]);
             
-            gameScene?.runAction(sequence, completion: {
+            gameScene?.run(sequence, completion: {
                 // TODO: Maybe remove, since during 'configure' (level loading) we remove all 
                 //  entities anyway.
                 self.removeAllEntities()
@@ -368,10 +368,10 @@ class Game : NSObject {
         }
     }
 
-    private func isMonsterAlive() -> Bool {
+    fileprivate func isMonsterAlive() -> Bool {
         var isMonsterAlive = false
         
-        for creature in creatures where creature.isKindOfClass(Monster) {
+        for creature in creatures where creature.isKind(of: Monster.self) {
             isMonsterAlive = true
             break
         }
@@ -379,12 +379,12 @@ class Game : NSObject {
         return isMonsterAlive
     }
     
-    private func isPlayerAlive() -> Bool {
+    fileprivate func isPlayerAlive() -> Bool {
         let players = [player1, player2].flatMap{ $0 }.filter{ $0.lives >= 0 }
         return players.count > 0
     }
     
-    private func removeAllEntities() {
+    fileprivate func removeAllEntities() {
         entitiesToAdd.removeAll()
         entitiesToRemove.removeAll()
         
@@ -403,7 +403,7 @@ class Game : NSObject {
         playerControlSystem.removeAllComponents()
     }
     
-    private func replaceMonstersWithAliens() {
+    fileprivate func replaceMonstersWithAliens() {
         let monsters = creatures.filter({ (creature) -> Bool in
             return creature is Monster && creature.isDestroyed == false
         })
@@ -413,7 +413,7 @@ class Game : NSObject {
                 if let alien = try creatureLoader!.monsterWithName("Alien", gridPosition: monster.gridPosition) {
                     monsterForAlienMap[alien.uuid] = monster
                     
-                    if let monsterVc = monster.componentForClass(VisualComponent), let alienVc = alien.componentForClass(VisualComponent) {
+                    if let monsterVc = monster.component(ofType: VisualComponent.self), let alienVc = alien.component(ofType: VisualComponent.self) {
                         alienVc.spriteNode.position = monsterVc.spriteNode.position
                     }
 
@@ -428,7 +428,7 @@ class Game : NSObject {
         extraGameTime = 10
     }
     
-    private func replaceAliensWithMonsters() {
+    fileprivate func replaceAliensWithMonsters() {
         let aliens = creatures.filter({ (creature) -> Bool in
             return creature is Monster && creature.isDestroyed == false
         })
@@ -454,19 +454,21 @@ class Game : NSObject {
 
     // MARK: - Private (Collision Handling)
     
-    private func handleContactBetweenExplosion(explosion: Explosion, andCreature creature: Creature) {
+    fileprivate func handleContactBetweenExplosion(_ explosion: Explosion, andCreature creature: Creature) {
         creature.destroy()
     }
     
-    private func handleContactBetweenProjectile(projectile: Projectile, andEntity entity: Entity) {
+    fileprivate func handleContactBetweenProjectile(_ projectile: Projectile, andEntity entity: GKEntity) {
+        // TODO: convert GKEntity to Entity
+        
         projectile.destroy()
         
-        if let player = entity as? Player where player.isDestroyed == false {
+        if let player = entity as? Player, player.isDestroyed == false {
             player.hit(projectile.damage)
         }
     }
     
-    private func handleContactBetweenProp(prop: Prop, andPlayer player: Player) {
+    fileprivate func handleContactBetweenProp(_ prop: Prop, andPlayer player: Player) {
         prop.destroy()
         
         let coinsInLevel = coins.filter { (coin) -> Bool in
@@ -478,16 +480,16 @@ class Game : NSObject {
         }
     }
     
-    private func handleContactBetweenMonster(monster: Monster, andMonster otherMonster: Monster) {
+    fileprivate func handleContactBetweenMonster(_ monster: Monster, andMonster otherMonster: Monster) {
         monster.stop()
         otherMonster.stop()
     }
     
-    private func handleContactBetweenMonster(monster: Monster, andPlayer player: Player) {
-        player.moveInDirection(.None)
+    fileprivate func handleContactBetweenMonster(_ monster: Monster, andPlayer player: Player) {
+        _ = player.moveInDirection(.none)
     }
     
-    private func handleContactBetweenPowerUp(powerUp: PowerUp, andPlayer player: Player) {
+    fileprivate func handleContactBetweenPowerUp(_ powerUp: PowerUp, andPlayer player: Player) {
         powerUp.hit()
         
         if powerUp.activated == false {
@@ -498,21 +500,21 @@ class Game : NSObject {
     
     // MARK: - Public
     
-    func addEntity(entity: Entity) {
+    func addEntity(_ entity: Entity) {
         entitiesToAdd.append(entity)
         
         switch entity {
         case let tile as Tile:
             // TODO (workaround): because tile loading uses different path compared to entity
             //  loading and we still need to add a state machine.
-            if tile.tileType == .DestructableBlock {
+            if tile.tileType == .destructableBlock {
                 let stateMachineComponent = StateMachineComponent(game: self, entity: tile, states: [SpawnState(), DestroyState()])
                 tile.addComponent(stateMachineComponent)
             }
         case let player as Player:
             switch player.index {
-            case .Player1: player1 = player
-            case .Player2: player2 = player
+            case .player1: player1 = player
+            case .player2: player2 = player
             }
         
             updateHudForPlayer(player)
@@ -520,11 +522,11 @@ class Game : NSObject {
         }
     }
     
-    func removeEntity(entity: Entity) {
+    func removeEntity(_ entity: Entity) {
         entitiesToRemove.append(entity)
     }
     
-    func bombCountForPlayer(player: PlayerIndex) -> Int {
+    func bombCountForPlayer(_ player: PlayerIndex) -> Int {
         let count = bombs.filter { $0.player == player }.count
         return count
     }
@@ -539,7 +541,7 @@ class Game : NSObject {
     
     // MARK: - Public (Entity Search) 
     
-    func playerAtGridPosition(gridPosition: Point) -> Player? {
+    func playerAtGridPosition(_ gridPosition: Point) -> Player? {
         var entity: Player?
         
         let players = [player1, player2].flatMap{ $0 }
@@ -552,7 +554,7 @@ class Game : NSObject {
         return entity
     }
     
-    func bombAtGridPosition(gridPosition: Point) -> Bomb? {
+    func bombAtGridPosition(_ gridPosition: Point) -> Bomb? {
         var entity: Bomb?
         
         for bomb in bombs where pointEqualToPoint(bomb.gridPosition, gridPosition) {
@@ -563,11 +565,11 @@ class Game : NSObject {
         return entity
     }
     
-    func creatureAtGridPosition(gridPosition: Point) -> Creature? {
+    func creatureAtGridPosition(_ gridPosition: Point) -> Creature? {
         var entity: Creature? = nil
         
         for creature in creatures {
-            if let visualComponent = creature.componentForClass(VisualComponent) {
+            if let visualComponent = creature.component(ofType: VisualComponent.self) {
                 // We don't use the creature grid position property directly, since it's not
                 //  updated until a creature finishes walking to a node. Instead we translate
                 //  the creatures' sprite position to a grid position.
@@ -583,7 +585,7 @@ class Game : NSObject {
         return entity
     }
     
-    func tileAtGridPosition(gridPosition: Point) -> Tile? {
+    func tileAtGridPosition(_ gridPosition: Point) -> Tile? {
         var entity: Tile? = nil
         
         for tile in tiles where pointEqualToPoint(tile.gridPosition, gridPosition) {
@@ -594,14 +596,13 @@ class Game : NSObject {
         return entity
     }
     
-    func bossAtGridPosition(gridPosition: Point) -> Monster? {
+    func bossAtGridPosition(_ gridPosition: Point) -> Monster? {
         var boss: Monster? = nil
         
         for creature in creatures {
             guard
                 let monster = creature as? Monster,
-                let configComponent = monster.componentForClass(ConfigComponent)
-                where configComponent.creatureType == .Boss else { return nil }
+                let configComponent = monster.component(ofType: ConfigComponent.self), configComponent.creatureType == .boss else { return nil }
             
             let wuSize = configComponent.wuSize
             let xOffset = (wuSize.width - 1) / 2
@@ -619,7 +620,7 @@ class Game : NSObject {
         return boss
     }
     
-    func powerAtGridPosition(gridPosition: Point) -> PowerUp? {
+    func powerAtGridPosition(_ gridPosition: Point) -> PowerUp? {
         var entity: PowerUp? = nil
         
         for powerUp in powerUps where pointEqualToPoint(powerUp.gridPosition, gridPosition) {
@@ -634,7 +635,7 @@ class Game : NSObject {
 // MARK: - EntityDelegate
 
 extension Game : EntityDelegate {
-    func entityWillDestroy(entity: Entity) {
+    func entityWillDestroy(_ entity: Entity) {
         switch entity {
         case let bomb as Bomb:
             do {
@@ -659,7 +660,7 @@ extension Game : EntityDelegate {
         }
     }
     
-    func entityDidCheer(entity: Entity) {
+    func entityDidCheer(_ entity: Entity) {
         finishLevel(true)
         
         if let player = entity as? Player {
@@ -667,7 +668,7 @@ extension Game : EntityDelegate {
         }
     }
     
-    func entityDidDecay(entity: Entity) {
+    func entityDidDecay(_ entity: Entity) {
         switch entity {
         case is Bomb: fallthrough
         case is PowerUp:
@@ -676,7 +677,7 @@ extension Game : EntityDelegate {
         }
     }
     
-    func entityDidDestroy(entity: Entity) {
+    func entityDidDestroy(_ entity: Entity) {
         switch entity {
         case let player as Player:
             updateHudForPlayer(player)
@@ -699,7 +700,7 @@ extension Game : EntityDelegate {
         }
     }
     
-    func entityDidHit(entity: Entity) {
+    func entityDidHit(_ entity: Entity) {
         switch entity {
         case let player as Player:
             if !player.isDestroyed {
@@ -713,14 +714,14 @@ extension Game : EntityDelegate {
         }
     }
     
-    func entityDidFloat(entity: Entity) {
+    func entityDidFloat(_ entity: Entity) {
         switch entity {
         case is Points: entity.destroy()
         default: break
         }
     }
     
-    func entityDidSpawn(entity: Entity) {
+    func entityDidSpawn(_ entity: Entity) {
         switch entity {
         case is Bomb: fallthrough
         case is PowerUp:
@@ -735,13 +736,13 @@ extension Game : EntityDelegate {
         }
     }
     
-    func entityDidAttack(entity: Entity) {
+    func entityDidAttack(_ entity: Entity) {
         entity.roam()
     }
     
-    func entityWillSpawn(entity: Entity) {
+    func entityWillSpawn(_ entity: Entity) {
         if entity is Player,
-            let visualComponent = entity.componentForClass(VisualComponent) {
+            let visualComponent = entity.component(ofType: VisualComponent.self) {
             let position = positionForGridPosition(entity.gridPosition)
             visualComponent.spriteNode.position = position
         }
@@ -751,7 +752,7 @@ extension Game : EntityDelegate {
 // MARK: - SKPhysicsContactDelegate
 
 extension Game : SKPhysicsContactDelegate {
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         let firstBody = contact.bodyA.node as! SpriteNode?
         let secondBody = contact.bodyB.node as! SpriteNode?
         
@@ -788,6 +789,6 @@ extension Game : SKPhysicsContactDelegate {
         }
     }
     
-    func didEndContact(contact: SKPhysicsContact) {
+    func didEnd(_ contact: SKPhysicsContact) {
     }
 }

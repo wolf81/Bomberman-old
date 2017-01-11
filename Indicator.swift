@@ -9,14 +9,14 @@
 import SpriteKit
 
 enum IndicatorDirection {
-    case Left
-    case Right
+    case left
+    case right
 }
 
 class Indicator : SKShapeNode {
-    private(set) var direction: IndicatorDirection = .Left
+    fileprivate(set) var direction: IndicatorDirection = .left
     
-    private(set) var size: CGSize = CGSize()
+    fileprivate(set) var size: CGSize = CGSize()
     
     convenience init(direction: IndicatorDirection) {
         self.init(size: CGSize(width: 10, height: 15), direction: direction)
@@ -39,46 +39,46 @@ class Indicator : SKShapeNode {
     
     // MARK: - Private
     
-    private func commonInit() {
-        strokeColor = SKColor.whiteColor()
-        fillColor = SKColor.whiteColor()
+    fileprivate func commonInit() {
+        strokeColor = SKColor.white
+        fillColor = SKColor.white
         
         var points: [(x: CGFloat, y: CGFloat)]
         
         switch direction {
-        case .Left:
+        case .left:
             points = [(size.width, size.height), (0, size.height / 2), (size.width, 0)]
-        case .Right:
+        case .right:
             points = [(0, size.height), (0, 0), (size.width, size.height / 2)]
         }
         
         self.path = pathForPoints(points)
     }
     
-    private func pathForPoints(points: [(x: CGFloat, y: CGFloat)]) -> CGPath {
-        let path = CGPathCreateMutable()
+    fileprivate func pathForPoints(_ points: [(x: CGFloat, y: CGFloat)]) -> CGPath {
+        let path = CGMutablePath()
         
         for point in points {
             if point == points.first! {
-                CGPathMoveToPoint(path, nil, point.x, point.y)
+                path.move(to: CGPoint(x: point.x, y: point.y))
             } else {
-                CGPathAddLineToPoint(path, nil, point.x, point.y)
+                path.addLine(to: CGPoint(x: point.x, y: point.y))
             }
         }
-        CGPathCloseSubpath(path)
+        path.closeSubpath()
 
         return path
     }
     
     // MARK: - Public
     
-    func runScaleAnimation(fromValue: CGFloat, toValue: CGFloat) {
+    func runScaleAnimation(_ fromValue: CGFloat, toValue: CGFloat) {
         assert(fromValue != toValue, "fromValue should be different from toValue")
         
-        let scaleTo = SKAction.scaleTo(toValue, duration: 1.0)
-        let scaleFrom = SKAction.scaleTo(fromValue, duration: 1.0)
+        let scaleTo = SKAction.scale(to: toValue, duration: 1.0)
+        let scaleFrom = SKAction.scale(to: fromValue, duration: 1.0)
         let sequence = SKAction.sequence([scaleTo, scaleFrom])
-        let scaleRepeat = SKAction.repeatActionForever(sequence)
-        runAction(scaleRepeat)
+        let scaleRepeat = SKAction.repeatForever(sequence)
+        run(scaleRepeat)
     }
 }

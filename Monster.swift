@@ -15,13 +15,13 @@ class Monster: Creature {
     init(forGame game: Game, configComponent: ConfigComponent, gridPosition: Point, createPhysicsBody: Bool, collidesWithPlayer: Bool) {
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
-        value = PointsType.Hundred
+        value = PointsType.hundred
         
         let cpuControlComponent = CpuControlComponent(game: game)
         addComponent(cpuControlComponent)
         
-        if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = EntityLayer.Monster.rawValue
+        if let visualComponent = component(ofType: VisualComponent.self) {
+            visualComponent.spriteNode.zPosition = EntityLayer.monster.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = EntityCategory.Monster
@@ -29,5 +29,9 @@ class Monster: Creature {
                 physicsBody.contactTestBitMask = collidesWithPlayer ? EntityCategory.Player | EntityCategory.Monster : EntityCategory.Monster
             }
         }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

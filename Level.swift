@@ -11,30 +11,30 @@ import GameplayKit
 import CoreGraphics
 import SpriteKit
 
-enum LevelError: ErrorType {
-    case FailedLoadingTheme(fromJson: NSDictionary)
+enum LevelError: Error {
+    case failedLoadingTheme(fromJson: NSDictionary)
 }
 
 class Level : NSObject {
     let index: Int
 
-    private(set) var theme: Theme
-    private(set) var music: String?
+    fileprivate(set) var theme: Theme
+    fileprivate(set) var music: String?
     
-    private(set) var width = 22
-    private(set) var height = 15
+    fileprivate(set) var width = 22
+    fileprivate(set) var height = 15
     
-    private(set) var tiles = [Tile?]()
-    private(set) var creatures = [Creature?]()
-    private(set) var props = [Prop?]()
-    private(set) var powerUps = [PowerUp?]()
-    private(set) var coins = [Coin?]()
+    fileprivate(set) var tiles = [Tile?]()
+    fileprivate(set) var creatures = [Creature?]()
+    fileprivate(set) var props = [Prop?]()
+    fileprivate(set) var powerUps = [PowerUp?]()
+    fileprivate(set) var coins = [Coin?]()
     
-    private(set) var timer: NSTimeInterval = 60
+    fileprivate(set) var timer: TimeInterval = 60
     
-    private(set) var player1: Player?
-    private(set) var player2: Player?
-    private(set) var game: Game
+    fileprivate(set) var player1: Player?
+    fileprivate(set) var player2: Player?
+    fileprivate(set) var game: Game
     
     // MARK: - Initialization
     
@@ -44,22 +44,22 @@ class Level : NSObject {
         
         let themeParser = ThemeLoader(forGame: game)
         
-        guard let themeName = json.valueForKey("theme") as? String,
+        guard let themeName = json.value(forKey: "theme") as? String,
             let theme = try themeParser.themeWithName(themeName) else {
-                throw LevelError.FailedLoadingTheme(fromJson: json)
+                throw LevelError.failedLoadingTheme(fromJson: json)
         }
         
-        self.music = json.valueForKey("music") as? String
+        self.music = json.value(forKey: "music") as? String
         
         self.theme = theme
         
         super.init()
 
         if let layoutJson = json["layout"] {
-            try parseLayout(layoutJson)
+            try parseLayout(layoutJson as AnyObject)
         }
         
-        if let timerJson = json["timer"] as? NSTimeInterval {
+        if let timerJson = json["timer"] as? TimeInterval {
             self.timer = timerJson
         }
         
@@ -91,7 +91,7 @@ class Level : NSObject {
         return size
     }
     
-    func propAtGridPosition(gridPosition: Point) -> Prop? {
+    func propAtGridPosition(_ gridPosition: Point) -> Prop? {
         var entity: Prop?
         
         if let index = indexForGridPosition(gridPosition) {
@@ -101,7 +101,7 @@ class Level : NSObject {
         return entity
     }
     
-    func powerUpAtGridPosition(gridPosition: Point) -> PowerUp? {
+    func powerUpAtGridPosition(_ gridPosition: Point) -> PowerUp? {
         var entity: PowerUp?
         
         if let index = indexForGridPosition(gridPosition) {
@@ -111,7 +111,7 @@ class Level : NSObject {
         return entity
     }
     
-    func creatureAtGridPosition(gridPosition: Point) -> Creature? {
+    func creatureAtGridPosition(_ gridPosition: Point) -> Creature? {
         var entity: Creature?
         
         if let index = indexForGridPosition(gridPosition) {
@@ -121,7 +121,7 @@ class Level : NSObject {
         return entity
     }
     
-    func tileAtGridPosition(gridPosition: Point) -> Tile? {
+    func tileAtGridPosition(_ gridPosition: Point) -> Tile? {
         var entity: Tile?
         
         if let index = indexForGridPosition(gridPosition) {
@@ -131,7 +131,7 @@ class Level : NSObject {
         return entity
     }
     
-    func coinAtGridPosition(gridPosition: Point) -> Coin? {
+    func coinAtGridPosition(_ gridPosition: Point) -> Coin? {
         var entity: Coin?
         
         if let index = indexForGridPosition(gridPosition) {
@@ -143,7 +143,7 @@ class Level : NSObject {
     
     // MARK: - Private
     
-    private func indexForGridPosition(gridPosition: Point) -> Int? {
+    fileprivate func indexForGridPosition(_ gridPosition: Point) -> Int? {
         var index: Int? = nil
         
         if (0 ..< self.width ~= gridPosition.x && 0 ..< self.height ~= gridPosition.y) {
@@ -157,28 +157,28 @@ class Level : NSObject {
 // MARK: - Parsing
 
 extension Level {
-    private func parseLayout(json: AnyObject) throws {
+    fileprivate func parseLayout(_ json: AnyObject) throws {
         if let jsonArray = json as? NSArray {
             self.tiles.removeAll()
 
             var rowIndex = 0
             var colIndex = 0
             
-            for (index, jsonObject) in jsonArray.enumerate() {
+            for (index, jsonObject) in jsonArray.enumerated() {
                 colIndex = index % self.width
                 rowIndex = (self.height - 1) - (index / self.width)
                 
                 if let jsonNumber = jsonObject as? NSNumber {
                     var tile: Tile? = nil
                     
-                    if let tileType = TileType(rawValue: jsonNumber.integerValue) {
+                    if let tileType = TileType(rawValue: jsonNumber.intValue) {
                         switch tileType {
-                        case .Wall:
+                        case .wall:
                             tile = try wallTileForRow(rowIndex, column: colIndex)
-                        case .DestructableBlock: fallthrough
-                        case .IndestructableBlock:
+                        case .destructableBlock: fallthrough
+                        case .indestructableBlock:
                             tile = try blockTileForRow(rowIndex, column: colIndex, withType: tileType)
-                        case .None: break
+                        case .none: break
                         }
                     }
                     
@@ -192,7 +192,7 @@ extension Level {
         }
     }
     
-    private func blockTileForRow(rowIndex: Int, column colIndex: Int, withType type: TileType) throws -> Tile? {
+    fileprivate func blockTileForRow(_ rowIndex: Int, column colIndex: Int, withType type: TileType) throws -> Tile? {
         let tileLoader = TileLoader(forGame: self.game)
 
         var tile: Tile?
@@ -205,29 +205,29 @@ extension Level {
         return tile
     }
     
-    private func wallTileForRow(rowIndex: Int, column colIndex: Int) throws -> Tile? {
+    fileprivate func wallTileForRow(_ rowIndex: Int, column colIndex: Int) throws -> Tile? {
         var tile: Tile?
         
         let tileLoader = TileLoader(forGame: self.game)
         
-        var wallTextureType = WallTextureType.TopLeft
+        var wallTextureType = WallTextureType.topLeft
         
         if colIndex == 0 && rowIndex == 0 {
-            wallTextureType = .BottomLeft
+            wallTextureType = .bottomLeft
         } else if colIndex == (self.width - 1) && rowIndex == 0 {
-            wallTextureType = .BottomRight
+            wallTextureType = .bottomRight
         } else if colIndex == 0 && rowIndex == (self.height - 1) {
-            wallTextureType = .TopLeft
+            wallTextureType = .topLeft
         } else if colIndex == (self.width - 1) && rowIndex == (self.height - 1) {
-            wallTextureType = .TopRight
+            wallTextureType = .topRight
         } else if colIndex == 0 && (0 ..< self.height ~= rowIndex) {
-            wallTextureType = .Left
+            wallTextureType = .left
         } else if colIndex == (self.width - 1) && (0 ..< self.height ~= rowIndex) {
-            wallTextureType = .Right
+            wallTextureType = .right
         } else if rowIndex == 0 && (1 ..< (self.width - 1) ~= colIndex) {
-            wallTextureType = .Bottom
+            wallTextureType = .bottom
         } else if rowIndex == (self.height - 1) && (1 ..< (self.width - 1) ~= colIndex) {
-            wallTextureType = .Top
+            wallTextureType = .top
         }
         
         let gridPosition = Point(x: colIndex, y: rowIndex)
@@ -236,12 +236,12 @@ extension Level {
         return tile
     }
     
-    private func parseCoins(forGame game: Game, json: [NSArray]) throws {
+    fileprivate func parseCoins(forGame game: Game, json: [NSArray]) throws {
         let coinLoader = CoinLoader(forGame: game)
 
         for position in json {
-            let colIndex = position.objectAtIndex(0) as! Int
-            let rowIndex = position.objectAtIndex(1) as! Int
+            let colIndex = position.object(at: 0) as! Int
+            let rowIndex = position.object(at: 1) as! Int
             
             let position = Point(x: colIndex, y: rowIndex)
             let index = indexForGridPosition(position)!
@@ -252,7 +252,7 @@ extension Level {
         }
     }
     
-    private func parsePowerUps(forGame game: Game, json: [String: AnyObject]) throws {
+    fileprivate func parsePowerUps(forGame game: Game, json: [String: AnyObject]) throws {
         let powerNames = json.keys
         
         let powerUpLoader = PowerUpLoader(forGame: game)
@@ -260,8 +260,8 @@ extension Level {
             let positions = json[powerName] as? [NSArray]
             
             for position in positions! {
-                let colIndex = position.objectAtIndex(0) as! Int
-                let rowIndex = position.objectAtIndex(1) as! Int
+                let colIndex = position.object(at: 0) as! Int
+                let rowIndex = position.object(at: 1) as! Int
                 
                 let position = Point(x: colIndex, y: rowIndex)
                 let index = indexForGridPosition(position)!
@@ -273,26 +273,26 @@ extension Level {
         }
     }
     
-    private func parsePlayers(forGame game: Game, json: [String: AnyObject]) throws {
+    fileprivate func parsePlayers(forGame game: Game, json: [String: AnyObject]) throws {
         let creatureNames = json.keys
         
         let creatureLoader = CreatureLoader(forGame: game)
         for creatureName in creatureNames {
             let values = json[creatureName] as? NSArray
-            let colIndex = values?.objectAtIndex(0) as! Int
-            let rowIndex = values?.objectAtIndex(1) as! Int
+            let colIndex = values?.object(at: 0) as! Int
+            let rowIndex = values?.object(at: 1) as! Int
             
             let position = Point(x: colIndex, y: rowIndex)
             let index = indexForGridPosition(position)!
             
             switch creatureName {
             case "Player1":
-                if let player = try creatureLoader.playerWithIndex(.Player1, gridPosition: position) {
+                if let player = try creatureLoader.playerWithIndex(.player1, gridPosition: position) {
                     self.creatures[index] = player
                     self.player1 = player
                 }
             case "Player2":
-                if let player = try creatureLoader.playerWithIndex(.Player2, gridPosition: position) {
+                if let player = try creatureLoader.playerWithIndex(.player2, gridPosition: position) {
                     self.creatures[index] = player
                     self.player2 = player
                 }
@@ -301,7 +301,7 @@ extension Level {
         }
     }
     
-    private func parseProps(forGame game: Game, json: [String: AnyObject]) throws {
+    fileprivate func parseProps(forGame game: Game, json: [String: AnyObject]) throws {
         let propNames = json.keys
         
         let propLoader = PropLoader(forGame: game)
@@ -309,8 +309,8 @@ extension Level {
             let positions = json[propName] as? [NSArray]
             
             for position in positions! {
-                let colIndex = position.objectAtIndex(0) as! Int
-                let rowIndex = position.objectAtIndex(1) as! Int
+                let colIndex = position.object(at: 0) as! Int
+                let rowIndex = position.object(at: 1) as! Int
                 
                 let position = Point(x: colIndex, y: rowIndex)
                 let index = indexForGridPosition(position)!
@@ -322,7 +322,7 @@ extension Level {
         }
     }
     
-    private func parseMonsters(forGame game: Game, json: [String: AnyObject]) throws {
+    fileprivate func parseMonsters(forGame game: Game, json: [String: AnyObject]) throws {
         let creatureNames = json.keys
         
         let creatureLoader = CreatureLoader(forGame: game)
@@ -330,8 +330,8 @@ extension Level {
             let positions = json[creatureName] as? [NSArray]
             
             for position in positions! {
-                let colIndex = position.objectAtIndex(0) as! Int
-                let rowIndex = position.objectAtIndex(1) as! Int
+                let colIndex = position.object(at: 0) as! Int
+                let rowIndex = position.object(at: 1) as! Int
                 
                 let position = Point(x: colIndex, y: rowIndex)
                 let index = indexForGridPosition(position)!

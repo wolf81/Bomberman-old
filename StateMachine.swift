@@ -24,11 +24,11 @@ class StateMachine: GKStateMachine {
     
     // MARK: - Public
 
-    override func updateWithDeltaTime(sec: NSTimeInterval) {
-        super.updateWithDeltaTime(sec)
+    override func update(deltaTime sec: TimeInterval) {
+        super.update(deltaTime: sec)
         
         if currentState == nil {
-            enterState(SpawnState)
+            enter(SpawnState.self)
         }
     }
 }

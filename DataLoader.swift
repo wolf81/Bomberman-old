@@ -8,14 +8,14 @@
 
 import Foundation
 
-enum DataLoaderError: ErrorType {
-    case FailedLoadingFileAtPath(path: String)
+enum DataLoaderError: Error {
+    case failedLoadingFileAtPath(path: String)
 }
 
 class DataLoader {
     let game: Game
     
-    private(set) var fileManager = NSFileManager.defaultManager()
+    fileprivate(set) var fileManager = FileManager.default
 
     init (forGame game: Game) {
         self.game = game
@@ -32,12 +32,12 @@ class DataLoader {
     }
     
     func loadJson(fromPath path: String) throws -> [String: AnyObject]? {
-        var json: AnyObject?
+        var json: Any?
         
-        if let jsonData = fileManager.contentsAtPath(path) {
-            json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: [])
+        if let jsonData = fileManager.contents(atPath: path) {
+            json = try JSONSerialization.jsonObject(with: jsonData, options: [])
         } else {
-            throw DataLoaderError.FailedLoadingFileAtPath(path: path)
+            throw DataLoaderError.failedLoadingFileAtPath(path: path)
         }
         
         return json as? [String: AnyObject]

@@ -9,8 +9,8 @@
 import SpriteKit
 
 class HudLoader {
-    private(set) var heartSprites: [SKTexture]
-    private(set) var powerUpSprites: [SKTexture]
+    fileprivate(set) var heartSprites: [SKTexture]
+    fileprivate(set) var powerUpSprites: [SKTexture]
 
     init() {
         let heartsTexture = SKTexture(imageNamed: "Heart Icons.png")

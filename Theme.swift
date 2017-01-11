@@ -8,33 +8,33 @@
 
 import SpriteKit
 
-enum ThemeError: ErrorType {
-    case FailedLoadingConfigFileAtURL(url: NSURL)
-    case InvalidConfigDirectoryForURL(url: NSURL)
+enum ThemeError: Error {
+    case failedLoadingConfigFileAtURL(url: URL)
+//    case invalidConfigDirectoryForURL(url: URL)
 }
 
 class Theme {
-    private(set) var configFilePath: String
+    fileprivate(set) var configFilePath: String
 
-    private(set) var floorTilePath: String?
-    private(set) var floorTileSize: CGSize?
+    fileprivate(set) var floorTilePath: String?
+    fileprivate(set) var floorTileSize: CGSize?
     
-    private(set) var wallTilesPath: String?
-    private(set) var wallTileSize: CGSize?
+    fileprivate(set) var wallTilesPath: String?
+    fileprivate(set) var wallTileSize: CGSize?
     
-    private(set) var breakableBlockPropName: String?
-    private(set) var unbreakableBlockPropName: String?
+    fileprivate(set) var breakableBlockPropName: String?
+    fileprivate(set) var unbreakableBlockPropName: String?
     
-    init(configFileUrl: NSURL) throws {
-        let fileManager = NSFileManager.defaultManager()
+    init(configFileUrl: URL) throws {
+        let fileManager = FileManager.default
         
         var json = [String: AnyObject]()
         
-        guard let jsonData = fileManager.contentsAtPath(configFileUrl.path!) else {
-            throw ThemeError.FailedLoadingConfigFileAtURL(url: configFileUrl)
+        guard let jsonData = fileManager.contents(atPath: configFileUrl.path) else {
+            throw ThemeError.failedLoadingConfigFileAtURL(url: configFileUrl)
         }
         
-        json = try NSJSONSerialization.JSONObjectWithData(jsonData, options: []) as! [String: AnyObject]
+        json = try JSONSerialization.jsonObject(with: jsonData, options: []) as! [String: AnyObject]
         
         if let floorTilesDict = json["floorTiles"] as! [String: AnyObject]? {
             if let spriteDict = floorTilesDict["sprite"] as! [String: AnyObject]? {
@@ -63,17 +63,15 @@ class Theme {
             }
         }
         
-        guard let configFilePath = configFileUrl.URLByDeletingLastPathComponent?.path else {
-            throw ThemeError.InvalidConfigDirectoryForURL(url: configFileUrl)
-        }
+        let configFilePath = configFileUrl.deletingLastPathComponent().path
         
         self.configFilePath = configFilePath
     }
     
-    func tileNameForTileType(tileType: TileType) -> String? {
+    func tileNameForTileType(_ tileType: TileType) -> String? {
         var tileName: String? = nil
         
-        if tileType == TileType.DestructableBlock {
+        if tileType == TileType.destructableBlock {
             tileName = self.breakableBlockPropName
         } else {
             tileName = self.unbreakableBlockPropName

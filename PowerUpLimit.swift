@@ -21,7 +21,7 @@ struct PowerUpLimit {
         self.maxCount = maxCount
     }
     
-    mutating func increase(completion: OnValueChanged? = nil) {
+    mutating func increase(_ completion: OnValueChanged? = nil) {
         if currentCount < maxCount {
             currentCount += 1
             
@@ -29,7 +29,7 @@ struct PowerUpLimit {
         }
     }
     
-    mutating func decrease(completion: OnValueChanged? = nil) {
+    mutating func decrease(_ completion: OnValueChanged? = nil) {
         if currentCount > 0 {
             currentCount -= 1
             

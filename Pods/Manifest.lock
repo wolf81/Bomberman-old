@@ -1,12 +1,12 @@
 PODS:
-  - Zip (0.3.4)
+  - Zip (0.6.0)
 
 DEPENDENCIES:
   - Zip
 
 SPEC CHECKSUMS:
-  Zip: 99d6f8bdcbcf1fd2f189af929651282bdc42c2f7
+  Zip: 805fc2fa9d2f05bbb7762d982d7a42ccdcc51f42
 
 PODFILE CHECKSUM: c8a4d4e3b2cbef1e6dcf925cd1844dbd7375c01d
 
-COCOAPODS: 1.0.0.rc.2
+COCOAPODS: 1.2.0.beta.3

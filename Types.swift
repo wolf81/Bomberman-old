@@ -17,10 +17,10 @@ struct EntityCategory {
     static let Prop:        UInt32 = 0b10000
     static let Wall:        UInt32 = 0b100000
     
-    static func categoriesForStrings(strings: [String]) -> UInt32 {
+    static func categoriesForStrings(_ strings: [String]) -> UInt32 {
         var bitMask = Nothing
         
-        for (_, string) in strings.enumerate() {
+        for (_, string) in strings.enumerated() {
             switch string {
             case "monster": bitMask |= Monster
             case "player": bitMask |= Player
@@ -37,33 +37,33 @@ struct EntityCategory {
 }
 
 @objc public enum PlayerAction: Int {
-    case None
-    case Up
-    case Down
-    case Left
-    case Right
-    case Action
-    case Pause
+    case none
+    case up
+    case down
+    case left
+    case right
+    case action
+    case pause
 }
 
 @objc public enum Direction: Int {
-    case None
-    case Up
-    case Down
-    case Right
-    case Left
+    case none
+    case up
+    case down
+    case right
+    case left
 }
 
 @objc public enum PlayerIndex: Int {
-    case Player1
-    case Player2
+    case player1
+    case player2
 }
 
 public enum TileType: Int {
-    case None                   = 0
-    case Wall                   = 1
-    case DestructableBlock      = 2
-    case IndestructableBlock    = 3
+    case none                   = 0
+    case wall                   = 1
+    case destructableBlock      = 2
+    case indestructableBlock    = 3
 }
 
 public struct Size {
@@ -86,7 +86,7 @@ public struct Point {
     }
 }
 
-func pointEqualToPoint(point1: Point, _ point2: Point) -> Bool {
+func pointEqualToPoint(_ point1: Point, _ point2: Point) -> Bool {
     return point1.x == point2.x && point1.y == point2.y
 }
 

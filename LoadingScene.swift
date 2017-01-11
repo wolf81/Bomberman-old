@@ -9,8 +9,8 @@
 import SpriteKit
 
 @objc protocol LoadingSceneDelegate: SKSceneDelegate {
-    func loadingSceneDidMoveToView(scene: LoadingScene, view: SKView)
-    func loadingSceneDidFinishLoading(scene: LoadingScene)
+    func loadingSceneDidMoveToView(_ scene: LoadingScene, view: SKView)
+    func loadingSceneDidFinishLoading(_ scene: LoadingScene)
 }
 
 class LoadingScene: SKScene {
@@ -54,7 +54,7 @@ class LoadingScene: SKScene {
         super.init(coder: aDecoder)
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         loadingSceneDelegate?.loadingSceneDidMoveToView(self, view: view)
     }
     
@@ -62,7 +62,7 @@ class LoadingScene: SKScene {
     
     func updateAssetsIfNeeded() throws {
         if Settings.assetsCheckEnabled() {
-            let url = NSURL(string: "https://dl.dropboxusercontent.com/s/i4en1xtkrxg8ccm/assets.zip")!
+            let url = URL(string: "https://dl.dropboxusercontent.com/s/i4en1xtkrxg8ccm/assets.zip")!
             
             messageLabel.text = "CHECKING FOR UPDATED ASSETS ..."
             
@@ -83,7 +83,7 @@ class LoadingScene: SKScene {
     
     // MARK: - Private
     
-    func updateProgress(progress: Float) {
+    func updateProgress(_ progress: Float) {
         let percentageString = String(format: "%.0f", progress * 100)
         percentageLabel.text = String("\(percentageString) %")
     }
@@ -92,15 +92,15 @@ class LoadingScene: SKScene {
 // MARK: - AssetManagerDelegate
 
 extension LoadingScene : AssetManagerDelegate {
-    func assetManagerLoadAssetsProgress(assetManager: AssetManager, progress: Float) {
+    func assetManagerLoadAssetsProgress(_ assetManager: AssetManager, progress: Float) {
         updateProgress(progress)
     }
     
-    func assetManagerLoadAssetsFailure(assetManager: AssetManager, error: ErrorType) {
+    func assetManagerLoadAssetsFailure(_ assetManager: AssetManager, error: Error) {
         loadingSceneDelegate?.loadingSceneDidFinishLoading(self)
     }
     
-    func assetManagerLoadAssetsSuccess(assetManager: AssetManager) {
+    func assetManagerLoadAssetsSuccess(_ assetManager: AssetManager) {
         updateProgress(1.0)
         
         if let etag = remoteEtag {

@@ -19,8 +19,8 @@ class Bomb: Entity {
         
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
         
-        if let visualComponent = componentForClass(VisualComponent) {
-            visualComponent.spriteNode.zPosition = EntityLayer.Bomb.rawValue
+        if let visualComponent = component(ofType: VisualComponent.self) {
+            visualComponent.spriteNode.zPosition = EntityLayer.bomb.rawValue
             
             if let physicsBody = visualComponent.spriteNode.physicsBody {
                 physicsBody.categoryBitMask = EntityCategory.Prop
@@ -30,28 +30,32 @@ class Bomb: Entity {
         }
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Public
     
     override func destroy() {
         super.destroy()
     }
     
-    func explodeAtGridPosition(gridPosition: Point) throws {
-        var validPositions: [(Point, Direction)] = [(gridPosition, .None)]
+    func explodeAtGridPosition(_ gridPosition: Point) throws {
+        var validPositions: [(Point, Direction)] = [(gridPosition, .none)]
         
         // west
-        for x in (gridPosition.x - self.range ..< gridPosition.x).reverse() {
+        for x in (gridPosition.x - self.range ..< gridPosition.x).reversed() {
             let testGridPosition = Point(x: x, y: gridPosition.y)
             
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
-                if tile.tileType == TileType.DestructableBlock &&
+                if tile.tileType == TileType.destructableBlock &&
                     x == gridPosition.x - 1 {
-                    validPositions.append((testGridPosition, .Left))
+                    validPositions.append((testGridPosition, .left))
                     tile.destroy()
                 }
                 break
             } else {
-                validPositions.append((testGridPosition, .Left))
+                validPositions.append((testGridPosition, .left))
             }
         }
         
@@ -60,14 +64,14 @@ class Bomb: Entity {
             let testGridPosition = Point(x: x, y: gridPosition.y)
             
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
-                if tile.tileType == TileType.DestructableBlock &&
+                if tile.tileType == TileType.destructableBlock &&
                     x == gridPosition.x + 1 {
-                    validPositions.append((testGridPosition, .Right))
+                    validPositions.append((testGridPosition, .right))
                     tile.destroy()
                 }
                 break
             } else {
-                validPositions.append((testGridPosition, .Right))
+                validPositions.append((testGridPosition, .right))
             }
         }
         
@@ -76,30 +80,30 @@ class Bomb: Entity {
             let testGridPosition = Point(x: gridPosition.x, y: y)
             
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
-                if tile.tileType == TileType.DestructableBlock &&
+                if tile.tileType == TileType.destructableBlock &&
                     y == gridPosition.y + 1 {
-                    validPositions.append((testGridPosition, .Up))
+                    validPositions.append((testGridPosition, .up))
                     tile.destroy()
                 }
                 break
             } else {
-                validPositions.append((testGridPosition, .Up))
+                validPositions.append((testGridPosition, .up))
             }
         }
         
         // south
-        for y in (gridPosition.y - self.range ..< gridPosition.y).reverse() {
+        for y in (gridPosition.y - self.range ..< gridPosition.y).reversed() {
             let testGridPosition = Point(x: gridPosition.x, y: y)
             
             if let tile = self.game?.tileAtGridPosition(testGridPosition) {
-                if tile.tileType == TileType.DestructableBlock &&
+                if tile.tileType == TileType.destructableBlock &&
                     y == gridPosition.y - 1 {
-                    validPositions.append((testGridPosition, .Down))
+                    validPositions.append((testGridPosition, .down))
                     tile.destroy()
                 }
                 break
             } else {
-                validPositions.append((testGridPosition, .Down))
+                validPositions.append((testGridPosition, .down))
             }
         }
         

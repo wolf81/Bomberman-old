@@ -15,14 +15,14 @@ class Creature: Entity {
     var name: String?
     
     // Used by monsters as shooting delay, for players as refill time for bombs.
-    let abilityCooldown: NSTimeInterval = 2.0
+    let abilityCooldown: TimeInterval = 2.0
         
-    private(set) var nextGridPosition = Point(x: 0, y: 0)
+    fileprivate(set) var nextGridPosition = Point(x: 0, y: 0)
     
     var isMoving: Bool {
         var isMoving = false
         
-        if let visualComponent = componentForClass(VisualComponent) {
+        if let visualComponent = component(ofType: VisualComponent.self) {
             // TODO: check for explicit animation action, cause just sounds are also possible
             isMoving = visualComponent.spriteNode.hasActions()
         }
@@ -33,7 +33,7 @@ class Creature: Entity {
     var position: CGPoint {
         var position = positionForGridPosition(gridPosition)
         
-        if let visualComponent = componentForClass(VisualComponent) {
+        if let visualComponent = component(ofType: VisualComponent.self) {
             position = visualComponent.spriteNode.position
         }
         
@@ -46,10 +46,14 @@ class Creature: Entity {
         lives = configComponent.lives
         health = configComponent.health
         
-        let url = NSURL(fileURLWithPath: configComponent.configFilePath)
+        let url = URL(fileURLWithPath: configComponent.configFilePath)
         self.name = url.lastPathComponent
         
         super.init(forGame: game, configComponent: configComponent, gridPosition: gridPosition)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Public
@@ -60,39 +64,39 @@ class Creature: Entity {
         if let game = self.game {
             let upGridPosition = Point(x: gridPosition.x, y: gridPosition.y + 1)
             if canMoveToGridPosition(upGridPosition, forGame: game) {
-                directions.append((.Up, upGridPosition))
+                directions.append((.up, upGridPosition))
             }
 
             let leftGridPosition = Point(x: gridPosition.x - 1, y: gridPosition.y)
             if canMoveToGridPosition(leftGridPosition, forGame: game) {
-                directions.append((.Left, leftGridPosition))                
+                directions.append((.left, leftGridPosition))                
             }
             
             let downGridPosition = Point(x: gridPosition.x, y: gridPosition.y - 1)
             if canMoveToGridPosition(downGridPosition, forGame: game) {
-                directions.append((.Down, downGridPosition))
+                directions.append((.down, downGridPosition))
             }
             
             let rightGridPosition = Point(x: gridPosition.x + 1, y: gridPosition.y)
             if canMoveToGridPosition(rightGridPosition, forGame: game) {
-                directions.append((.Right, rightGridPosition))
+                directions.append((.right, rightGridPosition))
             }
         }
         
         return directions
     }
     
-    func updateForDirection(direction: Direction) {
+    func updateForDirection(_ direction: Direction) {
         // Can be overridden by subclasses. 
         //  Used by the Player subclass to update shield texture when movement direction changes.
     }
     
-    func moveInDirection(direction: Direction) -> Bool {
+    func moveInDirection(_ direction: Direction) -> Bool {
         var didMove = false
         
         let validDirections = movementDirectionsFromCurrentGridPosition()
         if let validDirection = (validDirections.filter { $0.direction == direction }).first {
-            if validDirection.direction != .None {
+            if validDirection.direction != .none {
                 moveToGridPosition(validDirection.gridPosition, direction: validDirection.direction, completion: nil)
                 didMove = true
             }
@@ -101,7 +105,7 @@ class Creature: Entity {
         return didMove
     }
 
-    func moveInRandomDirection(completion: () -> Void) {
+    func moveInRandomDirection(_ completion: @escaping () -> Void) {
         var validDirections = movementDirectionsFromCurrentGridPosition()
 
         // Filter out any tiles a monster stands on or will move to (ignore players).
@@ -126,7 +130,7 @@ class Creature: Entity {
         }
     }    
     
-    override func hit(damage: Int) {
+    override func hit(_ damage: Int) {
         if health <= 0 {
             destroy()
         } else {
@@ -144,8 +148,8 @@ class Creature: Entity {
         
     // MARK: - Private
     
-    private func moveToGridPosition(gridPosition: Point, direction: Direction, completion: (() -> Void)?) {
-        if let visualComponent = componentForClass(VisualComponent) {
+    fileprivate func moveToGridPosition(_ gridPosition: Point, direction: Direction, completion: (() -> Void)?) {
+        if let visualComponent = component(ofType: VisualComponent.self) {
             self.direction = direction
             self.nextGridPosition = gridPosition
             
@@ -161,13 +165,13 @@ class Creature: Entity {
     }
     
     func stop() {
-        if let visualComponent = componentForClass(VisualComponent) {
+        if let visualComponent = component(ofType: VisualComponent.self) {
             visualComponent.spriteNode.removeAllActions()
-            self.direction = .None
+            self.direction = .none
         }
     }
     
-    func canMoveToGridPosition(gridPosition: Point, forGame game: Game) -> Bool {
+    func canMoveToGridPosition(_ gridPosition: Point, forGame game: Game) -> Bool {
         var canMove = false
         
         if game.bossAtGridPosition(gridPosition) == nil && game.tileAtGridPosition(gridPosition) == nil {
