@@ -8,6 +8,8 @@ inhibit_all_warnings!
 
 def import_pods
 	pod 'Zip'
+	pod 'SKTiled', :git => 'https://github.com/wolf81/SKTiled', :commit => 'e73bf4efd48127aec8ff6ff1edcfb65ccebf8ff3'
+
 end
 
 target 'Bomberman-tvOS' do

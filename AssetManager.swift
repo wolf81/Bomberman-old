@@ -46,7 +46,7 @@ class AssetManager: NSObject {
         let session = Foundation.URLSession(configuration: sessionConfiguration)
         
         let (data, response, error) = session.synchronousDataTaskWithRequest(request as URLRequest)
-        print("response: \(response), data: \(data), error: \(error)")
+        print("response: \(String(describing: response)), data: \(String(describing: data)), error: \(String(describing: error))")
             
         if let httpResponse = response as? HTTPURLResponse {
             etag = httpResponse.allHeaderFields["Etag"] as? String
@@ -132,7 +132,7 @@ extension AssetManager : URLSessionDataDelegate {
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        print("completed task: \(task), error: \(error)")
+        print("completed task: \(task), error: \(String(describing: error))")
         
         if error != nil {
             self.delegate?.assetManagerLoadAssetsFailure(self, error: error!)

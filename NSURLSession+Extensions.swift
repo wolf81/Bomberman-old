@@ -19,7 +19,8 @@ extension URLSession {
             semaphore.signal()
             }) .resume()
         
-        semaphore.wait(timeout: DispatchTime.distantFuture)
+        // TODO: handle success & timeout seperately ..?
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
         
         return (data, response, error)
     }

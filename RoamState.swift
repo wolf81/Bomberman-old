@@ -12,7 +12,7 @@ class RoamState: State {
     override func didEnter(from previousState: GKState?) {
         super.didEnter(from: previousState)
         
-        print("enter roam state: \(self.entity)")
+        print("enter roam state: \(String(describing: self.entity))")
     }
     
     override func willExit(to nextState: GKState) {

@@ -76,7 +76,7 @@ class MoveState : State {
                 actions.append(move)
             }
         } else {
-            print("no direction set for: \(creature.name)")
+            print("no direction set for: \(String(describing: creature.name))")
         }
         
         let completion = {

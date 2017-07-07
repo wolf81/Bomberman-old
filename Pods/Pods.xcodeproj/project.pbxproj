@@ -7,155 +7,299 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		21939F61E60FB6096EE76DBB0C68907D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A47D95973461BCDD13FB9745E1BDBEAF /* Cocoa.framework */; };
-		21A587629C9F0189E697A86350237125 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2C69DB6158A92C216AF1816DB82C01 /* Foundation.framework */; };
-		22AD87C8E3DC5FCD665B2DACECBB7DB0 /* ZipUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE13117C8E93156823D52C1C12E93B82 /* ZipUtilities.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		232396139E82CDBEEE74ED083AA00826 /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 034219EF584C606901485385309C69D0 /* zip.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		3243688495AA5DFEB7457E82D7A7F380 /* Zip-tvOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E8FF31B903A082DB4DB8CF3AD084799 /* Zip-tvOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		47ED9CAF76D09B61B95B1AC59075D29B /* Zip-OSX-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E69AA5459C4F69F528FFC29C0AB397B1 /* Zip-OSX-dummy.m */; };
-		563E101505654C8079B49900BE0D1F4E /* QuickZip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3F81C7FAB3C1F36AD0C3B3C10998BA /* QuickZip.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		5E2FB7CEC476E009E2DB43BE0D33C337 /* Zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 894C5C24E9B2A5EA4BC9DA684BF27F3D /* Zip.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		61B4148A005922AF58668F08878EEADF /* Pods-Bomberman-OSX-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AAD00FA97665BA690210869E43A4471 /* Pods-Bomberman-OSX-dummy.m */; };
-		61B7E3B2D0D4ECBEA5C702904CC74E4D /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 7811461371ED9F6A7BB825DDB8FF964B /* unzip.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		69855E93FE01623A6BF8A5AE362586A1 /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 7811461371ED9F6A7BB825DDB8FF964B /* unzip.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		6E63E9B5336A0EBB93F3696488CBBB73 /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 034219EF584C606901485385309C69D0 /* zip.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		70398BA6D245B441276B42264825E084 /* QuickZip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3F81C7FAB3C1F36AD0C3B3C10998BA /* QuickZip.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		741F758407A07CFBCC1C7A8F31A6EE00 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B56F17C90A286DA4A87C1978C4B0F0B /* crypt.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		7FB5A970AFD3D4E48A13F538219D8F08 /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = F3F2743F66F1241F19A7309D2454D38C /* ioapi.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		9EA9224D3D9AC42E5BF6DFB9BE4D7073 /* Zip-tvOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F42A0D04204827BDFC2352E7E8BC7B5 /* Zip-tvOS-dummy.m */; };
-		A54F28BE9D7D81926C0BFEDD9CBFF3C0 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = FE481FDDA213A1F56B0E7A7FA3673A72 /* ioapi.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		B20CDD7E8923795A1203EC562219E513 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = EC7DE9F8F2A30E69E408A19CFFA91338 /* zip.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		C13682A1B82A68169BCDB0F9E38CD232 /* Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13395B851E18FC7593BF917B7D9C264 /* Zip.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		C15E00D079681812EC4FE92678DB247C /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = D220A34DEAE708726D976B134E9DA9D3 /* unzip.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		C198103D4C6386ABBD8029FEA5165F25 /* ZipUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE13117C8E93156823D52C1C12E93B82 /* ZipUtilities.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		CA51FC5F9D9E37CB27921F29B3C6A894 /* Pods-Bomberman-OSX-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B2DD0B66ED28C05D3331EE5FD4BBEDE /* Pods-Bomberman-OSX-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D0319346420489B565B7454BA497E16E /* Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13395B851E18FC7593BF917B7D9C264 /* Zip.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		D15EAD1EB69F67DC916EB0FE5F7F4ACC /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = F3F2743F66F1241F19A7309D2454D38C /* ioapi.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		D682D3C2ACF234B9C593C41272A59372 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = D220A34DEAE708726D976B134E9DA9D3 /* unzip.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		D7F23CE2EA15FFAE7ED56B7B36673BE9 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = FE481FDDA213A1F56B0E7A7FA3673A72 /* ioapi.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		DDD994D488892D7CC251C6FAF08F5285 /* Zip-OSX-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 64391E46010A1337AE859A7B711910FE /* Zip-OSX-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E8D29BF13B251D7CD8C88F4089E31F12 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A47D95973461BCDD13FB9745E1BDBEAF /* Cocoa.framework */; };
-		EC66D27AD0C5AF2A5AE05E4222AF393F /* Zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 894C5C24E9B2A5EA4BC9DA684BF27F3D /* Zip.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		ECDE34FF3C4DE18A04775DE9518A59CF /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = EC7DE9F8F2A30E69E408A19CFFA91338 /* zip.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		EE13A8F934A1101332E3BAE57F9038D5 /* Pods-Bomberman-tvOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C0CD556C0D7824E2DC1B14E85833CE /* Pods-Bomberman-tvOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EE839B68AEA5B2261FB52C8F7A5C5B02 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B56F17C90A286DA4A87C1978C4B0F0B /* crypt.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		F8A1A5D8EF64CE3395EC7A448B282A7C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2C69DB6158A92C216AF1816DB82C01 /* Foundation.framework */; };
-		FA212A1E93B4715E9D57E64ABAB0191B /* Pods-Bomberman-tvOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EFF3CB95741741DE169E394CCE83672 /* Pods-Bomberman-tvOS-dummy.m */; };
+		0E7E633F2647F2FE7A3BD6DCA80948F9 /* Zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 25EE2EF3D1A2C9DCA833827A42B60496 /* Zip.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0ED37D41F6129B01E35FF21B15378FEA /* SKTiledObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DB076CD07583AFB381284C7E01CD1F /* SKTiledObject.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		1311EC800E32CCC5949B63B3095DDE83 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA6E8E3CAB12F215A89A52171B31CD /* ioapi.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		150C5963737C00B3274FA805AC938068 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A47D95973461BCDD13FB9745E1BDBEAF /* Cocoa.framework */; };
+		16C55916211FE2B110F2439234F7B0BF /* SKTilemapParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26604D16D14AD0B0929222E29FB761FD /* SKTilemapParser.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		16D192BD842861CB0C245EB40FC724AB /* Zip-tvOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 02E3E06F707EB5FE926296C7C8375099 /* Zip-tvOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1E19FC1B7A323852E191AE111F0D51AB /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 66554ABFA19B05DD3ECFD28F8443767D /* ioapi.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		20E887081B7AEEDC4B6458E7891AE452 /* SKTileLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A72C42B9555E9EFA87F2C1D0429F29 /* SKTileLayer.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		2DC42DC9E7E444440D062ABD2339C90A /* Pods-Bomberman-OSX-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AAD00FA97665BA690210869E43A4471 /* Pods-Bomberman-OSX-dummy.m */; };
+		2E60245311E322F5E12F5A095BBA9A37 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F5160B54D9160926691C7EDA4FC389C /* unzip.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		345A3A377D0A4FA0088EDEBB6EDB6C20 /* SKTiled+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90337783D815C84F82DB9A9E406AC4E3 /* SKTiled+Extensions.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		388E3B798B5AAAC2A49F044C3FDDDF8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A47D95973461BCDD13FB9745E1BDBEAF /* Cocoa.framework */; };
+		3B30CC0E303AF1A86FEDB96CB4C5E57E /* Pods-Bomberman-tvOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EFF3CB95741741DE169E394CCE83672 /* Pods-Bomberman-tvOS-dummy.m */; };
+		43AC59BB5BC8CBC7351A68B106AB822A /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = B1B074906A06E9EC6A92AE8A0E1F03FC /* zip.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		451F168D054030588556042FE7F37CCF /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EA335FB1E2E705382E7629DDD1850FA /* unzip.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4561FF3B44D989F69E98EF709BCBD446 /* SKTilemap+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A10FC16154D955FD2D329A58A1B476 /* SKTilemap+Properties.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		45923205B77B07064ABC90A8C3D6F7C0 /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = B1B074906A06E9EC6A92AE8A0E1F03FC /* zip.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4799291C97FC592CA2E519FBEE6663A0 /* Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FC80CDBCE6D692BEDB566C84B9AA31 /* Zip.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		4CF1092B11C38AA79D3EC0DB3E045B1E /* QuickZip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D68777D81C0A2A4C5B3562C5DCCB5C /* QuickZip.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		4E64F95C5A8E2627E34BE220AA6226FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21BB6FC577BD951F33BA574773AF1D4C /* Foundation.framework */; };
+		5108AC2BA81532D3F92680B5715CCF19 /* SKTilemap.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6ECD7EDE772A27B5D72217253B4B74 /* SKTilemap.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		5BAAD6E3D0941F354B49A9B609B3DBB5 /* SKTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5159570F44FD589E3E15B5E807EB04F9 /* SKTile.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		65E4023CB8AD941EF8329414A340AB71 /* SKTilemapParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26604D16D14AD0B0929222E29FB761FD /* SKTilemapParser.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		71B615544AB047D9DFE53277ED40F772 /* SKTilesetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A85CBCA45D4B60D16486829D8D67C32 /* SKTilesetData.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		7CC309B3CD660E713E6AF0615E3DE982 /* Pods-Bomberman-tvOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C7C0CD556C0D7824E2DC1B14E85833CE /* Pods-Bomberman-tvOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7DC5B6ACDC2325DA24EBE2BDD0908FBF /* Zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 25EE2EF3D1A2C9DCA833827A42B60496 /* Zip.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7E1D7214470383AFE57BD2964FC0A5AC /* ZipUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C66A98840EBEA4938078BAC0BDA294B /* ZipUtilities.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		88D45A912057AE5DB962D89B9668A4C0 /* SKTileset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB9F2654CC06FCB9C4E1C4718DC29C /* SKTileset.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		8FE0A3198E1501CA2A7992918D2AEF4E /* SKTiled-OSX-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = EC0A70491D5EFB9CDE20B9D655B30BD0 /* SKTiled-OSX-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9174AC0627924D132B20042FBE1B748A /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EA335FB1E2E705382E7629DDD1850FA /* unzip.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		930344B0AD051CE7A715647CE1174925 /* SKTiledObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DB076CD07583AFB381284C7E01CD1F /* SKTiledObject.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		932E1336123BFD9F28B3C975FDAE0464 /* SKTilemap.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6ECD7EDE772A27B5D72217253B4B74 /* SKTilemap.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		99039A2ABD5B2A40FBAC15B5CBBD0380 /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 66554ABFA19B05DD3ECFD28F8443767D /* ioapi.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A1D405AC71EB9045D678BF4DA867FF7D /* ZipUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C66A98840EBEA4938078BAC0BDA294B /* ZipUtilities.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		A5C5F39D40F70D11E70EB5AFEE996545 /* SKTilemap+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A10FC16154D955FD2D329A58A1B476 /* SKTilemap+Properties.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		AB8599E80CFC860AD8674D9C63971396 /* SKTiledScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E20CCFDFA23C51C371462E8152D4DE /* SKTiledScene.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		AF1782E30A177F3A41474D3B982F7AE4 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA6E8E3CAB12F215A89A52171B31CD /* ioapi.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		B779FD4BB95A5C769FAE6B3EB431D475 /* SKTileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37655DC8637BFC984B71113F19E474BA /* SKTileObject.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		B868E1CA11D9D37AD1427E944F7EE749 /* SKTiledSceneCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259518B78D4F72788494131FCD5BCEA4 /* SKTiledSceneCamera.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		BA7456B241234D3E65E1D4E717EC7372 /* Zip-OSX-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B6F008F66844CD7EF60669B6D3668A2F /* Zip-OSX-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C61E792737238CBCFE5E168DE339A78D /* SKTileLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A72C42B9555E9EFA87F2C1D0429F29 /* SKTileLayer.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		C625952CA2FD115339CCCF861BAFA0FD /* SKTiled-OSX-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B45D546F078C1B94C9BBCF923BEFC6 /* SKTiled-OSX-dummy.m */; };
+		CA5B1EF6077F6015F74156CBA2842523 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 9C7BD837E6B98EACF192EFB4125B4AAE /* zip.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		CCB84A3CF2D644241094DCC3EED8B499 /* Zip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FC80CDBCE6D692BEDB566C84B9AA31 /* Zip.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		CD7B03854582DFD7157C63EABECF947D /* SKTiled+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90337783D815C84F82DB9A9E406AC4E3 /* SKTiled+Extensions.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		D6664BE860967ADBD97508B2F1B7A2A4 /* Pods-Bomberman-OSX-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B2DD0B66ED28C05D3331EE5FD4BBEDE /* Pods-Bomberman-OSX-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6BF104EEF20CAD8F14575EB7B27FB2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21BB6FC577BD951F33BA574773AF1D4C /* Foundation.framework */; };
+		D73F9EBF792DDA380C960D1BB0A491FA /* SKTiled-tvOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F274AD2939C6B6FF0C051BB93BB81F8 /* SKTiled-tvOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D771B7F5A9FB188E61760103AFF3BC88 /* SKTiledSceneCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259518B78D4F72788494131FCD5BCEA4 /* SKTiledSceneCamera.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		DC45E2DD953E027B3AF9070480D8E025 /* SKTiledScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0E20CCFDFA23C51C371462E8152D4DE /* SKTiledScene.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		E403580EE064792F7FAF8D6C12F5975D /* SKTileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37655DC8637BFC984B71113F19E474BA /* SKTileObject.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		E5AA4EC3EA96A10C41416D643EB8A793 /* Zip-tvOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 78D82F7E5133F7EA9641D15026856D01 /* Zip-tvOS-dummy.m */; };
+		E75E044290B6DA578FA147274782817F /* SKTiled-tvOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C7D2E8AC6B67E9E5BAD1758BCEAA316B /* SKTiled-tvOS-dummy.m */; };
+		E9A32D69E4E5C3CF7274EAD6AB7ED41A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A47D95973461BCDD13FB9745E1BDBEAF /* Cocoa.framework */; };
+		EAC8B6B2B80F1B2888D4B04033963491 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 53E15E6D9747404ADE47D5B4F352826A /* crypt.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		EBFC0244EC525D70F3C435704A4F131D /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 2F5160B54D9160926691C7EDA4FC389C /* unzip.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		F45AFD95932531C6C8472ECE6BA5FFE6 /* QuickZip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D68777D81C0A2A4C5B3562C5DCCB5C /* QuickZip.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		F4A33AAB613584A19041D28E7277FA74 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 53E15E6D9747404ADE47D5B4F352826A /* crypt.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		F6C4569CD4A818D65188E8A1CC5E6A89 /* SKTileset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DB9F2654CC06FCB9C4E1C4718DC29C /* SKTileset.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		F9D7BD5085C410A008FDD25FDE4ECE70 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21BB6FC577BD951F33BA574773AF1D4C /* Foundation.framework */; };
+		FA1F0F9B8E4A4E0DB3FF319275B85FEC /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 9C7BD837E6B98EACF192EFB4125B4AAE /* zip.c */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		FB87A16FFEA22AE4D07EF36F275F28A6 /* SKTilesetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A85CBCA45D4B60D16486829D8D67C32 /* SKTilesetData.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		FBDA353D5288E35411BDCAE68E3D4D73 /* Zip-OSX-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8D037A972701509575A87D7BF1F8E1 /* Zip-OSX-dummy.m */; };
+		FE068C7E21579811D09972D020C1BCE2 /* SKTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5159570F44FD589E3E15B5E807EB04F9 /* SKTile.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		12C6E4E9C36CC0B62A2A08753190B7F9 /* PBXContainerItemProxy */ = {
+		024C1F06C9A79FE06B95B475BDCC2C45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = FB0A30199B55FE99471763B070D2A1E6;
-			remoteInfo = "Zip-tvOS";
+			remoteGlobalIDString = C1607F3B276A0E3FDF93923F0D26BAC4;
+			remoteInfo = "SKTiled-OSX";
 		};
-		15FC6503047EC71DD8D4DCDF96738FE5 /* PBXContainerItemProxy */ = {
+		0799DCA3E990A02F5EF0B837D458B241 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F6DC5D168DEA61DCCFEA98F6B11A608C;
+			remoteGlobalIDString = 841A6EE8F354B338E4DF5E9A3A73C7C2;
 			remoteInfo = "Zip-OSX";
+		};
+		728A47170919A8253A45C2EAB2D40312 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 849A51A386B5740D0141FAF51ACB39AD;
+			remoteInfo = "SKTiled-tvOS";
+		};
+		D413894B3280C4FD10C4511BC484308A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C66710A434434079FD675A36D46617E4;
+			remoteInfo = "Zip-tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		034219EF584C606901485385309C69D0 /* zip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = zip.h; path = Zip/minizip/zip.h; sourceTree = "<group>"; };
-		0F1855AAE750B343EBD1DE245EAB63F8 /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0275799A9CEC9492193B7B8AC2C71E7E /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Zip.framework; path = "Zip-tvOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		02E3E06F707EB5FE926296C7C8375099 /* Zip-tvOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Zip-tvOS-umbrella.h"; path = "../Zip-tvOS/Zip-tvOS-umbrella.h"; sourceTree = "<group>"; };
+		0C66A98840EBEA4938078BAC0BDA294B /* ZipUtilities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ZipUtilities.swift; path = Zip/ZipUtilities.swift; sourceTree = "<group>"; };
+		0C8D037A972701509575A87D7BF1F8E1 /* Zip-OSX-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Zip-OSX-dummy.m"; sourceTree = "<group>"; };
 		112EA452B1F687275CCF38CF7572B398 /* Pods-Bomberman-OSX-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Bomberman-OSX-acknowledgements.markdown"; sourceTree = "<group>"; };
 		11ED5093825353D8A2029369914A393A /* Pods-Bomberman-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bomberman-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		14C8BAEC42B3D0FB0303FF05FBD03D08 /* Pods_Bomberman_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bomberman_tvOS.framework; path = "Pods-Bomberman-tvOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EA335FB1E2E705382E7629DDD1850FA /* unzip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = Zip/minizip/unzip.h; sourceTree = "<group>"; };
 		1EFF3CB95741741DE169E394CCE83672 /* Pods-Bomberman-tvOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Bomberman-tvOS-dummy.m"; sourceTree = "<group>"; };
-		2BD22DD10C5AAB58E15F010C3BD644FA /* Pods_Bomberman_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bomberman_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FEA6E8E3CAB12F215A89A52171B31CD /* ioapi.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ioapi.c; path = Zip/minizip/ioapi.c; sourceTree = "<group>"; };
+		21BB6FC577BD951F33BA574773AF1D4C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS10.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		239FE59CFF944FA7AFD930A315805C6D /* Zip-tvOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; name = "Zip-tvOS.modulemap"; path = "../Zip-tvOS/Zip-tvOS.modulemap"; sourceTree = "<group>"; };
+		259518B78D4F72788494131FCD5BCEA4 /* SKTiledSceneCamera.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKTiledSceneCamera.swift; path = Sources/SKTiledSceneCamera.swift; sourceTree = "<group>"; };
+		25EE2EF3D1A2C9DCA833827A42B60496 /* Zip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Zip.h; path = Zip/Zip.h; sourceTree = "<group>"; };
+		26604D16D14AD0B0929222E29FB761FD /* SKTilemapParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKTilemapParser.swift; path = Sources/SKTilemapParser.swift; sourceTree = "<group>"; };
+		2F5160B54D9160926691C7EDA4FC389C /* unzip.c */ = {isa = PBXFileReference; includeInIndex = 1; name = unzip.c; path = Zip/minizip/unzip.c; sourceTree = "<group>"; };
+		3061A58868355C28B6B20F2A20B7F46F /* SKTiled-OSX.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "SKTiled-OSX.xcconfig"; sourceTree = "<group>"; };
 		3364446D6C1758286BAC2FFE7AC785A6 /* Pods-Bomberman-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bomberman-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		36A8C9F7CD078E29CD68E7FBB6716A14 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37655DC8637BFC984B71113F19E474BA /* SKTileObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKTileObject.swift; path = Sources/SKTileObject.swift; sourceTree = "<group>"; };
+		3D672340E37238E9A1DD2F89E17B6B72 /* Zip-OSX.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Zip-OSX.xcconfig"; sourceTree = "<group>"; };
 		3E2DD32CEFF55CF307896B75A50F2B50 /* Pods-Bomberman-tvOS-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bomberman-tvOS-resources.sh"; sourceTree = "<group>"; };
+		3E51372538F41ADF5C867C55508E9B24 /* SKTiled.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SKTiled.framework; path = "SKTiled-OSX.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3E642705655D93D97987220AA33D18EF /* Zip-OSX-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Zip-OSX-prefix.pch"; sourceTree = "<group>"; };
+		3F998FF29841446D05EAE85313AF4219 /* Zip-OSX.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Zip-OSX.modulemap"; sourceTree = "<group>"; };
+		4309EF42DB3A35EB9ADD7231767CB1B5 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../SKTiled-tvOS/Info.plist"; sourceTree = "<group>"; };
+		467122D2B73D55DE25D77FB48E77EDFC /* Pods_Bomberman_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bomberman_OSX.framework; path = "Pods-Bomberman-OSX.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		471FBA00B08893E42EF02710399384A3 /* Pods-Bomberman-OSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bomberman-OSX.release.xcconfig"; sourceTree = "<group>"; };
 		47D764204F17791BCEC1305AE0DB084C /* Pods-Bomberman-tvOS-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bomberman-tvOS-frameworks.sh"; sourceTree = "<group>"; };
-		52CCBD3E8762E724AEC648733E91778B /* Zip-tvOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Zip-tvOS.xcconfig"; path = "../Zip-tvOS/Zip-tvOS.xcconfig"; sourceTree = "<group>"; };
-		5B3465FC20589F9C9BEDA4097CD35222 /* Pods-Bomberman-tvOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Bomberman-tvOS.modulemap"; sourceTree = "<group>"; };
-		5B7F0C1F5A7C54E929DE6D08F080F194 /* Zip-OSX.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Zip-OSX.modulemap"; sourceTree = "<group>"; };
-		5CC5B82D7EC69C4155F71D21819F4F93 /* Zip-OSX-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Zip-OSX-prefix.pch"; sourceTree = "<group>"; };
-		64391E46010A1337AE859A7B711910FE /* Zip-OSX-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Zip-OSX-umbrella.h"; sourceTree = "<group>"; };
+		51425ABB31DF9A0B463251E7C6720C56 /* SKTiled-OSX-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SKTiled-OSX-prefix.pch"; sourceTree = "<group>"; };
+		5159570F44FD589E3E15B5E807EB04F9 /* SKTile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKTile.swift; path = Sources/SKTile.swift; sourceTree = "<group>"; };
+		52FC80CDBCE6D692BEDB566C84B9AA31 /* Zip.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Zip.swift; path = Zip/Zip.swift; sourceTree = "<group>"; };
+		53E15E6D9747404ADE47D5B4F352826A /* crypt.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = crypt.h; path = Zip/minizip/crypt.h; sourceTree = "<group>"; };
+		5B3465FC20589F9C9BEDA4097CD35222 /* Pods-Bomberman-tvOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Bomberman-tvOS.modulemap"; sourceTree = "<group>"; };
+		66554ABFA19B05DD3ECFD28F8443767D /* ioapi.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ioapi.h; path = Zip/minizip/ioapi.h; sourceTree = "<group>"; };
 		6B2DD0B66ED28C05D3331EE5FD4BBEDE /* Pods-Bomberman-OSX-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bomberman-OSX-umbrella.h"; sourceTree = "<group>"; };
-		6B56F17C90A286DA4A87C1978C4B0F0B /* crypt.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = crypt.h; path = Zip/minizip/crypt.h; sourceTree = "<group>"; };
-		6B9E2C98A39C660920F0867ED09C0C05 /* Pods-Bomberman-OSX.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Bomberman-OSX.modulemap"; sourceTree = "<group>"; };
-		6C3F81C7FAB3C1F36AD0C3B3C10998BA /* QuickZip.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QuickZip.swift; path = Zip/QuickZip.swift; sourceTree = "<group>"; };
-		7811461371ED9F6A7BB825DDB8FF964B /* unzip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = Zip/minizip/unzip.h; sourceTree = "<group>"; };
-		7AA52E71E18096D8431BEF59E4D8B8FF /* Zip-OSX.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Zip-OSX.xcconfig"; sourceTree = "<group>"; };
-		7F42A0D04204827BDFC2352E7E8BC7B5 /* Zip-tvOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "Zip-tvOS-dummy.m"; path = "../Zip-tvOS/Zip-tvOS-dummy.m"; sourceTree = "<group>"; };
-		84D570434D493C934478CA6A9B595278 /* Pods_Bomberman_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bomberman_OSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		894C5C24E9B2A5EA4BC9DA684BF27F3D /* Zip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Zip.h; path = Zip/Zip.h; sourceTree = "<group>"; };
+		6B9E2C98A39C660920F0867ED09C0C05 /* Pods-Bomberman-OSX.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Bomberman-OSX.modulemap"; sourceTree = "<group>"; };
+		78D82F7E5133F7EA9641D15026856D01 /* Zip-tvOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "Zip-tvOS-dummy.m"; path = "../Zip-tvOS/Zip-tvOS-dummy.m"; sourceTree = "<group>"; };
+		7A85CBCA45D4B60D16486829D8D67C32 /* SKTilesetData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKTilesetData.swift; path = Sources/SKTilesetData.swift; sourceTree = "<group>"; };
+		7D12E54B368A6D434F00733937A066D8 /* Zip-tvOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Zip-tvOS.xcconfig"; path = "../Zip-tvOS/Zip-tvOS.xcconfig"; sourceTree = "<group>"; };
+		7E2357125C7A3ADCF781C72822320AE3 /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Zip.framework; path = "Zip-OSX.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81DB9F2654CC06FCB9C4E1C4718DC29C /* SKTileset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKTileset.swift; path = Sources/SKTileset.swift; sourceTree = "<group>"; };
 		8AAD00FA97665BA690210869E43A4471 /* Pods-Bomberman-OSX-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Bomberman-OSX-dummy.m"; sourceTree = "<group>"; };
-		8E89B31CFF1D162D8EA50BA204E6B1A9 /* Zip-tvOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; name = "Zip-tvOS.modulemap"; path = "../Zip-tvOS/Zip-tvOS.modulemap"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		90337783D815C84F82DB9A9E406AC4E3 /* SKTiled+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "SKTiled+Extensions.swift"; path = "Sources/SKTiled+Extensions.swift"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9511360FF8DCCE48BE9BB0D878E4AF8C /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9E296B5699543BF2A55A5EABB978BAF3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9E8FF31B903A082DB4DB8CF3AD084799 /* Zip-tvOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Zip-tvOS-umbrella.h"; path = "../Zip-tvOS/Zip-tvOS-umbrella.h"; sourceTree = "<group>"; };
+		9C7BD837E6B98EACF192EFB4125B4AAE /* zip.c */ = {isa = PBXFileReference; includeInIndex = 1; name = zip.c; path = Zip/minizip/zip.c; sourceTree = "<group>"; };
+		9F274AD2939C6B6FF0C051BB93BB81F8 /* SKTiled-tvOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SKTiled-tvOS-umbrella.h"; path = "../SKTiled-tvOS/SKTiled-tvOS-umbrella.h"; sourceTree = "<group>"; };
 		A47D95973461BCDD13FB9745E1BDBEAF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		C13395B851E18FC7593BF917B7D9C264 /* Zip.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Zip.swift; path = Zip/Zip.swift; sourceTree = "<group>"; };
+		B1B074906A06E9EC6A92AE8A0E1F03FC /* zip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = zip.h; path = Zip/minizip/zip.h; sourceTree = "<group>"; };
+		B6F008F66844CD7EF60669B6D3668A2F /* Zip-OSX-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Zip-OSX-umbrella.h"; sourceTree = "<group>"; };
+		B8D68777D81C0A2A4C5B3562C5DCCB5C /* QuickZip.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QuickZip.swift; path = Zip/QuickZip.swift; sourceTree = "<group>"; };
+		BC6ECD7EDE772A27B5D72217253B4B74 /* SKTilemap.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKTilemap.swift; path = Sources/SKTilemap.swift; sourceTree = "<group>"; };
+		BD82FE69B111B3240BE71C064E221932 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../Zip-tvOS/Info.plist"; sourceTree = "<group>"; };
+		C0A72C42B9555E9EFA87F2C1D0429F29 /* SKTileLayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKTileLayer.swift; path = Sources/SKTileLayer.swift; sourceTree = "<group>"; };
+		C0E20CCFDFA23C51C371462E8152D4DE /* SKTiledScene.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKTiledScene.swift; path = Sources/SKTiledScene.swift; sourceTree = "<group>"; };
+		C6DB076CD07583AFB381284C7E01CD1F /* SKTiledObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SKTiledObject.swift; path = Sources/SKTiledObject.swift; sourceTree = "<group>"; };
 		C76781AC34EB32021A7DC2E362A38FBA /* Pods-Bomberman-tvOS-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Bomberman-tvOS-acknowledgements.markdown"; sourceTree = "<group>"; };
 		C7C0CD556C0D7824E2DC1B14E85833CE /* Pods-Bomberman-tvOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bomberman-tvOS-umbrella.h"; sourceTree = "<group>"; };
+		C7D2E8AC6B67E9E5BAD1758BCEAA316B /* SKTiled-tvOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SKTiled-tvOS-dummy.m"; path = "../SKTiled-tvOS/SKTiled-tvOS-dummy.m"; sourceTree = "<group>"; };
+		CB1883F957AA83549C7AC15D0935B846 /* Zip-tvOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Zip-tvOS-prefix.pch"; path = "../Zip-tvOS/Zip-tvOS-prefix.pch"; sourceTree = "<group>"; };
 		CD56294498D22A0DDF98CF609EDC3FCC /* Pods-Bomberman-OSX-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bomberman-OSX-frameworks.sh"; sourceTree = "<group>"; };
-		D220A34DEAE708726D976B134E9DA9D3 /* unzip.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = Zip/minizip/unzip.c; sourceTree = "<group>"; };
-		D377A9BED567DBAF5D3BA6B3893BCA2B /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFAF8BE50378ABB4C84BC9C5C4EAD781 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7A10FC16154D955FD2D329A58A1B476 /* SKTilemap+Properties.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "SKTilemap+Properties.swift"; path = "Sources/SKTilemap+Properties.swift"; sourceTree = "<group>"; };
 		DCE7BD6BBAE09A82BEF07D6789F8FA93 /* Pods-Bomberman-OSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bomberman-OSX.debug.xcconfig"; sourceTree = "<group>"; };
+		DD499A7413E22B34BF2D9BDBA437481A /* SKTiled-tvOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; name = "SKTiled-tvOS.modulemap"; path = "../SKTiled-tvOS/SKTiled-tvOS.modulemap"; sourceTree = "<group>"; };
 		E328C5DCD110909FF523916191EF1C5C /* Pods-Bomberman-tvOS-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Bomberman-tvOS-acknowledgements.plist"; sourceTree = "<group>"; };
-		E62EBD71BD78D679571455E23B16FCD3 /* Zip-tvOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Zip-tvOS-prefix.pch"; path = "../Zip-tvOS/Zip-tvOS-prefix.pch"; sourceTree = "<group>"; };
-		E69AA5459C4F69F528FFC29C0AB397B1 /* Zip-OSX-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Zip-OSX-dummy.m"; sourceTree = "<group>"; };
-		EC7DE9F8F2A30E69E408A19CFFA91338 /* zip.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = zip.c; path = Zip/minizip/zip.c; sourceTree = "<group>"; };
-		EE13117C8E93156823D52C1C12E93B82 /* ZipUtilities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ZipUtilities.swift; path = Zip/ZipUtilities.swift; sourceTree = "<group>"; };
+		E37F320709587902D6926EBD9B7B1265 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E3B45D546F078C1B94C9BBCF923BEFC6 /* SKTiled-OSX-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SKTiled-OSX-dummy.m"; sourceTree = "<group>"; };
+		E7FF3E762808C45AB4D937EBA2C2B358 /* SKTiled-tvOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "SKTiled-tvOS.xcconfig"; path = "../SKTiled-tvOS/SKTiled-tvOS.xcconfig"; sourceTree = "<group>"; };
+		EC0A70491D5EFB9CDE20B9D655B30BD0 /* SKTiled-OSX-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SKTiled-OSX-umbrella.h"; sourceTree = "<group>"; };
+		F05B9C8C348679F080FBCA4A728985F8 /* SKTiled.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SKTiled.framework; path = "SKTiled-tvOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1807C3C02C5766D5C5091A2408CAEDC /* Pods-Bomberman-OSX-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Bomberman-OSX-acknowledgements.plist"; sourceTree = "<group>"; };
-		F3F2743F66F1241F19A7309D2454D38C /* ioapi.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ioapi.h; path = Zip/minizip/ioapi.h; sourceTree = "<group>"; };
-		F712628C94D1117786E792436F9E0760 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = "../Zip-tvOS/Info.plist"; sourceTree = "<group>"; };
+		F5B5E088AFA5407448F7F85818892314 /* SKTiled-tvOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SKTiled-tvOS-prefix.pch"; path = "../SKTiled-tvOS/SKTiled-tvOS-prefix.pch"; sourceTree = "<group>"; };
 		FAC3686569C46F09BC235D55CE635D96 /* Pods-Bomberman-OSX-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bomberman-OSX-resources.sh"; sourceTree = "<group>"; };
-		FC2C69DB6158A92C216AF1816DB82C01 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		FE481FDDA213A1F56B0E7A7FA3673A72 /* ioapi.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = Zip/minizip/ioapi.c; sourceTree = "<group>"; };
+		FD5D4586E39CD4E250E1E3C7ECAD862D /* SKTiled-OSX.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "SKTiled-OSX.modulemap"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0F77D9AEDC01963B28DCB02F688C605A /* Frameworks */ = {
+		097A044B98B1C69A4B22779CB433FD17 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8D29BF13B251D7CD8C88F4089E31F12 /* Cocoa.framework in Frameworks */,
+				150C5963737C00B3274FA805AC938068 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		588D6F621E5788FEC549DE6C282F29AE /* Frameworks */ = {
+		6523E6B220742821AA616594DF00403C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21939F61E60FB6096EE76DBB0C68907D /* Cocoa.framework in Frameworks */,
+				D6BF104EEF20CAD8F14575EB7B27FB2E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5FEC064A2C4E9DBE9AEC9F46619A9223 /* Frameworks */ = {
+		772726A5B0BA0E6ECF2428E7BEBC5D98 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21A587629C9F0189E697A86350237125 /* Foundation.framework in Frameworks */,
+				388E3B798B5AAAC2A49F044C3FDDDF8F /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9406E59536AE153F544C383A85E3A35D /* Frameworks */ = {
+		77A5B3F495DBCDDB446A01EDBCC73C2A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8A1A5D8EF64CE3395EC7A448B282A7C /* Foundation.framework in Frameworks */,
+				4E64F95C5A8E2627E34BE220AA6226FE /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E360ED49EA50466D4916E7514DAEE6C8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9D7BD5085C410A008FDD25FDE4ECE70 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F814B8FDB9B826B5B0A17CEEAE433335 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9A32D69E4E5C3CF7274EAD6AB7ED41A /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		015BF7EA4510CB11845A1C0E17DBDAD0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1F88B622473C4B892F639AE055CCC843 /* SKTiled */,
+				D9649F8836EEAB954A1AE571C9B7AC9D /* Zip */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		0A5DB4DF6977F0165F1CD7EF8A53FAAC /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				21BB6FC577BD951F33BA574773AF1D4C /* Foundation.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		1F88B622473C4B892F639AE055CCC843 /* SKTiled */ = {
+			isa = PBXGroup;
+			children = (
+				5159570F44FD589E3E15B5E807EB04F9 /* SKTile.swift */,
+				90337783D815C84F82DB9A9E406AC4E3 /* SKTiled+Extensions.swift */,
+				C6DB076CD07583AFB381284C7E01CD1F /* SKTiledObject.swift */,
+				C0E20CCFDFA23C51C371462E8152D4DE /* SKTiledScene.swift */,
+				259518B78D4F72788494131FCD5BCEA4 /* SKTiledSceneCamera.swift */,
+				C0A72C42B9555E9EFA87F2C1D0429F29 /* SKTileLayer.swift */,
+				BC6ECD7EDE772A27B5D72217253B4B74 /* SKTilemap.swift */,
+				D7A10FC16154D955FD2D329A58A1B476 /* SKTilemap+Properties.swift */,
+				26604D16D14AD0B0929222E29FB761FD /* SKTilemapParser.swift */,
+				37655DC8637BFC984B71113F19E474BA /* SKTileObject.swift */,
+				81DB9F2654CC06FCB9C4E1C4718DC29C /* SKTileset.swift */,
+				7A85CBCA45D4B60D16486829D8D67C32 /* SKTilesetData.swift */,
+				6D0AE72FBDE7C20CC7C3AC309D3A0122 /* Support Files */,
+			);
+			name = SKTiled;
+			path = SKTiled;
+			sourceTree = "<group>";
+		};
 		26756794E5A70DCD6E7E8D28FF53280D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				53516F02A952C990388CF15384889D52 /* OS X */,
-				CC8657DCE4E3F94C459580A37B8AC80A /* tvOS */,
+				0A5DB4DF6977F0165F1CD7EF8A53FAAC /* tvOS */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3FD609F007A1EB66C06BD2A9489D4ED5 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				BD82FE69B111B3240BE71C064E221932 /* Info.plist */,
+				CFAF8BE50378ABB4C84BC9C5C4EAD781 /* Info.plist */,
+				3F998FF29841446D05EAE85313AF4219 /* Zip-OSX.modulemap */,
+				3D672340E37238E9A1DD2F89E17B6B72 /* Zip-OSX.xcconfig */,
+				0C8D037A972701509575A87D7BF1F8E1 /* Zip-OSX-dummy.m */,
+				3E642705655D93D97987220AA33D18EF /* Zip-OSX-prefix.pch */,
+				B6F008F66844CD7EF60669B6D3668A2F /* Zip-OSX-umbrella.h */,
+				239FE59CFF944FA7AFD930A315805C6D /* Zip-tvOS.modulemap */,
+				7D12E54B368A6D434F00733937A066D8 /* Zip-tvOS.xcconfig */,
+				78D82F7E5133F7EA9641D15026856D01 /* Zip-tvOS-dummy.m */,
+				CB1883F957AA83549C7AC15D0935B846 /* Zip-tvOS-prefix.pch */,
+				02E3E06F707EB5FE926296C7C8375099 /* Zip-tvOS-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Zip-OSX";
 			sourceTree = "<group>";
 		};
 		53516F02A952C990388CF15384889D52 /* OS X */ = {
@@ -164,17 +308,6 @@
 				A47D95973461BCDD13FB9745E1BDBEAF /* Cocoa.framework */,
 			);
 			name = "OS X";
-			sourceTree = "<group>";
-		};
-		5A927332C2710A41AED70DE53953BED8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				84D570434D493C934478CA6A9B595278 /* Pods_Bomberman_OSX.framework */,
-				2BD22DD10C5AAB58E15F010C3BD644FA /* Pods_Bomberman_tvOS.framework */,
-				D377A9BED567DBAF5D3BA6B3893BCA2B /* Zip.framework */,
-				0F1855AAE750B343EBD1DE245EAB63F8 /* Zip.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		6887B9D56E766D8BFF0541F85E565D49 /* Pods-Bomberman-tvOS */ = {
@@ -195,13 +328,33 @@
 			path = "Target Support Files/Pods-Bomberman-tvOS";
 			sourceTree = "<group>";
 		};
+		6D0AE72FBDE7C20CC7C3AC309D3A0122 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				4309EF42DB3A35EB9ADD7231767CB1B5 /* Info.plist */,
+				E37F320709587902D6926EBD9B7B1265 /* Info.plist */,
+				FD5D4586E39CD4E250E1E3C7ECAD862D /* SKTiled-OSX.modulemap */,
+				3061A58868355C28B6B20F2A20B7F46F /* SKTiled-OSX.xcconfig */,
+				E3B45D546F078C1B94C9BBCF923BEFC6 /* SKTiled-OSX-dummy.m */,
+				51425ABB31DF9A0B463251E7C6720C56 /* SKTiled-OSX-prefix.pch */,
+				EC0A70491D5EFB9CDE20B9D655B30BD0 /* SKTiled-OSX-umbrella.h */,
+				DD499A7413E22B34BF2D9BDBA437481A /* SKTiled-tvOS.modulemap */,
+				E7FF3E762808C45AB4D937EBA2C2B358 /* SKTiled-tvOS.xcconfig */,
+				C7D2E8AC6B67E9E5BAD1758BCEAA316B /* SKTiled-tvOS-dummy.m */,
+				F5B5E088AFA5407448F7F85818892314 /* SKTiled-tvOS-prefix.pch */,
+				9F274AD2939C6B6FF0C051BB93BB81F8 /* SKTiled-tvOS-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SKTiled-OSX";
+			sourceTree = "<group>";
+		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				26756794E5A70DCD6E7E8D28FF53280D /* Frameworks */,
-				E104CD8A37556B4A21987E8A7CA5A000 /* Pods */,
-				5A927332C2710A41AED70DE53953BED8 /* Products */,
+				015BF7EA4510CB11845A1C0E17DBDAD0 /* Pods */,
+				890B17C9DC4E68ABC0EA5F367B29FA9C /* Products */,
 				7F5911581CA9A10FB721E4E91A997635 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
@@ -213,6 +366,19 @@
 				6887B9D56E766D8BFF0541F85E565D49 /* Pods-Bomberman-tvOS */,
 			);
 			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		890B17C9DC4E68ABC0EA5F367B29FA9C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				467122D2B73D55DE25D77FB48E77EDFC /* Pods_Bomberman_OSX.framework */,
+				14C8BAEC42B3D0FB0303FF05FBD03D08 /* Pods_Bomberman_tvOS.framework */,
+				F05B9C8C348679F080FBCA4A728985F8 /* SKTiled.framework */,
+				3E51372538F41ADF5C867C55508E9B24 /* SKTiled.framework */,
+				7E2357125C7A3ADCF781C72822320AE3 /* Zip.framework */,
+				0275799A9CEC9492193B7B8AC2C71E7E /* Zip.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		93F3CA3F6507A05F04A72430B0505D24 /* Pods-Bomberman-OSX */ = {
@@ -233,134 +399,97 @@
 			path = "Target Support Files/Pods-Bomberman-OSX";
 			sourceTree = "<group>";
 		};
-		BF98B6358B2DEF1517C4D4293F376F11 /* Zip */ = {
+		D9649F8836EEAB954A1AE571C9B7AC9D /* Zip */ = {
 			isa = PBXGroup;
 			children = (
-				6B56F17C90A286DA4A87C1978C4B0F0B /* crypt.h */,
-				FE481FDDA213A1F56B0E7A7FA3673A72 /* ioapi.c */,
-				F3F2743F66F1241F19A7309D2454D38C /* ioapi.h */,
-				6C3F81C7FAB3C1F36AD0C3B3C10998BA /* QuickZip.swift */,
-				D220A34DEAE708726D976B134E9DA9D3 /* unzip.c */,
-				7811461371ED9F6A7BB825DDB8FF964B /* unzip.h */,
-				EC7DE9F8F2A30E69E408A19CFFA91338 /* zip.c */,
-				894C5C24E9B2A5EA4BC9DA684BF27F3D /* Zip.h */,
-				034219EF584C606901485385309C69D0 /* zip.h */,
-				C13395B851E18FC7593BF917B7D9C264 /* Zip.swift */,
-				EE13117C8E93156823D52C1C12E93B82 /* ZipUtilities.swift */,
-				E4197DD587EF44852F9DC4D600B48AC9 /* Support Files */,
+				53E15E6D9747404ADE47D5B4F352826A /* crypt.h */,
+				1FEA6E8E3CAB12F215A89A52171B31CD /* ioapi.c */,
+				66554ABFA19B05DD3ECFD28F8443767D /* ioapi.h */,
+				B8D68777D81C0A2A4C5B3562C5DCCB5C /* QuickZip.swift */,
+				2F5160B54D9160926691C7EDA4FC389C /* unzip.c */,
+				1EA335FB1E2E705382E7629DDD1850FA /* unzip.h */,
+				9C7BD837E6B98EACF192EFB4125B4AAE /* zip.c */,
+				25EE2EF3D1A2C9DCA833827A42B60496 /* Zip.h */,
+				B1B074906A06E9EC6A92AE8A0E1F03FC /* zip.h */,
+				52FC80CDBCE6D692BEDB566C84B9AA31 /* Zip.swift */,
+				0C66A98840EBEA4938078BAC0BDA294B /* ZipUtilities.swift */,
+				3FD609F007A1EB66C06BD2A9489D4ED5 /* Support Files */,
 			);
+			name = Zip;
 			path = Zip;
-			sourceTree = "<group>";
-		};
-		CC8657DCE4E3F94C459580A37B8AC80A /* tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				FC2C69DB6158A92C216AF1816DB82C01 /* Foundation.framework */,
-			);
-			name = tvOS;
-			sourceTree = "<group>";
-		};
-		E104CD8A37556B4A21987E8A7CA5A000 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				BF98B6358B2DEF1517C4D4293F376F11 /* Zip */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		E4197DD587EF44852F9DC4D600B48AC9 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				F712628C94D1117786E792436F9E0760 /* Info.plist */,
-				9E296B5699543BF2A55A5EABB978BAF3 /* Info.plist */,
-				5B7F0C1F5A7C54E929DE6D08F080F194 /* Zip-OSX.modulemap */,
-				7AA52E71E18096D8431BEF59E4D8B8FF /* Zip-OSX.xcconfig */,
-				E69AA5459C4F69F528FFC29C0AB397B1 /* Zip-OSX-dummy.m */,
-				5CC5B82D7EC69C4155F71D21819F4F93 /* Zip-OSX-prefix.pch */,
-				64391E46010A1337AE859A7B711910FE /* Zip-OSX-umbrella.h */,
-				8E89B31CFF1D162D8EA50BA204E6B1A9 /* Zip-tvOS.modulemap */,
-				52CCBD3E8762E724AEC648733E91778B /* Zip-tvOS.xcconfig */,
-				7F42A0D04204827BDFC2352E7E8BC7B5 /* Zip-tvOS-dummy.m */,
-				E62EBD71BD78D679571455E23B16FCD3 /* Zip-tvOS-prefix.pch */,
-				9E8FF31B903A082DB4DB8CF3AD084799 /* Zip-tvOS-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Zip-OSX";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		4944503B9E468572E3BDC0EA695F9CCF /* Headers */ = {
+		48AD7B219D4C507220BA3D12E63FE15C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				741F758407A07CFBCC1C7A8F31A6EE00 /* crypt.h in Headers */,
-				7FB5A970AFD3D4E48A13F538219D8F08 /* ioapi.h in Headers */,
-				69855E93FE01623A6BF8A5AE362586A1 /* unzip.h in Headers */,
-				DDD994D488892D7CC251C6FAF08F5285 /* Zip-OSX-umbrella.h in Headers */,
-				232396139E82CDBEEE74ED083AA00826 /* zip.h in Headers */,
-				5E2FB7CEC476E009E2DB43BE0D33C337 /* Zip.h in Headers */,
+				F4A33AAB613584A19041D28E7277FA74 /* crypt.h in Headers */,
+				1E19FC1B7A323852E191AE111F0D51AB /* ioapi.h in Headers */,
+				451F168D054030588556042FE7F37CCF /* unzip.h in Headers */,
+				BA7456B241234D3E65E1D4E717EC7372 /* Zip-OSX-umbrella.h in Headers */,
+				43AC59BB5BC8CBC7351A68B106AB822A /* zip.h in Headers */,
+				0E7E633F2647F2FE7A3BD6DCA80948F9 /* Zip.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		64EC48881DEFB7906945CB10B633752D /* Headers */ = {
+		8760AD262BC47FDD6E221B32148A07DE /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA51FC5F9D9E37CB27921F29B3C6A894 /* Pods-Bomberman-OSX-umbrella.h in Headers */,
+				EAC8B6B2B80F1B2888D4B04033963491 /* crypt.h in Headers */,
+				99039A2ABD5B2A40FBAC15B5CBBD0380 /* ioapi.h in Headers */,
+				9174AC0627924D132B20042FBE1B748A /* unzip.h in Headers */,
+				16D192BD842861CB0C245EB40FC724AB /* Zip-tvOS-umbrella.h in Headers */,
+				45923205B77B07064ABC90A8C3D6F7C0 /* zip.h in Headers */,
+				7DC5B6ACDC2325DA24EBE2BDD0908FBF /* Zip.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		744C50BB7C52471474206B4D745318DE /* Headers */ = {
+		88B815AE23D5AB1509DD791B49CC1DBA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE13A8F934A1101332E3BAE57F9038D5 /* Pods-Bomberman-tvOS-umbrella.h in Headers */,
+				7CC309B3CD660E713E6AF0615E3DE982 /* Pods-Bomberman-tvOS-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D2C160972C55DBEBA17A67FF57D3C653 /* Headers */ = {
+		D7473CFEED720DCAA7E218D79D94F5F6 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE839B68AEA5B2261FB52C8F7A5C5B02 /* crypt.h in Headers */,
-				D15EAD1EB69F67DC916EB0FE5F7F4ACC /* ioapi.h in Headers */,
-				61B7E3B2D0D4ECBEA5C702904CC74E4D /* unzip.h in Headers */,
-				3243688495AA5DFEB7457E82D7A7F380 /* Zip-tvOS-umbrella.h in Headers */,
-				6E63E9B5336A0EBB93F3696488CBBB73 /* zip.h in Headers */,
-				EC66D27AD0C5AF2A5AE05E4222AF393F /* Zip.h in Headers */,
+				8FE0A3198E1501CA2A7992918D2AEF4E /* SKTiled-OSX-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DDEFE0DBCC6C8BAC8570237CF03E27CF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D73F9EBF792DDA380C960D1BB0A491FA /* SKTiled-tvOS-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E17F4C2FBABFC213DCC23FB48592AE05 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6664BE860967ADBD97508B2F1B7A2A4 /* Pods-Bomberman-OSX-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		7EA25C9815709A0ADACF6362A44108BE /* Pods-Bomberman-tvOS */ = {
+		841A6EE8F354B338E4DF5E9A3A73C7C2 /* Zip-OSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CB1C340D98E275E0894A584953C2CC27 /* Build configuration list for PBXNativeTarget "Pods-Bomberman-tvOS" */;
+			buildConfigurationList = 162A2F77EC21CB98E48F2818D4A39DD1 /* Build configuration list for PBXNativeTarget "Zip-OSX" */;
 			buildPhases = (
-				4FA924B7BACC4CAE26924E7FAD2DDB92 /* Sources */,
-				9406E59536AE153F544C383A85E3A35D /* Frameworks */,
-				744C50BB7C52471474206B4D745318DE /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				66672B5FC9A5800A2FED561C110C3783 /* PBXTargetDependency */,
-			);
-			name = "Pods-Bomberman-tvOS";
-			productName = "Pods-Bomberman-tvOS";
-			productReference = 2BD22DD10C5AAB58E15F010C3BD644FA /* Pods_Bomberman_tvOS.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		F6DC5D168DEA61DCCFEA98F6B11A608C /* Zip-OSX */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EF1C71311C2BA10A66BFB04BBC717405 /* Build configuration list for PBXNativeTarget "Zip-OSX" */;
-			buildPhases = (
-				F3B04D9F0032C76CEFA75556B56EFF2E /* Sources */,
-				0F77D9AEDC01963B28DCB02F688C605A /* Frameworks */,
-				4944503B9E468572E3BDC0EA695F9CCF /* Headers */,
+				57570B71DCD75A9E222A78EF7FE6CA49 /* Sources */,
+				772726A5B0BA0E6ECF2428E7BEBC5D98 /* Frameworks */,
+				48AD7B219D4C507220BA3D12E63FE15C /* Headers */,
 			);
 			buildRules = (
 			);
@@ -368,16 +497,69 @@
 			);
 			name = "Zip-OSX";
 			productName = "Zip-OSX";
-			productReference = 0F1855AAE750B343EBD1DE245EAB63F8 /* Zip.framework */;
+			productReference = 7E2357125C7A3ADCF781C72822320AE3 /* Zip.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		FB0A30199B55FE99471763B070D2A1E6 /* Zip-tvOS */ = {
+		849A51A386B5740D0141FAF51ACB39AD /* SKTiled-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 944671D0B464C407D8B5DB8F0E829662 /* Build configuration list for PBXNativeTarget "Zip-tvOS" */;
+			buildConfigurationList = 108A251528B9333B4CB12EFC120583CC /* Build configuration list for PBXNativeTarget "SKTiled-tvOS" */;
 			buildPhases = (
-				912A0EEDD42D4A70066DA9F9702FA678 /* Sources */,
-				5FEC064A2C4E9DBE9AEC9F46619A9223 /* Frameworks */,
-				D2C160972C55DBEBA17A67FF57D3C653 /* Headers */,
+				9A60579C845526DB96EE0029B792C7E8 /* Sources */,
+				6523E6B220742821AA616594DF00403C /* Frameworks */,
+				DDEFE0DBCC6C8BAC8570237CF03E27CF /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SKTiled-tvOS";
+			productName = "SKTiled-tvOS";
+			productReference = F05B9C8C348679F080FBCA4A728985F8 /* SKTiled.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AD1A508F30D3D974E0F38E87923DE2E5 /* Pods-Bomberman-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0DEF59D9ED46D403C892549604BA4B89 /* Build configuration list for PBXNativeTarget "Pods-Bomberman-tvOS" */;
+			buildPhases = (
+				7B0E8832D5B2CB5041534BDB761F6F6D /* Sources */,
+				77A5B3F495DBCDDB446A01EDBCC73C2A /* Frameworks */,
+				88B815AE23D5AB1509DD791B49CC1DBA /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DC2770DEC251729196AD8CBE5BF12F90 /* PBXTargetDependency */,
+				4D9D4DC0E6B8E80342E61897C2E196D8 /* PBXTargetDependency */,
+			);
+			name = "Pods-Bomberman-tvOS";
+			productName = "Pods-Bomberman-tvOS";
+			productReference = 14C8BAEC42B3D0FB0303FF05FBD03D08 /* Pods_Bomberman_tvOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C1607F3B276A0E3FDF93923F0D26BAC4 /* SKTiled-OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 079BEA8F9058B61FB438559955F00CE2 /* Build configuration list for PBXNativeTarget "SKTiled-OSX" */;
+			buildPhases = (
+				AF6CB139735B7B4F7B576BC5C3732E85 /* Sources */,
+				F814B8FDB9B826B5B0A17CEEAE433335 /* Frameworks */,
+				D7473CFEED720DCAA7E218D79D94F5F6 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SKTiled-OSX";
+			productName = "SKTiled-OSX";
+			productReference = 3E51372538F41ADF5C867C55508E9B24 /* SKTiled.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C66710A434434079FD675A36D46617E4 /* Zip-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D890A22D7BD66326327E929021B175ED /* Build configuration list for PBXNativeTarget "Zip-tvOS" */;
+			buildPhases = (
+				B3B752EA95F5171DD320E76082E7B861 /* Sources */,
+				E360ED49EA50466D4916E7514DAEE6C8 /* Frameworks */,
+				8760AD262BC47FDD6E221B32148A07DE /* Headers */,
 			);
 			buildRules = (
 			);
@@ -385,25 +567,26 @@
 			);
 			name = "Zip-tvOS";
 			productName = "Zip-tvOS";
-			productReference = D377A9BED567DBAF5D3BA6B3893BCA2B /* Zip.framework */;
+			productReference = 0275799A9CEC9492193B7B8AC2C71E7E /* Zip.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		FFDD9DC83BD501C5DDE27901633C7086 /* Pods-Bomberman-OSX */ = {
+		CBB57CDCAC4ED3000A69DBC92AC9D211 /* Pods-Bomberman-OSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 276E2B654E99F7E3C15A746FE112EBA8 /* Build configuration list for PBXNativeTarget "Pods-Bomberman-OSX" */;
+			buildConfigurationList = 221A7728E865F6C70379CC4B686D0FE1 /* Build configuration list for PBXNativeTarget "Pods-Bomberman-OSX" */;
 			buildPhases = (
-				5E7022C5A662F6E11BE5B0EF744B2DB6 /* Sources */,
-				588D6F621E5788FEC549DE6C282F29AE /* Frameworks */,
-				64EC48881DEFB7906945CB10B633752D /* Headers */,
+				5718E81B7F6A624605221EB99DD3C53C /* Sources */,
+				097A044B98B1C69A4B22779CB433FD17 /* Frameworks */,
+				E17F4C2FBABFC213DCC23FB48592AE05 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				4991D4104DAB6907B956C28D91B77B08 /* PBXTargetDependency */,
+				05F13801A0AB30F07E51F72438A279F0 /* PBXTargetDependency */,
+				DC37F08923781CD44255AD7C965AA133 /* PBXTargetDependency */,
 			);
 			name = "Pods-Bomberman-OSX";
 			productName = "Pods-Bomberman-OSX";
-			productReference = 84D570434D493C934478CA6A9B595278 /* Pods_Bomberman_OSX.framework */;
+			productReference = 467122D2B73D55DE25D77FB48E77EDFC /* Pods_Bomberman_OSX.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -412,7 +595,7 @@
 		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 0700;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
@@ -423,127 +606,245 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 5A927332C2710A41AED70DE53953BED8 /* Products */;
+			productRefGroup = 890B17C9DC4E68ABC0EA5F367B29FA9C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FFDD9DC83BD501C5DDE27901633C7086 /* Pods-Bomberman-OSX */,
-				7EA25C9815709A0ADACF6362A44108BE /* Pods-Bomberman-tvOS */,
-				F6DC5D168DEA61DCCFEA98F6B11A608C /* Zip-OSX */,
-				FB0A30199B55FE99471763B070D2A1E6 /* Zip-tvOS */,
+				CBB57CDCAC4ED3000A69DBC92AC9D211 /* Pods-Bomberman-OSX */,
+				AD1A508F30D3D974E0F38E87923DE2E5 /* Pods-Bomberman-tvOS */,
+				C1607F3B276A0E3FDF93923F0D26BAC4 /* SKTiled-OSX */,
+				849A51A386B5740D0141FAF51ACB39AD /* SKTiled-tvOS */,
+				841A6EE8F354B338E4DF5E9A3A73C7C2 /* Zip-OSX */,
+				C66710A434434079FD675A36D46617E4 /* Zip-tvOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4FA924B7BACC4CAE26924E7FAD2DDB92 /* Sources */ = {
+		5718E81B7F6A624605221EB99DD3C53C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA212A1E93B4715E9D57E64ABAB0191B /* Pods-Bomberman-tvOS-dummy.m in Sources */,
+				2DC42DC9E7E444440D062ABD2339C90A /* Pods-Bomberman-OSX-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5E7022C5A662F6E11BE5B0EF744B2DB6 /* Sources */ = {
+		57570B71DCD75A9E222A78EF7FE6CA49 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61B4148A005922AF58668F08878EEADF /* Pods-Bomberman-OSX-dummy.m in Sources */,
+				1311EC800E32CCC5949B63B3095DDE83 /* ioapi.c in Sources */,
+				F45AFD95932531C6C8472ECE6BA5FFE6 /* QuickZip.swift in Sources */,
+				2E60245311E322F5E12F5A095BBA9A37 /* unzip.c in Sources */,
+				FBDA353D5288E35411BDCAE68E3D4D73 /* Zip-OSX-dummy.m in Sources */,
+				FA1F0F9B8E4A4E0DB3FF319275B85FEC /* zip.c in Sources */,
+				4799291C97FC592CA2E519FBEE6663A0 /* Zip.swift in Sources */,
+				A1D405AC71EB9045D678BF4DA867FF7D /* ZipUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		912A0EEDD42D4A70066DA9F9702FA678 /* Sources */ = {
+		7B0E8832D5B2CB5041534BDB761F6F6D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A54F28BE9D7D81926C0BFEDD9CBFF3C0 /* ioapi.c in Sources */,
-				70398BA6D245B441276B42264825E084 /* QuickZip.swift in Sources */,
-				C15E00D079681812EC4FE92678DB247C /* unzip.c in Sources */,
-				9EA9224D3D9AC42E5BF6DFB9BE4D7073 /* Zip-tvOS-dummy.m in Sources */,
-				B20CDD7E8923795A1203EC562219E513 /* zip.c in Sources */,
-				D0319346420489B565B7454BA497E16E /* Zip.swift in Sources */,
-				C198103D4C6386ABBD8029FEA5165F25 /* ZipUtilities.swift in Sources */,
+				3B30CC0E303AF1A86FEDB96CB4C5E57E /* Pods-Bomberman-tvOS-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F3B04D9F0032C76CEFA75556B56EFF2E /* Sources */ = {
+		9A60579C845526DB96EE0029B792C7E8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7F23CE2EA15FFAE7ED56B7B36673BE9 /* ioapi.c in Sources */,
-				563E101505654C8079B49900BE0D1F4E /* QuickZip.swift in Sources */,
-				D682D3C2ACF234B9C593C41272A59372 /* unzip.c in Sources */,
-				47ED9CAF76D09B61B95B1AC59075D29B /* Zip-OSX-dummy.m in Sources */,
-				ECDE34FF3C4DE18A04775DE9518A59CF /* zip.c in Sources */,
-				C13682A1B82A68169BCDB0F9E38CD232 /* Zip.swift in Sources */,
-				22AD87C8E3DC5FCD665B2DACECBB7DB0 /* ZipUtilities.swift in Sources */,
+				FE068C7E21579811D09972D020C1BCE2 /* SKTile.swift in Sources */,
+				345A3A377D0A4FA0088EDEBB6EDB6C20 /* SKTiled+Extensions.swift in Sources */,
+				E75E044290B6DA578FA147274782817F /* SKTiled-tvOS-dummy.m in Sources */,
+				0ED37D41F6129B01E35FF21B15378FEA /* SKTiledObject.swift in Sources */,
+				DC45E2DD953E027B3AF9070480D8E025 /* SKTiledScene.swift in Sources */,
+				B868E1CA11D9D37AD1427E944F7EE749 /* SKTiledSceneCamera.swift in Sources */,
+				20E887081B7AEEDC4B6458E7891AE452 /* SKTileLayer.swift in Sources */,
+				A5C5F39D40F70D11E70EB5AFEE996545 /* SKTilemap+Properties.swift in Sources */,
+				5108AC2BA81532D3F92680B5715CCF19 /* SKTilemap.swift in Sources */,
+				16C55916211FE2B110F2439234F7B0BF /* SKTilemapParser.swift in Sources */,
+				B779FD4BB95A5C769FAE6B3EB431D475 /* SKTileObject.swift in Sources */,
+				88D45A912057AE5DB962D89B9668A4C0 /* SKTileset.swift in Sources */,
+				FB87A16FFEA22AE4D07EF36F275F28A6 /* SKTilesetData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF6CB139735B7B4F7B576BC5C3732E85 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BAAD6E3D0941F354B49A9B609B3DBB5 /* SKTile.swift in Sources */,
+				CD7B03854582DFD7157C63EABECF947D /* SKTiled+Extensions.swift in Sources */,
+				C625952CA2FD115339CCCF861BAFA0FD /* SKTiled-OSX-dummy.m in Sources */,
+				930344B0AD051CE7A715647CE1174925 /* SKTiledObject.swift in Sources */,
+				AB8599E80CFC860AD8674D9C63971396 /* SKTiledScene.swift in Sources */,
+				D771B7F5A9FB188E61760103AFF3BC88 /* SKTiledSceneCamera.swift in Sources */,
+				C61E792737238CBCFE5E168DE339A78D /* SKTileLayer.swift in Sources */,
+				4561FF3B44D989F69E98EF709BCBD446 /* SKTilemap+Properties.swift in Sources */,
+				932E1336123BFD9F28B3C975FDAE0464 /* SKTilemap.swift in Sources */,
+				65E4023CB8AD941EF8329414A340AB71 /* SKTilemapParser.swift in Sources */,
+				E403580EE064792F7FAF8D6C12F5975D /* SKTileObject.swift in Sources */,
+				F6C4569CD4A818D65188E8A1CC5E6A89 /* SKTileset.swift in Sources */,
+				71B615544AB047D9DFE53277ED40F772 /* SKTilesetData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3B752EA95F5171DD320E76082E7B861 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF1782E30A177F3A41474D3B982F7AE4 /* ioapi.c in Sources */,
+				4CF1092B11C38AA79D3EC0DB3E045B1E /* QuickZip.swift in Sources */,
+				EBFC0244EC525D70F3C435704A4F131D /* unzip.c in Sources */,
+				E5AA4EC3EA96A10C41416D643EB8A793 /* Zip-tvOS-dummy.m in Sources */,
+				CA5B1EF6077F6015F74156CBA2842523 /* zip.c in Sources */,
+				CCB84A3CF2D644241094DCC3EED8B499 /* Zip.swift in Sources */,
+				7E1D7214470383AFE57BD2964FC0A5AC /* ZipUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4991D4104DAB6907B956C28D91B77B08 /* PBXTargetDependency */ = {
+		05F13801A0AB30F07E51F72438A279F0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "Zip-OSX";
-			target = F6DC5D168DEA61DCCFEA98F6B11A608C /* Zip-OSX */;
-			targetProxy = 15FC6503047EC71DD8D4DCDF96738FE5 /* PBXContainerItemProxy */;
+			name = "SKTiled-OSX";
+			target = C1607F3B276A0E3FDF93923F0D26BAC4 /* SKTiled-OSX */;
+			targetProxy = 024C1F06C9A79FE06B95B475BDCC2C45 /* PBXContainerItemProxy */;
 		};
-		66672B5FC9A5800A2FED561C110C3783 /* PBXTargetDependency */ = {
+		4D9D4DC0E6B8E80342E61897C2E196D8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Zip-tvOS";
-			target = FB0A30199B55FE99471763B070D2A1E6 /* Zip-tvOS */;
-			targetProxy = 12C6E4E9C36CC0B62A2A08753190B7F9 /* PBXContainerItemProxy */;
+			target = C66710A434434079FD675A36D46617E4 /* Zip-tvOS */;
+			targetProxy = D413894B3280C4FD10C4511BC484308A /* PBXContainerItemProxy */;
+		};
+		DC2770DEC251729196AD8CBE5BF12F90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SKTiled-tvOS";
+			target = 849A51A386B5740D0141FAF51ACB39AD /* SKTiled-tvOS */;
+			targetProxy = 728A47170919A8253A45C2EAB2D40312 /* PBXContainerItemProxy */;
+		};
+		DC37F08923781CD44255AD7C965AA133 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Zip-OSX";
+			target = 841A6EE8F354B338E4DF5E9A3A73C7C2 /* Zip-OSX */;
+			targetProxy = 0799DCA3E990A02F5EF0B837D458B241 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		15D2913AFB1B0794CE40F73C87FE531D /* Debug */ = {
+		0119E17357F42BEA4D67D9CD64EC3D6F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3364446D6C1758286BAC2FFE7AC785A6 /* Pods-Bomberman-tvOS.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_REQUIRED = NO;
-				COPY_PHASE_STRIP = NO;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_DEBUG=1",
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Bomberman-tvOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Bomberman-tvOS/Pods-Bomberman-tvOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Bomberman_tvOS;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		026B1D14B01B76DF75D639F9805BABE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3061A58868355C28B6B20F2A20B7F46F /* SKTiled-OSX.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SKTiled-OSX/SKTiled-OSX-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SKTiled-OSX/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MODULEMAP_FILE = "Target Support Files/SKTiled-OSX/SKTiled-OSX.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SKTiled;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		0EC8022180B08CC152B7C034B166149B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D672340E37238E9A1DD2F89E17B6B72 /* Zip-OSX.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Zip-OSX/Zip-OSX-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Zip-OSX/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MODULEMAP_FILE = "Target Support Files/Zip-OSX/Zip-OSX.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = Zip;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		1F70BDD51BDF4A1E2954CB94AD2B6233 /* Release */ = {
+		29DE40DD66D1287A785C8FC477D8C8E6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 471FBA00B08893E42EF02710399384A3 /* Pods-Bomberman-OSX.release.xcconfig */;
 			buildSettings = {
@@ -575,20 +876,55 @@
 				PRODUCT_NAME = Pods_Bomberman_OSX;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		2B9F90112140ACE6AA64E5EE74665C34 /* Debug */ = {
+		2B836588608E3B6517B711235DF9775D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AA52E71E18096D8431BEF59E4D8B8FF /* Zip-OSX.xcconfig */;
+			baseConfigurationReference = E7FF3E762808C45AB4D937EBA2C2B358 /* SKTiled-tvOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SKTiled-tvOS/SKTiled-tvOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SKTiled-tvOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SKTiled-tvOS/SKTiled-tvOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SKTiled;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		439D556E78EEB0BAAB7D5C9F8F54BD0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D12E54B368A6D434F00733937A066D8 /* Zip-tvOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -596,29 +932,80 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Zip-OSX/Zip-OSX-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Zip-OSX/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/Zip-tvOS/Zip-tvOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Zip-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				MODULEMAP_FILE = "Target Support Files/Zip-OSX/Zip-OSX.modulemap";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Zip-tvOS/Zip-tvOS.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = Zip;
-				SDKROOT = macosx;
+				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		55291A0A5719295554E487C33D8011A2 /* Release */ = {
+		6B3F61235DCC9DB82FBB5F0E864B33C6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 52CCBD3E8762E724AEC648733E91778B /* Zip-tvOS.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		6D3755F47ED04FC785EA9C6781705487 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D12E54B368A6D434F00733937A066D8 /* Zip-tvOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -639,6 +1026,7 @@
 				PRODUCT_NAME = Zip;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
@@ -647,7 +1035,158 @@
 			};
 			name = Release;
 		};
-		74C7BD25D2C07585F773AE638076D48A /* Debug */ = {
+		8E92666FEA2281394B78C058998CB38F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3061A58868355C28B6B20F2A20B7F46F /* SKTiled-OSX.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SKTiled-OSX/SKTiled-OSX-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SKTiled-OSX/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MODULEMAP_FILE = "Target Support Files/SKTiled-OSX/SKTiled-OSX.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = SKTiled;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A1B07D9EFB371789297E6D6983C83619 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7FF3E762808C45AB4D937EBA2C2B358 /* SKTiled-tvOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SKTiled-tvOS/SKTiled-tvOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SKTiled-tvOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SKTiled-tvOS/SKTiled-tvOS.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = SKTiled;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AAD10143C84503F44D59C921AB1A1BC8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AD3418283D080FEFC2B3866D353034E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3D672340E37238E9A1DD2F89E17B6B72 /* Zip-OSX.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Zip-OSX/Zip-OSX-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Zip-OSX/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MODULEMAP_FILE = "Target Support Files/Zip-OSX/Zip-OSX.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = Zip;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B1D02DE3956A0A289BC6706FBD2FBA5C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DCE7BD6BBAE09A82BEF07D6789F8FA93 /* Pods-Bomberman-OSX.debug.xcconfig */;
 			buildSettings = {
@@ -679,91 +1218,19 @@
 				PRODUCT_NAME = Pods_Bomberman_OSX;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		75DFC422DFD3DFF479D7C596E638C0D4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AA52E71E18096D8431BEF59E4D8B8FF /* Zip-OSX.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_VERSION = A;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Zip-OSX/Zip-OSX-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Zip-OSX/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				MODULEMAP_FILE = "Target Support Files/Zip-OSX/Zip-OSX.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = Zip;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
-		A3BF636E765055E571FCB5D83EE2A4A3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_REQUIRED = NO;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		AA0D59583EF07C9F07188C3DC09E10F2 /* Debug */ = {
+		C5232C63E43A61C244A218ABFEBF31C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 11ED5093825353D8A2029369914A393A /* Pods-Bomberman-tvOS.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
@@ -788,73 +1255,7 @@
 				PRODUCT_NAME = Pods_Bomberman_tvOS;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		C528BA5594B481C9C4C9365FA27A9417 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3364446D6C1758286BAC2FFE7AC785A6 /* Pods-Bomberman-tvOS.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Bomberman-tvOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Bomberman-tvOS/Pods-Bomberman-tvOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_Bomberman_tvOS;
-				SDKROOT = appletvos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		E32E59CB298F8E8C36A5CBD0DF5FC84B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 52CCBD3E8762E724AEC648733E91778B /* Zip-tvOS.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Zip-tvOS/Zip-tvOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Zip-tvOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Zip-tvOS/Zip-tvOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = Zip;
-				SDKROOT = appletvos;
-				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -867,11 +1268,47 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		276E2B654E99F7E3C15A746FE112EBA8 /* Build configuration list for PBXNativeTarget "Pods-Bomberman-OSX" */ = {
+		079BEA8F9058B61FB438559955F00CE2 /* Build configuration list for PBXNativeTarget "SKTiled-OSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				74C7BD25D2C07585F773AE638076D48A /* Debug */,
-				1F70BDD51BDF4A1E2954CB94AD2B6233 /* Release */,
+				8E92666FEA2281394B78C058998CB38F /* Debug */,
+				026B1D14B01B76DF75D639F9805BABE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0DEF59D9ED46D403C892549604BA4B89 /* Build configuration list for PBXNativeTarget "Pods-Bomberman-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5232C63E43A61C244A218ABFEBF31C9 /* Debug */,
+				0119E17357F42BEA4D67D9CD64EC3D6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		108A251528B9333B4CB12EFC120583CC /* Build configuration list for PBXNativeTarget "SKTiled-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1B07D9EFB371789297E6D6983C83619 /* Debug */,
+				2B836588608E3B6517B711235DF9775D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		162A2F77EC21CB98E48F2818D4A39DD1 /* Build configuration list for PBXNativeTarget "Zip-OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0EC8022180B08CC152B7C034B166149B /* Debug */,
+				AD3418283D080FEFC2B3866D353034E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		221A7728E865F6C70379CC4B686D0FE1 /* Build configuration list for PBXNativeTarget "Pods-Bomberman-OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1D02DE3956A0A289BC6706FBD2FBA5C /* Debug */,
+				29DE40DD66D1287A785C8FC477D8C8E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -879,35 +1316,17 @@
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				15D2913AFB1B0794CE40F73C87FE531D /* Debug */,
-				A3BF636E765055E571FCB5D83EE2A4A3 /* Release */,
+				6B3F61235DCC9DB82FBB5F0E864B33C6 /* Debug */,
+				AAD10143C84503F44D59C921AB1A1BC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		944671D0B464C407D8B5DB8F0E829662 /* Build configuration list for PBXNativeTarget "Zip-tvOS" */ = {
+		D890A22D7BD66326327E929021B175ED /* Build configuration list for PBXNativeTarget "Zip-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E32E59CB298F8E8C36A5CBD0DF5FC84B /* Debug */,
-				55291A0A5719295554E487C33D8011A2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CB1C340D98E275E0894A584953C2CC27 /* Build configuration list for PBXNativeTarget "Pods-Bomberman-tvOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AA0D59583EF07C9F07188C3DC09E10F2 /* Debug */,
-				C528BA5594B481C9C4C9365FA27A9417 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EF1C71311C2BA10A66BFB04BBC717405 /* Build configuration list for PBXNativeTarget "Zip-OSX" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2B9F90112140ACE6AA64E5EE74665C34 /* Debug */,
-				75DFC422DFD3DFF479D7C596E638C0D4 /* Release */,
+				439D556E78EEB0BAAB7D5C9F8F54BD0B /* Debug */,
+				6D3755F47ED04FC785EA9C6781705487 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
